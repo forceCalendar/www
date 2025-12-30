@@ -2,64 +2,122 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { detectSection, buildUrl, isDevelopment, Section } from "@/lib/utils/navigation";
 
 export default function Navigation() {
   const pathname = usePathname();
+  const [currentSection, setCurrentSection] = useState<Section>('main');
+  const [hostname, setHostname] = useState('');
 
-  // Determine which section we're in
-  const isCore = pathname.startsWith('/core');
-  const isInterface = pathname.startsWith('/interface');
-  const isHome = pathname === '/';
+  useEffect(() => {
+    // Get the current hostname
+    const host = window.location.hostname;
+    setHostname(host);
+
+    // Detect the current section
+    const section = detectSection(host, pathname);
+    setCurrentSection(section);
+  }, [pathname]);
+
+  const isCore = currentSection === 'core';
+  const isInterface = currentSection === 'interface';
+  const isHome = currentSection === 'main';
+
+  // Navigation helper - uses absolute URLs for production, relative for dev
+  const NavLink = ({ section, path = '', children, className = '' }: {
+    section: Section;
+    path?: string;
+    children: React.ReactNode;
+    className?: string;
+  }) => {
+    const href = buildUrl(section, path);
+    const isActive = currentSection === section && (
+      path === '' || pathname === (isDevelopment() ? href : path)
+    );
+
+    // For development, use Next.js Link
+    if (isDevelopment()) {
+      return (
+        <Link
+          href={href}
+          className={`nav-link ${isActive ? 'nav-link-active' : ''} ${className}`}
+        >
+          {children}
+        </Link>
+      );
+    }
+
+    // For production (subdomains), use regular anchor tags
+    return (
+      <a
+        href={href}
+        className={`nav-link ${isActive ? 'nav-link-active' : ''} ${className}`}
+      >
+        {children}
+      </a>
+    );
+  };
 
   return (
     <nav className="fixed top-0 w-full z-50 glass">
       <div className="container-custom flex items-center justify-between h-16">
         {/* Logo - always links to home */}
-        <Link href="/" className="flex items-center space-x-3">
-          <span className="text-xl font-light tracking-tight">
-            <em className="font-light italic" style={{ fontFamily: 'Georgia, serif' }}>force</em>
-            <strong className="font-bold">Calendar</strong>
+        <NavLink section="main" path="">
+          <span className="flex items-center space-x-3">
+            <span className="text-xl font-light tracking-tight">
+              <em className="font-light italic" style={{ fontFamily: 'Georgia, serif' }}>force</em>
+              <strong className="font-bold">Calendar</strong>
+            </span>
+            {isCore && <span className="badge badge-core text-xs">CORE</span>}
+            {isInterface && <span className="badge badge-core text-xs">INTERFACE</span>}
           </span>
-          {isCore && <span className="badge badge-core text-xs">CORE</span>}
-          {isInterface && <span className="badge badge-core text-xs">INTERFACE</span>}
-        </Link>
+        </NavLink>
 
         {/* Main Navigation */}
         <div className="hidden md:flex items-center space-x-8">
-          {/* Main sections */}
-          <Link
-            href="/"
-            className={`nav-link ${isHome ? 'nav-link-active' : ''}`}
-          >
+          {/* Main sections - always visible */}
+          <NavLink section="main" path="">
             Home
-          </Link>
-          <Link
-            href="/core"
-            className={`nav-link ${isCore ? 'nav-link-active' : ''}`}
-          >
+          </NavLink>
+          <NavLink section="core" path="">
             Core
-          </Link>
-          <Link
-            href="/interface"
-            className={`nav-link ${isInterface ? 'nav-link-active' : ''}`}
-          >
+          </NavLink>
+          <NavLink section="interface" path="">
             Interface
-          </Link>
+          </NavLink>
+
+          {/* Divider when showing context links */}
+          {(isCore || isInterface) && (
+            <div className="w-px h-5 bg-gray-700" />
+          )}
 
           {/* Context-specific links */}
           {isCore && (
             <>
-              <Link href="/core/docs" className="nav-link">Docs</Link>
-              <Link href="/core/api" className="nav-link">API</Link>
-              <Link href="/core/examples" className="nav-link">Examples</Link>
+              <NavLink section="core" path="/docs">
+                Docs
+              </NavLink>
+              <NavLink section="core" path="/api">
+                API
+              </NavLink>
+              <NavLink section="core" path="/examples">
+                Examples
+              </NavLink>
             </>
           )}
 
           {isInterface && (
             <>
-              <Link href="/interface/components" className="nav-link">Components</Link>
-              <Link href="/interface/docs" className="nav-link">Docs</Link>
-              <Link href="/interface/playground" className="nav-link">Playground</Link>
+              <NavLink section="interface" path="/components">
+                Components
+              </NavLink>
+              <NavLink section="interface" path="/docs">
+                Docs
+              </NavLink>
+              <NavLink section="interface" path="/playground">
+                Playground
+              </NavLink>
             </>
           )}
         </div>
