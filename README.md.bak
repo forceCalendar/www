@@ -1,0 +1,10 @@
+  Repository Structure:
+
+  www/
+  ├── index.html                 (main site)
+  ├── core/
+  │   ├── index.html            (core docs/website)
+  │   └── benchmark/            (core benchmarks)
+  └── interface/
+      ├── index.html            (interface website)
+      └── benchmark/            (interface benchmarks)

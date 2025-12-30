@@ -1,0 +1,533 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Original forceCalendar Theme Variables - Matching Jekyll Site */
+:root {
+  --dark: #1a1a1a;
+  --darker: #0d0d0d;
+  --light: #ffffff;
+  --gray: #8a8a8a;
+  --accent: #e0e0e0;
+  --code-bg: #0a0a0a;
+  --border: #2a2a2a;
+  --warning: #fbbf24;
+  --success: #4ade80;
+  --error: #f87171;
+
+  /* Compatibility mappings */
+  --background: #0d0d0d; /* --darker */
+  --surface: #1a1a1a; /* --dark */
+  --surface-hover: #252525;
+  --surface-border: #2a2a2a; /* --border */
+  --text-primary: #ffffff; /* --light */
+  --text-muted: #8a8a8a; /* --gray */
+  --text-dim: #666666;
+}
+
+/* Base Styles */
+@layer base {
+  * {
+    border-color: var(--surface-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--darker);
+    color: var(--light);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: rgba(224, 224, 224, 0.2);
+    color: white;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--surface);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--surface-active);
+    border-radius: 0.5rem;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--surface-border);
+  }
+
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+
+  h1 {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 3.75rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    h1 {
+      font-size: 4.5rem;
+    }
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+
+  @media (min-width: 768px) {
+    h2 {
+      font-size: 2.25rem;
+      line-height: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    h2 {
+      font-size: 3rem;
+      line-height: 1;
+    }
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    h3 {
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+    }
+  }
+
+  h4 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  @media (min-width: 768px) {
+    h4 {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+  }
+
+  h5 {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  @media (min-width: 768px) {
+    h5 {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
+  }
+
+  h6 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    h6 {
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+  }
+
+  p {
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  code {
+    font-family: 'SF Mono', Monaco, 'Inconsolata', 'Fira Code', monospace;
+    font-size: 0.875rem;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    background-color: var(--code-bg);
+    color: var(--accent);
+  }
+
+  pre {
+    font-family: 'SF Mono', Monaco, 'Inconsolata', 'Fira Code', monospace;
+    font-size: 0.875rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    background-color: var(--code-bg);
+    border: 1px solid var(--border);
+  }
+
+  pre code {
+    padding: 0;
+    background-color: transparent;
+    color: var(--light);
+  }
+}
+
+/* Component Classes */
+@layer components {
+  /* Glass Effect - Matching Jekyll Site */
+  .glass {
+    background: rgba(13, 13, 13, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .glass-hover:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    background: linear-gradient(135deg, var(--light), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Accent Glow */
+  .glow-accent {
+    box-shadow: 0 0 30px rgba(224, 224, 224, 0.1);
+  }
+
+  /* Button Styles - Matching Jekyll Site */
+  .btn {
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--light);
+    color: var(--darker);
+    border: 1px solid var(--light);
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--light);
+    border-color: var(--light);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--light);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--gray);
+  }
+
+  .btn-ghost {
+    color: var(--gray);
+    background: transparent;
+    border: 1px solid transparent;
+  }
+
+  .btn-ghost:hover {
+    color: var(--light);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Card Styles - Matching Jekyll Site */
+  .card {
+    background-color: var(--dark);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .card-hover:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Badge Styles - Matching Jekyll Site */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-family: 'SF Mono', Monaco, 'Inconsolata', 'Fira Code', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 400;
+  }
+
+  .badge-version {
+    background: var(--code-bg);
+    color: var(--accent);
+    border: 1px solid var(--border);
+  }
+
+  .badge-core {
+    background: var(--border);
+    color: var(--gray);
+  }
+
+  .badge-success {
+    background: rgba(74, 222, 128, 0.1);
+    color: var(--success);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+  }
+
+  /* Code Block - Matching Jekyll Site */
+  .code-block {
+    background-color: var(--code-bg);
+    border: 1px solid var(--border);
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .code-header {
+    background-color: var(--dark);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+  }
+
+  /* Navigation Link - Matching Jekyll Site */
+  .nav-link {
+    color: var(--gray);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    position: relative;
+  }
+
+  .nav-link:hover {
+    color: var(--light);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-link-active {
+    color: var(--light);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Section Container */
+  .section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    position: relative;
+  }
+
+  @media (min-width: 768px) {
+    .section {
+      padding-top: 8rem;
+      padding-bottom: 8rem;
+    }
+  }
+
+  .container-custom {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-custom {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-custom {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+}
+
+/* Utilities */
+@layer utilities {
+  /* Background Gradients - Matching Jekyll Site */
+  .bg-gradient-hero {
+    background: linear-gradient(180deg, var(--dark) 0%, var(--darker) 100%);
+  }
+
+  /* Status Colors */
+  .bg-status-success {
+    background-color: var(--success);
+  }
+
+  .bg-status-warning {
+    background-color: var(--warning);
+  }
+
+  .bg-status-error {
+    background-color: var(--error);
+  }
+
+  .text-primary {
+    color: var(--light);
+  }
+
+  .text-muted {
+    color: var(--gray);
+  }
+
+  .text-accent {
+    color: var(--accent);
+  }
+
+  /* Grid Pattern - Subtle like Jekyll Site */
+  .grid-pattern {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Subtle Gradient */
+  .subtle-gradient {
+    background: radial-gradient(
+      circle at center,
+      rgba(224, 224, 224, 0.05) 0%,
+      transparent 50%
+    );
+  }
+
+  /* Noise Texture */
+  .noise-texture {
+    position: relative;
+  }
+
+  .noise-texture::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+.loader-ring {
+  animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
