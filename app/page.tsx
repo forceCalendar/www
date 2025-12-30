@@ -25,9 +25,9 @@ export default function Home() {
         <div className="container-custom">
           <div className={`max-w-5xl mx-auto text-center transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
             {/* Main Title */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extralight tracking-tight mb-8">
-              <em className="font-light italic" style={{ fontFamily: 'Georgia, serif' }}>force</em>
-              <strong className="font-bold">Calendar</strong>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl tracking-tight mb-8">
+              <span className="font-extralight">force</span>
+              <span className="font-semibold">Calendar</span>
             </h1>
 
             {/* Tagline */}
