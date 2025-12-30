@@ -65,7 +65,7 @@ export default function Navigation() {
         {/* Logo - always links to home */}
         <NavLink section="main" path="">
           <span className="flex items-center space-x-3">
-            <span className="text-xl font-light tracking-tight">
+            <span className="text-xl tracking-tight">
               <em className="font-light italic" style={{ fontFamily: 'Georgia, serif' }}>force</em>
               <strong className="font-bold">Calendar</strong>
             </span>
