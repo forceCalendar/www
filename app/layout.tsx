@@ -25,6 +25,11 @@ export const metadata: Metadata = {
   description: "Production-grade calendar infrastructure for enterprise platforms. Choose your integration level with pure JavaScript logic or ready-to-use Web Components. Built for Salesforce and modern enterprise applications.",
   keywords: ["calendar", "salesforce", "enterprise", "javascript", "web components", "lwc", "timezone", "ics", "recurring events", "calendar infrastructure"],
   authors: [{ name: "forceCalendar Team" }],
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   openGraph: {
     title: "forceCalendar - Enterprise Calendar Infrastructure",
     description: "Production-grade calendar infrastructure. Choose your integration level.",
