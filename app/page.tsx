@@ -42,19 +42,20 @@ export default function Home() {
           <div className={`max-w-6xl mx-auto transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
 
             {/* Enterprise Badge */}
-            <div className="flex items-center gap-3 mb-8">
-              <div className="h-px bg-gradient-to-r from-emerald-500/50 to-transparent flex-1 max-w-xs" />
-              <span className="text-xs uppercase tracking-[0.2em] text-slate-500 font-mono">
-                Enterprise Calendar Infrastructure
-              </span>
-              <div className="h-px bg-gradient-to-l from-emerald-500/50 to-transparent flex-1 max-w-xs" />
+            <div className="flex items-center justify-center mb-8">
+              <div className="flex items-center gap-3">
+                <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent w-24" />
+                <span className="text-xs uppercase tracking-[0.2em] text-slate-500 font-mono whitespace-nowrap">
+                  Enterprise Calendar Infrastructure
+                </span>
+                <div className="h-px bg-gradient-to-l from-transparent via-emerald-500/50 to-transparent w-24" />
+              </div>
             </div>
 
             {/* Main Title */}
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-6 text-center">
-              <span className="bg-gradient-to-br from-white to-slate-400 bg-clip-text text-transparent">
-                forceCalendar
-              </span>
+            <h1 className="text-6xl md:text-7xl lg:text-8xl tracking-tighter mb-6 text-center">
+              <em className="font-light italic text-white" style={{ fontFamily: 'Georgia, serif' }}>force</em>
+              <strong className="font-bold text-white">Calendar</strong>
             </h1>
 
             {/* Tagline */}
@@ -67,7 +68,40 @@ export default function Home() {
 
             {/* Architecture Diagram */}
             <div className="relative max-w-4xl mx-auto mb-16">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Connection Arrow - shown on desktop */}
+              <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
+                <div className="relative">
+                  {/* Arrow line */}
+                  <div className="absolute top-1/2 -translate-y-1/2 -left-[120px] w-[240px]">
+                    <svg width="240" height="40" className="overflow-visible">
+                      <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                          <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" opacity="0.5" />
+                        </marker>
+                      </defs>
+                      <path
+                        d="M 40 20 L 200 20"
+                        stroke="url(#gradient)"
+                        strokeWidth="2"
+                        fill="none"
+                        markerEnd="url(#arrowhead)"
+                        strokeDasharray="5,5"
+                        opacity="0.5"
+                      />
+                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#10b981" stopOpacity="0.5" />
+                        <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.5" />
+                      </linearGradient>
+                    </svg>
+                  </div>
+                  {/* Label */}
+                  <div className="bg-slate-950 px-3 py-1 rounded-full border border-slate-800">
+                    <span className="text-xs font-mono text-slate-400">EXTENDS</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
                 {/* Core Box */}
                 <div
                   className={`relative group cursor-pointer transition-all duration-500 ${
@@ -118,6 +152,17 @@ export default function Home() {
                     >
                       EXPLORE CORE <span className="text-xs">→</span>
                     </Link>
+                  </div>
+                </div>
+
+                {/* Mobile Connection Indicator */}
+                <div className="md:hidden flex justify-center -my-3">
+                  <div className="flex flex-col items-center">
+                    <div className="w-px h-8 bg-gradient-to-b from-emerald-500/50 to-blue-500/50" />
+                    <div className="px-3 py-1 bg-slate-950 border border-slate-800 rounded-full">
+                      <span className="text-xs font-mono text-slate-500">EXTENDS</span>
+                    </div>
+                    <div className="w-px h-8 bg-gradient-to-b from-blue-500/50 to-blue-500/50" />
                   </div>
                 </div>
 
@@ -172,15 +217,6 @@ export default function Home() {
                       VIEW COMPONENTS <span className="text-xs">→</span>
                     </Link>
                   </div>
-                </div>
-              </div>
-
-              {/* Connection Line */}
-              <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                <div className="flex items-center gap-4">
-                  <div className="w-24 h-px bg-gradient-to-r from-emerald-500/50 to-blue-500/50" />
-                  <span className="text-xs font-mono text-slate-600">DEPENDS ON</span>
-                  <div className="w-24 h-px bg-gradient-to-l from-blue-500/50 to-emerald-500/50" />
                 </div>
               </div>
             </div>
