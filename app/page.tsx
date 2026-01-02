@@ -476,21 +476,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Australian Reference - Sophisticated */}
+          {/* Australian Reference - Minimal */}
           <div className="mt-8 pt-8 border-t border-slate-900">
-            <div className="flex flex-col md:flex-row items-center justify-between">
-              <div className="flex items-center gap-3 text-xs text-slate-600 font-mono mb-4 md:mb-0">
-                <span>Engineered in Sydney</span>
-                <span className="text-slate-700">•</span>
-                <span>33.8688° S, 151.2093° E</span>
-                <span className="text-slate-700">•</span>
-                <span>AEDT UTC+11</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-slate-600">
-                <span>© 2024 forceCalendar</span>
-                <span className="text-slate-700">•</span>
-                <span>Enterprise Infrastructure</span>
-              </div>
+            <div className="flex items-center justify-center gap-3 text-xs text-slate-600 font-mono">
+              <span>Engineered in Sydney</span>
+              <span className="text-slate-700">•</span>
+              <span>AEDT UTC+11</span>
             </div>
           </div>
         </div>
