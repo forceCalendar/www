@@ -67,37 +67,19 @@ export default function Home() {
             </p>
 
             {/* Architecture Diagram */}
-            <div className="relative max-w-4xl mx-auto mb-16">
-              {/* Connection Arrow - shown on desktop */}
-              <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
-                <div className="relative">
-                  {/* Arrow line */}
-                  <div className="absolute top-1/2 -translate-y-1/2 -left-[120px] w-[240px]">
-                    <svg width="240" height="40" className="overflow-visible">
-                      <defs>
-                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                          <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" opacity="0.5" />
-                        </marker>
-                      </defs>
-                      <path
-                        d="M 40 20 L 200 20"
-                        stroke="url(#gradient)"
-                        strokeWidth="2"
-                        fill="none"
-                        markerEnd="url(#arrowhead)"
-                        strokeDasharray="5,5"
-                        opacity="0.5"
-                      />
-                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#10b981" stopOpacity="0.5" />
-                        <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.5" />
-                      </linearGradient>
+            <div className="relative max-w-5xl mx-auto mb-16">
+              {/* Connection Line for Desktop */}
+              <div className="hidden md:flex justify-center mb-4">
+                <div className="flex items-center gap-4">
+                  <div className="text-xs font-mono text-slate-600">CORE</div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-12 h-px bg-gradient-to-r from-emerald-500/50 to-blue-500/50" />
+                    <svg width="16" height="16" viewBox="0 0 16 16" className="text-slate-500">
+                      <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
+                    <div className="w-12 h-px bg-gradient-to-l from-blue-500/50 to-emerald-500/50" />
                   </div>
-                  {/* Label */}
-                  <div className="bg-slate-950 px-3 py-1 rounded-full border border-slate-800">
-                    <span className="text-xs font-mono text-slate-400">EXTENDS</span>
-                  </div>
+                  <div className="text-xs font-mono text-slate-600">INTERFACE</div>
                 </div>
               </div>
 
@@ -155,17 +137,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Mobile Connection Indicator */}
-                <div className="md:hidden flex justify-center -my-3">
-                  <div className="flex flex-col items-center">
-                    <div className="w-px h-8 bg-gradient-to-b from-emerald-500/50 to-blue-500/50" />
-                    <div className="px-3 py-1 bg-slate-950 border border-slate-800 rounded-full">
-                      <span className="text-xs font-mono text-slate-500">EXTENDS</span>
-                    </div>
-                    <div className="w-px h-8 bg-gradient-to-b from-blue-500/50 to-blue-500/50" />
-                  </div>
-                </div>
-
                 {/* Interface Box */}
                 <div
                   className={`relative group cursor-pointer transition-all duration-500 ${
@@ -184,7 +155,15 @@ export default function Home() {
                         clipPath: 'polygon(0 0, 100% 0, 100% 100%)'
                       }} />
 
-                    <div className="flex items-center gap-2 mb-4">
+                    {/* Built on Core Badge */}
+                    <div className="absolute -top-3 left-8">
+                      <div className="flex items-center gap-1 px-2 py-1 bg-slate-950 border border-slate-800 rounded-full">
+                        <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+                        <span className="text-xs font-mono text-slate-500">Built on Core</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 mb-4 mt-2">
                       <div className="w-2 h-2 bg-blue-500 animate-pulse" />
                       <span className="text-xs font-mono text-blue-500 uppercase tracking-wider">UI Components</span>
                     </div>
