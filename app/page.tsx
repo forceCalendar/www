@@ -6,220 +6,411 @@ import Navigation from "@/components/Navigation";
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [activeProduct, setActiveProduct] = useState<'core' | 'interface' | null>(null);
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: 'var(--background)' }}>
-      {/* Subtle background effects */}
-      <div className="absolute inset-0 bg-gradient-hero" />
-      <div className="absolute inset-0 grid-pattern" />
+    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0a0a0a' }}>
+      {/* Technical Grid Background */}
+      <div className="fixed inset-0 opacity-20">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `
+            linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px'
+        }} />
+      </div>
+
+      {/* Scan Line Effect */}
+      <div className="fixed inset-0 pointer-events-none z-50">
+        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent"
+          style={{
+            animation: 'scan 8s linear infinite',
+            '@keyframes scan': {
+              '0%': { transform: 'translateY(-100vh)' },
+              '100%': { transform: 'translateY(100vh)' }
+            }
+          }} />
+      </div>
 
       {/* Navigation */}
       <Navigation />
 
-      {/* Hero Section - Marketing Focus */}
-      <section className="section pt-32 pb-20 relative">
+      {/* Hero Section - Enterprise Infrastructure Focus */}
+      <section className="relative pt-32 pb-24">
         <div className="container-custom">
-          <div className={`max-w-5xl mx-auto text-center transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+          <div className={`max-w-6xl mx-auto transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+
+            {/* Enterprise Badge */}
+            <div className="flex items-center gap-3 mb-8">
+              <div className="h-px bg-gradient-to-r from-emerald-500/50 to-transparent flex-1 max-w-xs" />
+              <span className="text-xs uppercase tracking-[0.2em] text-slate-500 font-mono">
+                Enterprise Calendar Infrastructure
+              </span>
+              <div className="h-px bg-gradient-to-l from-emerald-500/50 to-transparent flex-1 max-w-xs" />
+            </div>
+
             {/* Main Title */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extralight tracking-tight mb-8">
-              <em className="font-light italic" style={{ fontFamily: 'Georgia, serif' }}>force</em>
-              <strong className="font-bold">Calendar</strong>
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-6 text-center">
+              <span className="bg-gradient-to-br from-white to-slate-400 bg-clip-text text-transparent">
+                forceCalendar
+              </span>
             </h1>
 
             {/* Tagline */}
-            <div className="inline-block px-8 py-3 mb-8" style={{ borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
-              <p className="text-sm uppercase tracking-widest text-muted">
-                Enterprise Calendar Components
+            <p className="text-xl md:text-2xl text-slate-400 text-center max-w-3xl mx-auto mb-12 font-light">
+              Production-grade calendar infrastructure for enterprise platforms.
+              <span className="block mt-2 text-emerald-500">
+                Choose your integration level.
+              </span>
+            </p>
+
+            {/* Architecture Diagram */}
+            <div className="relative max-w-4xl mx-auto mb-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Core Box */}
+                <div
+                  className={`relative group cursor-pointer transition-all duration-500 ${
+                    activeProduct === 'core' ? 'scale-105' : ''
+                  }`}
+                  onMouseEnter={() => setActiveProduct('core')}
+                  onMouseLeave={() => setActiveProduct(null)}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="relative bg-slate-900 border border-slate-800 p-8 clip-path-polygon"
+                    style={{
+                      clipPath: 'polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)'
+                    }}>
+                    <div className="absolute top-0 right-0 w-5 h-5 bg-emerald-500/20 border-l border-b border-slate-700"
+                      style={{
+                        clipPath: 'polygon(0 0, 100% 0, 100% 100%)'
+                      }} />
+
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-2 h-2 bg-emerald-500 animate-pulse" />
+                      <span className="text-xs font-mono text-emerald-500 uppercase tracking-wider">Core Engine</span>
+                    </div>
+
+                    <h3 className="text-2xl font-bold mb-3 text-white">
+                      @forcecalendar/core
+                    </h3>
+
+                    <p className="text-slate-400 text-sm mb-6">
+                      Pure JavaScript calendar logic. Zero dependencies.
+                      Full control for custom implementations.
+                    </p>
+
+                    <ul className="space-y-2 mb-6">
+                      <li className="flex items-center gap-2 text-xs text-slate-500">
+                        <span className="text-emerald-500">▪</span> No DOM dependencies
+                      </li>
+                      <li className="flex items-center gap-2 text-xs text-slate-500">
+                        <span className="text-emerald-500">▪</span> Timezone & RRULE support
+                      </li>
+                      <li className="flex items-center gap-2 text-xs text-slate-500">
+                        <span className="text-emerald-500">▪</span> Salesforce compatible
+                      </li>
+                    </ul>
+
+                    <Link
+                      href="/core"
+                      className="inline-flex items-center gap-2 text-sm font-mono text-emerald-500 hover:text-emerald-400 transition-colors"
+                    >
+                      EXPLORE CORE <span className="text-xs">→</span>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Interface Box */}
+                <div
+                  className={`relative group cursor-pointer transition-all duration-500 ${
+                    activeProduct === 'interface' ? 'scale-105' : ''
+                  }`}
+                  onMouseEnter={() => setActiveProduct('interface')}
+                  onMouseLeave={() => setActiveProduct(null)}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="relative bg-slate-900 border border-slate-800 p-8 clip-path-polygon"
+                    style={{
+                      clipPath: 'polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)'
+                    }}>
+                    <div className="absolute top-0 right-0 w-5 h-5 bg-blue-500/20 border-l border-b border-slate-700"
+                      style={{
+                        clipPath: 'polygon(0 0, 100% 0, 100% 100%)'
+                      }} />
+
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-2 h-2 bg-blue-500 animate-pulse" />
+                      <span className="text-xs font-mono text-blue-500 uppercase tracking-wider">UI Components</span>
+                    </div>
+
+                    <h3 className="text-2xl font-bold mb-3 text-white">
+                      @forcecalendar/interface
+                    </h3>
+
+                    <p className="text-slate-400 text-sm mb-6">
+                      Web Components wrapping Core. Ready-to-use UI
+                      for any framework or vanilla JS.
+                    </p>
+
+                    <ul className="space-y-2 mb-6">
+                      <li className="flex items-center gap-2 text-xs text-slate-500">
+                        <span className="text-blue-500">▪</span> Framework agnostic
+                      </li>
+                      <li className="flex items-center gap-2 text-xs text-slate-500">
+                        <span className="text-blue-500">▪</span> Shadow DOM encapsulation
+                      </li>
+                      <li className="flex items-center gap-2 text-xs text-slate-500">
+                        <span className="text-blue-500">▪</span> Production ready
+                      </li>
+                    </ul>
+
+                    <Link
+                      href="/interface"
+                      className="inline-flex items-center gap-2 text-sm font-mono text-blue-500 hover:text-blue-400 transition-colors"
+                    >
+                      VIEW COMPONENTS <span className="text-xs">→</span>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Connection Line */}
+              <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="flex items-center gap-4">
+                  <div className="w-24 h-px bg-gradient-to-r from-emerald-500/50 to-blue-500/50" />
+                  <span className="text-xs font-mono text-slate-600">DEPENDS ON</span>
+                  <div className="w-24 h-px bg-gradient-to-l from-blue-500/50 to-emerald-500/50" />
+                </div>
+              </div>
+            </div>
+
+            {/* CTA Section */}
+            <div className="text-center">
+              <p className="text-sm text-slate-500 mb-6 font-mono">
+                QUICK START
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button className="group relative px-8 py-4 bg-white text-black font-mono text-sm font-medium overflow-hidden transition-all duration-300 hover:text-white">
+                  <span className="relative z-10">npm install @forcecalendar/core</span>
+                  <div className="absolute inset-0 bg-emerald-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
+                </button>
+                <button className="px-8 py-4 border border-slate-700 text-white font-mono text-sm hover:bg-slate-900 hover:border-slate-600 transition-all duration-300">
+                  VIEW DOCUMENTATION
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Enterprise Features Grid */}
+      <section className="py-24 border-t border-slate-800">
+        <div className="container-custom">
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Enterprise Infrastructure
+            </h2>
+            <p className="text-slate-400 max-w-2xl">
+              Built for scale, security, and integration with enterprise platforms.
+              Every feature designed for production environments.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-slate-800">
+            {[
+              {
+                number: '01',
+                title: 'Zero Dependencies',
+                description: 'Pure JavaScript with no external dependencies. Secure by default.',
+                icon: '◈'
+              },
+              {
+                number: '02',
+                title: 'Salesforce Ready',
+                description: 'Locker Service compatible. Lightning Web Components optimized.',
+                icon: '⚡'
+              },
+              {
+                number: '03',
+                title: 'Performance First',
+                description: 'LRU caching, spatial indexing. Handles thousands of events.',
+                icon: '◉'
+              },
+              {
+                number: '04',
+                title: 'Enterprise Features',
+                description: 'Timezones, recurring events, ICS support, conflict detection.',
+                icon: '◆'
+              }
+            ].map((feature, i) => (
+              <div key={i} className="bg-slate-950 p-8 relative group hover:bg-slate-900 transition-colors duration-300">
+                <div className="absolute top-4 right-4 text-xs font-mono text-slate-700">
+                  {feature.number}
+                </div>
+                <div className="text-2xl mb-4 text-emerald-500">
+                  {feature.icon}
+                </div>
+                <h3 className="text-lg font-semibold mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-slate-400">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Integration Examples */}
+      <section className="py-24 border-t border-slate-800">
+        <div className="container-custom">
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Choose Your Integration
+            </h2>
+            <p className="text-slate-400 max-w-2xl">
+              Different teams need different levels of control.
+              forceCalendar provides the right abstraction for your use case.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Core Usage */}
+            <div className="bg-slate-900 border border-slate-800 overflow-hidden">
+              <div className="p-6 border-b border-slate-800">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-mono text-sm text-emerald-500">
+                    USE CORE WHEN YOU NEED
+                  </h3>
+                  <span className="text-xs text-slate-600 font-mono">LOGIC ONLY</span>
+                </div>
+              </div>
+              <div className="p-6">
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <span className="text-emerald-500 mt-1">→</span>
+                    <div>
+                      <p className="text-white font-medium">Custom UI Implementation</p>
+                      <p className="text-sm text-slate-400 mt-1">
+                        Building your own calendar UI with specific design requirements
+                      </p>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-emerald-500 mt-1">→</span>
+                    <div>
+                      <p className="text-white font-medium">Existing Design System</p>
+                      <p className="text-sm text-slate-400 mt-1">
+                        Integrating calendar logic into your company's design system
+                      </p>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-emerald-500 mt-1">→</span>
+                    <div>
+                      <p className="text-white font-medium">Server-Side Processing</p>
+                      <p className="text-sm text-slate-400 mt-1">
+                        Running calendar operations in Node.js or serverless functions
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+
+                <div className="mt-8 p-4 bg-slate-950 border border-slate-800 font-mono text-sm">
+                  <div className="text-slate-500 mb-2"># Installation</div>
+                  <div className="text-emerald-400">npm install @forcecalendar/core</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Interface Usage */}
+            <div className="bg-slate-900 border border-slate-800 overflow-hidden">
+              <div className="p-6 border-b border-slate-800">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-mono text-sm text-blue-500">
+                    USE INTERFACE WHEN YOU NEED
+                  </h3>
+                  <span className="text-xs text-slate-600 font-mono">COMPLETE UI</span>
+                </div>
+              </div>
+              <div className="p-6">
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <span className="text-blue-500 mt-1">→</span>
+                    <div>
+                      <p className="text-white font-medium">Rapid Deployment</p>
+                      <p className="text-sm text-slate-400 mt-1">
+                        Production-ready calendar with minimal configuration
+                      </p>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-blue-500 mt-1">→</span>
+                    <div>
+                      <p className="text-white font-medium">Framework Compatibility</p>
+                      <p className="text-sm text-slate-400 mt-1">
+                        Works with React, Vue, Angular, or vanilla JavaScript
+                      </p>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-blue-500 mt-1">→</span>
+                    <div>
+                      <p className="text-white font-medium">Standard UI Components</p>
+                      <p className="text-sm text-slate-400 mt-1">
+                        Pre-built views, forms, and modals with customization options
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+
+                <div className="mt-8 p-4 bg-slate-950 border border-slate-800 font-mono text-sm">
+                  <div className="text-slate-500 mb-2"># Installation</div>
+                  <div className="text-blue-400">npm install @forcecalendar/interface</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Future Roadmap */}
+      <section className="py-24 border-t border-slate-800">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Platform Expansion
+              </h2>
+              <p className="text-slate-400">
+                More enterprise integrations coming soon. Built on the same proven Core engine.
               </p>
             </div>
 
-            {/* Value Proposition */}
-            <p className="text-2xl text-accent max-w-3xl mx-auto mb-12 leading-relaxed">
-              A complete calendar solution for enterprise applications.
-              Pure JavaScript engine. Framework-agnostic components.
-              Built for Salesforce and modern platforms.
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link
-                href="/core"
-                className="btn btn-primary"
-              >
-                Explore Core Engine
-              </Link>
-              <Link
-                href="/interface"
-                className="btn btn-secondary"
-              >
-                View Components
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Product Showcase Section */}
-      <section className="section relative">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">Two Products. One Vision.</h2>
-            <p className="text-xl text-muted">Completely separated concerns for maximum flexibility.</p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
-            {/* Core Package */}
-            <div className={`transition-all duration-1000 delay-300 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-              <div className="card card-hover group">
-                <div className="flex items-start justify-between mb-6">
-                  <div>
-                    <h3 className="text-2xl font-medium mb-2">@forcecalendar/core</h3>
-                    <p className="text-muted">Pure JavaScript Engine</p>
-                  </div>
-                  <div className="badge badge-version">v0.3.0</div>
-                </div>
-
-                <p className="text-accent mb-6">
-                  The calendar logic without any UI. Zero DOM dependencies.
-                  Works in any JavaScript environment.
-                </p>
-
-                <div className="space-y-3 mb-8">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--success)' }} />
-                    <span className="text-sm">Timezone support with IANA database</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--success)' }} />
-                    <span className="text-sm">Recurring events (RRule)</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--success)' }} />
-                    <span className="text-sm">ICS import/export</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--success)' }} />
-                    <span className="text-sm">Salesforce Locker Service compatible</span>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <Link href="/core" className="btn btn-primary text-sm">
-                    Documentation
-                  </Link>
-                  <a href="https://www.npmjs.com/package/@forcecalendar/core"
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     className="btn btn-ghost text-sm">
-                    npm
-                  </a>
-                </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-slate-900/50 border border-slate-800 border-dashed p-6 opacity-50">
+                <div className="text-amber-500 mb-3 text-2xl">⚡</div>
+                <h3 className="font-mono text-sm mb-2 text-slate-400">@forcecalendar/salesforce</h3>
+                <p className="text-xs text-slate-500">Optimized for Lightning Experience</p>
+                <p className="text-xs text-amber-500 mt-4">COMING SOON</p>
               </div>
-            </div>
-
-            {/* Interface Package */}
-            <div className={`transition-all duration-1000 delay-500 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-              <div className="card card-hover group">
-                <div className="flex items-start justify-between mb-6">
-                  <div>
-                    <h3 className="text-2xl font-medium mb-2">@forcecalendar/interface</h3>
-                    <p className="text-muted">Web Components UI</p>
-                  </div>
-                  <div className="badge badge-version">v0.1.0</div>
-                </div>
-
-                <p className="text-accent mb-6">
-                  Framework-agnostic Web Components that wrap the core engine.
-                  Works with React, Vue, Angular, or vanilla JavaScript.
-                </p>
-
-                <div className="space-y-3 mb-8">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--success)' }} />
-                    <span className="text-sm">Web Components standard</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--success)' }} />
-                    <span className="text-sm">Month, Week, and Day views</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--success)' }} />
-                    <span className="text-sm">Event forms and modals</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--success)' }} />
-                    <span className="text-sm">Lightning Web Components ready</span>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <Link href="/interface" className="btn btn-primary text-sm">
-                    Documentation
-                  </Link>
-                  <a href="https://www.npmjs.com/package/@forcecalendar/interface"
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     className="btn btn-ghost text-sm">
-                    npm
-                  </a>
-                </div>
+              <div className="bg-slate-900/50 border border-slate-800 border-dashed p-6 opacity-50">
+                <div className="text-purple-500 mb-3 text-2xl">◈</div>
+                <h3 className="font-mono text-sm mb-2 text-slate-400">@forcecalendar/teams</h3>
+                <p className="text-xs text-slate-500">Microsoft Teams integration</p>
+                <p className="text-xs text-purple-500 mt-4">PLANNED</p>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="section relative">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-light mb-4">Built for Enterprise</h2>
-            <p className="text-xl text-muted mb-16">
-              Designed from the ground up for Salesforce and modern platforms.
-            </p>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="w-16 h-16 rounded mx-auto mb-4 flex items-center justify-center"
-                     style={{ background: 'var(--dark)', border: '1px solid var(--border)' }}>
-                  <svg className="w-8 h-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-medium mb-2">Zero Dependencies</h3>
-                <p className="text-sm text-muted">
-                  Pure JavaScript with no external dependencies. Works everywhere.
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="w-16 h-16 rounded mx-auto mb-4 flex items-center justify-center"
-                     style={{ background: 'var(--dark)', border: '1px solid var(--border)' }}>
-                  <svg className="w-8 h-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-medium mb-2">Salesforce Ready</h3>
-                <p className="text-sm text-muted">
-                  Full Locker Service and Lightning Web Components compatibility.
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="w-16 h-16 rounded mx-auto mb-4 flex items-center justify-center"
-                     style={{ background: 'var(--dark)', border: '1px solid var(--border)' }}>
-                  <svg className="w-8 h-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-medium mb-2">International</h3>
-                <p className="text-sm text-muted">
-                  Full timezone support, localization, and RTL ready.
-                </p>
+              <div className="bg-slate-900/50 border border-slate-800 border-dashed p-6 opacity-50">
+                <div className="text-cyan-500 mb-3 text-2xl">◉</div>
+                <h3 className="font-mono text-sm mb-2 text-slate-400">@forcecalendar/mobile</h3>
+                <p className="text-xs text-slate-500">React Native components</p>
+                <p className="text-xs text-cyan-500 mt-4">PLANNED</p>
               </div>
             </div>
           </div>
@@ -227,25 +418,35 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t" style={{ borderColor: 'var(--border)' }}>
-        <div className="container-custom py-12">
+      <footer className="border-t border-slate-800 py-12">
+        <div className="container-custom">
           <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center space-x-4 mb-4 md:mb-0">
-              <span className="text-sm">
-                <em className="font-light italic" style={{ fontFamily: 'Georgia, serif' }}>force</em>
-                <strong className="font-semibold">Calendar</strong>
-              </span>
-              <span className="text-muted text-xs">MIT LICENSE</span>
+            <div className="flex items-center gap-4 mb-4 md:mb-0">
+              <span className="font-bold text-lg">forceCalendar</span>
+              <span className="text-xs text-slate-600 font-mono">MIT LICENSE</span>
             </div>
 
-            <div className="flex items-center space-x-6 text-xs uppercase tracking-wider">
-              <a href="https://github.com/forcecalendar" className="text-muted hover:text-primary transition-colors">GitHub</a>
-              <a href="https://www.npmjs.com/package/@forcecalendar/core" className="text-muted hover:text-primary transition-colors">npm</a>
-              <Link href="/docs" className="text-muted hover:text-primary transition-colors">Documentation</Link>
+            <div className="flex items-center gap-6">
+              <a href="https://github.com/forcecalendar" className="text-slate-400 hover:text-white transition-colors text-sm">
+                GitHub
+              </a>
+              <a href="https://www.npmjs.com/org/forcecalendar" className="text-slate-400 hover:text-white transition-colors text-sm">
+                npm
+              </a>
+              <Link href="/core/docs" className="text-slate-400 hover:text-white transition-colors text-sm">
+                Documentation
+              </Link>
             </div>
           </div>
         </div>
       </footer>
+
+      <style jsx>{`
+        @keyframes scan {
+          0% { transform: translateY(-100vh); }
+          100% { transform: translateY(100vh); }
+        }
+      `}</style>
     </div>
   );
 }

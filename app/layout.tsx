@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import SubdomainIndicator from "@/components/SubdomainIndicator";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,21 +21,21 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "forceCalendar - Enterprise Calendar Components for Salesforce",
-  description: "A powerful, framework-agnostic calendar engine built for enterprise platforms. Pure JavaScript with zero DOM dependencies. Perfect for Salesforce, Lightning Web Components, and modern web applications.",
-  keywords: ["calendar", "salesforce", "enterprise", "javascript", "web components", "lwc", "timezone", "ics", "recurring events"],
+  title: "forceCalendar - Enterprise Calendar Infrastructure",
+  description: "Production-grade calendar infrastructure for enterprise platforms. Choose your integration level with pure JavaScript logic or ready-to-use Web Components. Built for Salesforce and modern enterprise applications.",
+  keywords: ["calendar", "salesforce", "enterprise", "javascript", "web components", "lwc", "timezone", "ics", "recurring events", "calendar infrastructure"],
   authors: [{ name: "forceCalendar Team" }],
   openGraph: {
-    title: "forceCalendar - Enterprise Calendar Components",
-    description: "Framework-agnostic calendar engine for enterprise platforms",
+    title: "forceCalendar - Enterprise Calendar Infrastructure",
+    description: "Production-grade calendar infrastructure. Choose your integration level.",
     url: "https://forcecalendar.org",
     siteName: "forceCalendar",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "forceCalendar - Enterprise Calendar Components",
-    description: "Framework-agnostic calendar engine for enterprise platforms",
+    title: "forceCalendar - Enterprise Calendar Infrastructure",
+    description: "Production-grade calendar infrastructure. Choose your integration level.",
   },
 };
 
@@ -49,7 +48,6 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="font-sans antialiased">
         {children}
-        <SubdomainIndicator />
       </body>
     </html>
   );
