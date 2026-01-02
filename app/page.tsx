@@ -18,8 +18,8 @@ export default function Home() {
       <div className="fixed inset-0 opacity-20">
         <div className="absolute inset-0" style={{
           backgroundImage: `
-            linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px)
+            linear-gradient(rgba(20, 184, 166, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(20, 184, 166, 0.03) 1px, transparent 1px)
           `,
           backgroundSize: '50px 50px'
         }} />
@@ -27,7 +27,7 @@ export default function Home() {
 
       {/* Scan Line Effect */}
       <div className="fixed inset-0 pointer-events-none z-50">
-        <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent"
+        <div className="h-px bg-gradient-to-r from-transparent via-teal-500/30 to-transparent"
           style={{
             animation: 'scan 8s linear infinite'
           }} />
@@ -44,11 +44,11 @@ export default function Home() {
             {/* Enterprise Badge */}
             <div className="flex items-center justify-center mb-8">
               <div className="flex items-center gap-3">
-                <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent w-24" />
+                <div className="h-px bg-gradient-to-r from-transparent via-teal-500/50 to-transparent w-24" />
                 <span className="text-xs uppercase tracking-[0.2em] text-slate-500 font-mono whitespace-nowrap">
-                  Enterprise Calendar Infrastructure
+                  Open Source • Enterprise Infrastructure
                 </span>
-                <div className="h-px bg-gradient-to-l from-transparent via-emerald-500/50 to-transparent w-24" />
+                <div className="h-px bg-gradient-to-l from-transparent via-teal-500/50 to-transparent w-24" />
               </div>
             </div>
 
@@ -61,8 +61,8 @@ export default function Home() {
             {/* Tagline */}
             <p className="text-xl md:text-2xl text-slate-400 text-center max-w-3xl mx-auto mb-12 font-light">
               Production-grade calendar infrastructure for enterprise platforms.
-              <span className="block mt-2 text-emerald-500">
-                Choose your integration level.
+              <span className="block mt-2 bg-gradient-to-r from-teal-500 to-indigo-500 bg-clip-text text-transparent font-medium">
+                100% Open Source. Choose your integration level.
               </span>
             </p>
 
@@ -78,19 +78,19 @@ export default function Home() {
                   onMouseEnter={() => setActiveProduct('core')}
                   onMouseLeave={() => setActiveProduct(null)}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-teal-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="relative bg-slate-900 border border-slate-800 p-8 clip-path-polygon"
                     style={{
                       clipPath: 'polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)'
                     }}>
-                    <div className="absolute top-0 right-0 w-5 h-5 bg-emerald-500/20 border-l border-b border-slate-700"
+                    <div className="absolute top-0 right-0 w-5 h-5 bg-teal-500/20 border-l border-b border-slate-700"
                       style={{
                         clipPath: 'polygon(0 0, 100% 0, 100% 100%)'
                       }} />
 
                     <div className="flex items-center gap-2 mb-4">
-                      <div className="w-2 h-2 bg-emerald-500 animate-pulse" />
-                      <span className="text-xs font-mono text-emerald-500 uppercase tracking-wider">Core Engine</span>
+                      <div className="w-2 h-2 bg-teal-500 animate-pulse" />
+                      <span className="text-xs font-mono text-teal-500 uppercase tracking-wider">Core Engine</span>
                     </div>
 
                     <h3 className="text-2xl font-bold mb-3 text-white">
@@ -104,19 +104,22 @@ export default function Home() {
 
                     <ul className="space-y-2 mb-6">
                       <li className="flex items-center gap-2 text-xs text-slate-500">
-                        <span className="text-emerald-500">▪</span> No DOM dependencies
+                        <span className="text-teal-500">▪</span> No DOM dependencies
                       </li>
                       <li className="flex items-center gap-2 text-xs text-slate-500">
-                        <span className="text-emerald-500">▪</span> Timezone & RRULE support
+                        <span className="text-teal-500">▪</span> Timezone & RRULE support
                       </li>
                       <li className="flex items-center gap-2 text-xs text-slate-500">
-                        <span className="text-emerald-500">▪</span> Salesforce compatible
+                        <span className="text-teal-500">▪</span> Salesforce compatible
+                      </li>
+                      <li className="flex items-center gap-2 text-xs text-slate-500">
+                        <span className="text-teal-500">▪</span> MIT Licensed
                       </li>
                     </ul>
 
                     <Link
                       href="/core"
-                      className="inline-flex items-center gap-2 text-sm font-mono text-emerald-500 hover:text-emerald-400 transition-colors"
+                      className="inline-flex items-center gap-2 text-sm font-mono text-teal-500 hover:text-teal-400 transition-colors"
                     >
                       EXPLORE CORE <span className="text-xs">→</span>
                     </Link>
@@ -131,19 +134,19 @@ export default function Home() {
                   onMouseEnter={() => setActiveProduct('interface')}
                   onMouseLeave={() => setActiveProduct(null)}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="relative bg-slate-900 border border-slate-800 p-8 clip-path-polygon"
                     style={{
                       clipPath: 'polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)'
                     }}>
-                    <div className="absolute top-0 right-0 w-5 h-5 bg-blue-500/20 border-l border-b border-slate-700"
+                    <div className="absolute top-0 right-0 w-5 h-5 bg-indigo-500/20 border-l border-b border-slate-700"
                       style={{
                         clipPath: 'polygon(0 0, 100% 0, 100% 100%)'
                       }} />
 
                     <div className="flex items-center gap-2 mb-4">
-                      <div className="w-2 h-2 bg-blue-500 animate-pulse" />
-                      <span className="text-xs font-mono text-blue-500 uppercase tracking-wider">UI Components</span>
+                      <div className="w-2 h-2 bg-indigo-500 animate-pulse" />
+                      <span className="text-xs font-mono text-indigo-500 uppercase tracking-wider">UI Components</span>
                     </div>
 
                     <h3 className="text-2xl font-bold mb-3 text-white">
@@ -157,19 +160,22 @@ export default function Home() {
 
                     <ul className="space-y-2 mb-6">
                       <li className="flex items-center gap-2 text-xs text-slate-500">
-                        <span className="text-blue-500">▪</span> Framework agnostic
+                        <span className="text-indigo-500">▪</span> Framework agnostic
                       </li>
                       <li className="flex items-center gap-2 text-xs text-slate-500">
-                        <span className="text-blue-500">▪</span> Shadow DOM encapsulation
+                        <span className="text-indigo-500">▪</span> Shadow DOM encapsulation
                       </li>
                       <li className="flex items-center gap-2 text-xs text-slate-500">
-                        <span className="text-blue-500">▪</span> Production ready
+                        <span className="text-indigo-500">▪</span> Production ready
+                      </li>
+                      <li className="flex items-center gap-2 text-xs text-slate-500">
+                        <span className="text-indigo-500">▪</span> MIT Licensed
                       </li>
                     </ul>
 
                     <Link
                       href="/interface"
-                      className="inline-flex items-center gap-2 text-sm font-mono text-blue-500 hover:text-blue-400 transition-colors"
+                      className="inline-flex items-center gap-2 text-sm font-mono text-indigo-500 hover:text-indigo-400 transition-colors"
                     >
                       VIEW COMPONENTS <span className="text-xs">→</span>
                     </Link>
@@ -181,16 +187,58 @@ export default function Home() {
             {/* CTA Section */}
             <div className="text-center">
               <p className="text-sm text-slate-500 mb-6 font-mono">
-                QUICK START
+                QUICK START • 100% OPEN SOURCE
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <button className="group relative px-8 py-4 bg-white text-black font-mono text-sm font-medium overflow-hidden transition-all duration-300 hover:text-white">
+                <button className="group relative px-8 py-4 bg-teal-500 text-black font-mono text-sm font-semibold overflow-hidden transition-all duration-300 hover:bg-teal-400">
                   <span className="relative z-10">npm install @forcecalendar/core</span>
-                  <div className="absolute inset-0 bg-emerald-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
                 </button>
-                <button className="px-8 py-4 border border-slate-700 text-white font-mono text-sm hover:bg-slate-900 hover:border-slate-600 transition-all duration-300">
-                  VIEW DOCUMENTATION
-                </button>
+                <a
+                  href="https://github.com/forcecalendar"
+                  className="px-8 py-4 border border-slate-700 text-white font-mono text-sm hover:bg-slate-900 hover:border-slate-600 transition-all duration-300 inline-flex items-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                  VIEW ON GITHUB
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Open Source Section */}
+      <section className="py-24 border-t border-slate-800">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 mb-6">
+              <svg className="w-6 h-6 text-teal-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              <h2 className="text-3xl md:text-4xl font-bold">100% Open Source</h2>
+            </div>
+            <p className="text-xl text-slate-400 mb-12">
+              MIT Licensed. Community-driven. Enterprise-grade.
+            </p>
+            <div className="grid md:grid-cols-3 gap-8 text-left">
+              <div>
+                <div className="text-3xl font-bold text-teal-500 mb-2">Transparent</div>
+                <p className="text-sm text-slate-400">
+                  Every line of code is open for inspection. No hidden dependencies, no vendor lock-in.
+                </p>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-teal-500 mb-2">Auditable</div>
+                <p className="text-sm text-slate-400">
+                  Security teams can review the entire codebase. Perfect for enterprise compliance.
+                </p>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-teal-500 mb-2">Extensible</div>
+                <p className="text-sm text-slate-400">
+                  Fork it. Customize it. Contribute back. The community drives innovation.
+                </p>
               </div>
             </div>
           </div>
@@ -241,7 +289,7 @@ export default function Home() {
                 <div className="absolute top-4 right-4 text-xs font-mono text-slate-700">
                   {feature.number}
                 </div>
-                <div className="text-2xl mb-4 text-emerald-500">
+                <div className="text-2xl mb-4 text-teal-500">
                   {feature.icon}
                 </div>
                 <h3 className="text-lg font-semibold mb-2">

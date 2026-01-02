@@ -20,16 +20,16 @@ export default function Navigation() {
           href="/"
           className="flex items-center space-x-3 group"
         >
-          <span className="text-xl font-bold tracking-tight text-white group-hover:text-emerald-500 transition-colors">
+          <span className="text-xl font-bold tracking-tight text-white group-hover:text-teal-500 transition-colors">
             forceCalendar
           </span>
           {isCore && (
-            <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-xs font-mono uppercase">
+            <span className="px-2 py-0.5 bg-teal-500/10 border border-teal-500/30 text-teal-500 text-xs font-mono uppercase">
               Core
             </span>
           )}
           {isInterface && (
-            <span className="px-2 py-0.5 bg-blue-500/10 border border-blue-500/30 text-blue-500 text-xs font-mono uppercase">
+            <span className="px-2 py-0.5 bg-indigo-500/10 border border-indigo-500/30 text-indigo-500 text-xs font-mono uppercase">
               Interface
             </span>
           )}
@@ -48,7 +48,7 @@ export default function Navigation() {
               <Link
                 href="/core/docs"
                 className={`text-sm font-mono ${
-                  pathname === '/core/docs' ? 'text-emerald-500' : 'text-slate-400 hover:text-white'
+                  pathname === '/core/docs' ? 'text-teal-500' : 'text-slate-400 hover:text-white'
                 } transition-colors`}
               >
                 Docs
@@ -56,7 +56,7 @@ export default function Navigation() {
               <Link
                 href="/core/api"
                 className={`text-sm font-mono ${
-                  pathname === '/core/api' ? 'text-emerald-500' : 'text-slate-400 hover:text-white'
+                  pathname === '/core/api' ? 'text-teal-500' : 'text-slate-400 hover:text-white'
                 } transition-colors`}
               >
                 API
@@ -64,7 +64,7 @@ export default function Navigation() {
               <Link
                 href="/core/examples"
                 className={`text-sm font-mono ${
-                  pathname === '/core/examples' ? 'text-emerald-500' : 'text-slate-400 hover:text-white'
+                  pathname === '/core/examples' ? 'text-teal-500' : 'text-slate-400 hover:text-white'
                 } transition-colors`}
               >
                 Examples
@@ -77,7 +77,7 @@ export default function Navigation() {
               <Link
                 href="/interface/components"
                 className={`text-sm font-mono ${
-                  pathname === '/interface/components' ? 'text-blue-500' : 'text-slate-400 hover:text-white'
+                  pathname === '/interface/components' ? 'text-indigo-500' : 'text-slate-400 hover:text-white'
                 } transition-colors`}
               >
                 Components
@@ -85,7 +85,7 @@ export default function Navigation() {
               <Link
                 href="/interface/docs"
                 className={`text-sm font-mono ${
-                  pathname === '/interface/docs' ? 'text-blue-500' : 'text-slate-400 hover:text-white'
+                  pathname === '/interface/docs' ? 'text-indigo-500' : 'text-slate-400 hover:text-white'
                 } transition-colors`}
               >
                 Docs
@@ -93,7 +93,7 @@ export default function Navigation() {
               <Link
                 href="/interface/playground"
                 className={`text-sm font-mono ${
-                  pathname === '/interface/playground' ? 'text-blue-500' : 'text-slate-400 hover:text-white'
+                  pathname === '/interface/playground' ? 'text-indigo-500' : 'text-slate-400 hover:text-white'
                 } transition-colors`}
               >
                 Playground
@@ -118,7 +118,7 @@ export default function Navigation() {
               href={isInterface ? "https://www.npmjs.com/package/@forcecalendar/interface" : "https://www.npmjs.com/package/@forcecalendar/core"}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-emerald-500 text-black text-xs font-mono font-semibold uppercase hover:bg-emerald-400 transition-colors"
+              className="px-4 py-2 bg-teal-500 text-black text-xs font-mono font-semibold uppercase hover:bg-teal-400 transition-colors"
             >
               npm
             </a>

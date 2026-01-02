@@ -27,7 +27,7 @@ export default function ProductSwitcher() {
         href="/core"
         className={`px-4 py-2 text-xs font-mono uppercase tracking-wider transition-all duration-300 ${
           isCore
-            ? 'bg-emerald-500/20 text-emerald-500'
+            ? 'bg-teal-500/20 text-teal-500'
             : 'text-slate-500 hover:text-slate-300'
         }`}
       >
@@ -37,7 +37,7 @@ export default function ProductSwitcher() {
         href="/interface"
         className={`px-4 py-2 text-xs font-mono uppercase tracking-wider transition-all duration-300 ${
           isInterface
-            ? 'bg-blue-500/20 text-blue-500'
+            ? 'bg-indigo-500/20 text-indigo-500'
             : 'text-slate-500 hover:text-slate-300'
         }`}
       >
