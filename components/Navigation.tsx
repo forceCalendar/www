@@ -18,10 +18,11 @@ export default function Navigation() {
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center space-x-3 group"
+          className="flex items-center space-x-3"
         >
-          <span className="text-xl font-bold tracking-tight text-white group-hover:text-teal-500 transition-colors">
-            forceCalendar
+          <span className="text-xl tracking-tight text-white">
+            <em className="font-normal italic font-serif">force</em>
+            <strong className="font-bold">Calendar</strong>
           </span>
           {isCore && (
             <span className="px-2 py-0.5 bg-teal-500/10 border border-teal-500/30 text-teal-500 text-xs font-mono uppercase">

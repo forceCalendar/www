@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Libre_Baskerville } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -12,6 +12,14 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-mono",
+});
+
+const libreBaskerville = Libre_Baskerville({
+  weight: ["400", "700"],
+  style: ["italic"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-serif",
 });
 
 export const viewport: Viewport = {
@@ -50,7 +58,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} ${libreBaskerville.variable}`}>
       <body className="font-sans antialiased">
         {children}
       </body>
