@@ -29,11 +29,7 @@ export default function Home() {
       <div className="fixed inset-0 pointer-events-none z-50">
         <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent"
           style={{
-            animation: 'scan 8s linear infinite',
-            '@keyframes scan': {
-              '0%': { transform: 'translateY(-100vh)' },
-              '100%': { transform: 'translateY(100vh)' }
-            }
+            animation: 'scan 8s linear infinite'
           }} />
       </div>
 
