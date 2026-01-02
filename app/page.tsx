@@ -68,20 +68,6 @@ export default function Home() {
 
             {/* Architecture Diagram */}
             <div className="relative max-w-5xl mx-auto mb-16">
-              {/* Connection Line for Desktop */}
-              <div className="hidden md:flex justify-center mb-4">
-                <div className="flex items-center gap-4">
-                  <div className="text-xs font-mono text-slate-600">CORE</div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-12 h-px bg-gradient-to-r from-emerald-500/50 to-blue-500/50" />
-                    <svg width="16" height="16" viewBox="0 0 16 16" className="text-slate-500">
-                      <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <div className="w-12 h-px bg-gradient-to-l from-blue-500/50 to-emerald-500/50" />
-                  </div>
-                  <div className="text-xs font-mono text-slate-600">INTERFACE</div>
-                </div>
-              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
                 {/* Core Box */}
@@ -155,15 +141,7 @@ export default function Home() {
                         clipPath: 'polygon(0 0, 100% 0, 100% 100%)'
                       }} />
 
-                    {/* Built on Core Badge */}
-                    <div className="absolute -top-3 left-8">
-                      <div className="flex items-center gap-1 px-2 py-1 bg-slate-950 border border-slate-800 rounded-full">
-                        <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-                        <span className="text-xs font-mono text-slate-500">Built on Core</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 mb-4 mt-2">
+                    <div className="flex items-center gap-2 mb-4">
                       <div className="w-2 h-2 bg-blue-500 animate-pulse" />
                       <span className="text-xs font-mono text-blue-500 uppercase tracking-wider">UI Components</span>
                     </div>
