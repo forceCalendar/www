@@ -387,21 +387,25 @@ Performance:
                 </button>
               </div>
 
-              <div className="relative">
-                <textarea
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  className="w-full h-[600px] p-4 bg-slate-950 border border-slate-800 rounded-lg font-mono text-sm text-slate-300 resize-none focus:outline-none focus:border-blue-500"
-                  spellCheck={false}
-                />
-
-                {/* Line numbers (visual only) */}
-                <div className="absolute left-0 top-0 p-4 pointer-events-none select-none">
-                  <div className="text-slate-600 font-mono text-sm">
-                    {code.split('\n').map((_, i) => (
-                      <div key={i} className="h-[21px]">{i + 1}</div>
-                    ))}
+              <div className="relative bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
+                <div className="flex">
+                  {/* Line numbers */}
+                  <div className="bg-slate-950 border-r border-slate-800 py-4 px-3 select-none">
+                    <div className="text-slate-600 font-mono text-sm text-right">
+                      {code.split('\n').map((_, i) => (
+                        <div key={i} className="h-[21px] leading-[21px]">{i + 1}</div>
+                      ))}
+                    </div>
                   </div>
+
+                  {/* Code editor */}
+                  <textarea
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    className="flex-1 h-[600px] p-4 bg-transparent font-mono text-sm text-slate-300 resize-none focus:outline-none overflow-x-auto"
+                    spellCheck={false}
+                    style={{ lineHeight: '21px' }}
+                  />
                 </div>
               </div>
 
