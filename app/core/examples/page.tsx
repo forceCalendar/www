@@ -24,7 +24,7 @@ export default function CoreExamplesPage() {
               Code <strong className="font-bold">Examples</strong>
             </h1>
 
-            <p className="text-xl text-primary-muted mb-12">
+            <p className="text-xl text-slate-400 mb-12">
               Real-world examples showing how to integrate @forcecalendar/core into your applications.
             </p>
 

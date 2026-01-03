@@ -116,7 +116,7 @@ export default function InterfacePlaygroundPage() {
               Component <strong className="font-bold">Playground</strong>
             </h1>
 
-            <p className="text-xl text-primary-muted mb-12">
+            <p className="text-xl text-slate-400 mb-12">
               Interact with @forcecalendar/interface components and see the code in real-time.
             </p>
 
@@ -132,7 +132,7 @@ export default function InterfacePlaygroundPage() {
                     <select
                       value={view}
                       onChange={(e) => setView(e.target.value)}
-                      className="w-full px-3 py-2 rounded border border-surface-border bg-surface text-primary"
+                      className="w-full px-3 py-2 rounded border border-slate-800 bg-slate-900 text-primary"
                     >
                       <option value="month">Month View</option>
                       <option value="week">Week View</option>
@@ -147,7 +147,7 @@ export default function InterfacePlaygroundPage() {
                     <select
                       value={locale}
                       onChange={(e) => setLocale(e.target.value)}
-                      className="w-full px-3 py-2 rounded border border-surface-border bg-surface text-primary"
+                      className="w-full px-3 py-2 rounded border border-slate-800 bg-slate-900 text-primary"
                     >
                       {locales.map(loc => (
                         <option key={loc.value} value={loc.value}>{loc.label}</option>
@@ -161,7 +161,7 @@ export default function InterfacePlaygroundPage() {
                     <select
                       value={timezone}
                       onChange={(e) => setTimezone(e.target.value)}
-                      className="w-full px-3 py-2 rounded border border-surface-border bg-surface text-primary"
+                      className="w-full px-3 py-2 rounded border border-slate-800 bg-slate-900 text-primary"
                     >
                       {timezones.map(tz => (
                         <option key={tz} value={tz}>{tz}</option>
@@ -175,7 +175,7 @@ export default function InterfacePlaygroundPage() {
                     <select
                       value={weekStartsOn}
                       onChange={(e) => setWeekStartsOn(e.target.value)}
-                      className="w-full px-3 py-2 rounded border border-surface-border bg-surface text-primary"
+                      className="w-full px-3 py-2 rounded border border-slate-800 bg-slate-900 text-primary"
                     >
                       <option value="0">Sunday</option>
                       <option value="1">Monday</option>
@@ -196,7 +196,7 @@ export default function InterfacePlaygroundPage() {
                         className={`flex-1 py-2 px-3 rounded border transition-all ${
                           theme === 'light'
                             ? 'bg-white text-black border-gray-400'
-                            : 'bg-surface border-surface-border text-primary-muted hover:bg-surface-hover'
+                            : 'bg-slate-900 border-slate-800 text-slate-400 hover:bg-slate-800'
                         }`}
                       >
                         Light
@@ -205,8 +205,8 @@ export default function InterfacePlaygroundPage() {
                         onClick={() => setTheme('dark')}
                         className={`flex-1 py-2 px-3 rounded border transition-all ${
                           theme === 'dark'
-                            ? 'bg-surface-hover text-primary border-accent'
-                            : 'bg-surface border-surface-border text-primary-muted hover:bg-surface-hover'
+                            ? 'bg-slate-800 text-primary border-slate-700'
+                            : 'bg-slate-900 border-slate-800 text-slate-400 hover:bg-slate-800'
                         }`}
                       >
                         Dark
@@ -230,24 +230,24 @@ export default function InterfacePlaygroundPage() {
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-medium">Live Preview</h3>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-primary-muted">Simulated Component</span>
+                      <span className="text-xs text-slate-400">Simulated Component</span>
                       <span className="w-2 h-2 rounded-full bg-success animate-pulse"></span>
                     </div>
                   </div>
 
                   {/* Component Preview */}
                   {!codeView ? (
-                    <div className="border border-surface-border rounded p-8" style={{
+                    <div className="border border-slate-800 rounded p-8" style={{
                       background: theme === 'light' ? '#ffffff' : 'var(--surface)',
                       minHeight: '500px'
                     }}>
                       {/* Simulated Calendar Component */}
                       <div className="text-center">
                         <div className="mb-6">
-                          <p className="text-sm text-primary-muted mb-2">
+                          <p className="text-sm text-slate-400 mb-2">
                             Component Preview ({view} view)
                           </p>
-                          <p className="text-xs text-primary-muted">
+                          <p className="text-xs text-slate-400">
                             Locale: {locale} | Timezone: {timezone}
                           </p>
                         </div>
@@ -429,7 +429,7 @@ export default function InterfacePlaygroundPage() {
                       </div>
 
                       <div className="mt-8 text-center">
-                        <p className="text-xs text-primary-muted">
+                        <p className="text-xs text-slate-400">
                           Note: This is a simulated preview. Install @forcecalendar/interface to use the actual component.
                         </p>
                       </div>
@@ -441,7 +441,7 @@ export default function InterfacePlaygroundPage() {
                           <span className="text-xs text-primary-dim">HTML</span>
                           <button
                             onClick={() => navigator.clipboard.writeText(generateCode())}
-                            className="text-xs text-primary-muted hover:text-primary transition-colors"
+                            className="text-xs text-slate-400 hover:text-primary transition-colors"
                           >
                             Copy Code
                           </button>
@@ -449,14 +449,14 @@ export default function InterfacePlaygroundPage() {
                         <pre className="p-4 text-sm overflow-x-auto"><code>{generateCode()}</code></pre>
                       </div>
 
-                      <div className="mt-4 p-4 bg-surface-hover rounded">
+                      <div className="mt-4 p-4 bg-slate-800 rounded">
                         <h4 className="text-sm font-medium mb-2">Installation</h4>
                         <div className="code-block">
                           <pre className="p-3 text-xs"><code>{`npm install @forcecalendar/interface`}</code></pre>
                         </div>
                       </div>
 
-                      <div className="mt-4 p-4 bg-surface-hover rounded">
+                      <div className="mt-4 p-4 bg-slate-800 rounded">
                         <h4 className="text-sm font-medium mb-2">JavaScript Integration</h4>
                         <div className="code-block">
                           <pre className="p-3 text-xs overflow-x-auto"><code>{`import '@forcecalendar/interface';
@@ -485,21 +485,21 @@ calendar.addEvent({
                   <div className="card text-center">
                     <div className="text-2xl mb-2">🎨</div>
                     <h4 className="font-medium mb-1">Customizable</h4>
-                    <p className="text-xs text-primary-muted">
+                    <p className="text-xs text-slate-400">
                       Full control over styling with CSS variables
                     </p>
                   </div>
                   <div className="card text-center">
                     <div className="text-2xl mb-2">⚡</div>
                     <h4 className="font-medium mb-1">Performant</h4>
-                    <p className="text-xs text-primary-muted">
+                    <p className="text-xs text-slate-400">
                       Optimized rendering with virtual scrolling
                     </p>
                   </div>
                   <div className="card text-center">
                     <div className="text-2xl mb-2">🔧</div>
                     <h4 className="font-medium mb-1">Framework Agnostic</h4>
-                    <p className="text-xs text-primary-muted">
+                    <p className="text-xs text-slate-400">
                       Works with any framework or vanilla JS
                     </p>
                   </div>

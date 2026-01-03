@@ -281,7 +281,7 @@ export default function InterfaceComponentsPage() {
               Component <strong className="font-bold">Reference</strong>
             </h1>
 
-            <p className="text-xl text-primary-muted mb-12">
+            <p className="text-xl text-slate-400 mb-12">
               Detailed documentation for each @forcecalendar/interface Web Component.
             </p>
 
@@ -297,8 +297,8 @@ export default function InterfaceComponentsPage() {
                         onClick={() => setActiveComponent(component.name)}
                         className={`w-full text-left px-3 py-2 rounded text-sm transition-all ${
                           activeComponent === component.name
-                            ? 'bg-surface-hover text-primary'
-                            : 'text-primary-muted hover:bg-surface-hover hover:text-primary'
+                            ? 'bg-slate-800 text-primary'
+                            : 'text-slate-400 hover:bg-slate-800 hover:text-primary'
                         }`}
                       >
                         <span className="mr-2">{component.icon}</span>
@@ -323,7 +323,7 @@ export default function InterfaceComponentsPage() {
                         </h2>
                       </div>
                     </div>
-                    <p className="text-primary-muted">{currentDocs.description}</p>
+                    <p className="text-slate-400">{currentDocs.description}</p>
                   </div>
 
                   {/* Example Usage */}
@@ -344,7 +344,7 @@ export default function InterfaceComponentsPage() {
                       <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                           <thead>
-                            <tr className="border-b border-surface-border">
+                            <tr className="border-b border-slate-800">
                               <th className="text-left py-3 pr-4">Attribute</th>
                               <th className="text-left py-3 pr-4">Type</th>
                               <th className="text-left py-3 pr-4">Default</th>
@@ -353,11 +353,11 @@ export default function InterfaceComponentsPage() {
                           </thead>
                           <tbody>
                             {currentDocs.attributes.map((attr, index) => (
-                              <tr key={index} className="border-b border-surface-border">
+                              <tr key={index} className="border-b border-slate-800">
                                 <td className="py-3 pr-4 font-mono text-xs">{attr.name}</td>
-                                <td className="py-3 pr-4 text-primary-muted">{attr.type}</td>
-                                <td className="py-3 pr-4 text-primary-muted font-mono text-xs">{attr.default}</td>
-                                <td className="py-3 text-primary-muted text-xs">{attr.description}</td>
+                                <td className="py-3 pr-4 text-slate-400">{attr.type}</td>
+                                <td className="py-3 pr-4 text-slate-400 font-mono text-xs">{attr.default}</td>
+                                <td className="py-3 text-slate-400 text-xs">{attr.description}</td>
                               </tr>
                             ))}
                           </tbody>
@@ -372,10 +372,10 @@ export default function InterfaceComponentsPage() {
                     <div className="card">
                       <div className="space-y-4">
                         {currentDocs.events.map((event, index) => (
-                          <div key={index} className={index < currentDocs.events.length - 1 ? 'border-b border-surface-border pb-4' : ''}>
+                          <div key={index} className={index < currentDocs.events.length - 1 ? 'border-b border-slate-800 pb-4' : ''}>
                             <h4 className="font-mono text-sm mb-2">{event.name}</h4>
-                            <p className="text-sm text-primary-muted mb-2">{event.description}</p>
-                            <code className="text-xs text-primary-muted">Detail: {event.detail}</code>
+                            <p className="text-sm text-slate-400 mb-2">{event.description}</p>
+                            <code className="text-xs text-slate-400">Detail: {event.detail}</code>
                           </div>
                         ))}
                       </div>
@@ -388,9 +388,9 @@ export default function InterfaceComponentsPage() {
                     <div className="card">
                       <div className="space-y-3">
                         {currentDocs.methods.map((method, index) => (
-                          <div key={index} className={index < currentDocs.methods.length - 1 ? 'border-b border-surface-border pb-3' : ''}>
+                          <div key={index} className={index < currentDocs.methods.length - 1 ? 'border-b border-slate-800 pb-3' : ''}>
                             <h4 className="font-mono text-sm mb-1">{method.name}</h4>
-                            <p className="text-sm text-primary-muted">{method.description}</p>
+                            <p className="text-sm text-slate-400">{method.description}</p>
                           </div>
                         ))}
                       </div>

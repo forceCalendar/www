@@ -24,7 +24,7 @@ export default function InterfaceDocsPage() {
               Interface <strong className="font-bold">Documentation</strong>
             </h1>
 
-            <p className="text-xl text-primary-muted mb-12">
+            <p className="text-xl text-slate-400 mb-12">
               Complete guide to @forcecalendar/interface Web Components. Learn how to integrate
               calendar components into any framework or vanilla JavaScript application.
             </p>
@@ -66,13 +66,13 @@ yarn add @forcecalendar/interface`}</code></pre>
               <h2 className="text-2xl font-medium mb-6">Web Components Standard</h2>
 
               <div className="card">
-                <p className="text-sm text-primary-muted mb-4">
+                <p className="text-sm text-slate-400 mb-4">
                   Our components are built using the Web Components standard, which means they work
                   in any modern browser and can be used with any framework or no framework at all.
                 </p>
 
                 <h4 className="font-medium mb-3">Key Features:</h4>
-                <ul className="space-y-2 text-sm text-primary-muted">
+                <ul className="space-y-2 text-sm text-slate-400">
                   <li>• <strong>Shadow DOM:</strong> Encapsulated styling that won't conflict with your app</li>
                   <li>• <strong>Custom Elements:</strong> Use like any HTML element</li>
                   <li>• <strong>HTML Templates:</strong> Efficient DOM manipulation</li>
@@ -90,7 +90,7 @@ yarn add @forcecalendar/interface`}</code></pre>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-surface-border">
+                      <tr className="border-b border-slate-800">
                         <th className="text-left py-3 pr-4">Attribute</th>
                         <th className="text-left py-3 pr-4">Type</th>
                         <th className="text-left py-3 pr-4">Default</th>
@@ -98,47 +98,47 @@ yarn add @forcecalendar/interface`}</code></pre>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="border-b border-surface-border">
+                      <tr className="border-b border-slate-800">
                         <td className="py-3 pr-4 font-mono">view</td>
-                        <td className="py-3 pr-4 text-primary-muted">string</td>
-                        <td className="py-3 pr-4 text-primary-muted">'month'</td>
-                        <td className="py-3 text-primary-muted">Calendar view (month, week, day, list)</td>
+                        <td className="py-3 pr-4 text-slate-400">string</td>
+                        <td className="py-3 pr-4 text-slate-400">'month'</td>
+                        <td className="py-3 text-slate-400">Calendar view (month, week, day, list)</td>
                       </tr>
-                      <tr className="border-b border-surface-border">
+                      <tr className="border-b border-slate-800">
                         <td className="py-3 pr-4 font-mono">date</td>
-                        <td className="py-3 pr-4 text-primary-muted">string</td>
-                        <td className="py-3 pr-4 text-primary-muted">today</td>
-                        <td className="py-3 text-primary-muted">Current date (ISO 8601 format)</td>
+                        <td className="py-3 pr-4 text-slate-400">string</td>
+                        <td className="py-3 pr-4 text-slate-400">today</td>
+                        <td className="py-3 text-slate-400">Current date (ISO 8601 format)</td>
                       </tr>
-                      <tr className="border-b border-surface-border">
+                      <tr className="border-b border-slate-800">
                         <td className="py-3 pr-4 font-mono">locale</td>
-                        <td className="py-3 pr-4 text-primary-muted">string</td>
-                        <td className="py-3 pr-4 text-primary-muted">'en-US'</td>
-                        <td className="py-3 text-primary-muted">Locale for date/time formatting</td>
+                        <td className="py-3 pr-4 text-slate-400">string</td>
+                        <td className="py-3 pr-4 text-slate-400">'en-US'</td>
+                        <td className="py-3 text-slate-400">Locale for date/time formatting</td>
                       </tr>
-                      <tr className="border-b border-surface-border">
+                      <tr className="border-b border-slate-800">
                         <td className="py-3 pr-4 font-mono">timezone</td>
-                        <td className="py-3 pr-4 text-primary-muted">string</td>
-                        <td className="py-3 pr-4 text-primary-muted">'UTC'</td>
-                        <td className="py-3 text-primary-muted">IANA timezone identifier</td>
+                        <td className="py-3 pr-4 text-slate-400">string</td>
+                        <td className="py-3 pr-4 text-slate-400">'UTC'</td>
+                        <td className="py-3 text-slate-400">IANA timezone identifier</td>
                       </tr>
-                      <tr className="border-b border-surface-border">
+                      <tr className="border-b border-slate-800">
                         <td className="py-3 pr-4 font-mono">week-starts-on</td>
-                        <td className="py-3 pr-4 text-primary-muted">number</td>
-                        <td className="py-3 pr-4 text-primary-muted">0</td>
-                        <td className="py-3 text-primary-muted">Day week starts (0=Sunday)</td>
+                        <td className="py-3 pr-4 text-slate-400">number</td>
+                        <td className="py-3 pr-4 text-slate-400">0</td>
+                        <td className="py-3 text-slate-400">Day week starts (0=Sunday)</td>
                       </tr>
-                      <tr className="border-b border-surface-border">
+                      <tr className="border-b border-slate-800">
                         <td className="py-3 pr-4 font-mono">events</td>
-                        <td className="py-3 pr-4 text-primary-muted">string</td>
-                        <td className="py-3 pr-4 text-primary-muted">null</td>
-                        <td className="py-3 text-primary-muted">JSON string of events array</td>
+                        <td className="py-3 pr-4 text-slate-400">string</td>
+                        <td className="py-3 pr-4 text-slate-400">null</td>
+                        <td className="py-3 text-slate-400">JSON string of events array</td>
                       </tr>
                       <tr>
                         <td className="py-3 pr-4 font-mono">readonly</td>
-                        <td className="py-3 pr-4 text-primary-muted">boolean</td>
-                        <td className="py-3 pr-4 text-primary-muted">false</td>
-                        <td className="py-3 text-primary-muted">Disable event editing</td>
+                        <td className="py-3 pr-4 text-slate-400">boolean</td>
+                        <td className="py-3 pr-4 text-slate-400">false</td>
+                        <td className="py-3 text-slate-400">Disable event editing</td>
                       </tr>
                     </tbody>
                   </table>
@@ -177,9 +177,9 @@ calendar.date = '2024-02-01';`}</code></pre>
                 <h3 className="text-lg font-medium mb-3">Custom Events</h3>
 
                 <div className="space-y-4">
-                  <div className="border-b border-surface-border pb-4">
+                  <div className="border-b border-slate-800 pb-4">
                     <h4 className="font-mono text-sm mb-2">datechange</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Fired when the current date changes.
                     </p>
                     <div className="code-block mt-2">
@@ -189,9 +189,9 @@ calendar.date = '2024-02-01';`}</code></pre>
                     </div>
                   </div>
 
-                  <div className="border-b border-surface-border pb-4">
+                  <div className="border-b border-slate-800 pb-4">
                     <h4 className="font-mono text-sm mb-2">viewchange</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Fired when the view type changes.
                     </p>
                     <div className="code-block mt-2">
@@ -201,9 +201,9 @@ calendar.date = '2024-02-01';`}</code></pre>
                     </div>
                   </div>
 
-                  <div className="border-b border-surface-border pb-4">
+                  <div className="border-b border-slate-800 pb-4">
                     <h4 className="font-mono text-sm mb-2">eventclick</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Fired when an event is clicked.
                     </p>
                     <div className="code-block mt-2">
@@ -215,7 +215,7 @@ calendar.date = '2024-02-01';`}</code></pre>
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">eventcreate</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Fired when a new event is created.
                     </p>
                     <div className="code-block mt-2">
@@ -235,35 +235,35 @@ calendar.date = '2024-02-01';`}</code></pre>
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-mono text-sm mb-2">addEvent(event)</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Adds a new event to the calendar.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">updateEvent(id, updates)</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Updates an existing event.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">deleteEvent(id)</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Removes an event from the calendar.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">navigateTo(date)</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Navigate to a specific date.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">refresh()</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Refresh the calendar view.
                     </p>
                   </div>
@@ -277,7 +277,7 @@ calendar.date = '2024-02-01';`}</code></pre>
 
               <div className="card mb-6">
                 <h3 className="text-lg font-medium mb-3">CSS Custom Properties</h3>
-                <p className="text-sm text-primary-muted mb-4">
+                <p className="text-sm text-slate-400 mb-4">
                   Customize the appearance using CSS custom properties:
                 </p>
                 <div className="code-block">
@@ -322,11 +322,11 @@ calendar.date = '2024-02-01';`}</code></pre>
 
               <div className="card">
                 <h3 className="text-lg font-medium mb-3">WCAG 2.1 AA Compliance</h3>
-                <p className="text-sm text-primary-muted mb-4">
+                <p className="text-sm text-slate-400 mb-4">
                   All components are built with accessibility in mind:
                 </p>
 
-                <ul className="space-y-2 text-sm text-primary-muted">
+                <ul className="space-y-2 text-sm text-slate-400">
                   <li>• <strong>Keyboard Navigation:</strong> Full keyboard support with logical tab order</li>
                   <li>• <strong>Screen Readers:</strong> Proper ARIA labels and live regions</li>
                   <li>• <strong>Color Contrast:</strong> AA compliant color combinations</li>
@@ -336,7 +336,7 @@ calendar.date = '2024-02-01';`}</code></pre>
 
                 <div className="mt-4">
                   <h4 className="font-medium mb-2">Keyboard Shortcuts:</h4>
-                  <ul className="space-y-1 text-sm text-primary-muted">
+                  <ul className="space-y-1 text-sm text-slate-400">
                     <li><kbd>Tab</kbd> - Navigate between elements</li>
                     <li><kbd>Enter</kbd> / <kbd>Space</kbd> - Select date or activate button</li>
                     <li><kbd>Arrow Keys</kbd> - Navigate dates in grid</li>
@@ -357,7 +357,7 @@ calendar.date = '2024-02-01';`}</code></pre>
                   <h3 className="text-lg font-medium mb-2 group-hover:text-accent transition-colors">
                     Components →
                   </h3>
-                  <p className="text-sm text-primary-muted">
+                  <p className="text-sm text-slate-400">
                     Detailed documentation for each component
                   </p>
                 </Link>
@@ -366,7 +366,7 @@ calendar.date = '2024-02-01';`}</code></pre>
                   <h3 className="text-lg font-medium mb-2 group-hover:text-accent transition-colors">
                     Playground →
                   </h3>
-                  <p className="text-sm text-primary-muted">
+                  <p className="text-sm text-slate-400">
                     Interactive component playground
                   </p>
                 </Link>
@@ -378,7 +378,7 @@ calendar.date = '2024-02-01';`}</code></pre>
                   <h3 className="text-lg font-medium mb-2 group-hover:text-accent transition-colors">
                     GitHub →
                   </h3>
-                  <p className="text-sm text-primary-muted">
+                  <p className="text-sm text-slate-400">
                     View source code and contribute
                   </p>
                 </a>

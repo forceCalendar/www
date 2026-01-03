@@ -24,7 +24,7 @@ export default function CoreDocsPage() {
               Core <strong className="font-bold">Documentation</strong>
             </h1>
 
-            <p className="text-xl text-primary-muted mb-12">
+            <p className="text-xl text-slate-400 mb-12">
               Complete guide to the @forcecalendar/core JavaScript engine. Learn how to integrate
               the calendar logic into your application.
             </p>
@@ -76,7 +76,7 @@ const events = calendar.getEventsForDate(new Date('2024-01-15'));`}</code></pre>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="card">
                   <h3 className="text-lg font-medium mb-3">Calendar Instance</h3>
-                  <p className="text-sm text-primary-muted">
+                  <p className="text-sm text-slate-400">
                     The main calendar object that manages state, events, and views. Supports
                     multiple locales and timezones.
                   </p>
@@ -84,7 +84,7 @@ const events = calendar.getEventsForDate(new Date('2024-01-15'));`}</code></pre>
 
                 <div className="card">
                   <h3 className="text-lg font-medium mb-3">Event Management</h3>
-                  <p className="text-sm text-primary-muted">
+                  <p className="text-sm text-slate-400">
                     Full CRUD operations for events with validation, normalization, and
                     efficient querying using spatial indexing.
                   </p>
@@ -92,7 +92,7 @@ const events = calendar.getEventsForDate(new Date('2024-01-15'));`}</code></pre>
 
                 <div className="card">
                   <h3 className="text-lg font-medium mb-3">View Engines</h3>
-                  <p className="text-sm text-primary-muted">
+                  <p className="text-sm text-slate-400">
                     Month, week, day, and list view calculations with proper timezone handling
                     and date navigation.
                   </p>
@@ -100,7 +100,7 @@ const events = calendar.getEventsForDate(new Date('2024-01-15'));`}</code></pre>
 
                 <div className="card">
                   <h3 className="text-lg font-medium mb-3">Timezone Support</h3>
-                  <p className="text-sm text-primary-muted">
+                  <p className="text-sm text-slate-400">
                     IANA timezone database integration with automatic DST handling and
                     conversion between timezones.
                   </p>
@@ -116,7 +116,7 @@ const events = calendar.getEventsForDate(new Date('2024-01-15'));`}</code></pre>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-surface-border">
+                      <tr className="border-b border-slate-800">
                         <th className="text-left py-3 pr-4">Option</th>
                         <th className="text-left py-3 pr-4">Type</th>
                         <th className="text-left py-3 pr-4">Default</th>
@@ -124,35 +124,35 @@ const events = calendar.getEventsForDate(new Date('2024-01-15'));`}</code></pre>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="border-b border-surface-border">
+                      <tr className="border-b border-slate-800">
                         <td className="py-3 pr-4 font-mono">locale</td>
-                        <td className="py-3 pr-4 text-primary-muted">string</td>
-                        <td className="py-3 pr-4 text-primary-muted">'en-US'</td>
-                        <td className="py-3 text-primary-muted">Locale for date formatting</td>
+                        <td className="py-3 pr-4 text-slate-400">string</td>
+                        <td className="py-3 pr-4 text-slate-400">'en-US'</td>
+                        <td className="py-3 text-slate-400">Locale for date formatting</td>
                       </tr>
-                      <tr className="border-b border-surface-border">
+                      <tr className="border-b border-slate-800">
                         <td className="py-3 pr-4 font-mono">timezone</td>
-                        <td className="py-3 pr-4 text-primary-muted">string</td>
-                        <td className="py-3 pr-4 text-primary-muted">'UTC'</td>
-                        <td className="py-3 text-primary-muted">IANA timezone identifier</td>
+                        <td className="py-3 pr-4 text-slate-400">string</td>
+                        <td className="py-3 pr-4 text-slate-400">'UTC'</td>
+                        <td className="py-3 text-slate-400">IANA timezone identifier</td>
                       </tr>
-                      <tr className="border-b border-surface-border">
+                      <tr className="border-b border-slate-800">
                         <td className="py-3 pr-4 font-mono">weekStartsOn</td>
-                        <td className="py-3 pr-4 text-primary-muted">number</td>
-                        <td className="py-3 pr-4 text-primary-muted">0</td>
-                        <td className="py-3 text-primary-muted">Day week starts (0=Sunday)</td>
+                        <td className="py-3 pr-4 text-slate-400">number</td>
+                        <td className="py-3 pr-4 text-slate-400">0</td>
+                        <td className="py-3 text-slate-400">Day week starts (0=Sunday)</td>
                       </tr>
-                      <tr className="border-b border-surface-border">
+                      <tr className="border-b border-slate-800">
                         <td className="py-3 pr-4 font-mono">businessHours</td>
-                        <td className="py-3 pr-4 text-primary-muted">object</td>
-                        <td className="py-3 pr-4 text-primary-muted">null</td>
-                        <td className="py-3 text-primary-muted">Business hours configuration</td>
+                        <td className="py-3 pr-4 text-slate-400">object</td>
+                        <td className="py-3 pr-4 text-slate-400">null</td>
+                        <td className="py-3 text-slate-400">Business hours configuration</td>
                       </tr>
                       <tr>
                         <td className="py-3 pr-4 font-mono">maxEventsPerDay</td>
-                        <td className="py-3 pr-4 text-primary-muted">number</td>
-                        <td className="py-3 pr-4 text-primary-muted">100</td>
-                        <td className="py-3 text-primary-muted">Maximum events to display per day</td>
+                        <td className="py-3 pr-4 text-slate-400">number</td>
+                        <td className="py-3 pr-4 text-slate-400">100</td>
+                        <td className="py-3 text-slate-400">Maximum events to display per day</td>
                       </tr>
                     </tbody>
                   </table>
@@ -169,7 +169,7 @@ const events = calendar.getEventsForDate(new Date('2024-01-15'));`}</code></pre>
                   <h3 className="text-lg font-medium mb-2 group-hover:text-accent transition-colors">
                     API Reference →
                   </h3>
-                  <p className="text-sm text-primary-muted">
+                  <p className="text-sm text-slate-400">
                     Complete API documentation for all classes and methods
                   </p>
                 </Link>
@@ -178,7 +178,7 @@ const events = calendar.getEventsForDate(new Date('2024-01-15'));`}</code></pre>
                   <h3 className="text-lg font-medium mb-2 group-hover:text-accent transition-colors">
                     Examples →
                   </h3>
-                  <p className="text-sm text-primary-muted">
+                  <p className="text-sm text-slate-400">
                     Real-world usage examples and integration patterns
                   </p>
                 </Link>
@@ -190,7 +190,7 @@ const events = calendar.getEventsForDate(new Date('2024-01-15'));`}</code></pre>
                   <h3 className="text-lg font-medium mb-2 group-hover:text-accent transition-colors">
                     GitHub →
                   </h3>
-                  <p className="text-sm text-primary-muted">
+                  <p className="text-sm text-slate-400">
                     View source code and contribute to the project
                   </p>
                 </a>

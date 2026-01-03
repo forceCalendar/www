@@ -24,7 +24,7 @@ export default function CoreApiPage() {
               API <strong className="font-bold">Reference</strong>
             </h1>
 
-            <p className="text-xl text-primary-muted mb-12">
+            <p className="text-xl text-slate-400 mb-12">
               Complete API documentation for @forcecalendar/core classes, methods, and utilities.
             </p>
 
@@ -32,22 +32,22 @@ export default function CoreApiPage() {
             <div className="card mb-12">
               <h2 className="text-lg font-medium mb-4">Quick Navigation</h2>
               <div className="grid md:grid-cols-3 gap-4">
-                <a href="#calendar" className="text-sm text-primary-muted hover:text-primary transition-colors">
+                <a href="#calendar" className="text-sm text-slate-400 hover:text-primary transition-colors">
                   • Calendar Class
                 </a>
-                <a href="#event-manager" className="text-sm text-primary-muted hover:text-primary transition-colors">
+                <a href="#event-manager" className="text-sm text-slate-400 hover:text-primary transition-colors">
                   • EventManager
                 </a>
-                <a href="#timezone-manager" className="text-sm text-primary-muted hover:text-primary transition-colors">
+                <a href="#timezone-manager" className="text-sm text-slate-400 hover:text-primary transition-colors">
                   • TimezoneManager
                 </a>
-                <a href="#recurrence-engine" className="text-sm text-primary-muted hover:text-primary transition-colors">
+                <a href="#recurrence-engine" className="text-sm text-slate-400 hover:text-primary transition-colors">
                   • RecurrenceEngine
                 </a>
-                <a href="#view-engines" className="text-sm text-primary-muted hover:text-primary transition-colors">
+                <a href="#view-engines" className="text-sm text-slate-400 hover:text-primary transition-colors">
                   • View Engines
                 </a>
-                <a href="#utilities" className="text-sm text-primary-muted hover:text-primary transition-colors">
+                <a href="#utilities" className="text-sm text-slate-400 hover:text-primary transition-colors">
                   • Utilities
                 </a>
               </div>
@@ -63,8 +63,8 @@ export default function CoreApiPage() {
                   <pre className="p-4 text-sm overflow-x-auto"><code>{`new Calendar(options?: CalendarOptions)`}</code></pre>
                 </div>
                 <div className="mt-4">
-                  <p className="text-sm text-primary-muted mb-2">Creates a new Calendar instance.</p>
-                  <p className="text-sm text-primary-muted">
+                  <p className="text-sm text-slate-400 mb-2">Creates a new Calendar instance.</p>
+                  <p className="text-sm text-slate-400">
                     <strong>Parameters:</strong> options - Configuration object (optional)
                   </p>
                 </div>
@@ -74,9 +74,9 @@ export default function CoreApiPage() {
                 <h3 className="text-lg font-medium mb-3">Methods</h3>
 
                 <div className="space-y-6">
-                  <div className="border-b border-surface-border pb-4">
+                  <div className="border-b border-slate-800 pb-4">
                     <h4 className="font-mono text-sm mb-2">addEvent(event: Event): string</h4>
-                    <p className="text-sm text-primary-muted mb-2">
+                    <p className="text-sm text-slate-400 mb-2">
                       Adds a new event to the calendar.
                     </p>
                     <div className="code-block">
@@ -88,9 +88,9 @@ export default function CoreApiPage() {
                     </div>
                   </div>
 
-                  <div className="border-b border-surface-border pb-4">
+                  <div className="border-b border-slate-800 pb-4">
                     <h4 className="font-mono text-sm mb-2">updateEvent(id: string, updates: Partial&lt;Event&gt;): void</h4>
-                    <p className="text-sm text-primary-muted mb-2">
+                    <p className="text-sm text-slate-400 mb-2">
                       Updates an existing event.
                     </p>
                     <div className="code-block">
@@ -101,9 +101,9 @@ export default function CoreApiPage() {
                     </div>
                   </div>
 
-                  <div className="border-b border-surface-border pb-4">
+                  <div className="border-b border-slate-800 pb-4">
                     <h4 className="font-mono text-sm mb-2">deleteEvent(id: string): void</h4>
-                    <p className="text-sm text-primary-muted mb-2">
+                    <p className="text-sm text-slate-400 mb-2">
                       Removes an event from the calendar.
                     </p>
                     <div className="code-block">
@@ -111,9 +111,9 @@ export default function CoreApiPage() {
                     </div>
                   </div>
 
-                  <div className="border-b border-surface-border pb-4">
+                  <div className="border-b border-slate-800 pb-4">
                     <h4 className="font-mono text-sm mb-2">getEvent(id: string): Event | null</h4>
-                    <p className="text-sm text-primary-muted mb-2">
+                    <p className="text-sm text-slate-400 mb-2">
                       Retrieves a single event by ID.
                     </p>
                     <div className="code-block">
@@ -121,9 +121,9 @@ export default function CoreApiPage() {
                     </div>
                   </div>
 
-                  <div className="border-b border-surface-border pb-4">
+                  <div className="border-b border-slate-800 pb-4">
                     <h4 className="font-mono text-sm mb-2">getEventsForDate(date: Date): Event[]</h4>
-                    <p className="text-sm text-primary-muted mb-2">
+                    <p className="text-sm text-slate-400 mb-2">
                       Returns all events for a specific date.
                     </p>
                     <div className="code-block">
@@ -131,9 +131,9 @@ export default function CoreApiPage() {
                     </div>
                   </div>
 
-                  <div className="border-b border-surface-border pb-4">
+                  <div className="border-b border-slate-800 pb-4">
                     <h4 className="font-mono text-sm mb-2">getEventsForRange(start: Date, end: Date): Event[]</h4>
-                    <p className="text-sm text-primary-muted mb-2">
+                    <p className="text-sm text-slate-400 mb-2">
                       Returns all events within a date range.
                     </p>
                     <div className="code-block">
@@ -146,7 +146,7 @@ export default function CoreApiPage() {
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">exportToICS(): string</h4>
-                    <p className="text-sm text-primary-muted mb-2">
+                    <p className="text-sm text-slate-400 mb-2">
                       Exports all calendar events to iCalendar format.
                     </p>
                     <div className="code-block">
@@ -185,10 +185,10 @@ export default function CoreApiPage() {
 
               <div className="card">
                 <h3 className="text-lg font-medium mb-3">Event Validation</h3>
-                <p className="text-sm text-primary-muted mb-3">
+                <p className="text-sm text-slate-400 mb-3">
                   The EventManager automatically validates and normalizes events:
                 </p>
-                <ul className="space-y-2 text-sm text-primary-muted">
+                <ul className="space-y-2 text-sm text-slate-400">
                   <li>• Generates unique IDs if not provided</li>
                   <li>• Validates date formats and converts to ISO 8601</li>
                   <li>• Ensures end time is after start time</li>
@@ -208,21 +208,21 @@ export default function CoreApiPage() {
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-mono text-sm mb-2">convertTimezone(date: Date, from: string, to: string): Date</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Converts a date between timezones.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">getTimezoneOffset(timezone: string, date?: Date): number</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Returns the offset in minutes for a timezone.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">getSupportedTimezones(): string[]</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Returns all IANA timezone identifiers.
                     </p>
                   </div>
@@ -253,7 +253,7 @@ const offset = TimezoneManager.getTimezoneOffset('America/Los_Angeles');`}</code
 
               <div className="card mb-6">
                 <h3 className="text-lg font-medium mb-3">RRule Support</h3>
-                <p className="text-sm text-primary-muted mb-3">
+                <p className="text-sm text-slate-400 mb-3">
                   Full RFC 5545 compliant recurrence rule support:
                 </p>
                 <div className="code-block">
@@ -280,21 +280,21 @@ const offset = TimezoneManager.getTimezoneOffset('America/Los_Angeles');`}</code
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-mono text-sm mb-2">parseRRule(rrule: string): RRule</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Parses an RRule string into an object.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">generateOccurrences(event: Event, range: DateRange): Date[]</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Generates all occurrences of a recurring event within a range.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">validateRRule(rrule: string): boolean</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Validates an RRule string syntax.
                     </p>
                   </div>
@@ -370,35 +370,35 @@ const offset = TimezoneManager.getTimezoneOffset('America/Los_Angeles');`}</code
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-mono text-sm mb-2">formatDate(date: Date, format: string, locale?: string): string</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Formats a date according to the specified format string.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">parseDate(dateString: string): Date</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Parses various date string formats into Date objects.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">addDays(date: Date, days: number): Date</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Adds or subtracts days from a date.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">startOfWeek(date: Date, weekStartsOn?: number): Date</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Returns the start of the week for a given date.
                     </p>
                   </div>
 
                   <div>
                     <h4 className="font-mono text-sm mb-2">isSameDay(date1: Date, date2: Date): boolean</h4>
-                    <p className="text-sm text-primary-muted">
+                    <p className="text-sm text-slate-400">
                       Checks if two dates are on the same day.
                     </p>
                   </div>
