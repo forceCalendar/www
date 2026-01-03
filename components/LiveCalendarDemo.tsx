@@ -126,11 +126,12 @@ export default function LiveCalendarDemo() {
       {/* Calendar Container */}
       <div className="bg-slate-900 border border-slate-800 rounded-lg overflow-hidden shadow-2xl">
         {/* Header */}
-        <div className="bg-slate-950 p-4 border-b border-slate-800">
+        <div className="bg-slate-950 p-4 border-b border-slate-800 relative">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-white flex items-center gap-2">
               <div className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
               Live Calendar Demo
+              <span className="ml-2 px-2 py-0.5 bg-teal-500 text-black text-xs font-bold rounded">LIVE</span>
             </h3>
             <div className="flex items-center gap-2">
               {['month', 'week', 'day'].map((v) => (
@@ -313,11 +314,6 @@ export default function LiveCalendarDemo() {
           </div>
         </div>
       )}
-
-      {/* Floating Stats */}
-      <div className="absolute -top-3 -right-3 bg-teal-500 text-black text-xs font-bold px-2 py-1 rounded">
-        LIVE
-      </div>
     </div>
   );
 }
