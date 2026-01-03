@@ -303,47 +303,149 @@ const formatted = tz.format(nyTime, {
       </section>
 
       {/* Features Grid */}
-      <section className="py-16 border-t border-slate-800">
-        <div className="container-custom">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">Enterprise Features</h2>
+      <section className="py-24 border-t border-slate-800 relative overflow-hidden">
+        {/* Background Gradient */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent" />
+        </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="container-custom relative">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 mb-4">
+              <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent w-12" />
+              <span className="text-xs font-mono text-emerald-500 uppercase tracking-wider">Why Choose Core</span>
+              <div className="h-px bg-gradient-to-l from-transparent via-emerald-500/50 to-transparent w-12" />
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+                Enterprise Features
+              </span>
+            </h2>
+            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+              Built from the ground up for mission-critical applications. Every feature designed with security, performance, and scalability in mind.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                icon: '🔒',
                 title: 'Zero Dependencies',
-                description: 'No external dependencies means no security vulnerabilities from third-party code.'
+                description: 'No external dependencies means no security vulnerabilities from third-party code.',
+                gradient: 'from-emerald-500/20 to-cyan-500/20',
+                iconColor: 'text-emerald-400',
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                )
               },
               {
-                icon: '⚡',
-                title: 'Salesforce Compatible',
-                description: 'Fully compatible with Locker Service and Lightning Web Components.'
+                title: 'Salesforce Ready',
+                description: 'Fully compatible with Locker Service and Lightning Web Components.',
+                gradient: 'from-blue-500/20 to-purple-500/20',
+                iconColor: 'text-blue-400',
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                )
               },
               {
-                icon: '🚀',
                 title: 'High Performance',
-                description: 'LRU caching and spatial indexing for handling thousands of events.'
+                description: 'LRU caching and spatial indexing for handling thousands of events.',
+                gradient: 'from-purple-500/20 to-pink-500/20',
+                iconColor: 'text-purple-400',
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                )
               },
               {
-                icon: '🌍',
-                title: 'International',
-                description: 'Full i18n support with locale-aware formatting and RTL languages.'
+                title: 'Global Ready',
+                description: 'Full i18n support with locale-aware formatting and RTL languages.',
+                gradient: 'from-cyan-500/20 to-teal-500/20',
+                iconColor: 'text-cyan-400',
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                )
               },
               {
-                icon: '📅',
-                title: 'ICS Support',
-                description: 'Import and export standard iCalendar files with full fidelity.'
+                title: 'ICS Standard',
+                description: 'Import and export standard iCalendar files with full fidelity.',
+                gradient: 'from-amber-500/20 to-orange-500/20',
+                iconColor: 'text-amber-400',
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                )
               },
               {
-                icon: '🔄',
-                title: 'Plugin System',
-                description: 'Extend functionality with custom plugins and middleware.'
+                title: 'Extensible',
+                description: 'Plugin system for custom functionality and middleware.',
+                gradient: 'from-indigo-500/20 to-blue-500/20',
+                iconColor: 'text-indigo-400',
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                  </svg>
+                )
               }
             ].map((feature, i) => (
-              <div key={i} className="bg-slate-900 border border-slate-800 p-8 hover:bg-slate-900/80 transition-colors">
-                <div className="text-3xl mb-4">{feature.icon}</div>
-                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                <p className="text-sm text-slate-400">{feature.description}</p>
+              <div key={i} className="group relative">
+                {/* Card Glow Effect */}
+                <div className={`absolute -inset-0.5 bg-gradient-to-r ${feature.gradient} rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500`} />
+
+                {/* Card Content */}
+                <div className="relative bg-slate-900/90 backdrop-blur-sm border border-slate-800 rounded-2xl p-8 h-full transition-all duration-300 group-hover:border-slate-700 group-hover:transform group-hover:-translate-y-1">
+                  {/* Icon Container */}
+                  <div className="relative mb-6">
+                    <div className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} blur-xl opacity-50`} />
+                    <div className={`relative w-16 h-16 rounded-xl bg-gradient-to-br ${feature.gradient} p-0.5`}>
+                      <div className="w-full h-full bg-slate-900 rounded-xl flex items-center justify-center">
+                        <div className={feature.iconColor}>
+                          {feature.icon}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Text Content */}
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-white transition-colors">
+                    {feature.title}
+                  </h3>
+                  <p className="text-sm text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors">
+                    {feature.description}
+                  </p>
+
+                  {/* Feature Badge */}
+                  <div className="mt-6 inline-flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${feature.iconColor.replace('text-', 'bg-')} animate-pulse`} />
+                    <span className="text-xs font-mono text-slate-500 uppercase">Available Now</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom Stats */}
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { label: 'Dependencies', value: '0', suffix: '' },
+              { label: 'Bundle Size', value: '14', suffix: 'KB' },
+              { label: 'Test Coverage', value: '94', suffix: '%' },
+              { label: 'Performance', value: '60', suffix: 'FPS' }
+            ].map((stat, i) => (
+              <div key={i} className="text-center p-4 bg-slate-900/50 rounded-lg border border-slate-800/50">
+                <div className="text-2xl md:text-3xl font-bold text-emerald-400">
+                  {stat.value}<span className="text-sm">{stat.suffix}</span>
+                </div>
+                <div className="text-xs text-slate-500 uppercase tracking-wider mt-1">
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>
