@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 
 export default function InterfacePage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeFramework, setActiveFramework] = useState<'react' | 'vue' | 'angular' | 'lwc'>('react');
+  const [calendarView, setCalendarView] = useState<'month' | 'week' | 'day'>('month');
 
   useEffect(() => {
     setIsLoaded(true);
@@ -83,54 +85,178 @@ export default function InterfacePage() {
               {/* Simulated Calendar Component */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-semibold">March 2024</h3>
+                  <h3 className="text-lg font-semibold">
+                    {calendarView === 'month' && 'March 2024'}
+                    {calendarView === 'week' && 'Week of March 10-16, 2024'}
+                    {calendarView === 'day' && 'Friday, March 15, 2024'}
+                  </h3>
                   <div className="flex gap-2">
-                    <button className="px-3 py-1 text-xs border border-slate-700 hover:bg-slate-900">Month</button>
-                    <button className="px-3 py-1 text-xs border border-slate-700 hover:bg-slate-900">Week</button>
-                    <button className="px-3 py-1 text-xs border border-slate-700 hover:bg-slate-900">Day</button>
+                    <button
+                      onClick={() => setCalendarView('month')}
+                      className={`px-3 py-1 text-xs border transition-all ${
+                        calendarView === 'month'
+                          ? 'bg-blue-500 text-black border-blue-500'
+                          : 'border-slate-700 hover:bg-slate-900'
+                      }`}>
+                      Month
+                    </button>
+                    <button
+                      onClick={() => setCalendarView('week')}
+                      className={`px-3 py-1 text-xs border transition-all ${
+                        calendarView === 'week'
+                          ? 'bg-blue-500 text-black border-blue-500'
+                          : 'border-slate-700 hover:bg-slate-900'
+                      }`}>
+                      Week
+                    </button>
+                    <button
+                      onClick={() => setCalendarView('day')}
+                      className={`px-3 py-1 text-xs border transition-all ${
+                        calendarView === 'day'
+                          ? 'bg-blue-500 text-black border-blue-500'
+                          : 'border-slate-700 hover:bg-slate-900'
+                      }`}>
+                      Day
+                    </button>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-7 gap-px bg-slate-800 p-px">
-                  {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                    <div key={day} className="bg-slate-900 p-3 text-center text-xs text-slate-500 font-mono">
-                      {day}
-                    </div>
-                  ))}
-                  {/* March 2024 starts on Friday (index 5) and has 31 days */}
-                  {Array.from({ length: 42 }, (_, i) => {
-                    const dayNumber = i - 4; // March starts on Friday (5th cell)
-                    const isCurrentMonth = dayNumber >= 1 && dayNumber <= 31;
-                    const displayDate = isCurrentMonth ? dayNumber : '';
-
-                    return (
-                      <div key={i} className={`p-3 h-20 border border-slate-900 transition-colors cursor-pointer ${
-                        isCurrentMonth
-                          ? 'bg-slate-950 hover:bg-slate-900/50'
-                          : 'bg-slate-950/30'
-                      }`}>
-                        <span className={`text-xs ${isCurrentMonth ? 'text-slate-400' : 'text-slate-700'}`}>
-                          {displayDate}
-                        </span>
-                        {dayNumber === 15 && (
-                          <div className="mt-1 px-1 py-0.5 bg-blue-500/20 text-blue-500 text-xs truncate">
-                            Team Meeting
-                          </div>
-                        )}
-                        {dayNumber === 8 && (
-                          <div className="mt-1 px-1 py-0.5 bg-emerald-500/20 text-emerald-500 text-xs truncate">
-                            Sprint Planning
-                          </div>
-                        )}
-                        {dayNumber === 22 && (
-                          <div className="mt-1 px-1 py-0.5 bg-purple-500/20 text-purple-500 text-xs truncate">
-                            Code Review
-                          </div>
-                        )}
+                {/* Month View */}
+                {calendarView === 'month' && (
+                  <div className="grid grid-cols-7 gap-px bg-slate-800 p-px">
+                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                      <div key={day} className="bg-slate-900 p-3 text-center text-xs text-slate-500 font-mono">
+                        {day}
                       </div>
-                    );
-                  })}
-                </div>
+                    ))}
+                    {/* March 2024 starts on Friday (index 5) and has 31 days */}
+                    {Array.from({ length: 42 }, (_, i) => {
+                      const dayNumber = i - 4; // March starts on Friday (5th cell)
+                      const isCurrentMonth = dayNumber >= 1 && dayNumber <= 31;
+                      const displayDate = isCurrentMonth ? dayNumber : '';
+
+                      return (
+                        <div key={i} className={`p-3 h-20 border border-slate-900 transition-colors cursor-pointer ${
+                          isCurrentMonth
+                            ? 'bg-slate-950 hover:bg-slate-900/50'
+                            : 'bg-slate-950/30'
+                        }`}>
+                          <span className={`text-xs ${isCurrentMonth ? 'text-slate-400' : 'text-slate-700'}`}>
+                            {displayDate}
+                          </span>
+                          {dayNumber === 15 && (
+                            <div className="mt-1 px-1 py-0.5 bg-blue-500/20 text-blue-500 text-xs truncate">
+                              Team Meeting
+                            </div>
+                          )}
+                          {dayNumber === 8 && (
+                            <div className="mt-1 px-1 py-0.5 bg-emerald-500/20 text-emerald-500 text-xs truncate">
+                              Sprint Planning
+                            </div>
+                          )}
+                          {dayNumber === 22 && (
+                            <div className="mt-1 px-1 py-0.5 bg-purple-500/20 text-purple-500 text-xs truncate">
+                              Code Review
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Week View */}
+                {calendarView === 'week' && (
+                  <div className="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
+                    <div className="grid grid-cols-8 gap-px bg-slate-800 p-px">
+                      <div className="bg-slate-900 p-3 text-xs text-slate-500 text-center">Time</div>
+                      {['Sun 10', 'Mon 11', 'Tue 12', 'Wed 13', 'Thu 14', 'Fri 15', 'Sat 16'].map(day => (
+                        <div key={day} className="bg-slate-900 p-3 text-center text-xs text-slate-400 font-semibold">
+                          {day}
+                        </div>
+                      ))}
+                      {/* Time slots */}
+                      {['9:00', '10:00', '11:00', '12:00', '1:00', '2:00', '3:00', '4:00', '5:00'].map(time => (
+                        <React.Fragment key={time}>
+                          <div className="bg-slate-900 p-2 text-xs text-slate-500 text-right pr-3">
+                            {time}
+                          </div>
+                          {[0, 1, 2, 3, 4, 5, 6].map(day => (
+                            <div key={day} className="bg-slate-950 p-1 h-12 border-l border-slate-900 hover:bg-slate-900/50 transition-colors">
+                              {time === '10:00' && day === 5 && (
+                                <div className="px-1 py-0.5 bg-blue-500/20 text-blue-400 text-xs truncate">
+                                  Team Meeting
+                                </div>
+                              )}
+                              {time === '2:00' && day === 1 && (
+                                <div className="px-1 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs truncate">
+                                  Sprint Planning
+                                </div>
+                              )}
+                              {time === '3:00' && day === 3 && (
+                                <div className="px-1 py-0.5 bg-purple-500/20 text-purple-400 text-xs truncate">
+                                  Design Review
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </React.Fragment>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Day View */}
+                {calendarView === 'day' && (
+                  <div className="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
+                    <div className="p-4 border-b border-slate-800 bg-slate-900">
+                      <div className="text-sm font-semibold text-blue-400">Friday, March 15, 2024</div>
+                    </div>
+                    <div className="divide-y divide-slate-800">
+                      {[
+                        { time: '9:00 AM', event: null },
+                        { time: '10:00 AM', event: { title: 'Team Meeting', color: 'blue', duration: '1 hour' } },
+                        { time: '11:00 AM', event: null },
+                        { time: '12:00 PM', event: { title: 'Lunch Break', color: 'slate', duration: '1 hour' } },
+                        { time: '1:00 PM', event: null },
+                        { time: '2:00 PM', event: { title: 'Client Call', color: 'emerald', duration: '30 min' } },
+                        { time: '3:00 PM', event: { title: 'Code Review', color: 'purple', duration: '1 hour' } },
+                        { time: '4:00 PM', event: null },
+                        { time: '5:00 PM', event: { title: 'Planning Session', color: 'amber', duration: '45 min' } },
+                      ].map((slot, i) => (
+                        <div key={i} className="flex">
+                          <div className="w-24 p-3 text-xs text-slate-500 text-right">
+                            {slot.time}
+                          </div>
+                          <div className="flex-1 p-3 min-h-[60px] border-l border-slate-800">
+                            {slot.event && (
+                              <div className={`p-2 rounded ${
+                                slot.event.color === 'blue' ? 'bg-blue-500/20 border-l-2 border-blue-500' :
+                                slot.event.color === 'emerald' ? 'bg-emerald-500/20 border-l-2 border-emerald-500' :
+                                slot.event.color === 'purple' ? 'bg-purple-500/20 border-l-2 border-purple-500' :
+                                slot.event.color === 'amber' ? 'bg-amber-500/20 border-l-2 border-amber-500' :
+                                'bg-slate-700/20 border-l-2 border-slate-600'
+                              }`}>
+                                <div className={`text-sm font-medium ${
+                                  slot.event.color === 'blue' ? 'text-blue-400' :
+                                  slot.event.color === 'emerald' ? 'text-emerald-400' :
+                                  slot.event.color === 'purple' ? 'text-purple-400' :
+                                  slot.event.color === 'amber' ? 'text-amber-400' :
+                                  'text-slate-400'
+                                }`}>
+                                  {slot.event.title}
+                                </div>
+                                <div className="text-xs text-slate-500 mt-1">
+                                  {slot.event.duration}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="mt-6 p-3 bg-slate-900 border border-slate-800 font-mono text-xs">
@@ -138,10 +264,17 @@ export default function InterfacePage() {
                 <span className="text-blue-400">force-calendar</span>
                 <span className="text-emerald-400"> view</span>
                 <span className="text-slate-300">=</span>
-                <span className="text-amber-500">"month"</span>
+                <span className="text-amber-500">"{calendarView}"</span>
                 <span className="text-emerald-400"> locale</span>
                 <span className="text-slate-300">=</span>
                 <span className="text-amber-500">"en-US"</span>
+                {calendarView === 'day' && (
+                  <>
+                    <span className="text-emerald-400"> date</span>
+                    <span className="text-slate-300">=</span>
+                    <span className="text-amber-500">"2024-03-15"</span>
+                  </>
+                )}
                 <span className="text-slate-500"> /&gt;</span>
               </div>
             </div>
