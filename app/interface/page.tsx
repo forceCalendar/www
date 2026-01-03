@@ -97,16 +97,39 @@ export default function InterfacePage() {
                       {day}
                     </div>
                   ))}
-                  {Array.from({ length: 35 }, (_, i) => (
-                    <div key={i} className="bg-slate-950 p-3 h-20 border border-slate-900 hover:bg-slate-900/50 transition-colors cursor-pointer">
-                      <span className="text-xs text-slate-600">{(i % 31) + 1}</span>
-                      {i === 14 && (
-                        <div className="mt-1 px-1 py-0.5 bg-blue-500/20 text-blue-500 text-xs truncate">
-                          Team Meeting
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                  {/* March 2024 starts on Friday (index 5) and has 31 days */}
+                  {Array.from({ length: 42 }, (_, i) => {
+                    const dayNumber = i - 4; // March starts on Friday (5th cell)
+                    const isCurrentMonth = dayNumber >= 1 && dayNumber <= 31;
+                    const displayDate = isCurrentMonth ? dayNumber : '';
+
+                    return (
+                      <div key={i} className={`p-3 h-20 border border-slate-900 transition-colors cursor-pointer ${
+                        isCurrentMonth
+                          ? 'bg-slate-950 hover:bg-slate-900/50'
+                          : 'bg-slate-950/30'
+                      }`}>
+                        <span className={`text-xs ${isCurrentMonth ? 'text-slate-400' : 'text-slate-700'}`}>
+                          {displayDate}
+                        </span>
+                        {dayNumber === 15 && (
+                          <div className="mt-1 px-1 py-0.5 bg-blue-500/20 text-blue-500 text-xs truncate">
+                            Team Meeting
+                          </div>
+                        )}
+                        {dayNumber === 8 && (
+                          <div className="mt-1 px-1 py-0.5 bg-emerald-500/20 text-emerald-500 text-xs truncate">
+                            Sprint Planning
+                          </div>
+                        )}
+                        {dayNumber === 22 && (
+                          <div className="mt-1 px-1 py-0.5 bg-purple-500/20 text-purple-500 text-xs truncate">
+                            Code Review
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
