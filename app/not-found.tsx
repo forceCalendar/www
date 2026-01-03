@@ -26,7 +26,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#0a0a0a' }}>
       {/* Grid Background */}
-      <div className="fixed inset-0 opacity-10">
+      <div className="fixed inset-0 opacity-10 pointer-events-none">
         <div className="absolute inset-0" style={{
           backgroundImage: `
             linear-gradient(rgba(239, 68, 68, 0.03) 1px, transparent 1px),

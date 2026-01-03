@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0a0a0a' }}>
       {/* Technical Grid Background */}
-      <div className="fixed inset-0 opacity-20">
+      <div className="fixed inset-0 opacity-20 pointer-events-none">
         <div className="absolute inset-0" style={{
           backgroundImage: `
             linear-gradient(rgba(20, 184, 166, 0.03) 1px, transparent 1px),

@@ -15,7 +15,7 @@ export default function CorePage() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#0a0a0a' }}>
       {/* Technical Grid Background */}
-      <div className="fixed inset-0 opacity-10">
+      <div className="fixed inset-0 opacity-10 pointer-events-none">
         <div className="absolute inset-0" style={{
           backgroundImage: `
             linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
