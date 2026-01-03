@@ -3,10 +3,14 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
+import LiveCalendarDemo from "@/components/LiveCalendarDemo";
+import PerformanceBenchmark from "@/components/PerformanceBenchmark";
+import CodeSnippet from "@/components/CodeSnippet";
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeProduct, setActiveProduct] = useState<'core' | 'interface' | null>(null);
+  const [showBenchmark, setShowBenchmark] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -203,6 +207,97 @@ export default function Home() {
                   VIEW ON GITHUB
                 </a>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Live Demo Section */}
+      <section className="py-24 border-t border-slate-800">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 mb-4">
+              <div className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
+              <span className="text-xs font-mono text-teal-500 uppercase tracking-wider">Interactive Demo</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              See It In Action
+            </h2>
+            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+              Experience the power of forceCalendar right here. Click any date to add events,
+              navigate between months, and see the smooth 60fps performance.
+            </p>
+          </div>
+
+          <LiveCalendarDemo />
+
+          {/* Quick Start Code */}
+          <div className="mt-12 max-w-3xl mx-auto">
+            <h3 className="text-lg font-semibold mb-4 text-center">Get Started in Seconds</h3>
+            <CodeSnippet
+              code={`import { Calendar } from '@forcecalendar/core';
+
+const calendar = new Calendar({
+  locale: 'en-US',
+  timezone: 'America/New_York'
+});
+
+// Add your first event
+calendar.addEvent({
+  title: 'My First Event',
+  start: new Date(),
+  duration: 60
+});`}
+              filename="quick-start.js"
+            />
+            <div className="text-center mt-6">
+              <Link
+                href="/playground"
+                className="inline-flex items-center gap-2 text-teal-500 hover:text-teal-400 font-semibold transition-colors"
+              >
+                Try it in the Playground
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Performance Showcase */}
+      <section className="py-24 border-t border-slate-800">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 mb-4">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+              <span className="text-xs font-mono text-emerald-500 uppercase tracking-wider">Performance First</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Built for Scale
+            </h2>
+            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+              Handle thousands of events without breaking a sweat. Our advanced caching and indexing
+              ensures lightning-fast performance at any scale.
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            <PerformanceBenchmark />
+          </div>
+
+          <div className="mt-12 grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="bg-slate-900 border border-slate-800 p-6 text-center">
+              <div className="text-3xl font-bold text-teal-500 mb-2">10,000+</div>
+              <div className="text-sm text-slate-400">Events handled smoothly</div>
+            </div>
+            <div className="bg-slate-900 border border-slate-800 p-6 text-center">
+              <div className="text-3xl font-bold text-blue-500 mb-2">60 FPS</div>
+              <div className="text-sm text-slate-400">Consistent frame rate</div>
+            </div>
+            <div className="bg-slate-900 border border-slate-800 p-6 text-center">
+              <div className="text-3xl font-bold text-purple-500 mb-2">&lt;15ms</div>
+              <div className="text-sm text-slate-400">Average render time</div>
             </div>
           </div>
         </div>
