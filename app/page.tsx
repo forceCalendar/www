@@ -50,7 +50,7 @@ export default function Home() {
 
             {/* Main Title with Premium Typography */}
             <h1 className="text-6xl md:text-7xl lg:text-8xl tracking-tighter mb-6 text-center">
-              <em className="font-display text-gradient-premium">force</em>
+              <em className="font-light italic" style={{ fontFamily: 'Georgia, serif', background: 'linear-gradient(135deg, var(--violet), var(--cyan))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>force</em>
               <strong className="font-bold bg-gradient-to-r from-white via-white to-gray-300 bg-clip-text text-transparent">Calendar</strong>
             </h1>
 
@@ -633,7 +633,7 @@ calendar.addEvent({
           <div className="flex flex-col md:flex-row items-center justify-between mb-12">
             <div className="flex items-center gap-4 mb-6 md:mb-0">
               <span className="text-xl">
-                <em className="font-display text-gradient-premium">force</em>
+                <em className="font-light italic" style={{ fontFamily: 'Georgia, serif', background: 'linear-gradient(135deg, var(--violet), var(--cyan))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>force</em>
                 <strong className="font-bold bg-gradient-to-r from-white via-white to-gray-300 bg-clip-text text-transparent">Calendar</strong>
               </span>
               <span className="glass-premium px-3 py-1 rounded-full text-xs font-mono-custom uppercase tracking-wider"
