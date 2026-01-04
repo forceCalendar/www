@@ -5,7 +5,7 @@ import Navigation from "@/components/Navigation";
 
 export default function PlaygroundPage() {
   // Calendar state
-  const [currentDate, setCurrentDate] = useState(new Date(2024, 2, 1)); // March 2024
+  const [currentDate, setCurrentDate] = useState(new Date()); // Current date
   const [view, setView] = useState<'month' | 'week' | 'day'>('month');
   const [events, setEvents] = useState<any[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -15,19 +15,23 @@ export default function PlaygroundPage() {
 
   // Playground controls
   const [locale, setLocale] = useState('en-US');
-  const [timezone, setTimezone] = useState('America/New_York');
-  const [weekStartsOn, setWeekStartsOn] = useState(0);
+  const [timezone, setTimezone] = useState('Australia/Sydney');
+  const [weekStartsOn, setWeekStartsOn] = useState(1);
   const [showCode, setShowCode] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState('events');
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
   // Initialize demo events
   useEffect(() => {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+
     const demoEvents = [
       {
         id: 1,
         title: 'Product Launch',
-        date: new Date(2024, 2, 15, 14, 0),
+        date: new Date(currentYear, currentMonth, 15, 14, 0),
         color: 'bg-teal-500',
         duration: 120,
         category: 'launch'
@@ -35,7 +39,7 @@ export default function PlaygroundPage() {
       {
         id: 2,
         title: 'Daily Standup',
-        date: new Date(2024, 2, 10, 9, 0),
+        date: new Date(currentYear, currentMonth, 6, 9, 0),
         color: 'bg-blue-500',
         duration: 15,
         recurring: 'FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR',
@@ -44,7 +48,7 @@ export default function PlaygroundPage() {
       {
         id: 3,
         title: 'Sprint Review',
-        date: new Date(2024, 2, 22, 15, 0),
+        date: new Date(currentYear, currentMonth, 22, 15, 0),
         color: 'bg-purple-500',
         duration: 60,
         category: 'meeting'
@@ -52,7 +56,7 @@ export default function PlaygroundPage() {
       {
         id: 4,
         title: 'Client Meeting',
-        date: new Date(2024, 2, 8, 11, 0),
+        date: new Date(currentYear, currentMonth, 8, 11, 0),
         color: 'bg-amber-500',
         duration: 90,
         category: 'client'
@@ -60,7 +64,7 @@ export default function PlaygroundPage() {
       {
         id: 5,
         title: 'Code Review',
-        date: new Date(2024, 2, 18, 16, 0),
+        date: new Date(currentYear, currentMonth, 18, 16, 0),
         color: 'bg-emerald-500',
         duration: 45,
         category: 'development'
@@ -68,7 +72,7 @@ export default function PlaygroundPage() {
       {
         id: 6,
         title: 'Team Lunch',
-        date: new Date(2024, 2, 20, 12, 0),
+        date: new Date(currentYear, currentMonth, 20, 12, 0),
         color: 'bg-pink-500',
         duration: 60,
         category: 'social'
@@ -76,7 +80,7 @@ export default function PlaygroundPage() {
       {
         id: 7,
         title: 'All Hands Meeting',
-        date: new Date(2024, 2, 28, 14, 0),
+        date: new Date(currentYear, currentMonth, 28, 14, 0),
         color: 'bg-indigo-500',
         duration: 120,
         category: 'meeting'
@@ -92,10 +96,11 @@ export default function PlaygroundPage() {
       title: 'Event Management',
       description: 'Add, edit, and remove calendar events',
       action: () => {
+        const now = new Date();
         const newEvent = {
           id: Date.now(),
           title: `Demo Event ${events.length + 1}`,
-          date: new Date(2024, 2, Math.floor(Math.random() * 28) + 1, Math.floor(Math.random() * 24)),
+          date: new Date(now.getFullYear(), now.getMonth(), Math.floor(Math.random() * 28) + 1, Math.floor(Math.random() * 24)),
           color: ['bg-red-500', 'bg-green-500', 'bg-yellow-500', 'bg-cyan-500'][Math.floor(Math.random() * 4)],
           duration: 60,
           category: 'demo'
@@ -107,10 +112,16 @@ export default function PlaygroundPage() {
       title: 'Recurring Events',
       description: 'Create events that repeat daily, weekly, or monthly',
       action: () => {
+        const now = new Date();
+        // Find the next Monday
+        const daysToMonday = (1 - now.getDay() + 7) % 7 || 7;
+        const nextMonday = new Date(now);
+        nextMonday.setDate(now.getDate() + daysToMonday);
+
         const recurringEvent = {
           id: Date.now(),
           title: 'Weekly Team Sync',
-          date: new Date(2024, 2, 4, 10, 0), // Start from Monday
+          date: new Date(nextMonday.getFullYear(), nextMonday.getMonth(), nextMonday.getDate(), 10, 0),
           color: 'bg-violet-500',
           duration: 30,
           recurring: 'FREQ=WEEKLY;BYDAY=MO',
@@ -123,7 +134,7 @@ export default function PlaygroundPage() {
       title: 'Timezone Support',
       description: 'Switch between different timezones',
       action: () => {
-        const timezones = ['America/New_York', 'Europe/London', 'Asia/Tokyo', 'Australia/Sydney'];
+        const timezones = ['Australia/Sydney', 'Asia/Tokyo', 'Europe/London', 'America/New_York'];
         const currentIndex = timezones.indexOf(timezone);
         const nextIndex = (currentIndex + 1) % timezones.length;
         setTimezone(timezones[nextIndex]);
@@ -585,7 +596,7 @@ console.log('Total events:', events.length);`;
                     </svg>
                   </button>
                   <button
-                    onClick={() => setCurrentDate(new Date(2024, 2, 15))}
+                    onClick={() => setCurrentDate(new Date())}
                     className={`px-3 py-1 text-sm font-mono rounded transition-all ${
                       theme === 'light'
                         ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -694,12 +705,12 @@ console.log('Total events:', events.length);`;
                         : 'bg-slate-800 border-slate-700 text-white'
                     }`}
                   >
-                    <option value="America/New_York">New York</option>
-                    <option value="America/Los_Angeles">Los Angeles</option>
+                    <option value="Australia/Sydney">Sydney</option>
+                    <option value="Asia/Tokyo">Tokyo</option>
                     <option value="Europe/London">London</option>
                     <option value="Europe/Paris">Paris</option>
-                    <option value="Asia/Tokyo">Tokyo</option>
-                    <option value="Australia/Sydney">Sydney</option>
+                    <option value="America/New_York">New York</option>
+                    <option value="America/Los_Angeles">Los Angeles</option>
                   </select>
                 </div>
 
