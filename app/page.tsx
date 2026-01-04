@@ -625,45 +625,74 @@ calendar.addEvent({
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-800 py-12">
-        <div className="container-custom">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center gap-4 mb-4 md:mb-0">
-              <span className="font-bold text-lg">forceCalendar</span>
-              <span className="text-xs text-slate-600 font-mono">MIT LICENSE</span>
+      {/* Premium Footer */}
+      <footer className="relative glass-premium py-16" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+        <div className="absolute inset-0 bg-gradient-to-t from-violet/5 via-transparent to-transparent pointer-events-none" />
+
+        <div className="container-custom relative">
+          <div className="flex flex-col md:flex-row items-center justify-between mb-12">
+            <div className="flex items-center gap-4 mb-6 md:mb-0">
+              <span className="text-xl">
+                <em className="font-display text-gradient-premium">force</em>
+                <strong className="font-bold bg-gradient-to-r from-white via-white to-gray-300 bg-clip-text text-transparent">Calendar</strong>
+              </span>
+              <span className="glass-premium px-3 py-1 rounded-full text-xs font-mono-custom uppercase tracking-wider"
+                style={{ color: 'var(--text-muted)' }}>
+                MIT LICENSE
+              </span>
             </div>
 
-            <div className="flex items-center gap-6">
-              <a href="https://github.com/forcecalendar" className="text-slate-400 hover:text-white transition-colors text-sm">
+            <div className="flex items-center gap-2">
+              <a
+                href="https://github.com/forcecalendar"
+                className="px-4 py-2 rounded-lg glass-premium hover:scale-105 transition-all duration-300 text-sm font-mono-custom inline-flex items-center gap-2"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
                 GitHub
               </a>
-              <a href="https://www.npmjs.com/org/forcecalendar" className="text-slate-400 hover:text-white transition-colors text-sm">
+              <a
+                href="https://www.npmjs.com/org/forcecalendar"
+                className="px-4 py-2 rounded-lg glass-premium hover:scale-105 transition-all duration-300 text-sm font-mono-custom"
+                style={{ color: 'var(--text-secondary)' }}
+              >
                 npm
               </a>
-              <Link href="/core/docs" className="text-slate-400 hover:text-white transition-colors text-sm">
+              <Link
+                href="/core/docs"
+                className="px-4 py-2 rounded-lg glass-premium hover:scale-105 transition-all duration-300 text-sm font-mono-custom"
+                style={{ color: 'var(--text-secondary)' }}
+              >
                 Documentation
               </Link>
             </div>
           </div>
 
-          {/* Australian Reference - Minimal */}
-          <div className="mt-8 pt-8 border-t border-slate-900">
-            <div className="flex items-center justify-center gap-3 text-xs text-slate-600 font-mono">
-              <span>Engineered in Sydney</span>
-              <span className="text-slate-700">•</span>
-              <span>AEDT UTC+11</span>
+          {/* Premium Divider with Gradient */}
+          <div className="relative h-px mb-8">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-violet/20 to-transparent" />
+          </div>
+
+          {/* Australian Reference - Premium Style */}
+          <div className="text-center">
+            <div className="inline-flex items-center gap-4 glass-premium px-6 py-3 rounded-full">
+              <span className="text-xs font-mono-custom uppercase tracking-wider text-gradient-premium">
+                Engineered in Sydney
+              </span>
+              <span className="w-1 h-1 rounded-full animate-pulse" style={{ backgroundColor: 'var(--cyan)' }} />
+              <span className="text-xs font-mono-custom uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+                AEDT UTC+11
+              </span>
             </div>
           </div>
+
+          {/* Premium Glow Effect */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-gradient-to-t from-violet/10 via-cyan/5 to-transparent rounded-full blur-3xl pointer-events-none opacity-30" />
         </div>
       </footer>
 
-      <style jsx>{`
-        @keyframes scan {
-          0% { transform: translateY(-100vh); }
-          100% { transform: translateY(100vh); }
-        }
-      `}</style>
     </div>
   );
 }

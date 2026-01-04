@@ -15,24 +15,33 @@ export default function Navigation() {
   const isHome = pathname === '/';
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-lg border-b border-slate-800">
-      <div className="container-custom flex items-center justify-between h-16">
-        {/* Logo */}
+    <nav className="fixed top-0 w-full z-50 glass-premium" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-violet/5 to-transparent pointer-events-none" />
+      <div className="container-custom flex items-center justify-between h-16 relative">
+        {/* Logo with Premium Typography */}
         <Link
           href="/"
-          className="flex items-center space-x-3"
+          className="flex items-center space-x-3 group"
         >
-          <span className="text-xl tracking-tight text-white">
-            <em className="font-normal italic font-serif">force</em>
-            <strong className="font-bold">Calendar</strong>
+          <span className="text-xl tracking-tight">
+            <em className="font-display text-gradient-premium">force</em>
+            <strong className="font-bold bg-gradient-to-r from-white via-white to-gray-300 bg-clip-text text-transparent">Calendar</strong>
           </span>
           {isCore && (
-            <span className="px-2 py-0.5 bg-teal-500/10 border border-teal-500/30 text-teal-500 text-xs font-mono uppercase">
+            <span className="glass-premium px-3 py-1 rounded-full text-xs font-mono-custom uppercase tracking-wider"
+              style={{
+                color: 'var(--violet)',
+                boxShadow: '0 0 20px rgba(139, 92, 246, 0.2)'
+              }}>
               Core
             </span>
           )}
           {isInterface && (
-            <span className="px-2 py-0.5 bg-indigo-500/10 border border-indigo-500/30 text-indigo-500 text-xs font-mono uppercase">
+            <span className="glass-premium px-3 py-1 rounded-full text-xs font-mono-custom uppercase tracking-wider"
+              style={{
+                color: 'var(--cyan)',
+                boxShadow: '0 0 20px rgba(6, 182, 212, 0.2)'
+              }}>
               Interface
             </span>
           )}
@@ -45,30 +54,39 @@ export default function Navigation() {
 
         {/* Right Side - Context Links & Actions */}
         <div className="flex items-center space-x-6">
-          {/* Context-specific links */}
+          {/* Context-specific links with Premium Styling */}
           {isCore && (
-            <div className="hidden lg:flex items-center space-x-4">
+            <div className="hidden lg:flex items-center space-x-2">
               <Link
                 href="/core/docs"
-                className={`text-sm font-mono ${
-                  pathname === '/core/docs' ? 'text-teal-500' : 'text-slate-400 hover:text-white'
-                } transition-colors`}
+                className={`px-3 py-1.5 rounded-lg text-sm font-mono-custom transition-all duration-300 ${
+                  pathname === '/core/docs'
+                    ? 'text-gradient-premium glass-premium shadow-glow-premium'
+                    : 'hover:bg-white/5 hover:text-white'
+                }`}
+                style={{ color: pathname === '/core/docs' ? undefined : 'var(--text-secondary)' }}
               >
                 Docs
               </Link>
               <Link
                 href="/core/api"
-                className={`text-sm font-mono ${
-                  pathname === '/core/api' ? 'text-teal-500' : 'text-slate-400 hover:text-white'
-                } transition-colors`}
+                className={`px-3 py-1.5 rounded-lg text-sm font-mono-custom transition-all duration-300 ${
+                  pathname === '/core/api'
+                    ? 'text-gradient-premium glass-premium shadow-glow-premium'
+                    : 'hover:bg-white/5 hover:text-white'
+                }`}
+                style={{ color: pathname === '/core/api' ? undefined : 'var(--text-secondary)' }}
               >
                 API
               </Link>
               <Link
                 href="/core/examples"
-                className={`text-sm font-mono ${
-                  pathname === '/core/examples' ? 'text-teal-500' : 'text-slate-400 hover:text-white'
-                } transition-colors`}
+                className={`px-3 py-1.5 rounded-lg text-sm font-mono-custom transition-all duration-300 ${
+                  pathname === '/core/examples'
+                    ? 'text-gradient-premium glass-premium shadow-glow-premium'
+                    : 'hover:bg-white/5 hover:text-white'
+                }`}
+                style={{ color: pathname === '/core/examples' ? undefined : 'var(--text-secondary)' }}
               >
                 Examples
               </Link>
@@ -76,65 +94,79 @@ export default function Navigation() {
           )}
 
           {isInterface && (
-            <div className="hidden lg:flex items-center space-x-4">
+            <div className="hidden lg:flex items-center space-x-2">
               <Link
                 href="/interface/components"
-                className={`text-sm font-mono ${
-                  pathname === '/interface/components' ? 'text-indigo-500' : 'text-slate-400 hover:text-white'
-                } transition-colors`}
+                className={`px-3 py-1.5 rounded-lg text-sm font-mono-custom transition-all duration-300 ${
+                  pathname === '/interface/components'
+                    ? 'text-gradient-premium glass-premium shadow-glow-premium'
+                    : 'hover:bg-white/5 hover:text-white'
+                }`}
+                style={{ color: pathname === '/interface/components' ? undefined : 'var(--text-secondary)' }}
               >
                 Components
               </Link>
               <Link
                 href="/interface/docs"
-                className={`text-sm font-mono ${
-                  pathname === '/interface/docs' ? 'text-indigo-500' : 'text-slate-400 hover:text-white'
-                } transition-colors`}
+                className={`px-3 py-1.5 rounded-lg text-sm font-mono-custom transition-all duration-300 ${
+                  pathname === '/interface/docs'
+                    ? 'text-gradient-premium glass-premium shadow-glow-premium'
+                    : 'hover:bg-white/5 hover:text-white'
+                }`}
+                style={{ color: pathname === '/interface/docs' ? undefined : 'var(--text-secondary)' }}
               >
                 Docs
               </Link>
               <Link
                 href="/interface/playground"
-                className={`text-sm font-mono ${
-                  pathname === '/interface/playground' ? 'text-indigo-500' : 'text-slate-400 hover:text-white'
-                } transition-colors`}
+                className={`px-3 py-1.5 rounded-lg text-sm font-mono-custom transition-all duration-300 ${
+                  pathname === '/interface/playground'
+                    ? 'text-gradient-premium glass-premium shadow-glow-premium'
+                    : 'hover:bg-white/5 hover:text-white'
+                }`}
+                style={{ color: pathname === '/interface/playground' ? undefined : 'var(--text-secondary)' }}
               >
                 Playground
               </Link>
             </div>
           )}
 
-          {/* External Links */}
+          {/* External Links with Premium Design */}
           <div className="flex items-center space-x-3">
             {/* Playground Link */}
             <Link
               href="/playground"
-              className="hidden md:block px-3 py-1.5 text-sm font-mono text-slate-400 hover:text-white transition-colors"
+              className="hidden md:block px-4 py-2 rounded-lg text-sm font-mono-custom transition-all duration-300 hover:bg-white/5"
+              style={{ color: 'var(--text-secondary)' }}
             >
               Playground
             </Link>
 
-            {/* GitHub */}
+            {/* GitHub - Premium Glass Button */}
             <a
               href="https://github.com/forcecalendar/core"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded transition-all"
+              className="glass-premium px-3 py-2 rounded-lg hover:scale-105 transition-all duration-300 group"
               aria-label="GitHub"
+              style={{ borderColor: 'var(--border-subtle)' }}
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 group-hover:text-gradient-premium transition-colors" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
               </svg>
             </a>
 
-            {/* NPM */}
+            {/* NPM - Premium Gradient Button */}
             <a
               href={isInterface ? "https://www.npmjs.com/package/@forcecalendar/interface" : "https://www.npmjs.com/package/@forcecalendar/core"}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-1.5 bg-teal-500 text-black text-xs font-mono font-semibold uppercase hover:bg-teal-400 transition-colors rounded"
+              className="relative group overflow-hidden rounded-lg"
             >
-              npm
+              <div className="absolute inset-0 bg-gradient-to-r from-violet via-cyan to-violet bg-[length:200%_100%] animate-gradient-shift opacity-80" />
+              <div className="relative px-4 py-1.5 glass-premium">
+                <span className="text-xs font-mono-custom font-semibold uppercase tracking-wider text-white">npm</span>
+              </div>
             </a>
 
             {/* Mobile Menu Toggle */}
@@ -155,9 +187,9 @@ export default function Navigation() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu with Premium Design */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-800 bg-slate-950">
+        <div className="md:hidden glass-premium" style={{ borderTop: '1px solid var(--border-subtle)' }}>
           <div className="px-4 py-4 space-y-3">
             <ProductSwitcher />
 
