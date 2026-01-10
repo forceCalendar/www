@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
+import VersionBadge from "@/components/VersionBadge";
 
 export default function CorePage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -60,7 +61,7 @@ export default function CorePage() {
                 View on GitHub
               </a>
               <div className="flex items-center gap-3 ml-auto text-xs font-mono text-slate-600">
-                <span>v0.3.0</span>
+                <VersionBadge packageName="@forcecalendar/core" color="emerald" />
                 <span>•</span>
                 <span>MIT License</span>
                 <span>•</span>

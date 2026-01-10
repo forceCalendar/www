@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import React from "react";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
+import VersionBadge from "@/components/VersionBadge";
 
 export default function InterfacePage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -68,7 +69,7 @@ export default function InterfacePage() {
                 Try Playground
               </Link>
               <div className="flex items-center gap-3 ml-auto text-xs font-mono text-slate-600">
-                <span>v0.1.0</span>
+                <VersionBadge packageName="@forcecalendar/interface" color="blue" />
                 <span>•</span>
                 <span>MIT License</span>
                 <span>•</span>
