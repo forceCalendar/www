@@ -53,12 +53,11 @@ export default function Home() {
 
             {/* Clear Value Proposition */}
             <p className="text-xl md:text-2xl text-slate-300 text-center max-w-4xl mx-auto mb-6">
-              Calendar infrastructure built for enterprise security constraints.
+              Calendar infrastructure for enterprise platforms.
             </p>
             <p className="text-base md:text-lg text-slate-500 text-center max-w-3xl mx-auto mb-12">
-              Great calendar libraries exist. But when you need one that works inside
-              Salesforce Locker Service, strict CSP policies, and enterprise security boundaries
-              with zero external dependencies—that&apos;s what we built.
+              Pure JavaScript. Zero dependencies. Built to work inside
+              Salesforce Locker Service and strict enterprise security policies.
             </p>
 
             {/* Architecture Diagram with 3D Cards */}
@@ -238,6 +237,78 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why This Exists */}
+      <section className="py-24 border-t border-slate-800">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">Background</span>
+              <h2 className="text-3xl md:text-4xl font-bold mt-4 mb-6">
+                Why This Exists
+              </h2>
+            </div>
+
+            <div className="space-y-6 text-lg text-slate-400 leading-relaxed">
+              <p>
+                There are excellent calendar libraries out there. <span className="text-white">FullCalendar</span> is
+                battle-tested and widely used. It works great for most projects.
+              </p>
+
+              <p>
+                <span className="text-white">But enterprise platforms have different rules.</span> Salesforce&apos;s
+                Locker Service blocks many common JavaScript patterns. Strict Content Security Policies
+                reject inline styles and dynamic code. External dependencies trigger lengthy security reviews.
+              </p>
+
+              <p>
+                Most calendar libraries were not designed for these constraints. They work fine in
+                regular web apps, but break inside enterprise security sandboxes.
+              </p>
+
+              <p className="text-white text-xl">
+                forceCalendar is different. It was built from scratch to work within these constraints.
+                Zero dependencies. No DOM required in the core. No patterns that trigger security violations.
+              </p>
+            </div>
+
+            {/* Architecture Explanation */}
+            <div className="mt-16 p-8 bg-slate-900/50 border border-slate-800 rounded-lg">
+              <h3 className="text-xl font-bold text-white mb-4">The Architecture</h3>
+              <div className="space-y-4 text-slate-400">
+                <p>
+                  The project is split into two packages on purpose.
+                </p>
+                <p>
+                  <span className="text-emerald-400 font-mono">@forcecalendar/core</span> is pure calendar logic.
+                  No UI, no DOM, no browser APIs. Just JavaScript that handles dates, events, timezones,
+                  and recurrence rules. This can run anywhere. In a browser, in Node.js, inside Salesforce
+                  Lightning Web Components, anywhere JavaScript runs.
+                </p>
+                <p>
+                  <span className="text-blue-400 font-mono">@forcecalendar/interface</span> is a complete UI
+                  built on top of Core using Web Components. Drop it into any framework and it works.
+                  This is for teams who want a ready-made calendar without building UI from scratch.
+                </p>
+                <p>
+                  This split makes it possible to build calendar experiences for different platforms.
+                  Salesforce teams can use Core directly in LWC. Teams building for Microsoft Teams or
+                  React Native can build their own UI on Core. Or just use Interface and ship faster.
+                </p>
+              </div>
+            </div>
+
+            {/* Simple Positioning */}
+            <div className="mt-12 text-center">
+              <p className="text-slate-500">
+                This is not a replacement for FullCalendar or similar libraries.
+                <br />
+                It is an alternative for teams who need something that works inside enterprise security boundaries.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Live Demo Section */}
       <section className="py-24 border-t border-slate-800">
         <div className="container-custom">
@@ -250,8 +321,7 @@ export default function Home() {
               See It In Action
             </h2>
             <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              Experience the power of forceCalendar right here. Click any date to add events,
-              navigate between months, and see the smooth 60fps performance.
+              Click any date to add events, navigate between months, and see the smooth 60fps performance.
             </p>
           </div>
 
@@ -286,80 +356,6 @@ calendar.addEvent({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Origin Story Section */}
-      <section className="py-24 border-t border-slate-800">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">Why We Built This</span>
-              <h2 className="text-3xl md:text-4xl font-bold mt-4 mb-6">
-                The Problem We Solved
-              </h2>
-            </div>
-
-            <div className="space-y-8 text-lg text-slate-400 leading-relaxed">
-              <p>
-                We were building custom Salesforce solutions that needed calendars. Like many teams,
-                we reached for <span className="text-white">FullCalendar</span>—it&apos;s excellent, battle-tested,
-                and widely adopted.
-              </p>
-
-              <p>
-                <span className="text-white">Then it stopped working.</span> Newer versions broke compatibility
-                with Salesforce&apos;s Locker Service. The security sandbox that protects Lightning components
-                doesn&apos;t play well with libraries that weren&apos;t designed for it.
-              </p>
-
-              <p>
-                We looked for alternatives. Every option had the same problem: external dependencies,
-                DOM manipulation patterns that trigger CSP violations, or architectural assumptions
-                that conflict with enterprise security policies.
-              </p>
-
-              <p className="text-white text-xl">
-                So we built what we needed: calendar infrastructure designed from day one
-                to work within enterprise constraints.
-              </p>
-            </div>
-
-            {/* Key Differentiators */}
-            <div className="mt-16 grid md:grid-cols-3 gap-6">
-              <div className="bg-slate-900/50 border border-slate-800 p-6">
-                <div className="text-2xl font-bold text-emerald-500 mb-3">Zero Dependencies</div>
-                <p className="text-sm text-slate-400">
-                  No node_modules surprises. No transitive security vulnerabilities.
-                  Just JavaScript that does what it says.
-                </p>
-              </div>
-              <div className="bg-slate-900/50 border border-slate-800 p-6">
-                <div className="text-2xl font-bold text-blue-500 mb-3">Locker Service Ready</div>
-                <p className="text-sm text-slate-400">
-                  Built specifically to work inside Salesforce&apos;s security sandbox.
-                  No workarounds, no hacks.
-                </p>
-              </div>
-              <div className="bg-slate-900/50 border border-slate-800 p-6">
-                <div className="text-2xl font-bold text-violet-500 mb-3">Strict CSP Compatible</div>
-                <p className="text-sm text-slate-400">
-                  No inline styles injected at runtime. No eval(). No dynamic code execution.
-                  Passes enterprise security reviews.
-                </p>
-              </div>
-            </div>
-
-            {/* Honest Positioning */}
-            <div className="mt-16 p-8 bg-slate-900/30 border border-slate-800 rounded-lg">
-              <p className="text-slate-400 text-center">
-                <span className="text-white font-medium">forceCalendar isn&apos;t trying to replace FullCalendar</span> or
-                any other library—they&apos;re excellent for their use cases. We built this for teams who
-                specifically need calendar infrastructure that works within enterprise security boundaries.
-                If that&apos;s you, we think you&apos;ll find this useful.
-              </p>
             </div>
           </div>
         </div>
