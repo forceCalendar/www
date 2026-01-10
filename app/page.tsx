@@ -30,34 +30,35 @@ export default function Home() {
       {/* Navigation */}
       <Navigation />
 
-      {/* Hero Section - Premium Design */}
+      {/* Hero Section - Clear Value Proposition */}
       <section className="relative pt-32 pb-24">
         <div className="container-custom">
           <div className={`max-w-6xl mx-auto ${isLoaded ? 'animate-appear' : 'opacity-0'}`}>
 
-            {/* Premium Badge */}
+            {/* Simple Badge */}
             <div className="flex items-center justify-center mb-8">
               <div className="glass-premium px-6 py-2 rounded-full inline-flex items-center gap-3">
-                <div className="w-1 h-1 animate-pulse rounded-full" style={{ backgroundColor: 'var(--violet)' }} />
-                <span className="text-xs uppercase tracking-[0.2em] text-gradient-premium font-mono-custom whitespace-nowrap">
-                  Open Source • Enterprise Infrastructure
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                <span className="text-xs uppercase tracking-[0.2em] font-mono-custom text-slate-400">
+                  Open Source • Zero Dependencies • MIT License
                 </span>
-                <div className="w-1 h-1 animate-pulse rounded-full" style={{ backgroundColor: 'var(--cyan)' }} />
               </div>
             </div>
 
-            {/* Main Title with Premium Typography */}
-            <h1 className="text-6xl md:text-7xl lg:text-8xl tracking-tighter mb-6 text-center">
+            {/* Main Title */}
+            <h1 className="text-6xl md:text-7xl lg:text-8xl tracking-tighter mb-8 text-center">
               <em className="font-light italic" style={{ fontFamily: 'Georgia, serif', background: 'linear-gradient(135deg, var(--violet), var(--cyan))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>force</em>
               <strong className="font-bold bg-gradient-to-r from-white via-white to-gray-300 bg-clip-text text-transparent">Calendar</strong>
             </h1>
 
-            {/* Tagline with Shimmer Effect */}
-            <p className="text-xl md:text-2xl text-secondary text-center max-w-3xl mx-auto mb-12">
-              Production-grade calendar infrastructure for enterprise platforms.
-              <span className="block mt-2 text-gradient-premium font-medium">
-                100% Open Source. Choose your integration level.
-              </span>
+            {/* Clear Value Proposition */}
+            <p className="text-xl md:text-2xl text-slate-300 text-center max-w-4xl mx-auto mb-6">
+              Calendar infrastructure built for enterprise security constraints.
+            </p>
+            <p className="text-base md:text-lg text-slate-500 text-center max-w-3xl mx-auto mb-12">
+              Great calendar libraries exist. But when you need one that works inside
+              Salesforce Locker Service, strict CSP policies, and enterprise security boundaries
+              with zero external dependencies—that&apos;s what we built.
             </p>
 
             {/* Architecture Diagram with 3D Cards */}
@@ -290,179 +291,194 @@ calendar.addEvent({
         </div>
       </section>
 
-      {/* Performance Showcase */}
+      {/* Origin Story Section */}
       <section className="py-24 border-t border-slate-800">
         <div className="container-custom">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-              <span className="text-xs font-mono text-emerald-500 uppercase tracking-wider">Performance First</span>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">Why We Built This</span>
+              <h2 className="text-3xl md:text-4xl font-bold mt-4 mb-6">
+                The Problem We Solved
+              </h2>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Built for Scale
-            </h2>
-            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              Handle thousands of events without breaking a sweat. Our advanced caching and indexing
-              ensures lightning-fast performance at any scale.
-            </p>
-          </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="bg-slate-900 border border-slate-800 p-6 text-center">
-              <div className="text-3xl font-bold text-teal-500 mb-2">10,000+</div>
-              <div className="text-sm text-slate-400">Events handled smoothly</div>
+            <div className="space-y-8 text-lg text-slate-400 leading-relaxed">
+              <p>
+                We were building custom Salesforce solutions that needed calendars. Like many teams,
+                we reached for <span className="text-white">FullCalendar</span>—it&apos;s excellent, battle-tested,
+                and widely adopted.
+              </p>
+
+              <p>
+                <span className="text-white">Then it stopped working.</span> Newer versions broke compatibility
+                with Salesforce&apos;s Locker Service. The security sandbox that protects Lightning components
+                doesn&apos;t play well with libraries that weren&apos;t designed for it.
+              </p>
+
+              <p>
+                We looked for alternatives. Every option had the same problem: external dependencies,
+                DOM manipulation patterns that trigger CSP violations, or architectural assumptions
+                that conflict with enterprise security policies.
+              </p>
+
+              <p className="text-white text-xl">
+                So we built what we needed: calendar infrastructure designed from day one
+                to work within enterprise constraints.
+              </p>
             </div>
-            <div className="bg-slate-900 border border-slate-800 p-6 text-center">
-              <div className="text-3xl font-bold text-blue-500 mb-2">60 FPS</div>
-              <div className="text-sm text-slate-400">Consistent frame rate</div>
+
+            {/* Key Differentiators */}
+            <div className="mt-16 grid md:grid-cols-3 gap-6">
+              <div className="bg-slate-900/50 border border-slate-800 p-6">
+                <div className="text-2xl font-bold text-emerald-500 mb-3">Zero Dependencies</div>
+                <p className="text-sm text-slate-400">
+                  No node_modules surprises. No transitive security vulnerabilities.
+                  Just JavaScript that does what it says.
+                </p>
+              </div>
+              <div className="bg-slate-900/50 border border-slate-800 p-6">
+                <div className="text-2xl font-bold text-blue-500 mb-3">Locker Service Ready</div>
+                <p className="text-sm text-slate-400">
+                  Built specifically to work inside Salesforce&apos;s security sandbox.
+                  No workarounds, no hacks.
+                </p>
+              </div>
+              <div className="bg-slate-900/50 border border-slate-800 p-6">
+                <div className="text-2xl font-bold text-violet-500 mb-3">Strict CSP Compatible</div>
+                <p className="text-sm text-slate-400">
+                  No inline styles injected at runtime. No eval(). No dynamic code execution.
+                  Passes enterprise security reviews.
+                </p>
+              </div>
             </div>
-            <div className="bg-slate-900 border border-slate-800 p-6 text-center">
-              <div className="text-3xl font-bold text-purple-500 mb-2">&lt;15ms</div>
-              <div className="text-sm text-slate-400">Average render time</div>
+
+            {/* Honest Positioning */}
+            <div className="mt-16 p-8 bg-slate-900/30 border border-slate-800 rounded-lg">
+              <p className="text-slate-400 text-center">
+                <span className="text-white font-medium">forceCalendar isn&apos;t trying to replace FullCalendar</span> or
+                any other library—they&apos;re excellent for their use cases. We built this for teams who
+                specifically need calendar infrastructure that works within enterprise security boundaries.
+                If that&apos;s you, we think you&apos;ll find this useful.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Open Source Section */}
+      {/* Technical Capabilities */}
       <section className="py-24 border-t border-slate-800">
         <div className="container-custom">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 mb-6">
-              <svg className="w-6 h-6 text-teal-500" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              <h2 className="text-3xl md:text-4xl font-bold">100% Open Source</h2>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                What&apos;s Included
+              </h2>
+              <p className="text-slate-400">
+                Everything you need for production calendar functionality.
+              </p>
             </div>
-            <p className="text-xl text-slate-400 mb-12">
-              MIT Licensed. Community-driven. Enterprise-grade.
-            </p>
-            <div className="grid md:grid-cols-3 gap-8 text-left">
-              <div>
-                <div className="text-3xl font-bold text-teal-500 mb-2">Transparent</div>
-                <p className="text-sm text-slate-400">
-                  Every line of code is open for inspection. No hidden dependencies, no vendor lock-in.
-                </p>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-teal-500 mb-2">Auditable</div>
-                <p className="text-sm text-slate-400">
-                  Security teams can review the entire codebase. Perfect for enterprise compliance.
-                </p>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-teal-500 mb-2">Extensible</div>
-                <p className="text-sm text-slate-400">
-                  Fork it. Customize it. Contribute back. The community drives innovation.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Enterprise Features - Premium Cards */}
-      <section className="py-24 border-t border-subtle relative">
-        <div className="container-custom">
-          <div className="mb-16 animate-appear">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-premium">
-              Enterprise Infrastructure
-            </h2>
-            <p className="text-muted max-w-2xl">
-              Built for scale, security, and integration with enterprise platforms.
-              Every feature designed for production environments.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                number: '01',
-                title: 'Zero Dependencies',
-                description: 'Pure JavaScript with no external dependencies. Secure by default.',
-                gradient: 'from-violet to-indigo',
-                icon: (
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                )
-              },
-              {
-                number: '02',
-                title: 'Salesforce Ready',
-                description: 'Locker Service compatible. Lightning Web Components optimized.',
-                gradient: 'from-cyan to-blue-500',
-                icon: (
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                )
-              },
-              {
-                number: '03',
-                title: 'Performance First',
-                description: 'LRU caching, spatial indexing. Handles thousands of events.',
-                gradient: 'from-emerald to-teal-500',
-                icon: (
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                  </svg>
-                )
-              },
-              {
-                number: '04',
-                title: 'Enterprise Features',
-                description: 'Timezones, recurring events, ICS support, conflict detection.',
-                gradient: 'from-rose to-orange-500',
-                icon: (
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                  </svg>
-                )
-              }
-            ].map((feature, i) => (
-              <div key={i} className="relative group card-premium rounded-xl overflow-hidden">
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-
-                <div className="relative p-8">
-                  <div className="absolute top-4 right-4 text-xs font-mono-custom text-dim">
-                    {feature.number}
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Left Column */}
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                    <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
                   </div>
-
-                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-glow-premium`}>
-                    <div className="text-white">
-                      {feature.icon}
-                    </div>
+                  <div>
+                    <h3 className="font-semibold text-white mb-1">Full Timezone Support</h3>
+                    <p className="text-sm text-slate-400">IANA timezone database with DST handling. Convert between any timezones.</p>
                   </div>
-
-                  <h3 className="text-lg font-semibold mb-3 group-hover:text-gradient-premium transition-all duration-300">
-                    {feature.title}
-                  </h3>
-
-                  <p className="text-sm text-muted leading-relaxed">
-                    {feature.description}
-                  </p>
                 </div>
 
-                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-current to-transparent opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
-              </div>
-            ))}
-          </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                    <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white mb-1">RFC 5545 Recurrence</h3>
+                    <p className="text-sm text-slate-400">Full RRULE support including complex patterns, exceptions, and EXDATE.</p>
+                  </div>
+                </div>
 
-          {/* Premium Stats Bar */}
-          <div className="mt-16 glass-premium rounded-2xl p-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div>
-                <div className="text-4xl font-bold text-gradient-premium mb-2">10,000+</div>
-                <div className="text-sm text-muted uppercase tracking-wider">Events Handled</div>
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                    <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white mb-1">ICS Import/Export</h3>
+                    <p className="text-sm text-slate-400">Standards-compliant iCalendar file handling for interoperability.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                    <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white mb-1">Conflict Detection</h3>
+                    <p className="text-sm text-slate-400">Automatic overlap detection with customizable resolution strategies.</p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <div className="text-4xl font-bold text-gradient-premium mb-2">60 FPS</div>
-                <div className="text-sm text-muted uppercase tracking-wider">Consistent Performance</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-gradient-premium mb-2">&lt;15ms</div>
-                <div className="text-sm text-muted uppercase tracking-wider">Render Time</div>
+
+              {/* Right Column */}
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                    <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white mb-1">Spatial Indexing</h3>
+                    <p className="text-sm text-slate-400">O(1) event lookups with date-based indexing. Handles 10,000+ events.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                    <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white mb-1">LRU Caching</h3>
+                    <p className="text-sm text-slate-400">Smart caching for timezone calculations and recurrence expansion.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                    <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white mb-1">i18n Ready</h3>
+                    <p className="text-sm text-slate-400">Locale-aware date formatting with RTL support.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                    <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white mb-1">TypeScript Types</h3>
+                    <p className="text-sm text-slate-400">Full type definitions for excellent developer experience.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -576,43 +592,6 @@ calendar.addEvent({
                   <div className="text-slate-500 mb-2"># Installation</div>
                   <div className="text-blue-400">npm install @forcecalendar/interface</div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Future Roadmap */}
-      <section className="py-24 border-t border-slate-800">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Platform Expansion
-              </h2>
-              <p className="text-slate-400">
-                More enterprise integrations coming soon. Built on the same proven Core engine.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-slate-900/50 border border-slate-800 border-dashed p-6 opacity-50">
-                <div className="text-amber-500 mb-3 text-2xl">⚡</div>
-                <h3 className="font-mono text-sm mb-2 text-slate-400">@forcecalendar/salesforce</h3>
-                <p className="text-xs text-slate-500">Optimized for Lightning Experience</p>
-                <p className="text-xs text-amber-500 mt-4">COMING SOON</p>
-              </div>
-              <div className="bg-slate-900/50 border border-slate-800 border-dashed p-6 opacity-50">
-                <div className="text-purple-500 mb-3 text-2xl">◈</div>
-                <h3 className="font-mono text-sm mb-2 text-slate-400">@forcecalendar/teams</h3>
-                <p className="text-xs text-slate-500">Microsoft Teams integration</p>
-                <p className="text-xs text-purple-500 mt-4">PLANNED</p>
-              </div>
-              <div className="bg-slate-900/50 border border-slate-800 border-dashed p-6 opacity-50">
-                <div className="text-cyan-500 mb-3 text-2xl">◉</div>
-                <h3 className="font-mono text-sm mb-2 text-slate-400">@forcecalendar/mobile</h3>
-                <p className="text-xs text-slate-500">React Native components</p>
-                <p className="text-xs text-cyan-500 mt-4">PLANNED</p>
               </div>
             </div>
           </div>
