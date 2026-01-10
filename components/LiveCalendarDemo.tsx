@@ -448,17 +448,28 @@ export default function LiveCalendarDemo() {
 
       {/* Event Modal */}
       {showEventModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowEventModal(false)}>
-          <div className="bg-slate-900 border border-slate-800 p-6 rounded-lg max-w-md w-full mx-4" onClick={e => e.stopPropagation()}>
-            <h3 className="text-lg font-semibold mb-4">
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          onClick={() => setShowEventModal(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="event-modal-title"
+        >
+          <div
+            className="bg-slate-900 border border-slate-800 p-6 rounded-lg max-w-md w-full mx-4"
+            onClick={e => e.stopPropagation()}
+          >
+            <h3 id="event-modal-title" className="text-lg font-semibold mb-4">
               Add Event - {selectedDate?.toLocaleDateString()}
             </h3>
+            <label htmlFor="event-title" className="sr-only">Event title</label>
             <input
+              id="event-title"
               type="text"
               value={newEventTitle}
               onChange={(e) => setNewEventTitle(e.target.value)}
               placeholder="Event title..."
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-white placeholder-slate-500 mb-4"
+              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-white placeholder-slate-500 mb-4 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
               autoFocus
             />
             <div className="flex gap-2">

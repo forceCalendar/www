@@ -4,13 +4,11 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import LiveCalendarDemo from "@/components/LiveCalendarDemo";
-import PerformanceBenchmark from "@/components/PerformanceBenchmark";
 import CodeSnippet from "@/components/CodeSnippet";
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeProduct, setActiveProduct] = useState<'core' | 'interface' | null>(null);
-  const [showBenchmark, setShowBenchmark] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -309,11 +307,7 @@ calendar.addEvent({
             </p>
           </div>
 
-          <div className="max-w-5xl mx-auto">
-            <PerformanceBenchmark />
-          </div>
-
-          <div className="mt-12 grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="bg-slate-900 border border-slate-800 p-6 text-center">
               <div className="text-3xl font-bold text-teal-500 mb-2">10,000+</div>
               <div className="text-sm text-slate-400">Events handled smoothly</div>

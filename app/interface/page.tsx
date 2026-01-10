@@ -52,27 +52,27 @@ export default function InterfacePage() {
               Drop-in calendar UI powered by the forceCalendar core engine.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 mb-12">
-              <button className="group relative px-6 py-3 bg-blue-500 text-black font-mono text-sm font-medium overflow-hidden transition-all duration-300">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-12">
+              <button className="group relative px-4 sm:px-6 py-3 bg-blue-500 text-black font-mono text-xs sm:text-sm font-medium overflow-hidden transition-all duration-300">
                 <span className="relative z-10">npm i @forcecalendar/interface</span>
               </button>
               <a
                 href="https://github.com/forcecalendar/interface"
-                className="px-6 py-3 border border-slate-700 text-white font-mono text-sm hover:bg-slate-900 hover:border-slate-600 transition-all duration-300"
+                className="px-4 sm:px-6 py-3 border border-slate-700 text-white font-mono text-xs sm:text-sm hover:bg-slate-900 hover:border-slate-600 transition-all duration-300"
               >
                 View on GitHub
               </a>
               <Link
                 href="/interface/playground"
-                className="px-6 py-3 border border-blue-500/30 text-blue-500 font-mono text-sm hover:bg-blue-500/10 transition-all duration-300"
+                className="px-4 sm:px-6 py-3 border border-blue-500/30 text-blue-500 font-mono text-xs sm:text-sm hover:bg-blue-500/10 transition-all duration-300"
               >
                 Try Playground
               </Link>
-              <div className="flex items-center gap-3 ml-auto text-xs font-mono text-slate-600">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto sm:ml-auto mt-4 sm:mt-0 text-xs font-mono text-slate-600">
                 <VersionBadge packageName="@forcecalendar/interface" color="blue" />
-                <span>•</span>
+                <span className="hidden sm:inline">•</span>
                 <span>MIT License</span>
-                <span>•</span>
+                <span className="hidden sm:inline">•</span>
                 <span>28KB gzipped</span>
               </div>
             </div>
@@ -343,7 +343,7 @@ export default function InterfacePage() {
           <h2 className="text-3xl md:text-4xl font-bold mb-12">Works With Any Framework</h2>
 
           {/* Framework Tabs */}
-          <div className="flex items-center gap-2 mb-8">
+          <div className="flex flex-wrap items-center gap-2 mb-8">
             {[
               { id: 'react', name: 'React', icon: '⚛️' },
               { id: 'vue', name: 'Vue', icon: '💚' },
@@ -353,14 +353,15 @@ export default function InterfacePage() {
               <button
                 key={fw.id}
                 onClick={() => setActiveFramework(fw.id as any)}
-                className={`px-4 py-2 font-mono text-sm transition-all duration-300 border ${
+                className={`px-3 sm:px-4 py-2 font-mono text-xs sm:text-sm transition-all duration-300 border ${
                   activeFramework === fw.id
                     ? 'bg-blue-500/10 border-blue-500 text-blue-500'
                     : 'border-slate-700 text-slate-500 hover:text-slate-300 hover:border-slate-600'
                 }`}
               >
-                <span className="mr-2">{fw.icon}</span>
-                {fw.name}
+                <span className="mr-1 sm:mr-2">{fw.icon}</span>
+                <span className="hidden sm:inline">{fw.name}</span>
+                <span className="sm:hidden">{fw.id === 'lwc' ? 'SF' : fw.name}</span>
               </button>
             ))}
           </div>

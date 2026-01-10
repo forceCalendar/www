@@ -50,21 +50,21 @@ export default function CorePage() {
               Build custom UIs with complete control over every aspect.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 mb-12">
-              <button className="group relative px-6 py-3 bg-emerald-500 text-black font-mono text-sm font-medium overflow-hidden transition-all duration-300">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-12">
+              <button className="group relative px-4 sm:px-6 py-3 bg-emerald-500 text-black font-mono text-xs sm:text-sm font-medium overflow-hidden transition-all duration-300">
                 <span className="relative z-10">npm i @forcecalendar/core</span>
               </button>
               <a
                 href="https://github.com/forcecalendar/core"
-                className="px-6 py-3 border border-slate-700 text-white font-mono text-sm hover:bg-slate-900 hover:border-slate-600 transition-all duration-300"
+                className="px-4 sm:px-6 py-3 border border-slate-700 text-white font-mono text-xs sm:text-sm hover:bg-slate-900 hover:border-slate-600 transition-all duration-300"
               >
                 View on GitHub
               </a>
-              <div className="flex items-center gap-3 ml-auto text-xs font-mono text-slate-600">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto sm:ml-auto mt-4 sm:mt-0 text-xs font-mono text-slate-600">
                 <VersionBadge packageName="@forcecalendar/core" color="emerald" />
-                <span>•</span>
+                <span className="hidden sm:inline">•</span>
                 <span>MIT License</span>
-                <span>•</span>
+                <span className="hidden sm:inline">•</span>
                 <span>14KB gzipped</span>
               </div>
             </div>
@@ -97,12 +97,12 @@ export default function CorePage() {
           <h2 className="text-3xl md:text-4xl font-bold mb-12">Core Architecture</h2>
 
           {/* Module Tabs */}
-          <div className="flex items-center gap-1 mb-8 border-b border-slate-800">
+          <div className="flex items-center gap-1 mb-8 border-b border-slate-800 overflow-x-auto">
             {['calendar', 'events', 'timezone'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab as any)}
-                className={`px-6 py-3 font-mono text-sm capitalize transition-all duration-300 border-b-2 ${
+                className={`px-4 sm:px-6 py-3 font-mono text-xs sm:text-sm capitalize transition-all duration-300 border-b-2 whitespace-nowrap ${
                   activeTab === tab
                     ? 'text-emerald-500 border-emerald-500'
                     : 'text-slate-500 border-transparent hover:text-slate-300'

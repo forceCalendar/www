@@ -121,15 +121,15 @@ export default function Navigation() {
                   Docs
                 </Link>
                 <Link
-                  href="/interface/demo"
+                  href="/interface/playground"
                   className={`px-3 py-1.5 rounded-md text-sm font-mono-custom transition-all duration-300 ${
-                    pathname === '/interface/demo'
+                    pathname === '/interface/playground'
                       ? 'bg-cyan/20 text-white'
                       : 'hover:bg-white/5 hover:text-white'
                   }`}
-                  style={{ color: pathname === '/interface/demo' ? undefined : 'var(--text-secondary)' }}
+                  style={{ color: pathname === '/interface/playground' ? undefined : 'var(--text-secondary)' }}
                 >
-                  Demo
+                  Playground
                 </Link>
               </div>
             </div>

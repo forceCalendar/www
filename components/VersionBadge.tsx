@@ -36,7 +36,7 @@ export default function VersionBadge({
 
   if (isLoading) {
     return (
-      <span className="inline-flex items-center gap-2 text-xs font-mono text-slate-600">
+      <span className="inline-flex items-center gap-2 text-xs font-mono text-slate-400">
         <span className="w-12 h-4 bg-slate-800 animate-pulse rounded" />
       </span>
     );
@@ -44,7 +44,7 @@ export default function VersionBadge({
 
   if (error || !version) {
     return (
-      <span className="text-xs font-mono text-slate-600">
+      <span className="text-xs font-mono text-slate-400" title="Version unavailable">
         v--
       </span>
     );
@@ -52,7 +52,7 @@ export default function VersionBadge({
 
   return (
     <span className="inline-flex items-center gap-2">
-      <span className="text-xs font-mono text-slate-500">v{version}</span>
+      <span className="text-xs font-mono text-slate-400">v{version}</span>
       {showNewBadge && isNewRelease && (
         <span
           className={`inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider border rounded-full ${colorClasses[color].badge}`}
