@@ -1,684 +1,302 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import Navigation from "@/components/Navigation";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+
+interface CalendarEvent {
+  id: number;
+  title: string;
+  date: Date;
+  color: string;
+  duration: number;
+  category: string;
+}
 
 export default function PlaygroundPage() {
-  // Calendar state
-  const [currentDate, setCurrentDate] = useState(new Date()); // Current date
-  const [view, setView] = useState<'month' | 'week' | 'day'>('month');
-  const [events, setEvents] = useState<any[]>([]);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [view, setView] = useState<"month" | "week" | "day">("month");
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showEventModal, setShowEventModal] = useState(false);
-  const [newEventTitle, setNewEventTitle] = useState('');
-  const [isAnimated, setIsAnimated] = useState(false);
-
-  // Playground controls
-  const [locale, setLocale] = useState('en-US');
-  const [timezone, setTimezone] = useState('Australia/Sydney');
-  const [weekStartsOn, setWeekStartsOn] = useState(1);
+  const [newEventTitle, setNewEventTitle] = useState("");
+  const [locale, setLocale] = useState("en-US");
+  const [weekStartsOn, setWeekStartsOn] = useState(0);
   const [showCode, setShowCode] = useState(false);
-  const [selectedFeature, setSelectedFeature] = useState('events');
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
-  // Initialize demo events
   useEffect(() => {
     const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth();
-
-    const demoEvents = [
-      {
-        id: 1,
-        title: 'Product Launch',
-        date: new Date(currentYear, currentMonth, 15, 14, 0),
-        color: 'bg-teal-500',
-        duration: 120,
-        category: 'launch'
-      },
-      {
-        id: 2,
-        title: 'Daily Standup',
-        date: new Date(currentYear, currentMonth, 6, 9, 0),
-        color: 'bg-blue-500',
-        duration: 15,
-        recurring: 'FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR',
-        category: 'meeting'
-      },
-      {
-        id: 3,
-        title: 'Sprint Review',
-        date: new Date(currentYear, currentMonth, 22, 15, 0),
-        color: 'bg-purple-500',
-        duration: 60,
-        category: 'meeting'
-      },
-      {
-        id: 4,
-        title: 'Client Meeting',
-        date: new Date(currentYear, currentMonth, 8, 11, 0),
-        color: 'bg-amber-500',
-        duration: 90,
-        category: 'client'
-      },
-      {
-        id: 5,
-        title: 'Code Review',
-        date: new Date(currentYear, currentMonth, 18, 16, 0),
-        color: 'bg-emerald-500',
-        duration: 45,
-        category: 'development'
-      },
-      {
-        id: 6,
-        title: 'Team Lunch',
-        date: new Date(currentYear, currentMonth, 20, 12, 0),
-        color: 'bg-pink-500',
-        duration: 60,
-        category: 'social'
-      },
-      {
-        id: 7,
-        title: 'All Hands Meeting',
-        date: new Date(currentYear, currentMonth, 28, 14, 0),
-        color: 'bg-indigo-500',
-        duration: 120,
-        category: 'meeting'
-      }
-    ];
-    setEvents(demoEvents);
-    setTimeout(() => setIsAnimated(true), 100);
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    setEvents([
+      { id: 1, title: "Product Launch", date: new Date(year, month, 15, 14), color: "teal", duration: 120, category: "launch" },
+      { id: 2, title: "Team Standup", date: new Date(year, month, 10, 9), color: "blue", duration: 15, category: "meeting" },
+      { id: 3, title: "Sprint Review", date: new Date(year, month, 22, 15), color: "violet", duration: 60, category: "meeting" },
+      { id: 4, title: "Client Meeting", date: new Date(year, month, 8, 11), color: "amber", duration: 90, category: "client" },
+      { id: 5, title: "Code Review", date: new Date(year, month, 18, 16), color: "emerald", duration: 45, category: "dev" },
+    ]);
   }, []);
 
-  // Feature demonstrations
-  const featureDemos = {
-    events: {
-      title: 'Event Management',
-      description: 'Add, edit, and remove calendar events',
-      action: () => {
-        const now = new Date();
-        const newEvent = {
-          id: Date.now(),
-          title: `Demo Event ${events.length + 1}`,
-          date: new Date(now.getFullYear(), now.getMonth(), Math.floor(Math.random() * 28) + 1, Math.floor(Math.random() * 24)),
-          color: ['bg-red-500', 'bg-green-500', 'bg-yellow-500', 'bg-cyan-500'][Math.floor(Math.random() * 4)],
-          duration: 60,
-          category: 'demo'
-        };
-        setEvents([...events, newEvent]);
-      }
-    },
-    recurring: {
-      title: 'Recurring Events',
-      description: 'Create events that repeat daily, weekly, or monthly',
-      action: () => {
-        const now = new Date();
-        // Find the next Monday
-        const daysToMonday = (1 - now.getDay() + 7) % 7 || 7;
-        const nextMonday = new Date(now);
-        nextMonday.setDate(now.getDate() + daysToMonday);
-
-        const recurringEvent = {
-          id: Date.now(),
-          title: 'Weekly Team Sync',
-          date: new Date(nextMonday.getFullYear(), nextMonday.getMonth(), nextMonday.getDate(), 10, 0),
-          color: 'bg-violet-500',
-          duration: 30,
-          recurring: 'FREQ=WEEKLY;BYDAY=MO',
-          category: 'recurring'
-        };
-        setEvents([...events, recurringEvent]);
-      }
-    },
-    timezones: {
-      title: 'Timezone Support',
-      description: 'Switch between different timezones',
-      action: () => {
-        const timezones = ['Australia/Sydney', 'Asia/Tokyo', 'Europe/London', 'America/New_York'];
-        const currentIndex = timezones.indexOf(timezone);
-        const nextIndex = (currentIndex + 1) % timezones.length;
-        setTimezone(timezones[nextIndex]);
-      }
-    },
-    locales: {
-      title: 'Internationalization',
-      description: 'Support for multiple languages and date formats',
-      action: () => {
-        const locales = ['en-US', 'es-ES', 'fr-FR', 'de-DE', 'ja-JP', 'zh-CN'];
-        const currentIndex = locales.indexOf(locale);
-        const nextIndex = (currentIndex + 1) % locales.length;
-        setLocale(locales[nextIndex]);
-      }
-    },
-    search: {
-      title: 'Search & Filter',
-      description: 'Find events by keyword, date, or category',
-      action: () => {
-        const categories = ['meeting', 'development', 'client', 'social'];
-        const filtered = events.filter(e => e.category === categories[Math.floor(Math.random() * categories.length)]);
-        if (filtered.length > 0) {
-          alert(`Found ${filtered.length} events in category: ${filtered[0].category}`);
-        }
-      }
-    },
-    export: {
-      title: 'Import/Export',
-      description: 'Export to ICS, JSON, or integrate with other calendars',
-      action: () => {
-        const icsData = events.map(e => ({
-          title: e.title,
-          start: e.date.toISOString(),
-          duration: e.duration
-        }));
-        console.log('Export data:', icsData);
-        alert('Calendar data exported to console (ICS format simulation)');
-      }
-    }
-  };
-
-  // Calendar view helpers
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-    const daysInMonth = lastDay.getDate();
-    let startingDayOfWeek = firstDay.getDay() - weekStartsOn;
-    if (startingDayOfWeek < 0) startingDayOfWeek += 7;
-
-    const days = [];
-    for (let i = 0; i < startingDayOfWeek; i++) {
-      days.push(null);
-    }
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(new Date(year, month, i));
-    }
+    let startDay = firstDay.getDay() - weekStartsOn;
+    if (startDay < 0) startDay += 7;
+    const days: (Date | null)[] = [];
+    for (let i = 0; i < startDay; i++) days.push(null);
+    for (let i = 1; i <= lastDay.getDate(); i++) days.push(new Date(year, month, i));
     return days;
   };
 
-  const getWeekDays = (date: Date) => {
-    const startOfWeek = new Date(date);
-    const day = startOfWeek.getDay();
-    const diff = startOfWeek.getDate() - day + weekStartsOn;
-    startOfWeek.setDate(diff);
-
-    const week = [];
-    for (let i = 0; i < 7; i++) {
-      const day = new Date(startOfWeek);
-      day.setDate(startOfWeek.getDate() + i);
-      week.push(day);
-    }
-    return week;
-  };
-
-  const formatMonth = (date: Date) => {
-    return date.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
-  };
-
-  const formatWeek = (date: Date) => {
-    const weekStart = getWeekDays(date)[0];
-    const weekEnd = getWeekDays(date)[6];
-    return `${weekStart.toLocaleDateString(locale, { month: 'short', day: 'numeric' })} - ${weekEnd.toLocaleDateString(locale, { month: 'short', day: 'numeric', year: 'numeric' })}`;
-  };
-
-  const formatDay = (date: Date) => {
-    return date.toLocaleDateString(locale, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-  };
-
-  const navigateDate = (direction: 'prev' | 'next') => {
-    setIsAnimated(false);
-    setTimeout(() => {
-      setCurrentDate(prev => {
-        const newDate = new Date(prev);
-        if (view === 'month') {
-          newDate.setMonth(newDate.getMonth() + (direction === 'next' ? 1 : -1));
-        } else if (view === 'week') {
-          newDate.setDate(newDate.getDate() + (direction === 'next' ? 7 : -7));
-        } else if (view === 'day') {
-          newDate.setDate(newDate.getDate() + (direction === 'next' ? 1 : -1));
-        }
-        return newDate;
-      });
-      setTimeout(() => setIsAnimated(true), 50);
-    }, 50);
+  const getWeekDays = () => {
+    const base = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    return [...base.slice(weekStartsOn), ...base.slice(0, weekStartsOn)];
   };
 
   const getEventsForDate = (date: Date | null) => {
     if (!date) return [];
-    return events.filter(event =>
-      event.date.getDate() === date.getDate() &&
-      event.date.getMonth() === date.getMonth() &&
-      event.date.getFullYear() === date.getFullYear()
+    return events.filter(
+      (e) =>
+        e.date.getDate() === date.getDate() &&
+        e.date.getMonth() === date.getMonth() &&
+        e.date.getFullYear() === date.getFullYear()
     );
+  };
+
+  const formatMonth = (date: Date) =>
+    date.toLocaleDateString(locale, { month: "long", year: "numeric" });
+
+  const navigate = (dir: number) => {
+    setCurrentDate((prev) => {
+      const next = new Date(prev);
+      if (view === "month") next.setMonth(next.getMonth() + dir);
+      else if (view === "week") next.setDate(next.getDate() + dir * 7);
+      else next.setDate(next.getDate() + dir);
+      return next;
+    });
   };
 
   const addEvent = () => {
     if (!selectedDate || !newEventTitle) return;
-
-    const newEvent = {
-      id: Date.now(),
-      title: newEventTitle,
-      date: selectedDate,
-      color: 'bg-indigo-500',
-      duration: 60,
-      category: 'custom'
-    };
-
-    setEvents([...events, newEvent]);
-    setNewEventTitle('');
+    setEvents([
+      ...events,
+      {
+        id: Date.now(),
+        title: newEventTitle,
+        date: selectedDate,
+        color: "violet",
+        duration: 60,
+        category: "custom",
+      },
+    ]);
+    setNewEventTitle("");
     setShowEventModal(false);
-    setSelectedDate(null);
   };
 
-  const getHeaderTitle = () => {
-    if (view === 'month') return formatMonth(currentDate);
-    if (view === 'week') return formatWeek(currentDate);
-    if (view === 'day') return formatDay(currentDate);
-    return '';
+  const getEventColor = (color: string) => {
+    const colors: Record<string, string> = {
+      teal: "bg-teal-500/20 text-teal-400",
+      blue: "bg-blue-500/20 text-blue-400",
+      violet: "bg-violet-500/20 text-violet-400",
+      amber: "bg-amber-500/20 text-amber-400",
+      emerald: "bg-emerald-500/20 text-emerald-400",
+    };
+    return colors[color] || colors.violet;
   };
 
-  const getWeekDayNames = () => {
-    const baseNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const rotated = [];
-    for (let i = 0; i < 7; i++) {
-      const index = (weekStartsOn + i) % 7;
-      const date = new Date(2024, 0, index);
-      rotated.push(date.toLocaleDateString(locale, { weekday: 'short' }));
-    }
-    return rotated;
-  };
-
-  const generateCode = () => {
-    return `import { Calendar } from '@forcecalendar/core';
-
-const calendar = new Calendar({
-  locale: '${locale}',
-  timezone: '${timezone}',
-  weekStartsOn: ${weekStartsOn},
-  view: '${view}'
-});
-
-// Add events
-${events.slice(0, 3).map(e => `calendar.addEvent({
-  id: '${e.id}',
-  title: '${e.title}',
-  start: new Date('${e.date.toISOString()}'),
-  duration: ${e.duration || 60},
-  category: '${e.category}'
-});`).join('\n')}
-
-// Navigate calendar
-calendar.setView('${view}');
-calendar.goToDate(new Date('${currentDate.toISOString()}'));
-
-// Get events for display
-const events = calendar.getEventsForMonth(currentDate);
-console.log('Total events:', events.length);`;
-  };
-
-  const renderMonthView = () => {
-    const days = getDaysInMonth(currentDate);
-    const weekDays = getWeekDayNames();
-
-    return (
-      <>
-        <div className="grid grid-cols-7 gap-1 mb-2">
-          {weekDays.map(day => (
-            <div key={day} className={`text-center text-xs font-medium py-2 ${
-              theme === 'light' ? 'text-slate-600' : 'text-slate-500'
-            }`}>
-              {day}
-            </div>
-          ))}
-        </div>
-        <div className="grid grid-cols-7 gap-1">
-          {days.map((day, index) => {
-            const dayEvents = getEventsForDate(day);
-            const isToday = day &&
-              day.getDate() === new Date().getDate() &&
-              day.getMonth() === new Date().getMonth() &&
-              day.getFullYear() === new Date().getFullYear();
-
-            return (
-              <div
-                key={index}
-                className={`
-                  relative min-h-[80px] p-2 border transition-all cursor-pointer
-                  ${theme === 'light'
-                    ? 'border-gray-200 hover:bg-gray-50'
-                    : 'border-slate-800 hover:bg-slate-800'}
-                  ${day ? '' : theme === 'light' ? 'bg-gray-50' : 'bg-slate-950/50'}
-                  ${isToday ? 'bg-teal-500/10 border-teal-500/30' : ''}
-                  ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
-                `}
-                style={{ transitionDelay: `${index * 10}ms` }}
-                onClick={() => {
-                  if (day) {
-                    setSelectedDate(day);
-                    setShowEventModal(true);
-                  }
-                }}
-              >
-                {day && (
-                  <>
-                    <div className={`text-sm mb-1 ${
-                      isToday
-                        ? 'text-teal-500 font-bold'
-                        : theme === 'light' ? 'text-gray-700' : 'text-slate-300'
-                    }`}>
-                      {day.getDate()}
-                    </div>
-                    <div className="space-y-1">
-                      {dayEvents.slice(0, 2).map((event) => (
-                        <div
-                          key={event.id}
-                          className={`text-xs px-1 py-0.5 rounded ${event.color} bg-opacity-20 text-white truncate`}
-                        >
-                          {event.title}
-                        </div>
-                      ))}
-                      {dayEvents.length > 2 && (
-                        <div className={`text-xs ${theme === 'light' ? 'text-gray-500' : 'text-slate-500'}`}>
-                          +{dayEvents.length - 2} more
-                        </div>
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </>
-    );
-  };
-
-  const renderWeekView = () => {
-    const weekDays = getWeekDays(currentDate);
-    const hours = Array.from({ length: 24 }, (_, i) => i);
-
-    return (
-      <div className="overflow-auto max-h-[500px]">
-        <div className={`grid grid-cols-8 gap-1 mb-2 sticky top-0 z-10 ${
-          theme === 'light' ? 'bg-white' : 'bg-slate-900'
-        }`}>
-          <div className="text-xs font-medium py-2"></div>
-          {weekDays.map((day, i) => (
-            <div key={i} className={`text-center text-xs font-medium py-2 ${
-              theme === 'light' ? 'text-gray-600' : 'text-slate-500'
-            }`}>
-              <div>{day.toLocaleDateString(locale, { weekday: 'short' })}</div>
-              <div className={`text-lg ${
-                day.toDateString() === new Date().toDateString()
-                  ? 'text-teal-500 font-bold'
-                  : theme === 'light' ? 'text-gray-700' : 'text-slate-300'
-              }`}>
-                {day.getDate()}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div>
-          {hours.map(hour => (
-            <div key={hour} className="grid grid-cols-8 gap-1 mb-1">
-              <div className={`text-xs py-4 pr-2 text-right ${
-                theme === 'light' ? 'text-gray-500' : 'text-slate-500'
-              }`}>
-                {hour === 0 ? '12 AM' : hour < 12 ? `${hour} AM` : hour === 12 ? '12 PM' : `${hour - 12} PM`}
-              </div>
-              {weekDays.map((day, i) => {
-                const dayEvents = getEventsForDate(day);
-                const hourEvents = dayEvents.filter(event => event.date.getHours() === hour);
-
-                return (
-                  <div
-                    key={i}
-                    className={`border min-h-[60px] p-1 cursor-pointer transition-colors ${
-                      theme === 'light'
-                        ? 'border-gray-200 hover:bg-gray-50'
-                        : 'border-slate-800 hover:bg-slate-800'
-                    }`}
-                    onClick={() => {
-                      setSelectedDate(new Date(day.getFullYear(), day.getMonth(), day.getDate(), hour));
-                      setShowEventModal(true);
-                    }}
-                  >
-                    {hourEvents.map(event => (
-                      <div
-                        key={event.id}
-                        className={`text-xs px-1 py-0.5 rounded ${event.color} bg-opacity-20 text-white truncate mb-1`}
-                      >
-                        {event.title}
-                      </div>
-                    ))}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  const renderDayView = () => {
-    const hours = Array.from({ length: 24 }, (_, i) => i);
-    const dayEvents = getEventsForDate(currentDate);
-
-    return (
-      <div className="overflow-auto max-h-[500px]">
-        <div className="space-y-1">
-          {hours.map(hour => {
-            const hourEvents = dayEvents.filter(event => event.date.getHours() === hour);
-
-            return (
-              <div key={hour} className="grid grid-cols-12 gap-2">
-                <div className={`col-span-2 text-xs py-4 pr-2 text-right ${
-                  theme === 'light' ? 'text-gray-500' : 'text-slate-500'
-                }`}>
-                  {hour === 0 ? '12 AM' : hour < 12 ? `${hour} AM` : hour === 12 ? '12 PM' : `${hour - 12} PM`}
-                </div>
-                <div
-                  className={`col-span-10 border min-h-[60px] p-2 cursor-pointer transition-colors ${
-                    theme === 'light'
-                      ? 'border-gray-200 hover:bg-gray-50'
-                      : 'border-slate-800 hover:bg-slate-800'
-                  }`}
-                  onClick={() => {
-                    setSelectedDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hour));
-                    setShowEventModal(true);
-                  }}
-                >
-                  <div className="flex flex-wrap gap-2">
-                    {hourEvents.map(event => (
-                      <div
-                        key={event.id}
-                        className={`text-sm px-2 py-1 rounded ${event.color} bg-opacity-20 text-white`}
-                      >
-                        {event.title}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
+  const days = getDaysInMonth(currentDate);
+  const weekDays = getWeekDays();
+  const today = new Date();
 
   return (
-    <div className={`min-h-screen ${theme === 'light' ? 'bg-gray-50' : 'bg-[#0a0a0a]'}`}>
-      <Navigation />
-
-      <section className="relative pt-24 pb-16">
-        <div className="container-custom">
-          {/* Header */}
-          <div className="mb-8">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <div className="w-2 h-2 bg-teal-500 animate-pulse" />
-              <span className="text-xs font-mono text-teal-500 uppercase tracking-wider">Interactive Playground</span>
-            </div>
-
-            <h1 className={`text-4xl md:text-5xl font-bold mb-4 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
-              Try forceCalendar Live
-            </h1>
-
-            <p className={`text-lg max-w-3xl ${theme === 'light' ? 'text-gray-600' : 'text-slate-400'}`}>
-              Experience the power of forceCalendar with this interactive demo. Click on dates to add events,
-              switch views, change locales, and explore all the features.
-            </p>
+    <div className="min-h-screen bg-black">
+      {/* Nav */}
+      <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-neutral-900">
+        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+          <Link href="/" className="text-lg font-medium text-white">
+            <span className="italic">force</span>Calendar
+          </Link>
+          <div className="flex items-center gap-6">
+            <a
+              href="https://docs.forcecalendar.org"
+              className="text-sm text-neutral-400 hover:text-white transition-colors"
+            >
+              Docs
+            </a>
+            <a
+              href="https://github.com/forcecalendar"
+              className="text-sm text-neutral-400 hover:text-white transition-colors"
+            >
+              GitHub
+            </a>
           </div>
+        </div>
+      </nav>
 
-          {/* Main Calendar Demo */}
-          <div className={`rounded-lg overflow-hidden shadow-2xl mb-8 ${
-            theme === 'light' ? 'bg-white border border-gray-200' : 'bg-slate-900 border border-slate-800'
-          }`}>
-            {/* Calendar Header */}
-            <div className={`p-4 border-b ${
-              theme === 'light' ? 'bg-gray-50 border-gray-200' : 'bg-slate-950 border-slate-800'
-            }`}>
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-4">
-                  <h3 className={`text-lg font-semibold flex items-center gap-2 ${
-                    theme === 'light' ? 'text-gray-900' : 'text-white'
-                  }`}>
-                    <div className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
-                    Live Calendar
-                  </h3>
-                  <div className="flex items-center gap-2">
-                    {['month', 'week', 'day'].map((v) => (
-                      <button
-                        key={v}
-                        onClick={() => setView(v as any)}
-                        className={`px-3 py-1 text-xs font-mono uppercase transition-all ${
-                          view === v
-                            ? 'bg-teal-500 text-black'
-                            : theme === 'light'
-                              ? 'text-gray-600 hover:text-gray-900'
-                              : 'text-slate-400 hover:text-white'
-                        }`}
-                      >
-                        {v}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+      {/* Hero */}
+      <section className="pt-32 pb-12 px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-xs font-mono text-teal-500 uppercase tracking-wider mb-4">
+            Interactive Demo
+          </div>
+          <h1 className="text-4xl font-semibold text-white mb-4">Playground</h1>
+          <p className="text-lg text-neutral-400">
+            Try forceCalendar live. Click dates to add events, switch views, and explore.
+          </p>
+        </div>
+      </section>
 
-                {/* Theme Toggle */}
-                <button
-                  onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                  className={`p-2 rounded transition-colors ${
-                    theme === 'light'
-                      ? 'hover:bg-gray-100 text-gray-600'
-                      : 'hover:bg-slate-800 text-slate-400'
-                  }`}
-                  aria-label="Toggle theme"
-                >
-                  {theme === 'light' ? '🌙' : '☀️'}
-                </button>
-              </div>
-
-              <div className="flex items-center justify-between">
+      {/* Calendar */}
+      <section className="px-6 pb-20">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-neutral-950 border border-neutral-800 rounded-xl overflow-hidden">
+            {/* Header */}
+            <div className="p-4 border-b border-neutral-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => navigateDate('prev')}
-                    className={`p-2 rounded transition-colors ${
-                      theme === 'light' ? 'hover:bg-gray-100' : 'hover:bg-slate-800'
-                    }`}
-                    aria-label="Previous"
+                    onClick={() => navigate(-1)}
+                    className="p-2 hover:bg-neutral-800 rounded-lg transition-colors"
                   >
-                    <svg className={`w-4 h-4 ${theme === 'light' ? 'text-gray-600' : 'text-slate-400'}`}
-                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
                   <button
                     onClick={() => setCurrentDate(new Date())}
-                    className={`px-3 py-1 text-sm font-mono rounded transition-all ${
-                      theme === 'light'
-                        ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-800'
-                    }`}
+                    className="px-3 py-1 text-sm text-neutral-400 hover:text-white transition-colors"
                   >
                     Today
                   </button>
                   <button
-                    onClick={() => navigateDate('next')}
-                    className={`p-2 rounded transition-colors ${
-                      theme === 'light' ? 'hover:bg-gray-100' : 'hover:bg-slate-800'
-                    }`}
-                    aria-label="Next"
+                    onClick={() => navigate(1)}
+                    className="p-2 hover:bg-neutral-800 rounded-lg transition-colors"
                   >
-                    <svg className={`w-4 h-4 ${theme === 'light' ? 'text-gray-600' : 'text-slate-400'}`}
-                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </button>
                 </div>
-
-                <h2 className={`text-xl font-semibold ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
-                  {getHeaderTitle()}
-                </h2>
+                <span className="text-lg font-medium text-white">{formatMonth(currentDate)}</span>
+              </div>
+              <div className="flex gap-2">
+                {(["month", "week", "day"] as const).map((v) => (
+                  <button
+                    key={v}
+                    onClick={() => setView(v)}
+                    className={`px-3 py-1.5 text-xs font-medium capitalize rounded transition-colors ${
+                      view === v ? "bg-teal-500 text-black" : "text-neutral-400 hover:text-white"
+                    }`}
+                  >
+                    {v}
+                  </button>
+                ))}
               </div>
             </div>
 
             {/* Calendar Body */}
             <div className="p-4">
-              {view === 'month' && renderMonthView()}
-              {view === 'week' && renderWeekView()}
-              {view === 'day' && renderDayView()}
+              {view === "month" && (
+                <>
+                  <div className="grid grid-cols-7 gap-1 mb-2">
+                    {weekDays.map((day) => (
+                      <div key={day} className="text-center text-xs font-medium text-neutral-500 py-2">
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-7 gap-1">
+                    {days.map((day, i) => {
+                      const dayEvents = getEventsForDate(day);
+                      const isToday =
+                        day &&
+                        day.getDate() === today.getDate() &&
+                        day.getMonth() === today.getMonth() &&
+                        day.getFullYear() === today.getFullYear();
+
+                      return (
+                        <div
+                          key={i}
+                          onClick={() => {
+                            if (day) {
+                              setSelectedDate(day);
+                              setShowEventModal(true);
+                            }
+                          }}
+                          className={`min-h-[80px] p-2 border border-neutral-800 cursor-pointer transition-colors
+                            ${day ? "hover:bg-neutral-900" : "opacity-30"}
+                            ${isToday ? "bg-teal-500/10 border-teal-500/30" : ""}
+                          `}
+                        >
+                          {day && (
+                            <>
+                              <div className={`text-sm mb-1 ${isToday ? "text-teal-400 font-bold" : "text-neutral-300"}`}>
+                                {day.getDate()}
+                              </div>
+                              <div className="space-y-1">
+                                {dayEvents.slice(0, 2).map((event) => (
+                                  <div
+                                    key={event.id}
+                                    className={`text-xs px-1.5 py-0.5 rounded truncate ${getEventColor(event.color)}`}
+                                  >
+                                    {event.title}
+                                  </div>
+                                ))}
+                                {dayEvents.length > 2 && (
+                                  <div className="text-xs text-neutral-600">+{dayEvents.length - 2} more</div>
+                                )}
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+
+              {view === "week" && (
+                <div className="text-center py-20 text-neutral-500">
+                  Week view coming soon. Switch to month view.
+                </div>
+              )}
+
+              {view === "day" && (
+                <div className="text-center py-20 text-neutral-500">
+                  Day view coming soon. Switch to month view.
+                </div>
+              )}
             </div>
 
-            {/* Info Bar */}
-            <div className={`p-3 border-t ${
-              theme === 'light' ? 'bg-gray-50 border-gray-200' : 'bg-slate-950 border-slate-800'
-            }`}>
-              <div className="flex items-center justify-between">
-                <div className={`text-xs ${theme === 'light' ? 'text-gray-500' : 'text-slate-500'}`}>
-                  <span className="font-mono">
-                    {events.length} events • {locale} • {timezone}
-                  </span>
-                </div>
-                <button
-                  onClick={() => {
-                    setSelectedDate(new Date());
-                    setShowEventModal(true);
-                  }}
-                  className="px-3 py-1 bg-teal-500 text-black text-xs font-semibold hover:bg-teal-400 transition-colors"
-                >
-                  Add Event
-                </button>
-              </div>
+            {/* Footer */}
+            <div className="p-3 border-t border-neutral-800 flex items-center justify-between">
+              <span className="text-xs text-neutral-500 font-mono">
+                {events.length} events • {locale}
+              </span>
+              <button
+                onClick={() => {
+                  setSelectedDate(new Date());
+                  setShowEventModal(true);
+                }}
+                className="px-3 py-1.5 bg-teal-500 text-black text-xs font-medium rounded hover:bg-teal-400 transition-colors"
+              >
+                Add Event
+              </button>
             </div>
           </div>
 
-          {/* Interactive Controls */}
-          <div className="grid lg:grid-cols-3 gap-6 mb-8">
-            {/* Configuration Panel */}
-            <div className={`p-6 rounded-lg ${
-              theme === 'light' ? 'bg-white border border-gray-200' : 'bg-slate-900 border border-slate-800'
-            }`}>
-              <h3 className={`text-lg font-semibold mb-4 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
-                Configuration
-              </h3>
+          {/* Controls */}
+          <div className="mt-8 grid sm:grid-cols-3 gap-4">
+            <div className="bg-neutral-950 border border-neutral-800 rounded-xl p-5">
+              <h3 className="text-white font-medium mb-4">Configuration</h3>
               <div className="space-y-4">
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${
-                    theme === 'light' ? 'text-gray-700' : 'text-slate-400'
-                  }`}>
-                    Locale
-                  </label>
+                  <label className="block text-sm text-neutral-500 mb-2">Locale</label>
                   <select
                     value={locale}
                     onChange={(e) => setLocale(e.target.value)}
-                    className={`w-full px-3 py-2 rounded border ${
-                      theme === 'light'
-                        ? 'bg-white border-gray-300 text-gray-900'
-                        : 'bg-slate-800 border-slate-700 text-white'
-                    }`}
+                    className="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded text-white text-sm"
                   >
                     <option value="en-US">English (US)</option>
                     <option value="en-GB">English (UK)</option>
@@ -686,220 +304,125 @@ console.log('Total events:', events.length);`;
                     <option value="fr-FR">French</option>
                     <option value="de-DE">German</option>
                     <option value="ja-JP">Japanese</option>
-                    <option value="zh-CN">Chinese</option>
                   </select>
                 </div>
-
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${
-                    theme === 'light' ? 'text-gray-700' : 'text-slate-400'
-                  }`}>
-                    Timezone
-                  </label>
-                  <select
-                    value={timezone}
-                    onChange={(e) => setTimezone(e.target.value)}
-                    className={`w-full px-3 py-2 rounded border ${
-                      theme === 'light'
-                        ? 'bg-white border-gray-300 text-gray-900'
-                        : 'bg-slate-800 border-slate-700 text-white'
-                    }`}
-                  >
-                    <option value="Australia/Sydney">Sydney</option>
-                    <option value="Asia/Tokyo">Tokyo</option>
-                    <option value="Europe/London">London</option>
-                    <option value="Europe/Paris">Paris</option>
-                    <option value="America/New_York">New York</option>
-                    <option value="America/Los_Angeles">Los Angeles</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className={`block text-sm font-medium mb-2 ${
-                    theme === 'light' ? 'text-gray-700' : 'text-slate-400'
-                  }`}>
-                    Week Starts On
-                  </label>
+                  <label className="block text-sm text-neutral-500 mb-2">Week Starts</label>
                   <select
                     value={weekStartsOn}
                     onChange={(e) => setWeekStartsOn(Number(e.target.value))}
-                    className={`w-full px-3 py-2 rounded border ${
-                      theme === 'light'
-                        ? 'bg-white border-gray-300 text-gray-900'
-                        : 'bg-slate-800 border-slate-700 text-white'
-                    }`}
+                    className="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded text-white text-sm"
                   >
-                    <option value="0">Sunday</option>
-                    <option value="1">Monday</option>
-                    <option value="6">Saturday</option>
+                    <option value={0}>Sunday</option>
+                    <option value={1}>Monday</option>
+                    <option value={6}>Saturday</option>
                   </select>
                 </div>
               </div>
             </div>
 
-            {/* Feature Demos */}
-            <div className={`p-6 rounded-lg ${
-              theme === 'light' ? 'bg-white border border-gray-200' : 'bg-slate-900 border border-slate-800'
-            }`}>
-              <h3 className={`text-lg font-semibold mb-4 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
-                Try Features
-              </h3>
+            <div className="bg-neutral-950 border border-neutral-800 rounded-xl p-5">
+              <h3 className="text-white font-medium mb-4">Stats</h3>
               <div className="space-y-3">
-                {Object.entries(featureDemos).map(([key, demo]) => (
-                  <button
-                    key={key}
-                    onClick={() => {
-                      setSelectedFeature(key);
-                      demo.action();
-                    }}
-                    className={`w-full text-left p-3 rounded transition-all ${
-                      selectedFeature === key
-                        ? 'bg-teal-500 text-black'
-                        : theme === 'light'
-                          ? 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                          : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
-                    }`}
-                  >
-                    <div className="font-medium text-sm">{demo.title}</div>
-                    <div className={`text-xs mt-1 ${
-                      selectedFeature === key
-                        ? 'text-black/70'
-                        : theme === 'light' ? 'text-gray-500' : 'text-slate-500'
-                    }`}>
-                      {demo.description}
-                    </div>
-                  </button>
-                ))}
+                <div className="flex justify-between">
+                  <span className="text-neutral-500 text-sm">Total Events</span>
+                  <span className="text-white font-medium">{events.length}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-neutral-500 text-sm">Categories</span>
+                  <span className="text-white font-medium">
+                    {[...new Set(events.map((e) => e.category))].length}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-neutral-500 text-sm">View</span>
+                  <span className="text-white font-medium capitalize">{view}</span>
+                </div>
               </div>
             </div>
 
-            {/* Stats Panel */}
-            <div className={`p-6 rounded-lg ${
-              theme === 'light' ? 'bg-white border border-gray-200' : 'bg-slate-900 border border-slate-800'
-            }`}>
-              <h3 className={`text-lg font-semibold mb-4 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
-                Calendar Stats
-              </h3>
-              <div className="space-y-3">
-                <div className={`p-3 rounded ${theme === 'light' ? 'bg-gray-50' : 'bg-slate-800'}`}>
-                  <div className={`text-2xl font-bold ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
-                    {events.length}
-                  </div>
-                  <div className={`text-xs ${theme === 'light' ? 'text-gray-500' : 'text-slate-500'}`}>
-                    Total Events
-                  </div>
-                </div>
-                <div className={`p-3 rounded ${theme === 'light' ? 'bg-gray-50' : 'bg-slate-800'}`}>
-                  <div className={`text-2xl font-bold ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
-                    {events.filter(e => e.recurring).length}
-                  </div>
-                  <div className={`text-xs ${theme === 'light' ? 'text-gray-500' : 'text-slate-500'}`}>
-                    Recurring Events
-                  </div>
-                </div>
-                <div className={`p-3 rounded ${theme === 'light' ? 'bg-gray-50' : 'bg-slate-800'}`}>
-                  <div className={`text-2xl font-bold ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
-                    {[...new Set(events.map(e => e.category))].length}
-                  </div>
-                  <div className={`text-xs ${theme === 'light' ? 'text-gray-500' : 'text-slate-500'}`}>
-                    Categories
-                  </div>
-                </div>
-              </div>
-
+            <div className="bg-neutral-950 border border-neutral-800 rounded-xl p-5">
+              <h3 className="text-white font-medium mb-4">Code</h3>
               <button
                 onClick={() => setShowCode(!showCode)}
-                className={`w-full mt-4 px-4 py-2 rounded font-mono text-sm transition-all ${
-                  showCode
-                    ? 'bg-emerald-500 text-black'
-                    : theme === 'light'
-                      ? 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                      : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+                className={`w-full px-4 py-2 text-sm font-medium rounded transition-colors ${
+                  showCode ? "bg-teal-500 text-black" : "bg-neutral-800 text-white hover:bg-neutral-700"
                 }`}
               >
-                {showCode ? 'Hide' : 'Show'} Code
+                {showCode ? "Hide" : "Show"} Code
               </button>
             </div>
           </div>
 
           {/* Code Preview */}
           {showCode && (
-            <div className={`rounded-lg overflow-hidden mb-8 ${
-              theme === 'light' ? 'bg-gray-900' : 'bg-slate-950'
-            }`}>
-              <div className="flex items-center justify-between p-4 border-b border-slate-800">
-                <h3 className="text-sm font-mono text-slate-400">Generated Code</h3>
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(generateCode());
-                    alert('Code copied to clipboard!');
-                  }}
-                  className="px-3 py-1 text-xs font-mono bg-slate-800 hover:bg-slate-700 text-slate-300 rounded transition-colors"
-                >
-                  Copy Code
-                </button>
+            <div className="mt-4 bg-neutral-950 border border-neutral-800 rounded-xl overflow-hidden">
+              <div className="px-4 py-3 border-b border-neutral-800">
+                <span className="text-xs text-neutral-500">Generated Code</span>
               </div>
-              <pre className="p-4 overflow-x-auto">
-                <code className="text-sm font-mono text-slate-300">
-                  {generateCode()}
-                </code>
+              <pre className="p-4 text-sm font-mono text-neutral-300 overflow-x-auto">
+{`import { Calendar } from '@forcecalendar/core';
+
+const calendar = new Calendar({
+  locale: '${locale}',
+  weekStartsOn: ${weekStartsOn},
+  view: '${view}'
+});
+
+calendar.addEvent({
+  title: 'Team Meeting',
+  start: new Date(),
+  duration: 60
+});`}
               </pre>
             </div>
           )}
 
-          {/* Integration Examples */}
-          <div className={`p-6 rounded-lg ${
-            theme === 'light' ? 'bg-white border border-gray-200' : 'bg-slate-900 border border-slate-800'
-          }`}>
-            <h3 className={`text-lg font-semibold mb-4 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
-              Ready to integrate?
-            </h3>
-            <p className={`mb-6 ${theme === 'light' ? 'text-gray-600' : 'text-slate-400'}`}>
-              Install forceCalendar in your project and start building amazing calendar experiences.
-            </p>
-            <div className="grid md:grid-cols-3 gap-4">
-              <div className={`p-4 rounded border ${
-                theme === 'light' ? 'bg-gray-50 border-gray-200' : 'bg-slate-800 border-slate-700'
-              }`}>
-                <h4 className={`font-mono text-sm mb-2 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
-                  npm
-                </h4>
-                <code className={`text-xs ${theme === 'light' ? 'text-gray-600' : 'text-slate-400'}`}>
-                  npm install @forcecalendar/core
-                </code>
+          {/* Install */}
+          <div className="mt-8 bg-neutral-950 border border-neutral-800 rounded-xl p-6">
+            <h3 className="text-white font-medium mb-4">Ready to integrate?</h3>
+            <div className="grid sm:grid-cols-3 gap-4">
+              <div className="text-center p-4 bg-neutral-900 rounded-lg">
+                <div className="text-sm font-mono text-neutral-400 mb-1">npm</div>
+                <code className="text-xs text-white">npm i @forcecalendar/core</code>
               </div>
-              <div className={`p-4 rounded border ${
-                theme === 'light' ? 'bg-gray-50 border-gray-200' : 'bg-slate-800 border-slate-700'
-              }`}>
-                <h4 className={`font-mono text-sm mb-2 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
-                  CDN
-                </h4>
-                <code className={`text-xs ${theme === 'light' ? 'text-gray-600' : 'text-slate-400'}`}>
-                  unpkg.com/@forcecalendar/core
-                </code>
+              <div className="text-center p-4 bg-neutral-900 rounded-lg">
+                <div className="text-sm font-mono text-neutral-400 mb-1">CDN</div>
+                <code className="text-xs text-white">unpkg.com/@forcecalendar</code>
               </div>
-              <div className={`p-4 rounded border ${
-                theme === 'light' ? 'bg-gray-50 border-gray-200' : 'bg-slate-800 border-slate-700'
-              }`}>
-                <h4 className={`font-mono text-sm mb-2 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
-                  GitHub
-                </h4>
-                <code className={`text-xs ${theme === 'light' ? 'text-gray-600' : 'text-slate-400'}`}>
-                  github.com/forcecalendar
-                </code>
+              <div className="text-center p-4 bg-neutral-900 rounded-lg">
+                <div className="text-sm font-mono text-neutral-400 mb-1">GitHub</div>
+                <code className="text-xs text-white">github.com/forcecalendar</code>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Footer */}
+      <footer className="py-10 px-6 border-t border-neutral-900">
+        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <span className="text-neutral-600 text-sm">MIT License</span>
+          <div className="flex items-center gap-6 text-sm text-neutral-500">
+            <a href="https://docs.forcecalendar.org" className="hover:text-white transition-colors">Docs</a>
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            <Link href="/core" className="hover:text-white transition-colors">Core</Link>
+            <Link href="/interface" className="hover:text-white transition-colors">Interface</Link>
+          </div>
+        </div>
+      </footer>
+
       {/* Event Modal */}
       {showEventModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowEventModal(false)}>
-          <div className={`p-6 rounded-lg max-w-md w-full mx-4 ${
-            theme === 'light' ? 'bg-white' : 'bg-slate-900 border border-slate-800'
-          }`} onClick={e => e.stopPropagation()}>
-            <h3 className={`text-lg font-semibold mb-4 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
+        <div
+          className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
+          onClick={() => setShowEventModal(false)}
+        >
+          <div
+            className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 max-w-md w-full mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-medium text-white mb-4">
               Add Event - {selectedDate?.toLocaleDateString(locale)}
             </h3>
             <input
@@ -907,30 +430,22 @@ console.log('Total events:', events.length);`;
               value={newEventTitle}
               onChange={(e) => setNewEventTitle(e.target.value)}
               placeholder="Event title..."
-              className={`w-full px-3 py-2 rounded border mb-4 ${
-                theme === 'light'
-                  ? 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-                  : 'bg-slate-800 border-slate-700 text-white placeholder-slate-500'
-              }`}
+              className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded text-white placeholder-neutral-500 mb-4"
               autoFocus
             />
             <div className="flex gap-2">
               <button
                 onClick={addEvent}
-                className="flex-1 px-4 py-2 bg-teal-500 text-black font-medium hover:bg-teal-400 transition-colors rounded"
+                className="flex-1 px-4 py-2 bg-teal-500 text-black font-medium rounded hover:bg-teal-400 transition-colors"
               >
-                Add Event
+                Add
               </button>
               <button
                 onClick={() => {
                   setShowEventModal(false);
-                  setNewEventTitle('');
+                  setNewEventTitle("");
                 }}
-                className={`flex-1 px-4 py-2 font-medium transition-colors rounded ${
-                  theme === 'light'
-                    ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    : 'bg-slate-800 text-white hover:bg-slate-700'
-                }`}
+                className="flex-1 px-4 py-2 bg-neutral-800 text-white font-medium rounded hover:bg-neutral-700 transition-colors"
               >
                 Cancel
               </button>
