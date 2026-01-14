@@ -51,10 +51,8 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['var(--font-inter)', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
-        serif: ['var(--font-serif)', 'Cormorant Garamond', 'Georgia', 'serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
         mono: ['SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'monospace'],
-        display: ['Inter Display', '-apple-system', 'sans-serif'],
       },
       fontSize: {
         'xs': ['0.75rem', { lineHeight: '1rem' }],

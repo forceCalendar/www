@@ -115,7 +115,7 @@ export default function PlaygroundPage() {
       <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-neutral-900">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/" className="text-lg font-medium text-white">
-            <span className="font-serif italic">force</span><span className="font-medium">Calendar</span>
+            <span className="italic">force</span>Calendar
           </Link>
           <div className="flex items-center gap-6">
             <a
