@@ -1,336 +1,251 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import React from "react";
+import { useState } from "react";
 import Link from "next/link";
-import Navigation from "@/components/Navigation";
-import VersionBadge from "@/components/VersionBadge";
 
 export default function InterfacePage() {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [activeFramework, setActiveFramework] = useState<'react' | 'vue' | 'angular' | 'lwc'>('react');
-  const [calendarView, setCalendarView] = useState<'month' | 'week' | 'day'>('month');
+  const [activeFramework, setActiveFramework] = useState<"react" | "vue" | "angular" | "lwc">("react");
+  const [calendarView, setCalendarView] = useState<"month" | "week" | "day">("month");
 
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
+  const codeExamples = {
+    react: `import '@forcecalendar/interface';
+
+function App() {
+  return (
+    <force-calendar
+      view="month"
+      locale="en-US"
+      timezone="America/New_York"
+    />
+  );
+}`,
+    vue: `<template>
+  <force-calendar
+    :view="currentView"
+    :date="selectedDate"
+    @event-click="handleEvent"
+  />
+</template>`,
+    angular: `<force-calendar
+  [view]="calendarView"
+  [date]="currentDate"
+  (eventClick)="onEventClick($event)">
+</force-calendar>`,
+    lwc: `<template>
+  <force-calendar
+    view={view}
+    date={currentDate}
+    onselect={handleSelect}>
+  </force-calendar>
+</template>`
+  };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#0a0a0a' }}>
-      {/* Technical Grid Background */}
-      <div className="fixed inset-0 opacity-10 pointer-events-none">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `
-            linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px)
-          `,
-          backgroundSize: '50px 50px'
-        }} />
-      </div>
+    <div className="min-h-screen bg-black">
+      {/* Nav */}
+      <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-neutral-900">
+        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+          <Link href="/" className="text-lg font-medium text-white">
+            <span className="font-serif italic font-normal">force</span>Calendar
+          </Link>
+          <div className="flex items-center gap-6">
+            <a
+              href="https://docs.forcecalendar.org"
+              className="text-sm text-neutral-400 hover:text-white transition-colors"
+            >
+              Docs
+            </a>
+            <Link href="/playground" className="text-sm text-neutral-400 hover:text-white transition-colors">
+              Playground
+            </Link>
+            <a
+              href="https://github.com/forcecalendar"
+              className="text-sm text-neutral-400 hover:text-white transition-colors"
+            >
+              GitHub
+            </a>
+          </div>
+        </div>
+      </nav>
 
-      {/* Navigation */}
-      <Navigation />
+      {/* Hero */}
+      <section className="pt-32 pb-20 px-6">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-xs font-mono text-cyan-500 uppercase tracking-wider mb-4">
+            UI Components
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-white mb-4">
+            @forcecalendar/interface
+          </h1>
+          <p className="text-xl text-neutral-400 mb-8">
+            Production-ready Web Components that work with any framework.
+          </p>
+          <div className="flex flex-wrap items-center gap-4">
+            <code className="px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-lg text-sm text-neutral-300 font-mono">
+              npm install @forcecalendar/interface
+            </code>
+            <Link
+              href="/playground"
+              className="text-sm text-cyan-500 hover:text-cyan-400 transition-colors"
+            >
+              Try Playground →
+            </Link>
+          </div>
+        </div>
+      </section>
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-16">
-        <div className="container-custom">
-          <div className={`max-w-5xl transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-            {/* Product Badge */}
-            <div className="inline-flex items-center gap-2 mb-6">
-              <div className="w-2 h-2 bg-blue-500 animate-pulse" />
-              <span className="text-xs font-mono text-blue-500 uppercase tracking-wider">Web Components UI</span>
-            </div>
-
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6">
-              <span className="bg-gradient-to-br from-blue-400 to-blue-600 bg-clip-text text-transparent">
-                @forcecalendar/interface
-              </span>
-            </h1>
-
-            <p className="text-xl text-slate-400 mb-8 max-w-3xl">
-              Production-ready Web Components that work with any framework.
-              Drop-in calendar UI powered by the forceCalendar core engine.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-12">
-              <button className="group relative px-4 sm:px-6 py-3 bg-blue-500 text-black font-mono text-xs sm:text-sm font-medium overflow-hidden transition-all duration-300">
-                <span className="relative z-10">npm i @forcecalendar/interface</span>
-              </button>
-              <a
-                href="https://github.com/forcecalendar/interface"
-                className="px-4 sm:px-6 py-3 border border-slate-700 text-white font-mono text-xs sm:text-sm hover:bg-slate-900 hover:border-slate-600 transition-all duration-300"
-              >
-                View on GitHub
-              </a>
-              <Link
-                href="/interface/playground"
-                className="px-4 sm:px-6 py-3 border border-blue-500/30 text-blue-500 font-mono text-xs sm:text-sm hover:bg-blue-500/10 transition-all duration-300"
-              >
-                Try Playground
-              </Link>
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto sm:ml-auto mt-4 sm:mt-0 text-xs font-mono text-slate-600">
-                <VersionBadge packageName="@forcecalendar/interface" color="blue" />
-                <span className="hidden sm:inline">•</span>
-                <span>MIT License</span>
-                <span className="hidden sm:inline">•</span>
-                <span>28KB gzipped</span>
+      {/* Live Preview */}
+      <section className="py-12 px-6 border-t border-neutral-900">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-neutral-950 border border-neutral-800 rounded-xl overflow-hidden">
+            {/* Preview Header */}
+            <div className="px-4 py-3 border-b border-neutral-800 flex items-center justify-between">
+              <span className="text-xs text-neutral-500">Live Preview</span>
+              <div className="flex gap-2">
+                {(["month", "week", "day"] as const).map((v) => (
+                  <button
+                    key={v}
+                    onClick={() => setCalendarView(v)}
+                    className={`px-3 py-1 text-xs capitalize transition-colors rounded ${
+                      calendarView === v
+                        ? "bg-cyan-500 text-black"
+                        : "text-neutral-500 hover:text-white"
+                    }`}
+                  >
+                    {v}
+                  </button>
+                ))}
               </div>
             </div>
 
-            {/* Component Preview */}
-            <div className="bg-slate-950 border border-slate-800 p-8 relative overflow-hidden">
-              <div className="absolute top-4 right-4">
-                <span className="text-xs font-mono text-slate-600">LIVE PREVIEW</span>
+            {/* Calendar Preview */}
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-lg font-medium text-white">
+                  {calendarView === "month" && "March 2024"}
+                  {calendarView === "week" && "March 10-16, 2024"}
+                  {calendarView === "day" && "March 15, 2024"}
+                </span>
               </div>
 
-              {/* Simulated Calendar Component */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-semibold">
-                    {calendarView === 'month' && 'March 2024'}
-                    {calendarView === 'week' && 'Week of March 10-16, 2024'}
-                    {calendarView === 'day' && 'Friday, March 15, 2024'}
-                  </h3>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setCalendarView('month')}
-                      className={`px-3 py-1 text-xs border transition-all ${
-                        calendarView === 'month'
-                          ? 'bg-blue-500 text-black border-blue-500'
-                          : 'border-slate-700 hover:bg-slate-900'
-                      }`}>
-                      Month
-                    </button>
-                    <button
-                      onClick={() => setCalendarView('week')}
-                      className={`px-3 py-1 text-xs border transition-all ${
-                        calendarView === 'week'
-                          ? 'bg-blue-500 text-black border-blue-500'
-                          : 'border-slate-700 hover:bg-slate-900'
-                      }`}>
-                      Week
-                    </button>
-                    <button
-                      onClick={() => setCalendarView('day')}
-                      className={`px-3 py-1 text-xs border transition-all ${
-                        calendarView === 'day'
-                          ? 'bg-blue-500 text-black border-blue-500'
-                          : 'border-slate-700 hover:bg-slate-900'
-                      }`}>
-                      Day
-                    </button>
-                  </div>
-                </div>
-
-                {/* Month View */}
-                {calendarView === 'month' && (
-                  <div className="grid grid-cols-7 gap-px bg-slate-800 p-px">
-                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                      <div key={day} className="bg-slate-900 p-3 text-center text-xs text-slate-500 font-mono">
-                        {day}
+              {calendarView === "month" && (
+                <div className="grid grid-cols-7 gap-1">
+                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                    <div key={day} className="py-2 text-center text-xs text-neutral-500">
+                      {day}
+                    </div>
+                  ))}
+                  {Array.from({ length: 35 }, (_, i) => {
+                    const day = i - 4;
+                    const isValid = day >= 1 && day <= 31;
+                    return (
+                      <div
+                        key={i}
+                        className={`p-2 min-h-[60px] border border-neutral-800 ${
+                          isValid ? "hover:bg-neutral-900 cursor-pointer" : "opacity-30"
+                        }`}
+                      >
+                        {isValid && (
+                          <>
+                            <span className="text-sm text-neutral-400">{day}</span>
+                            {day === 15 && (
+                              <div className="mt-1 px-1 py-0.5 bg-cyan-500/20 text-cyan-500 text-xs rounded truncate">
+                                Meeting
+                              </div>
+                            )}
+                          </>
+                        )}
                       </div>
-                    ))}
-                    {/* March 2024 starts on Friday (index 5) and has 31 days */}
-                    {Array.from({ length: 42 }, (_, i) => {
-                      const dayNumber = i - 4; // March starts on Friday (5th cell)
-                      const isCurrentMonth = dayNumber >= 1 && dayNumber <= 31;
-                      const displayDate = isCurrentMonth ? dayNumber : '';
+                    );
+                  })}
+                </div>
+              )}
 
-                      return (
-                        <div key={i} className={`p-3 h-20 border border-slate-900 transition-colors cursor-pointer ${
-                          isCurrentMonth
-                            ? 'bg-slate-950 hover:bg-slate-900/50'
-                            : 'bg-slate-950/30'
-                        }`}>
-                          <span className={`text-xs ${isCurrentMonth ? 'text-slate-400' : 'text-slate-700'}`}>
-                            {displayDate}
-                          </span>
-                          {dayNumber === 15 && (
-                            <div className="mt-1 px-1 py-0.5 bg-blue-500/20 text-blue-500 text-xs truncate">
-                              Team Meeting
-                            </div>
-                          )}
-                          {dayNumber === 8 && (
-                            <div className="mt-1 px-1 py-0.5 bg-emerald-500/20 text-emerald-500 text-xs truncate">
-                              Sprint Planning
-                            </div>
-                          )}
-                          {dayNumber === 22 && (
-                            <div className="mt-1 px-1 py-0.5 bg-purple-500/20 text-purple-500 text-xs truncate">
-                              Code Review
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* Week View */}
-                {calendarView === 'week' && (
-                  <div className="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
-                    <div className="grid grid-cols-8 gap-px bg-slate-800 p-px">
-                      <div className="bg-slate-900 p-3 text-xs text-slate-500 text-center">Time</div>
-                      {['Sun 10', 'Mon 11', 'Tue 12', 'Wed 13', 'Thu 14', 'Fri 15', 'Sat 16'].map(day => (
-                        <div key={day} className="bg-slate-900 p-3 text-center text-xs text-slate-400 font-semibold">
-                          {day}
-                        </div>
-                      ))}
-                      {/* Time slots */}
-                      {['9:00', '10:00', '11:00', '12:00', '1:00', '2:00', '3:00', '4:00', '5:00'].map(time => (
-                        <React.Fragment key={time}>
-                          <div className="bg-slate-900 p-2 text-xs text-slate-500 text-right pr-3">
-                            {time}
-                          </div>
-                          {[0, 1, 2, 3, 4, 5, 6].map(day => (
-                            <div key={day} className="bg-slate-950 p-1 h-12 border-l border-slate-900 hover:bg-slate-900/50 transition-colors">
-                              {time === '10:00' && day === 5 && (
-                                <div className="px-1 py-0.5 bg-blue-500/20 text-blue-400 text-xs truncate">
-                                  Team Meeting
-                                </div>
-                              )}
-                              {time === '2:00' && day === 1 && (
-                                <div className="px-1 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs truncate">
-                                  Sprint Planning
-                                </div>
-                              )}
-                              {time === '3:00' && day === 3 && (
-                                <div className="px-1 py-0.5 bg-purple-500/20 text-purple-400 text-xs truncate">
-                                  Design Review
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </React.Fragment>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Day View */}
-                {calendarView === 'day' && (
-                  <div className="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
-                    <div className="p-4 border-b border-slate-800 bg-slate-900">
-                      <div className="text-sm font-semibold text-blue-400">Friday, March 15, 2024</div>
-                    </div>
-                    <div className="divide-y divide-slate-800">
-                      {[
-                        { time: '9:00 AM', event: null },
-                        { time: '10:00 AM', event: { title: 'Team Meeting', color: 'blue', duration: '1 hour' } },
-                        { time: '11:00 AM', event: null },
-                        { time: '12:00 PM', event: { title: 'Lunch Break', color: 'slate', duration: '1 hour' } },
-                        { time: '1:00 PM', event: null },
-                        { time: '2:00 PM', event: { title: 'Client Call', color: 'emerald', duration: '30 min' } },
-                        { time: '3:00 PM', event: { title: 'Code Review', color: 'purple', duration: '1 hour' } },
-                        { time: '4:00 PM', event: null },
-                        { time: '5:00 PM', event: { title: 'Planning Session', color: 'amber', duration: '45 min' } },
-                      ].map((slot, i) => (
-                        <div key={i} className="flex">
-                          <div className="w-24 p-3 text-xs text-slate-500 text-right">
-                            {slot.time}
-                          </div>
-                          <div className="flex-1 p-3 min-h-[60px] border-l border-slate-800">
-                            {slot.event && (
-                              <div className={`p-2 rounded ${
-                                slot.event.color === 'blue' ? 'bg-blue-500/20 border-l-2 border-blue-500' :
-                                slot.event.color === 'emerald' ? 'bg-emerald-500/20 border-l-2 border-emerald-500' :
-                                slot.event.color === 'purple' ? 'bg-purple-500/20 border-l-2 border-purple-500' :
-                                slot.event.color === 'amber' ? 'bg-amber-500/20 border-l-2 border-amber-500' :
-                                'bg-slate-700/20 border-l-2 border-slate-600'
-                              }`}>
-                                <div className={`text-sm font-medium ${
-                                  slot.event.color === 'blue' ? 'text-blue-400' :
-                                  slot.event.color === 'emerald' ? 'text-emerald-400' :
-                                  slot.event.color === 'purple' ? 'text-purple-400' :
-                                  slot.event.color === 'amber' ? 'text-amber-400' :
-                                  'text-slate-400'
-                                }`}>
-                                  {slot.event.title}
-                                </div>
-                                <div className="text-xs text-slate-500 mt-1">
-                                  {slot.event.duration}
-                                </div>
+              {calendarView === "week" && (
+                <div className="space-y-2">
+                  {["9:00", "10:00", "11:00", "12:00", "1:00", "2:00"].map((time) => (
+                    <div key={time} className="flex gap-2">
+                      <span className="w-16 text-xs text-neutral-500 text-right pt-2">{time}</span>
+                      <div className="flex-1 grid grid-cols-7 gap-1">
+                        {Array.from({ length: 7 }, (_, i) => (
+                          <div
+                            key={i}
+                            className="h-12 border border-neutral-800 hover:bg-neutral-900 cursor-pointer"
+                          >
+                            {time === "10:00" && i === 5 && (
+                              <div className="m-1 px-1 py-0.5 bg-cyan-500/20 text-cyan-500 text-xs rounded truncate">
+                                Meeting
                               </div>
                             )}
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  ))}
+                </div>
+              )}
 
-              <div className="mt-6 p-3 bg-slate-900 border border-slate-800 font-mono text-xs">
-                <span className="text-slate-500">&lt;</span>
-                <span className="text-blue-400">force-calendar</span>
-                <span className="text-emerald-400"> view</span>
-                <span className="text-slate-300">=</span>
-                <span className="text-amber-500">"{calendarView}"</span>
-                <span className="text-emerald-400"> locale</span>
-                <span className="text-slate-300">=</span>
-                <span className="text-amber-500">"en-US"</span>
-                {calendarView === 'day' && (
-                  <>
-                    <span className="text-emerald-400"> date</span>
-                    <span className="text-slate-300">=</span>
-                    <span className="text-amber-500">"2024-03-15"</span>
-                  </>
-                )}
-                <span className="text-slate-500"> /&gt;</span>
-              </div>
+              {calendarView === "day" && (
+                <div className="space-y-2">
+                  {[
+                    { time: "9:00 AM", event: null },
+                    { time: "10:00 AM", event: { title: "Team Meeting", color: "cyan" } },
+                    { time: "11:00 AM", event: null },
+                    { time: "12:00 PM", event: { title: "Lunch", color: "neutral" } },
+                    { time: "2:00 PM", event: { title: "Client Call", color: "teal" } },
+                  ].map((slot, i) => (
+                    <div key={i} className="flex gap-4">
+                      <span className="w-20 text-xs text-neutral-500 text-right pt-2">{slot.time}</span>
+                      <div className="flex-1 min-h-[48px] border-l border-neutral-800 pl-4">
+                        {slot.event && (
+                          <div
+                            className={`px-3 py-2 rounded ${
+                              slot.event.color === "cyan"
+                                ? "bg-cyan-500/20 text-cyan-400 border-l-2 border-cyan-500"
+                                : slot.event.color === "teal"
+                                ? "bg-teal-500/20 text-teal-400 border-l-2 border-teal-500"
+                                : "bg-neutral-800 text-neutral-400 border-l-2 border-neutral-600"
+                            }`}
+                          >
+                            <span className="text-sm">{slot.event.title}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Component Tag */}
+            <div className="px-4 py-3 border-t border-neutral-800 bg-neutral-900/50">
+              <code className="text-xs text-neutral-400 font-mono">
+                &lt;force-calendar view=&quot;{calendarView}&quot; locale=&quot;en-US&quot; /&gt;
+              </code>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Components Showcase */}
-      <section className="py-16 border-t border-slate-800">
-        <div className="container-custom">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">Available Components</h2>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Components */}
+      <section className="py-20 px-6 border-t border-neutral-900">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-semibold text-white mb-8">Components</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              {
-                name: '<force-calendar>',
-                description: 'Complete calendar with navigation, views, and event management',
-                features: ['Multiple views', 'Event CRUD', 'Keyboard nav', 'Touch support']
-              },
-              {
-                name: '<force-month-view>',
-                description: 'Standalone month grid view with event rendering',
-                features: ['Grid layout', 'Event dots', 'Day selection', 'Overflow handling']
-              },
-              {
-                name: '<force-week-view>',
-                description: 'Weekly timeline with hourly slots',
-                features: ['Time grid', 'All-day section', 'Event stacking', 'Current time']
-              },
-              {
-                name: '<force-day-view>',
-                description: 'Daily agenda with detailed time slots',
-                features: ['24-hour view', 'Event details', 'Conflict display', 'Business hours']
-              },
-              {
-                name: '<force-event-form>',
-                description: 'Event creation and editing modal',
-                features: ['Validation', 'Recurrence UI', 'Attachments', 'Attendees']
-              },
-              {
-                name: '<force-date-picker>',
-                description: 'Accessible date selection component',
-                features: ['Keyboard nav', 'Range selection', 'Disabled dates', 'Custom format']
-              }
-            ].map((component, i) => (
-              <div key={i} className="bg-slate-900 border border-slate-800 p-6 hover:border-blue-500/50 transition-all duration-300">
-                <h3 className="font-mono text-blue-400 mb-3">{component.name}</h3>
-                <p className="text-sm text-slate-400 mb-4">{component.description}</p>
-                <ul className="space-y-1">
-                  {component.features.map((feature, j) => (
-                    <li key={j} className="flex items-center gap-2 text-xs text-slate-500">
-                      <span className="text-blue-500/50">•</span> {feature}
-                    </li>
-                  ))}
-                </ul>
+              { name: "<force-calendar>", desc: "Complete calendar with all views" },
+              { name: "<force-month-view>", desc: "Standalone month grid" },
+              { name: "<force-week-view>", desc: "Weekly timeline with hours" },
+              { name: "<force-day-view>", desc: "Daily agenda view" },
+              { name: "<force-event-form>", desc: "Event creation modal" },
+              { name: "<force-date-picker>", desc: "Date selection component" },
+            ].map((comp) => (
+              <div
+                key={comp.name}
+                className="bg-neutral-950 border border-neutral-800 rounded-xl p-5 hover:border-neutral-700 transition-colors"
+              >
+                <code className="text-cyan-400 text-sm font-mono">{comp.name}</code>
+                <p className="text-sm text-neutral-500 mt-2">{comp.desc}</p>
               </div>
             ))}
           </div>
@@ -338,246 +253,126 @@ export default function InterfacePage() {
       </section>
 
       {/* Framework Integration */}
-      <section className="py-16 border-t border-slate-800">
-        <div className="container-custom">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">Works With Any Framework</h2>
+      <section className="py-20 px-6 border-t border-neutral-900">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-semibold text-white mb-8">Works with any framework</h2>
 
           {/* Framework Tabs */}
-          <div className="flex flex-wrap items-center gap-2 mb-8">
-            {[
-              { id: 'react', name: 'React', icon: '⚛️' },
-              { id: 'vue', name: 'Vue', icon: '💚' },
-              { id: 'angular', name: 'Angular', icon: '🔴' },
-              { id: 'lwc', name: 'Salesforce', icon: '⚡' }
-            ].map((fw) => (
+          <div className="flex gap-2 mb-6">
+            {(["react", "vue", "angular", "lwc"] as const).map((fw) => (
               <button
-                key={fw.id}
-                onClick={() => setActiveFramework(fw.id as any)}
-                className={`px-3 sm:px-4 py-2 font-mono text-xs sm:text-sm transition-all duration-300 border ${
-                  activeFramework === fw.id
-                    ? 'bg-blue-500/10 border-blue-500 text-blue-500'
-                    : 'border-slate-700 text-slate-500 hover:text-slate-300 hover:border-slate-600'
+                key={fw}
+                onClick={() => setActiveFramework(fw)}
+                className={`px-4 py-2 text-sm capitalize transition-colors rounded-lg ${
+                  activeFramework === fw
+                    ? "bg-cyan-500/20 text-cyan-500 border border-cyan-500/30"
+                    : "text-neutral-500 hover:text-white border border-neutral-800"
                 }`}
               >
-                <span className="mr-1 sm:mr-2">{fw.icon}</span>
-                <span className="hidden sm:inline">{fw.name}</span>
-                <span className="sm:hidden">{fw.id === 'lwc' ? 'SF' : fw.name}</span>
+                {fw === "lwc" ? "Salesforce" : fw}
               </button>
             ))}
           </div>
 
-          {/* Code Examples */}
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Installation</h3>
-              <div className="bg-slate-950 border border-slate-800 p-4 font-mono text-sm">
-                <span className="text-slate-500">$</span> npm install @forcecalendar/interface
-              </div>
-
-              <h3 className="text-lg font-semibold mb-4 mt-8">Import</h3>
-              <div className="bg-slate-950 border border-slate-800 p-4 font-mono text-sm overflow-x-auto">
-                <code className="text-slate-300">
-                  {activeFramework === 'react' && `import '@forcecalendar/interface';
-
-// Components auto-register as custom elements`}
-                  {activeFramework === 'vue' && `import '@forcecalendar/interface';
-
-// Use in templates directly`}
-                  {activeFramework === 'angular' && `import '@forcecalendar/interface';
-
-// Add CUSTOM_ELEMENTS_SCHEMA to module`}
-                  {activeFramework === 'lwc' && `// In staticresources
-import FORCE_CALENDAR from '@salesforce/resourceUrl/forceCalendar';
-loadScript(this, FORCE_CALENDAR);`}
-                </code>
-              </div>
+          {/* Code Example */}
+          <div className="bg-neutral-950 border border-neutral-800 rounded-xl overflow-hidden">
+            <div className="px-4 py-3 border-b border-neutral-800 flex items-center justify-between">
+              <span className="text-xs text-neutral-500">Example</span>
+              <span className="text-xs font-mono text-cyan-500">
+                {activeFramework === "react" && "App.jsx"}
+                {activeFramework === "vue" && "App.vue"}
+                {activeFramework === "angular" && "app.component.html"}
+                {activeFramework === "lwc" && "calendar.html"}
+              </span>
             </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Usage</h3>
-              <div className="bg-slate-950 border border-slate-800 overflow-hidden">
-                <div className="px-4 py-2 border-b border-slate-800 flex items-center justify-between">
-                  <span className="text-xs font-mono text-slate-500">EXAMPLE</span>
-                  <span className="text-xs font-mono text-blue-500">
-                    {activeFramework === 'react' && 'App.jsx'}
-                    {activeFramework === 'vue' && 'App.vue'}
-                    {activeFramework === 'angular' && 'app.component.html'}
-                    {activeFramework === 'lwc' && 'calendar.html'}
-                  </span>
-                </div>
-                <pre className="p-4 text-sm font-mono overflow-x-auto">
-                  <code className="text-slate-300">
-                    {activeFramework === 'react' && `function CalendarApp() {
-  const calendarRef = useRef();
-
-  useEffect(() => {
-    const calendar = calendarRef.current;
-    calendar.addEventListener('eventClick', handleEvent);
-  }, []);
-
-  return (
-    <force-calendar
-      ref={calendarRef}
-      view="month"
-      timezone="America/New_York"
-      locale="en-US"
-    />
-  );
-}`}
-                    {activeFramework === 'vue' && `<template>
-  <force-calendar
-    :view="currentView"
-    :date="selectedDate"
-    @event-click="handleEventClick"
-    @date-change="handleDateChange"
-  />
-</template>
-
-<script setup>
-const currentView = ref('month');
-const selectedDate = ref(new Date());
-</script>`}
-                    {activeFramework === 'angular' && `<force-calendar
-  [view]="calendarView"
-  [date]="currentDate"
-  (eventClick)="onEventClick($event)"
-  (dateChange)="onDateChange($event)">
-</force-calendar>
-
-<!-- Component needs CUSTOM_ELEMENTS_SCHEMA -->`}
-                    {activeFramework === 'lwc' && `<template>
-  <force-calendar
-    view={view}
-    date={currentDate}
-    locale={userLocale}
-    onselect={handleSelect}>
-  </force-calendar>
-</template>
-
-<!-- Works with Locker Service -->`}
-                  </code>
-                </pre>
-              </div>
-            </div>
+            <pre className="p-4 text-sm font-mono text-neutral-300 overflow-x-auto">
+              <code>{codeExamples[activeFramework]}</code>
+            </pre>
           </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="py-16 border-t border-slate-800">
-        <div className="container-custom">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">Built for Production</h2>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-slate-800 p-px">
+      <section className="py-20 px-6 border-t border-neutral-900">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-semibold text-white mb-10">Built for production</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
-              { icon: '🎯', title: 'Web Standards', desc: 'Custom Elements v1' },
-              { icon: '🔐', title: 'Shadow DOM', desc: 'Style encapsulation' },
-              { icon: '♿', title: 'Accessible', desc: 'WCAG 2.1 AA compliant' },
-              { icon: '🎨', title: 'Themeable', desc: 'CSS custom properties' },
-              { icon: '📱', title: 'Responsive', desc: 'Mobile optimized' },
-              { icon: '⚡', title: 'Fast', desc: 'Virtual scrolling' },
-              { icon: '🌐', title: 'i18n Ready', desc: '40+ locales' },
-              { icon: '🧪', title: 'Tested', desc: '95% coverage' }
-            ].map((feature, i) => (
-              <div key={i} className="bg-slate-950 p-6 text-center group hover:bg-slate-900/50 transition-colors">
-                <div className="text-2xl mb-2">{feature.icon}</div>
-                <h3 className="text-sm font-semibold mb-1">{feature.title}</h3>
-                <p className="text-xs text-slate-500">{feature.desc}</p>
+              { title: "Web Standards", desc: "Custom Elements v1" },
+              { title: "Shadow DOM", desc: "Style encapsulation" },
+              { title: "Accessible", desc: "WCAG 2.1 AA" },
+              { title: "Themeable", desc: "CSS custom properties" },
+              { title: "Responsive", desc: "Mobile optimized" },
+              { title: "Fast", desc: "Virtual scrolling" },
+              { title: "i18n Ready", desc: "40+ locales" },
+              { title: "Tested", desc: "95% coverage" },
+            ].map((feature) => (
+              <div key={feature.title} className="text-center p-4">
+                <h3 className="text-white font-medium text-sm">{feature.title}</h3>
+                <p className="text-xs text-neutral-500 mt-1">{feature.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Customization */}
-      <section className="py-16 border-t border-slate-800">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">Easy Customization</h2>
-
-            <div className="bg-slate-950 border border-slate-800 overflow-hidden">
-              <div className="px-4 py-3 border-b border-slate-800 flex items-center justify-between">
-                <span className="text-xs font-mono text-slate-500">CSS VARIABLES</span>
-                <span className="text-xs font-mono text-blue-500">styles.css</span>
-              </div>
-              <pre className="p-6 text-sm font-mono overflow-x-auto">
-                <code className="text-slate-300">{`force-calendar {
-  /* Colors */
+      {/* Theming */}
+      <section className="py-20 px-6 border-t border-neutral-900">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-semibold text-white mb-6">Easy theming</h2>
+          <div className="bg-neutral-950 border border-neutral-800 rounded-xl overflow-hidden">
+            <div className="px-4 py-3 border-b border-neutral-800">
+              <span className="text-xs text-neutral-500">CSS Custom Properties</span>
+            </div>
+            <pre className="p-4 text-sm font-mono text-neutral-300 overflow-x-auto">
+{`force-calendar {
   --fc-primary: #3b82f6;
   --fc-background: #0f172a;
-  --fc-surface: #1e293b;
   --fc-border: #334155;
-
-  /* Typography */
   --fc-font-family: 'Inter', system-ui;
-  --fc-font-size: 14px;
-
-  /* Spacing */
-  --fc-spacing: 1rem;
-  --fc-radius: 0.375rem;
-
-  /* Calendar specific */
-  --fc-cell-height: 100px;
-  --fc-header-height: 48px;
-  --fc-event-padding: 0.25rem;
-}`}</code>
-              </pre>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6 mt-8">
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-500/10 border border-blue-500/30 rounded-lg mb-3">
-                  <span className="text-2xl">🎨</span>
-                </div>
-                <h3 className="font-semibold mb-1">Theme Presets</h3>
-                <p className="text-sm text-slate-400">Light, dark, and high contrast themes included</p>
-              </div>
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-500/10 border border-blue-500/30 rounded-lg mb-3">
-                  <span className="text-2xl">🔧</span>
-                </div>
-                <h3 className="font-semibold mb-1">Custom Renderers</h3>
-                <p className="text-sm text-slate-400">Override any component's render method</p>
-              </div>
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-500/10 border border-blue-500/30 rounded-lg mb-3">
-                  <span className="text-2xl">📦</span>
-                </div>
-                <h3 className="font-semibold mb-1">Tree Shakeable</h3>
-                <p className="text-sm text-slate-400">Import only the components you need</p>
-              </div>
-            </div>
+  --fc-border-radius: 0.375rem;
+}`}
+            </pre>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 border-t border-slate-800">
-        <div className="container-custom">
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready to Get Started?
-            </h2>
-            <p className="text-slate-400 mb-8">
-              Add a production-ready calendar to your application in minutes.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/interface/docs"
-                className="px-6 py-3 bg-blue-500 text-black font-mono text-sm font-medium hover:bg-blue-400 transition-colors"
-              >
-                Read Documentation
-              </Link>
-              <Link
-                href="/interface/playground"
-                className="px-6 py-3 border border-slate-700 text-white font-mono text-sm hover:bg-slate-900 hover:border-slate-600 transition-all duration-300"
-              >
-                Try Playground
-              </Link>
-            </div>
+      <section className="py-20 px-6 border-t border-neutral-900">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-2xl font-semibold text-white mb-4">Get started</h2>
+          <p className="text-neutral-400 mb-8">
+            Add a production-ready calendar to your application in minutes.
+          </p>
+          <div className="flex justify-center gap-4">
+            <Link
+              href="/playground"
+              className="px-5 py-2.5 bg-cyan-600 text-white text-sm font-medium rounded-lg hover:bg-cyan-500 transition-colors"
+            >
+              Try Playground
+            </Link>
+            <a
+              href="https://github.com/forcecalendar/interface"
+              className="px-5 py-2.5 border border-neutral-800 text-white text-sm font-medium rounded-lg hover:bg-neutral-900 transition-colors"
+            >
+              View on GitHub
+            </a>
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="py-10 px-6 border-t border-neutral-900">
+        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <span className="text-neutral-600 text-sm">MIT License</span>
+          <div className="flex items-center gap-6 text-sm text-neutral-500">
+            <a href="https://docs.forcecalendar.org" className="hover:text-white transition-colors">Docs</a>
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            <Link href="/core" className="hover:text-white transition-colors">Core</Link>
+            <Link href="/playground" className="hover:text-white transition-colors">Playground</Link>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

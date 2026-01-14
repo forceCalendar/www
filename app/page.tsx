@@ -148,6 +148,12 @@ export default function Home() {
             <span className="font-serif italic font-normal">force</span>Calendar
           </Link>
           <div className="flex items-center gap-6">
+            <a
+              href="https://docs.forcecalendar.org"
+              className="text-sm text-neutral-400 hover:text-white transition-colors"
+            >
+              Docs
+            </a>
             <Link href="/playground" className="text-sm text-neutral-400 hover:text-white transition-colors">
               Playground
             </Link>
@@ -270,6 +276,9 @@ export default function Home() {
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <span className="text-neutral-600 text-sm">MIT License</span>
           <div className="flex items-center gap-6 text-sm text-neutral-500">
+            <a href="https://docs.forcecalendar.org" className="hover:text-white transition-colors">
+              Docs
+            </a>
             <a href="https://github.com/forcecalendar" className="hover:text-white transition-colors">
               GitHub
             </a>
