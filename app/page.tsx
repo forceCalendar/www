@@ -145,7 +145,7 @@ export default function Home() {
       <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-neutral-900">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/" className="text-lg font-medium text-white">
-            <span className="font-serif italic font-normal">force</span>Calendar
+            <span className="font-serif italic">force</span><span className="font-medium">Calendar</span>
           </Link>
           <div className="flex items-center gap-6">
             <a
@@ -171,7 +171,7 @@ export default function Home() {
       <section className="pt-32 pb-24 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-white">
-            <span className="font-serif italic font-normal">force</span>Calendar
+            <span className="font-serif italic">force</span><span className="font-medium">Calendar</span>
           </h1>
           <p className="mt-6 text-xl text-neutral-400 max-w-xl mx-auto">
             Calendar infrastructure for enterprise security.
