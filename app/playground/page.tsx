@@ -98,9 +98,7 @@ export default function PlaygroundPage() {
   const navigate = (dir: number) => {
     setCurrentDate((prev) => {
       const next = new Date(prev);
-      if (view === "month") next.setMonth(next.getMonth() + dir);
-      else if (view === "week") next.setDate(next.getDate() + dir * 7);
-      else next.setDate(next.getDate() + dir);
+      next.setMonth(next.getMonth() + dir);
       return next;
     });
   };
