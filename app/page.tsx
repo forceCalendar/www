@@ -238,7 +238,7 @@ export default function Home() {
             <span className="italic">force</span>Calendar
           </h1>
           <p className="mt-6 text-xl text-neutral-400 max-w-xl mx-auto">
-            Calendar infrastructure for enterprise security.
+            Calendar infrastructure for your custom enterprise apps.
           </p>
           <div className="mt-10">
             <code className="inline-block px-5 py-3 bg-neutral-900 border border-neutral-800 rounded-lg text-sm text-neutral-300 font-mono">
