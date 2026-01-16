@@ -12,20 +12,18 @@ export default function Navigation() {
   // Determine active section
   const isCore = pathname.startsWith('/core');
   const isInterface = pathname.startsWith('/interface');
-  const isHome = pathname === '/';
 
   return (
     <nav className="fixed top-0 w-full z-50 glass-premium" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-violet/5 to-transparent pointer-events-none" />
       <div className="container-custom flex items-center justify-between h-16 relative">
-        {/* Logo with Premium Typography */}
+        {/* Logo */}
         <Link
           href="/"
           className="flex items-center space-x-3 group"
         >
-          <span className="text-xl tracking-tight">
-            <em className="font-light italic" style={{ fontFamily: 'Georgia, serif', background: 'linear-gradient(135deg, var(--violet), var(--cyan))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>force</em>
-            <strong className="font-bold bg-gradient-to-r from-white via-white to-gray-300 bg-clip-text text-transparent">Calendar</strong>
+          <span className="text-lg font-medium text-white">
+            <span className="italic">force</span>Calendar
           </span>
           {isCore && (
             <span className="glass-premium px-3 py-1 rounded-full text-xs font-mono-custom uppercase tracking-wider"
