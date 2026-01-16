@@ -1,206 +1,4 @@
-"use client";
-
-import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-
-// ============================================================================
-// CALENDAR DEMO COMPONENT
-// ============================================================================
-
-function CalendarDemo() {
-  const [currentDate, setCurrentDate] = useState(() => new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
-  // Generate events relative to current month
-  const getEventsForCurrentMonth = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    return [
-      { id: 1, title: "Product Launch", date: new Date(year, month, 15), color: "teal" },
-      { id: 2, title: "Team Standup", date: new Date(year, month, 10), color: "blue" },
-      { id: 3, title: "Sprint Review", date: new Date(year, month, 22), color: "violet" },
-      { id: 4, title: "Client Meeting", date: new Date(year, month, 8), color: "amber" },
-      { id: 5, title: "Code Review", date: new Date(year, month, 18), color: "emerald" },
-    ];
-  };
-
-  const [events] = useState(getEventsForCurrentMonth);
-
-  const getEventColorClasses = (color: string) => {
-    const colors: Record<string, { bg: string; text: string }> = {
-      teal: { bg: "rgba(20, 184, 166, 0.2)", text: "#14b8a6" },
-      blue: { bg: "rgba(59, 130, 246, 0.2)", text: "#3b82f6" },
-      violet: { bg: "rgba(139, 92, 246, 0.2)", text: "#8b5cf6" },
-      amber: { bg: "rgba(245, 158, 11, 0.2)", text: "#f59e0b" },
-      emerald: { bg: "rgba(16, 185, 129, 0.2)", text: "#10b981" },
-    };
-    return colors[color] || colors.violet;
-  };
-
-  const today = new Date();
-
-  const getDaysInMonth = (date: Date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const daysInMonth = lastDay.getDate();
-    const startingDay = firstDay.getDay();
-    const days: (Date | null)[] = [];
-
-    for (let i = 0; i < startingDay; i++) days.push(null);
-    for (let i = 1; i <= daysInMonth; i++) days.push(new Date(year, month, i));
-
-    return days;
-  };
-
-  const getEventsForDate = (date: Date | null) => {
-    if (!date) return [];
-    return events.filter(
-      (e) =>
-        e.date.getDate() === date.getDate() &&
-        e.date.getMonth() === date.getMonth() &&
-        e.date.getFullYear() === date.getFullYear()
-    );
-  };
-
-  const formatMonth = (date: Date) =>
-    date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-
-  const navigate = useCallback((dir: number) => {
-    setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + dir, 1));
-  }, []);
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") navigate(-1);
-      if (e.key === "ArrowRight") navigate(1);
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [navigate]);
-
-  const isToday = (date: Date | null) => {
-    if (!date) return false;
-    return (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
-    );
-  };
-
-  const days = getDaysInMonth(currentDate);
-  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-  return (
-    <div className="w-full max-w-3xl mx-auto animate-fade-in">
-      <div className="border border-neutral-800 rounded-xl overflow-hidden bg-neutral-950">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-neutral-800">
-          <button
-            onClick={() => navigate(-1)}
-            className="p-2 hover:bg-neutral-800 rounded-lg transition-all duration-200 hover:scale-105"
-            aria-label="Previous month"
-          >
-            <svg className="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <div className="flex items-center gap-3">
-            <span className="text-lg font-medium text-white">{formatMonth(currentDate)}</span>
-            <button
-              onClick={() => setCurrentDate(new Date())}
-              className="px-2 py-1 text-xs text-neutral-400 hover:text-white hover:bg-neutral-800 rounded transition-colors"
-            >
-              Today
-            </button>
-          </div>
-          <button
-            onClick={() => navigate(1)}
-            className="p-2 hover:bg-neutral-800 rounded-lg transition-all duration-200 hover:scale-105"
-            aria-label="Next month"
-          >
-            <svg className="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
-
-        {/* Keyboard hint */}
-        <div className="px-4 py-2 border-b border-neutral-800 bg-neutral-900/50">
-          <span className="text-xs text-neutral-500">Use arrow keys to navigate months</span>
-        </div>
-
-        {/* Weekdays */}
-        <div className="grid grid-cols-7 border-b border-neutral-800">
-          {weekdays.map((day) => (
-            <div key={day} className="py-3 text-center text-xs font-medium text-neutral-500">
-              {day}
-            </div>
-          ))}
-        </div>
-
-        {/* Days */}
-        <div className="grid grid-cols-7">
-          {days.map((day, i) => {
-            const dayEvents = getEventsForDate(day);
-            const isTodayDate = isToday(day);
-            const isSelected = selectedDate && day &&
-              selectedDate.getDate() === day.getDate() &&
-              selectedDate.getMonth() === day.getMonth();
-
-            return (
-              <div
-                key={i}
-                onClick={() => day && setSelectedDate(day)}
-                className={`
-                  min-h-[80px] p-2 border-b border-r border-neutral-800 cursor-pointer
-                  transition-all duration-200
-                  ${day ? "hover:bg-neutral-900 hover:border-neutral-600" : "bg-neutral-950/50"}
-                  ${isSelected ? "bg-neutral-800 ring-1 ring-violet-500/50" : ""}
-                  ${isTodayDate ? "bg-teal-500/10 border-teal-500/30" : ""}
-                  ${i % 7 === 6 ? "border-r-0" : ""}
-                `}
-              >
-                {day && (
-                  <>
-                    <div className={`text-sm mb-1 ${isTodayDate ? "text-teal-400 font-bold" : "text-neutral-300"}`}>
-                      {day.getDate()}
-                      {isTodayDate && <span className="ml-1 text-xs font-normal">(today)</span>}
-                    </div>
-                    <div className="space-y-1">
-                      {dayEvents.slice(0, 2).map((event) => {
-                        const colors = getEventColorClasses(event.color);
-                        return (
-                          <div
-                            key={event.id}
-                            className="text-xs px-1.5 py-0.5 rounded truncate transition-transform hover:scale-[1.02]"
-                            style={{ backgroundColor: colors.bg, color: colors.text }}
-                          >
-                            {event.title}
-                          </div>
-                        );
-                      })}
-                      {dayEvents.length > 2 && (
-                        <div className="text-xs text-neutral-600">+{dayEvents.length - 2} more</div>
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ============================================================================
-// MAIN PAGE
-// ============================================================================
 
 export default function Home() {
   return (
@@ -302,14 +100,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Demo */}
+      {/* Try It */}
       <section className="py-20 px-6 border-t border-neutral-900">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl font-semibold text-white mb-3">See it work</h2>
-            <p className="text-neutral-500">Click any date to select. Navigate between months.</p>
-          </div>
-          <CalendarDemo />
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-2xl font-semibold text-white mb-4">See it in action</h2>
+          <p className="text-neutral-500 mb-8">
+            Try the real @forcecalendar/interface components in our interactive playground.
+          </p>
+          <Link
+            href="/playground"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-black font-medium rounded-lg hover:bg-teal-400 transition-colors"
+          >
+            Open Playground
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
         </div>
       </section>
 
