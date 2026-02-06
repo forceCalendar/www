@@ -185,6 +185,27 @@ export default function Home() {
               <span className="text-sm text-cyan-500 group-hover:text-cyan-400 transition-colors">Learn more -&gt;</span>
             </Link>
           </div>
+
+          <div className="mt-10 p-6 rounded-2xl bg-neutral-950 border border-neutral-900">
+            <h3 className="text-lg font-semibold text-white mb-2">Why this architecture?</h3>
+            <p className="text-neutral-400 mb-5">
+              Many calendar tools ship as a tightly bundled UI plus logic package. forceCalendar separates concerns so enterprise teams can adapt faster under strict runtime and security requirements.
+            </p>
+            <div className="grid md:grid-cols-3 gap-4 text-sm">
+              <div className="rounded-lg border border-neutral-900 bg-black/30 p-4">
+                <p className="text-white font-medium mb-2">@forcecalendar/core</p>
+                <p className="text-neutral-400">Headless scheduling engine that is easy to test, secure, and reuse across products.</p>
+              </div>
+              <div className="rounded-lg border border-neutral-900 bg-black/30 p-4">
+                <p className="text-white font-medium mb-2">@forcecalendar/interface</p>
+                <p className="text-neutral-400">Framework-agnostic UI components powered by Core, so teams ship interface faster.</p>
+              </div>
+              <div className="rounded-lg border border-neutral-900 bg-black/30 p-4">
+                <p className="text-white font-medium mb-2">Your App</p>
+                <p className="text-neutral-400">Business rules, workflows, and domain UX stay in your codebase where they belong.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
