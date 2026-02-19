@@ -1,11 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 export default function InterfacePage() {
   const [activeFramework, setActiveFramework] = useState<"react" | "vue" | "angular" | "lwc">("react");
   const [calendarView, setCalendarView] = useState<"month" | "week" | "day">("month");
+  const [isLoaded, setIsLoaded] = useState(false);
+  const calendarRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    import("@forcecalendar/interface").then(() => setIsLoaded(true)).catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (calendarRef.current && isLoaded) {
+      calendarRef.current.setAttribute("view", calendarView);
+    }
+  }, [calendarView, isLoaded]);
 
   const codeExamples = {
     react: `import '@forcecalendar/interface';
@@ -118,102 +130,20 @@ function App() {
               </div>
             </div>
 
-            {/* Calendar Preview */}
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-lg font-medium text-white">
-                  {calendarView === "month" && "March 2024"}
-                  {calendarView === "week" && "March 10-16, 2024"}
-                  {calendarView === "day" && "March 15, 2024"}
-                </span>
-              </div>
-
-              {calendarView === "month" && (
-                <div className="grid grid-cols-7 gap-1">
-                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                    <div key={day} className="py-2 text-center text-xs text-neutral-500">
-                      {day}
-                    </div>
-                  ))}
-                  {Array.from({ length: 35 }, (_, i) => {
-                    const day = i - 4;
-                    const isValid = day >= 1 && day <= 31;
-                    return (
-                      <div
-                        key={i}
-                        className={`p-2 min-h-[60px] border border-neutral-800 ${
-                          isValid ? "hover:bg-neutral-900 cursor-pointer" : "opacity-30"
-                        }`}
-                      >
-                        {isValid && (
-                          <>
-                            <span className="text-sm text-neutral-400">{day}</span>
-                            {day === 15 && (
-                              <div className="mt-1 px-1 py-0.5 bg-cyan-500/20 text-cyan-500 text-xs rounded truncate">
-                                Meeting
-                              </div>
-                            )}
-                          </>
-                        )}
-                      </div>
-                    );
-                  })}
+            {/* Real Calendar Component */}
+            <div className="p-2" style={{ minHeight: 420 }}>
+              {!isLoaded ? (
+                <div className="flex items-center justify-center h-96">
+                  <div className="inline-block w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
                 </div>
-              )}
-
-              {calendarView === "week" && (
-                <div className="space-y-2">
-                  {["9:00", "10:00", "11:00", "12:00", "1:00", "2:00"].map((time) => (
-                    <div key={time} className="flex gap-2">
-                      <span className="w-16 text-xs text-neutral-500 text-right pt-2">{time}</span>
-                      <div className="flex-1 grid grid-cols-7 gap-1">
-                        {Array.from({ length: 7 }, (_, i) => (
-                          <div
-                            key={i}
-                            className="h-12 border border-neutral-800 hover:bg-neutral-900 cursor-pointer"
-                          >
-                            {time === "10:00" && i === 5 && (
-                              <div className="m-1 px-1 py-0.5 bg-cyan-500/20 text-cyan-500 text-xs rounded truncate">
-                                Meeting
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {calendarView === "day" && (
-                <div className="space-y-2">
-                  {[
-                    { time: "9:00 AM", event: null },
-                    { time: "10:00 AM", event: { title: "Team Meeting", color: "cyan" } },
-                    { time: "11:00 AM", event: null },
-                    { time: "12:00 PM", event: { title: "Lunch", color: "neutral" } },
-                    { time: "2:00 PM", event: { title: "Client Call", color: "teal" } },
-                  ].map((slot, i) => (
-                    <div key={i} className="flex gap-4">
-                      <span className="w-20 text-xs text-neutral-500 text-right pt-2">{slot.time}</span>
-                      <div className="flex-1 min-h-[48px] border-l border-neutral-800 pl-4">
-                        {slot.event && (
-                          <div
-                            className={`px-3 py-2 rounded ${
-                              slot.event.color === "cyan"
-                                ? "bg-cyan-500/20 text-cyan-400 border-l-2 border-cyan-500"
-                                : slot.event.color === "teal"
-                                ? "bg-teal-500/20 text-teal-400 border-l-2 border-teal-500"
-                                : "bg-neutral-800 text-neutral-400 border-l-2 border-neutral-600"
-                            }`}
-                          >
-                            <span className="text-sm">{slot.event.title}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              ) : (
+                // @ts-expect-error - forcecal-main is a custom element from @forcecalendar/interface
+                <forcecal-main
+                  ref={calendarRef}
+                  view={calendarView}
+                  locale="en-US"
+                  style={{ display: "block", width: "100%", minHeight: 400 }}
+                />
               )}
             </div>
 
