@@ -23,6 +23,11 @@
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
+  "overrides": {
+    "@forcecalendar/interface": {
+      "@forcecalendar/core": "$@forcecalendar/core"
+    }
+  },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^19",
