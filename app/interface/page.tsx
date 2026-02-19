@@ -12,7 +12,7 @@ export default function InterfacePage() {
 
 function App() {
   return (
-    <force-calendar
+    <forcecal-main
       view="month"
       locale="en-US"
       timezone="America/New_York"
@@ -20,23 +20,23 @@ function App() {
   );
 }`,
     vue: `<template>
-  <force-calendar
+  <forcecal-main
     :view="currentView"
     :date="selectedDate"
     @event-click="handleEvent"
   />
 </template>`,
-    angular: `<force-calendar
+    angular: `<forcecal-main
   [view]="calendarView"
   [date]="currentDate"
   (eventClick)="onEventClick($event)">
-</force-calendar>`,
+</forcecal-main>`,
     lwc: `<template>
-  <force-calendar
+  <forcecal-main
     view={view}
     date={currentDate}
     onselect={handleSelect}>
-  </force-calendar>
+  </forcecal-main>
 </template>`
   };
 
@@ -220,7 +220,7 @@ function App() {
             {/* Component Tag */}
             <div className="px-4 py-3 border-t border-neutral-800 bg-neutral-900/50">
               <code className="text-xs text-neutral-400 font-mono">
-                &lt;force-calendar view=&quot;{calendarView}&quot; locale=&quot;en-US&quot; /&gt;
+                &lt;forcecal-main view=&quot;{calendarView}&quot; locale=&quot;en-US&quot; /&gt;
               </code>
             </div>
           </div>
@@ -233,12 +233,12 @@ function App() {
           <h2 className="text-2xl font-semibold text-white mb-8">Components</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { name: "<force-calendar>", desc: "Complete calendar with all views" },
-              { name: "<force-month-view>", desc: "Standalone month grid" },
-              { name: "<force-week-view>", desc: "Weekly timeline with hours" },
-              { name: "<force-day-view>", desc: "Daily agenda view" },
-              { name: "<force-event-form>", desc: "Event creation modal" },
-              { name: "<force-date-picker>", desc: "Date selection component" },
+              { name: "<forcecal-main>", desc: "Complete calendar with month, week, and day views" },
+              { name: "<forcecal-event-form>", desc: "Event creation and editing form" },
+              { name: "MonthViewRenderer", desc: "Pure JS month grid renderer" },
+              { name: "WeekViewRenderer", desc: "Pure JS weekly timeline renderer" },
+              { name: "DayViewRenderer", desc: "Pure JS daily agenda renderer" },
+              { name: "StateManager", desc: "Reactive state management for calendar data" },
             ].map((comp) => (
               <div
                 key={comp.name}
@@ -325,7 +325,7 @@ function App() {
               <span className="text-xs text-neutral-500">CSS Custom Properties</span>
             </div>
             <pre className="p-4 text-sm font-mono text-neutral-300 overflow-x-auto">
-{`force-calendar {
+{`forcecal-main {
   --fc-primary: #3b82f6;
   --fc-background: #0f172a;
   --fc-border: #334155;
