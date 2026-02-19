@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Nav from "./components/Nav";
+import Footer from "./components/Footer";
 
 const featureList = [
   {
@@ -42,36 +44,7 @@ const featureList = [
 export default function Home() {
   return (
     <div className="min-h-screen bg-black">
-      <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-neutral-900">
-        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/" className="text-lg font-medium text-white">
-            <span className="italic">force</span>Calendar
-          </Link>
-          <div className="hidden md:flex items-center gap-6 text-sm">
-            <a href="#why" className="text-neutral-400 hover:text-white transition-colors">
-              Why
-            </a>
-            <a href="#products" className="text-neutral-400 hover:text-white transition-colors">
-              Products
-            </a>
-            <a href="#features" className="text-neutral-400 hover:text-white transition-colors">
-              Features
-            </a>
-            <a href="https://docs.forcecalendar.org" className="text-neutral-400 hover:text-white transition-colors">
-              Docs
-            </a>
-            <a href="https://github.com/forcecalendar" className="text-neutral-400 hover:text-white transition-colors">
-              GitHub
-            </a>
-          </div>
-          <Link
-            href="/playground"
-            className="inline-flex items-center px-3 py-1.5 rounded-md bg-teal-500 text-black text-sm font-medium hover:bg-teal-400 transition-colors"
-          >
-            Start with Playground
-          </Link>
-        </div>
-      </nav>
+      <Nav />
 
       <section className="pt-32 pb-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
@@ -259,25 +232,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="py-10 px-6 border-t border-neutral-900">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="text-neutral-600 text-sm">MIT License</span>
-          <div className="flex items-center gap-6 text-sm text-neutral-500">
-            <a href="https://docs.forcecalendar.org" className="hover:text-white transition-colors">
-              Docs
-            </a>
-            <a href="https://github.com/forcecalendar" className="hover:text-white transition-colors">
-              GitHub
-            </a>
-            <a href="https://www.npmjs.com/org/forcecalendar" className="hover:text-white transition-colors">
-              npm
-            </a>
-            <Link href="/playground" className="hover:text-white transition-colors">
-              Playground
-            </Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
