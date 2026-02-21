@@ -234,12 +234,16 @@ export default function PlaygroundPage() {
           display: block;
           width: 100%;
           min-height: 500px;
-          --fc-bg-primary: #0a0a0a;
-          --fc-bg-secondary: #171717;
-          --fc-border-color: #262626;
-          --fc-text-primary: #ffffff;
+          --fc-background: #0a0a0a;
+          --fc-background-alt: #171717;
+          --fc-background-hover: #262626;
+          --fc-border-color: #333333;
+          --fc-text-color: #ffffff;
           --fc-text-secondary: #a3a3a3;
-          --fc-accent-color: #14b8a6;
+          --fc-text-light: #737373;
+          --fc-primary-color: #14b8a6;
+          --fc-primary-hover: #0d9488;
+          --fc-danger-color: #ef4444;
         }
       `}</style>
     </div>
