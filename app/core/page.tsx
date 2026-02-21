@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Nav from "../components/Nav";
+import Footer from "../components/Footer";
 
 export default function CorePage() {
   const [activeTab, setActiveTab] = useState<"calendar" | "events" | "timezone">("calendar");
@@ -54,31 +56,7 @@ console.log(info.offset, info.isDST);`
 
   return (
     <div className="min-h-screen bg-black">
-      {/* Nav */}
-      <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-neutral-900">
-        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/" className="text-lg font-medium text-white">
-            <span className="italic">force</span>Calendar
-          </Link>
-          <div className="flex items-center gap-6">
-            <a
-              href="https://docs.forcecalendar.org"
-              className="text-sm text-neutral-400 hover:text-white transition-colors"
-            >
-              Docs
-            </a>
-            <Link href="/playground" className="text-sm text-neutral-400 hover:text-white transition-colors">
-              Playground
-            </Link>
-            <a
-              href="https://github.com/forcecalendar"
-              className="text-sm text-neutral-400 hover:text-white transition-colors"
-            >
-              GitHub
-            </a>
-          </div>
-        </div>
-      </nav>
+      <Nav />
 
       {/* Hero */}
       <section className="pt-32 pb-20 px-6">
@@ -323,18 +301,7 @@ const calendar = new Calendar({
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-10 px-6 border-t border-neutral-900">
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="text-neutral-600 text-sm">MIT License</span>
-          <div className="flex items-center gap-6 text-sm text-neutral-500">
-            <a href="https://docs.forcecalendar.org" className="hover:text-white transition-colors">Docs</a>
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <Link href="/interface" className="hover:text-white transition-colors">Interface</Link>
-            <Link href="/playground" className="hover:text-white transition-colors">Playground</Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
