@@ -58,11 +58,11 @@ export default function CorePage() {
       </section>
 
       {/* Metrics */}
-      <section className="py-12 px-6 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-3xl mx-auto">
+      <section className="py-16 px-6 border-t border-slate-200 dark:border-slate-800">
+        <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {metrics.map((stat) => (
-              <div key={stat.label} className="text-center">
+              <div key={stat.label} className="text-center bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4">
                 <div className="text-2xl font-semibold text-slate-900 dark:text-white">
                   {stat.value}
                 </div>
@@ -160,7 +160,7 @@ const calendar = new Calendar({
               },
             ].map((item) => (
               <div key={item.step} className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-sm text-slate-500">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-violet-50 dark:bg-violet-500/10 border border-violet-200 dark:border-violet-500/20 flex items-center justify-center text-sm font-medium text-violet-600 dark:text-violet-400">
                   {item.step}
                 </div>
                 <div className="flex-grow">
@@ -178,6 +178,9 @@ const calendar = new Calendar({
       {/* CTA */}
       <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white mb-6">
+            Start building
+          </h2>
           <div className="flex justify-center gap-4">
             <a
               href="https://docs.forcecalendar.org/core"

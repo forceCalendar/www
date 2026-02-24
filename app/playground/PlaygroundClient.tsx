@@ -112,7 +112,7 @@ export default function PlaygroundClient() {
       </div>
 
       {/* Sidebar */}
-      <div className="space-y-4">
+      <div className="space-y-5">
         {/* Config */}
         <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5">
           <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-4">Configuration</h3>
@@ -158,7 +158,7 @@ export default function PlaygroundClient() {
                 step={50}
                 value={height}
                 onChange={(e) => setHeight(Number(e.target.value))}
-                className="w-full"
+                className="w-full accent-brand-600"
               />
             </div>
           </div>
@@ -183,7 +183,9 @@ export default function PlaygroundClient() {
             </ul>
           )}
           {eventList.length === 0 && (
-            <p className="text-xs text-slate-400">No events loaded.</p>
+            <div className="border border-dashed border-slate-200 dark:border-slate-700 rounded-md p-3 text-center">
+              <p className="text-xs text-slate-400">No events loaded.</p>
+            </div>
           )}
         </div>
 

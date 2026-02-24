@@ -8,7 +8,7 @@ export default function NotFound() {
       <Nav />
       <div className="flex-1 flex items-center justify-center px-6">
         <div className="text-center">
-          <h1 className="text-7xl font-bold text-slate-200 dark:text-slate-800 mb-4">
+          <h1 className="text-7xl font-bold text-slate-200 dark:text-slate-700 mb-4">
             404
           </h1>
           <h2 className="text-xl font-medium text-slate-900 dark:text-white mb-3">

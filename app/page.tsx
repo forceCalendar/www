@@ -8,10 +8,38 @@ import CodeBlock from "./components/CodeBlock";
 import InstallCommand from "./components/InstallCommand";
 
 const trustItems = [
-  "Zero Dependencies",
-  "MIT Licensed",
-  "TypeScript",
-  "Locker Service Compatible",
+  {
+    label: "Zero Dependencies",
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+      </svg>
+    ),
+  },
+  {
+    label: "MIT Licensed",
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 01-2.031.352 5.988 5.988 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.971zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 01-2.031.352 5.989 5.989 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.971z" />
+      </svg>
+    ),
+  },
+  {
+    label: "TypeScript",
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+      </svg>
+    ),
+  },
+  {
+    label: "Locker Service Compatible",
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+      </svg>
+    ),
+  },
 ];
 
 const problems = [
@@ -117,7 +145,7 @@ export default function Home() {
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             <InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" />
           </div>
-          <div className="mt-6 flex items-center justify-center gap-4">
+          <div className="mt-8 flex items-center justify-center gap-4">
             <a
               href="https://github.com/forcecalendar"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
@@ -139,10 +167,11 @@ export default function Home() {
         <div className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-3">
           {trustItems.map((item) => (
             <div
-              key={item}
-              className="text-sm text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-3 text-center"
+              key={item.label}
+              className="flex items-center justify-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-3.5"
             >
-              {item}
+              <span className="text-brand-600 dark:text-brand-400 flex-shrink-0">{item.icon}</span>
+              {item.label}
             </div>
           ))}
         </div>
@@ -167,9 +196,11 @@ export default function Home() {
                 <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
                   {item.problem}
                 </p>
-                <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                  {item.solution}
-                </p>
+                <div className="border-t border-slate-100 dark:border-slate-800 pt-4">
+                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                    {item.solution}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
@@ -184,7 +215,7 @@ export default function Home() {
             subtitle="Use Core for scheduling logic and Interface for production-ready UI components."
             id="architecture"
           />
-          <div className="mb-8 inline-flex items-center px-4 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm text-slate-600 dark:text-slate-400 font-mono">
+          <div className="mb-10 inline-flex items-center px-4 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm text-slate-600 dark:text-slate-400 font-mono">
             @forcecalendar/core
             <span className="mx-3 text-slate-300 dark:text-slate-600">&rarr;</span>
             @forcecalendar/interface
@@ -240,7 +271,7 @@ export default function Home() {
 
       {/* CTA Banner */}
       <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-3xl mx-auto text-center p-10 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+        <div className="max-w-3xl mx-auto text-center p-10 rounded-lg border border-slate-200 dark:border-slate-800 bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900/50 dark:to-slate-900/80">
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">
             See it in action
           </h2>

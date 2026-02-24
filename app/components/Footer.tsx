@@ -59,8 +59,9 @@ export default function Footer() {
       <div className="max-w-5xl mx-auto px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
-            <div className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
-              <span className="italic">force</span>Calendar
+            <div className="text-lg tracking-tight mb-2">
+              <span className="font-mono font-normal text-brand-600 dark:text-brand-400">force</span>
+              <span className="font-semibold text-slate-900 dark:text-white">Calendar</span>
             </div>
             <p className="text-sm text-slate-500 dark:text-slate-400">
               Calendar infrastructure for strict enterprise environments.

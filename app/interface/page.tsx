@@ -178,15 +178,17 @@ export default function InterfacePage() {
               <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-3">
                 Available tokens ({cssTokens.length})
               </h3>
-              <div className="grid grid-cols-1 gap-1 max-h-96 overflow-y-auto pr-2">
-                {cssTokens.map((token) => (
-                  <code
-                    key={token}
-                    className="text-xs font-mono text-slate-500 dark:text-slate-400 py-0.5"
-                  >
-                    {token}
-                  </code>
-                ))}
+              <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4 max-h-96 overflow-y-auto">
+                <div className="flex flex-wrap gap-1.5">
+                  {cssTokens.map((token) => (
+                    <code
+                      key={token}
+                      className="text-xs font-mono text-slate-500 dark:text-slate-400 px-2 py-1 bg-white dark:bg-slate-800 rounded"
+                    >
+                      {token}
+                    </code>
+                  ))}
+                </div>
               </div>
             </div>
             <CodeBlock code={themingExample} filename="styles.css" language="CSS" />
@@ -200,57 +202,61 @@ export default function InterfacePage() {
           <SectionHeader title="Attributes &amp; events" id="api" />
 
           <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-4">Attributes</h3>
-          <div className="overflow-x-auto mb-10">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-slate-200 dark:border-slate-800">
-                  <th className="text-left py-2 pr-4 font-medium text-slate-500">Attribute</th>
-                  <th className="text-left py-2 pr-4 font-medium text-slate-500">Type</th>
-                  <th className="text-left py-2 pr-4 font-medium text-slate-500">Default</th>
-                  <th className="text-left py-2 font-medium text-slate-500">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                {attributes.map((attr) => (
-                  <tr key={attr.name} className="border-b border-slate-100 dark:border-slate-800/50">
-                    <td className="py-2.5 pr-4">
-                      <code className="text-xs font-mono text-cyan-600 dark:text-cyan-400">{attr.name}</code>
-                    </td>
-                    <td className="py-2.5 pr-4 text-slate-600 dark:text-slate-400">{attr.type}</td>
-                    <td className="py-2.5 pr-4">
-                      <code className="text-xs font-mono text-slate-400">{attr.default}</code>
-                    </td>
-                    <td className="py-2.5 text-slate-600 dark:text-slate-400">{attr.desc}</td>
+          <div className="rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden mb-10">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
+                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Attribute</th>
+                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Type</th>
+                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Default</th>
+                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Description</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {attributes.map((attr) => (
+                    <tr key={attr.name} className="border-b border-slate-100 dark:border-slate-800/50">
+                      <td className="py-2.5 px-4">
+                        <code className="text-xs font-mono text-cyan-600 dark:text-cyan-400">{attr.name}</code>
+                      </td>
+                      <td className="py-2.5 px-4 text-slate-600 dark:text-slate-400">{attr.type}</td>
+                      <td className="py-2.5 px-4">
+                        <code className="text-xs font-mono text-slate-400">{attr.default}</code>
+                      </td>
+                      <td className="py-2.5 px-4 text-slate-600 dark:text-slate-400">{attr.desc}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-4">Events</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-slate-200 dark:border-slate-800">
-                  <th className="text-left py-2 pr-4 font-medium text-slate-500">Event</th>
-                  <th className="text-left py-2 pr-4 font-medium text-slate-500">Detail</th>
-                  <th className="text-left py-2 font-medium text-slate-500">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                {events.map((evt) => (
-                  <tr key={evt.name} className="border-b border-slate-100 dark:border-slate-800/50">
-                    <td className="py-2.5 pr-4">
-                      <code className="text-xs font-mono text-cyan-600 dark:text-cyan-400">{evt.name}</code>
-                    </td>
-                    <td className="py-2.5 pr-4">
-                      <code className="text-xs font-mono text-slate-400">{evt.detail}</code>
-                    </td>
-                    <td className="py-2.5 text-slate-600 dark:text-slate-400">{evt.desc}</td>
+          <div className="rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
+                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Event</th>
+                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Detail</th>
+                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Description</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {events.map((evt) => (
+                    <tr key={evt.name} className="border-b border-slate-100 dark:border-slate-800/50">
+                      <td className="py-2.5 px-4">
+                        <code className="text-xs font-mono text-cyan-600 dark:text-cyan-400">{evt.name}</code>
+                      </td>
+                      <td className="py-2.5 px-4">
+                        <code className="text-xs font-mono text-slate-400">{evt.detail}</code>
+                      </td>
+                      <td className="py-2.5 px-4 text-slate-600 dark:text-slate-400">{evt.desc}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
@@ -258,6 +264,9 @@ export default function InterfacePage() {
       {/* CTA */}
       <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white mb-6">
+            Ready to build?
+          </h2>
           <div className="flex justify-center gap-4">
             <Link
               href="/playground"
