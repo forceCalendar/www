@@ -234,9 +234,9 @@ function App() {
             </div>
             <pre className="p-4 text-sm font-mono text-neutral-300 overflow-x-auto">
 {`forcecal-main {
-  --fc-primary: #3b82f6;
+  --fc-primary-color: #3b82f6;
   --fc-background: #0f172a;
-  --fc-border: #334155;
+  --fc-border-color: #334155;
   --fc-font-family: 'Inter', system-ui;
   --fc-border-radius: 0.375rem;
 }`}
