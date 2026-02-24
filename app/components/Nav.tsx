@@ -20,9 +20,9 @@ export default function Nav() {
     <>
       <nav className="sticky top-0 z-30 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/" className="text-lg tracking-tight">
-            <span className="font-mono font-normal text-brand-600 dark:text-brand-400">force</span>
-            <span className="font-semibold text-slate-900 dark:text-white">Calendar</span>
+          <Link href="/" className="text-lg tracking-tight text-slate-900 dark:text-white">
+            <span className="font-light">force</span>
+            <span className="font-semibold">Calendar</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-6 text-sm">
