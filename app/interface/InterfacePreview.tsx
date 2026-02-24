@@ -17,7 +17,7 @@ export default function InterfacePreview() {
             <button
               key={v}
               onClick={() => setCalendarView(v)}
-              className={`px-3 py-1 text-xs capitalize transition-colors rounded ${
+              className={`px-3 py-1 text-xs capitalize transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 ${
                 calendarView === v
                   ? "bg-cyan-600 text-white"
                   : "text-slate-500 hover:text-slate-900 dark:hover:text-white"

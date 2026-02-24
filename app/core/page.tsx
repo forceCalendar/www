@@ -60,7 +60,7 @@ export default function CorePage() {
       {/* Metrics */}
       <section className="py-12 px-6 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-3xl mx-auto">
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {metrics.map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="text-2xl font-semibold text-slate-900 dark:text-white">

@@ -103,7 +103,7 @@ export default function CoreTabs() {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-3 text-sm capitalize transition-colors border-b-2 ${
+            className={`px-4 py-3 text-sm capitalize transition-colors border-b-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 ${
               activeTab === tab
                 ? "text-violet-600 dark:text-violet-400 border-violet-600 dark:border-violet-400"
                 : "text-slate-500 border-transparent hover:text-slate-700 dark:hover:text-slate-300"

@@ -256,7 +256,7 @@ export default function Home() {
             </Link>
             <a
               href="https://docs.forcecalendar.org"
-              className="inline-flex items-center px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-white dark:hover:bg-slate-900 transition-colors"
+              className="inline-flex items-center px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               Read Documentation
             </a>

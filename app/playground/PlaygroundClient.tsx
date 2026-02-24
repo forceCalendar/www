@@ -169,7 +169,7 @@ export default function PlaygroundClient() {
           <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-3">Events</h3>
           <button
             onClick={addSampleEvents}
-            className="w-full px-3 py-2 bg-brand-600 text-white text-sm font-medium rounded-md hover:bg-brand-700 transition-colors mb-3"
+            className="w-full px-3 py-2 bg-brand-600 text-white text-sm font-medium rounded-md hover:bg-brand-700 transition-colors mb-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
           >
             Add Sample Events
           </button>
@@ -193,7 +193,7 @@ export default function PlaygroundClient() {
             <span className="text-xs text-slate-500">HTML Output</span>
             <button
               onClick={handleCopy}
-              className="text-xs text-slate-500 hover:text-white transition-colors"
+              className="text-xs text-slate-500 hover:text-white transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
             >
               {copied ? "Copied" : "Copy"}
             </button>

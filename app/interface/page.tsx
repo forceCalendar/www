@@ -216,7 +216,7 @@ export default function InterfacePage() {
                     <td className="py-2.5 pr-4">
                       <code className="text-xs font-mono text-cyan-600 dark:text-cyan-400">{attr.name}</code>
                     </td>
-                    <td className="py-2.5 pr-4 text-slate-500">{attr.type}</td>
+                    <td className="py-2.5 pr-4 text-slate-600 dark:text-slate-400">{attr.type}</td>
                     <td className="py-2.5 pr-4">
                       <code className="text-xs font-mono text-slate-400">{attr.default}</code>
                     </td>
