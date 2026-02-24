@@ -9,10 +9,13 @@ export default function InterfacePage() {
   const [activeFramework, setActiveFramework] = useState<"react" | "vue" | "angular" | "lwc">("react");
   const [calendarView, setCalendarView] = useState<"month" | "week" | "day">("month");
   const [isLoaded, setIsLoaded] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   const calendarRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    import("@forcecalendar/interface").then(() => setIsLoaded(true)).catch(() => {});
+    import("@forcecalendar/interface")
+      .then(() => setIsLoaded(true))
+      .catch(() => setLoadError(true));
   }, []);
 
   useEffect(() => {
@@ -110,7 +113,22 @@ function App() {
 
             {/* Real Calendar Component */}
             <div className="p-2" style={{ minHeight: 420 }}>
-              {!isLoaded ? (
+              {loadError ? (
+                <div className="flex flex-col items-center justify-center h-96 text-center px-4">
+                  <p className="text-neutral-400 mb-2">Failed to load calendar component.</p>
+                  <button
+                    onClick={() => {
+                      setLoadError(false);
+                      import("@forcecalendar/interface")
+                        .then(() => setIsLoaded(true))
+                        .catch(() => setLoadError(true));
+                    }}
+                    className="text-sm text-cyan-500 hover:text-cyan-400 transition-colors"
+                  >
+                    Retry
+                  </button>
+                </div>
+              ) : !isLoaded ? (
                 <div className="flex items-center justify-center h-96">
                   <div className="inline-block w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
                 </div>
