@@ -1,95 +1,146 @@
 import Link from "next/link";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import SectionHeader from "./components/SectionHeader";
+import FeatureCard from "./components/FeatureCard";
+import PackageCard from "./components/PackageCard";
+import CodeBlock from "./components/CodeBlock";
+import InstallCommand from "./components/InstallCommand";
 
-const featureList = [
+const trustItems = [
+  "Zero Dependencies",
+  "MIT Licensed",
+  "TypeScript",
+  "Locker Service Compatible",
+];
+
+const problems = [
   {
-    title: "Security-First by Design",
-    desc: "Zero dependencies and CSP-safe patterns reduce review and deployment risk.",
-    icon: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z",
-    color: "emerald",
+    title: "Locker Service",
+    problem: "Most calendar libraries use blocked JavaScript patterns — eval, dynamic Function constructors, prototype manipulation — that Locker Service prohibits.",
+    solution: "forceCalendar uses only Locker-safe patterns. No blocked APIs, no runtime code generation.",
   },
   {
-    title: "Performance at Scale",
-    desc: "Spatial indexing keeps scheduling and lookups fast with large event volumes.",
-    icon: "M13 3L4 14h7l-2 7 9-11h-7l2-7z",
-    color: "amber",
+    title: "Strict CSP",
+    problem: "Content Security Policy blocks inline styles, eval, and unsafe-inline. Calendar libraries that inject CSS or generate styles at runtime fail silently.",
+    solution: "All styling uses CSS custom properties and external stylesheets. No inline style injection.",
   },
   {
-    title: "Timezone Accuracy",
-    desc: "Full IANA timezone support with daylight-saving transitions handled correctly.",
-    icon: "M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm1-13h-2v6l5.25 3.15.75-1.23-4-2.37V7z",
-    color: "teal",
+    title: "Security Reviews",
+    problem: "Enterprise security teams audit every dependency. A library with 50+ transitive dependencies creates weeks of review work and ongoing supply chain risk.",
+    solution: "Zero dependencies means zero supply chain risk. One package to audit, one license to approve.",
   },
+];
+
+const codeExample = `import { Calendar } from '@forcecalendar/core';
+import '@forcecalendar/interface';
+
+const calendar = new Calendar({
+  locale: 'en-US',
+  timezone: 'America/New_York'
+});
+
+// That's it. <forcecal-main> is ready to use.`;
+
+const features = [
   {
     title: "Recurrence Rules",
-    desc: "Standards-aligned recurrence and exceptions for complex enterprise schedules.",
-    icon: "M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm-8 4H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z",
-    color: "violet",
+    description: "RFC 5545 RRULE support with exceptions, overrides, and timezone-aware expansion for complex enterprise schedules.",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
+      </svg>
+    ),
+  },
+  {
+    title: "Timezone Support",
+    description: "Full IANA timezone database with automatic daylight-saving transitions and cross-timezone conversion.",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5a17.92 17.92 0 01-8.716-2.247m0 0A9.015 9.015 0 003 12c0-1.605.42-3.113 1.157-4.418" />
+      </svg>
+    ),
   },
   {
     title: "ICS Import / Export",
-    desc: "iCalendar file support for interoperability with existing calendar systems.",
-    icon: "M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zm-3-7v4h-2v-4h-2l3-3 3 3h-2z",
-    color: "blue",
+    description: "iCalendar file support for interoperability with Outlook, Google Calendar, and existing enterprise systems.",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+      </svg>
+    ),
   },
   {
-    title: "TypeScript Included",
-    desc: "Typed APIs improve integration confidence and reduce runtime surprises.",
-    icon: "M3 3h18v18H3V3zm16.525 13.707c-.131-.821-.666-1.511-2.252-2.155-.552-.259-1.165-.438-1.349-.854-.068-.248-.078-.382-.034-.529.113-.484.687-.629 1.137-.495.293.086.567.297.733.611.775-.507.775-.507 1.316-.852-.185-.282-.282-.394-.41-.534-.347-.391-.814-.604-1.564-.581l-.391.053c-.373.095-.722.298-.989.571-.811.829-.591 2.275.3 2.872.876.591 2.157.718 2.32 1.274.159.604-.377.799-.852.726-.399-.065-.621-.278-.854-.603l-1.369.788c.154.314.362.463.565.662.985.964 3.453.917 3.896-.649.015-.061.129-.484.036-1.13l.002.002zM9.064 15.418l.001-5.677 1.582-.001v-1.316H5.113v1.316h1.581l-.001 5.677h2.371z",
-    color: "blue",
+    title: "Conflict Detection",
+    description: "Spatial indexing enables fast overlap detection across large event sets without scanning every event.",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Full-Text Search",
+    description: "Built-in search engine with fuzzy matching across event titles, descriptions, and custom fields.",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+      </svg>
+    ),
+  },
+  {
+    title: "CSS Theming",
+    description: "35+ CSS custom properties for complete visual control without touching JavaScript or Shadow DOM internals.",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z" />
+      </svg>
+    ),
   },
 ];
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen">
       <Nav />
 
-      <section className="pt-32 pb-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white leading-tight">
-            Build secure enterprise calendars without fighting CSP or Locker.
+      {/* Hero */}
+      <section className="pt-24 pb-16 px-6">
+        <div className="max-w-3xl mx-auto text-center">
+          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white leading-tight">
+            Calendar infrastructure for strict enterprise environments.
           </h1>
-          <p className="mt-6 text-lg sm:text-xl text-neutral-300 max-w-2xl mx-auto">
-            Headless core plus framework-agnostic UI components for Salesforce and other strict enterprise environments.
+          <p className="mt-6 text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+            Headless scheduling engine plus framework-agnostic Web Components.
+            Zero dependencies. Built for Salesforce Locker Service and strict CSP.
           </p>
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              href="/playground"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-teal-500 text-black font-medium rounded-lg hover:bg-teal-400 transition-colors w-full sm:w-auto"
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" />
+          </div>
+          <div className="mt-6 flex items-center justify-center gap-4">
+            <a
+              href="https://github.com/forcecalendar"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
             >
-              Open Playground
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
+              GitHub
+            </a>
             <a
               href="https://docs.forcecalendar.org"
-              className="inline-flex items-center justify-center px-6 py-3 border border-neutral-700 text-white font-medium rounded-lg hover:border-neutral-500 transition-colors w-full sm:w-auto"
+              className="inline-flex items-center px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors"
             >
-              Read Docs
+              Documentation
             </a>
-          </div>
-          <div className="mt-6">
-            <code className="inline-block px-5 py-3 bg-neutral-900 border border-neutral-800 rounded-lg text-sm text-neutral-300 font-mono">
-              npm install @forcecalendar/core @forcecalendar/interface
-            </code>
           </div>
         </div>
       </section>
 
+      {/* Trust Strip */}
       <section className="pb-16 px-6">
-        <div className="max-w-5xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {[
-            "MIT Licensed",
-            "Zero Dependencies",
-            "TypeScript Included",
-            "Salesforce Locker Compatible",
-          ].map((item) => (
+        <div className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {trustItems.map((item) => (
             <div
               key={item}
-              className="text-sm text-neutral-300 bg-neutral-950 border border-neutral-900 rounded-lg px-4 py-3 text-center"
+              className="text-sm text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-3 text-center"
             >
               {item}
             </div>
@@ -97,137 +148,118 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="why" className="py-20 px-6 border-t border-neutral-900">
+      {/* The Problem */}
+      <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-semibold text-white mb-10">Built for strict environments</h2>
-          <div className="grid md:grid-cols-3 gap-4">
-            {[
-              {
-                problem: "Locker Restrictions",
-                solution: "No blocked JavaScript patterns that break in Salesforce environments.",
-              },
-              {
-                problem: "Strict CSP",
-                solution: "CSP-safe component patterns without inline-style violations.",
-              },
-              {
-                problem: "Security Reviews",
-                solution: "Zero dependency footprint to simplify legal and security approvals.",
-              },
-            ].map((item) => (
-              <div key={item.problem} className="p-5 rounded-xl bg-neutral-950 border border-neutral-900">
-                <p className="text-sm text-neutral-500 mb-2">{item.problem}</p>
-                <p className="text-white leading-relaxed">{item.solution}</p>
+          <SectionHeader
+            title="The problem with calendar libraries in enterprise"
+            id="why"
+          />
+          <div className="grid md:grid-cols-3 gap-6">
+            {problems.map((item) => (
+              <div
+                key={item.title}
+                className="p-6 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50"
+              >
+                <h3 className="font-medium text-slate-900 dark:text-white mb-3">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+                  {item.problem}
+                </p>
+                <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                  {item.solution}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="products" className="py-20 px-6 border-t border-neutral-900">
+      {/* Architecture */}
+      <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-semibold text-white mb-3">Two packages, one architecture</h2>
-          <p className="text-neutral-400 mb-8">Use Core for scheduling logic and Interface for production-ready UI components.</p>
-          <div className="mb-8 inline-flex items-center px-4 py-2 rounded-lg bg-neutral-950 border border-neutral-900 text-sm text-neutral-300 font-mono">
-            @forcecalendar/core <span className="mx-2 text-neutral-600">-&gt;</span> @forcecalendar/interface <span className="mx-2 text-neutral-600">-&gt;</span> Your App
+          <SectionHeader
+            title="Two packages, one architecture"
+            subtitle="Use Core for scheduling logic and Interface for production-ready UI components."
+            id="architecture"
+          />
+          <div className="mb-8 inline-flex items-center px-4 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm text-slate-600 dark:text-slate-400 font-mono">
+            @forcecalendar/core
+            <span className="mx-3 text-slate-300 dark:text-slate-600">&rarr;</span>
+            @forcecalendar/interface
+            <span className="mx-3 text-slate-300 dark:text-slate-600">&rarr;</span>
+            Your App
           </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            <Link
+          <div className="grid md:grid-cols-2 gap-6">
+            <PackageCard
               href="/core"
-              className="group p-6 rounded-2xl bg-neutral-950 border border-neutral-900 hover:border-neutral-700 hover:-translate-y-0.5 transition-all"
-            >
-              <div className="text-xs font-mono text-violet-500 uppercase tracking-wider mb-3">Core Engine</div>
-              <h3 className="text-xl font-semibold text-white mb-2">@forcecalendar/core</h3>
-              <p className="text-sm text-neutral-500 leading-relaxed mb-3">
-                Pure JavaScript scheduling engine with no DOM and no dependencies.
-              </p>
-              <p className="text-sm text-neutral-300 mb-4">Use when you need headless calendar logic in secure runtimes.</p>
-              <span className="text-sm text-violet-500 group-hover:text-violet-400 transition-colors">Learn more -&gt;</span>
-            </Link>
-
-            <Link
+              label="Core Engine"
+              name="@forcecalendar/core"
+              description="Pure JavaScript scheduling engine. No DOM, no dependencies. Use when you need headless calendar logic in secure runtimes."
+              accentClass="text-violet-600 dark:text-violet-400"
+            />
+            <PackageCard
               href="/interface"
-              className="group p-6 rounded-2xl bg-neutral-950 border border-neutral-900 hover:border-neutral-700 hover:-translate-y-0.5 transition-all"
-            >
-              <div className="text-xs font-mono text-cyan-500 uppercase tracking-wider mb-3">UI Components</div>
-              <h3 className="text-xl font-semibold text-white mb-2">@forcecalendar/interface</h3>
-              <p className="text-sm text-neutral-500 leading-relaxed mb-3">
-                Web Components powered by Core and compatible with any framework.
-              </p>
-              <p className="text-sm text-neutral-300 mb-4">Use when you need calendar UI shipped quickly without framework lock-in.</p>
-              <span className="text-sm text-cyan-500 group-hover:text-cyan-400 transition-colors">Learn more -&gt;</span>
-            </Link>
-          </div>
-
-          <div className="mt-10 p-6 rounded-2xl bg-neutral-950 border border-neutral-900">
-            <h3 className="text-lg font-semibold text-white mb-2">Why this architecture?</h3>
-            <p className="text-neutral-400 mb-5">
-              Many calendar tools ship as a tightly bundled UI plus logic package. forceCalendar separates concerns so enterprise teams can adapt faster under strict runtime and security requirements.
-            </p>
-            <div className="grid md:grid-cols-3 gap-4 text-sm">
-              <div className="rounded-lg border border-neutral-900 bg-black/30 p-4">
-                <p className="text-white font-medium mb-2">@forcecalendar/core</p>
-                <p className="text-neutral-400">Headless scheduling engine that is easy to test, secure, and reuse across products.</p>
-              </div>
-              <div className="rounded-lg border border-neutral-900 bg-black/30 p-4">
-                <p className="text-white font-medium mb-2">@forcecalendar/interface</p>
-                <p className="text-neutral-400">Framework-agnostic UI components powered by Core, so teams ship interface faster.</p>
-              </div>
-              <div className="rounded-lg border border-neutral-900 bg-black/30 p-4">
-                <p className="text-white font-medium mb-2">Your App</p>
-                <p className="text-neutral-400">Business rules, workflows, and domain UX stay in your codebase where they belong.</p>
-              </div>
-            </div>
+              label="UI Components"
+              name="@forcecalendar/interface"
+              description="Web Components powered by Core. Framework-agnostic, Shadow DOM encapsulated. Use when you need calendar UI without framework lock-in."
+              accentClass="text-cyan-600 dark:text-cyan-400"
+            />
           </div>
         </div>
       </section>
 
-      <section className="py-20 px-6 border-t border-neutral-900">
-        <div className="max-w-5xl mx-auto text-center rounded-2xl border border-neutral-900 bg-gradient-to-b from-neutral-950 to-black p-10">
-          <h2 className="text-2xl font-semibold text-white mb-4">See forceCalendar in action</h2>
-          <p className="text-neutral-400 mb-8 max-w-2xl mx-auto">
-            Test real components, create events, and evaluate behavior before integrating into your app.
-          </p>
-          <Link
-            href="/playground"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-black font-medium rounded-lg hover:bg-teal-400 transition-colors"
-          >
-            Open Playground
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
+      {/* Code Example */}
+      <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
+        <div className="max-w-3xl mx-auto">
+          <SectionHeader
+            title="Five lines to a working calendar"
+            id="code"
+          />
+          <CodeBlock code={codeExample} filename="app.js" language="JavaScript" />
         </div>
       </section>
 
-      <section id="features" className="py-20 px-6 border-t border-neutral-900">
+      {/* Feature Grid */}
+      <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-semibold text-white mb-10">What&apos;s included</h2>
+          <SectionHeader title="What&rsquo;s included" id="features" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {featureList.map((feature) => {
-              const colorClasses: Record<string, string> = {
-                teal: "text-teal-400 bg-teal-500/10",
-                violet: "text-violet-400 bg-violet-500/10",
-                blue: "text-blue-400 bg-blue-500/10",
-                amber: "text-amber-400 bg-amber-500/10",
-                emerald: "text-emerald-400 bg-emerald-500/10",
-              };
+            {features.map((feature) => (
+              <FeatureCard
+                key={feature.title}
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
 
-              return (
-                <div
-                  key={feature.title}
-                  className="p-4 rounded-xl bg-neutral-950 border border-neutral-900 hover:border-neutral-700 transition-all duration-200 hover:bg-neutral-900/50"
-                >
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 ${colorClasses[feature.color]}`}>
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d={feature.icon} />
-                    </svg>
-                  </div>
-                  <h3 className="text-white font-medium mb-1">{feature.title}</h3>
-                  <p className="text-sm text-neutral-500">{feature.desc}</p>
-                </div>
-              );
-            })}
+      {/* CTA Banner */}
+      <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
+        <div className="max-w-3xl mx-auto text-center p-10 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">
+            See it in action
+          </h2>
+          <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-xl mx-auto">
+            Test real components, configure options, and evaluate behavior before integrating.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/playground"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-600 text-white text-sm font-medium rounded-lg hover:bg-brand-700 transition-colors"
+            >
+              Open Playground
+            </Link>
+            <a
+              href="https://docs.forcecalendar.org"
+              className="inline-flex items-center px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-white dark:hover:bg-slate-900 transition-colors"
+            >
+              Read Documentation
+            </a>
           </div>
         </div>
       </section>

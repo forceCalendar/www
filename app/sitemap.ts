@@ -2,30 +2,30 @@ import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://forcecalendar.org";
-  const lastUpdated = "2026-02-24";
+  const now = new Date().toISOString();
 
   return [
     {
       url: baseUrl,
-      lastModified: lastUpdated,
+      lastModified: now,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
       url: `${baseUrl}/core`,
-      lastModified: lastUpdated,
+      lastModified: now,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/interface`,
-      lastModified: lastUpdated,
+      lastModified: now,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/playground`,
-      lastModified: lastUpdated,
+      lastModified: now,
       changeFrequency: "weekly",
       priority: 0.7,
     },
