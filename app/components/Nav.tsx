@@ -6,20 +6,17 @@ import ThemeToggle from "./ThemeToggle";
 import MobileMenu from "./MobileMenu";
 
 const sites = [
-  { href: "https://forcecalendar.org", label: "Home", current: true },
-  { href: "https://docs.forcecalendar.org", label: "Docs" },
-  { href: "https://benchmark.forcecalendar.org", label: "Benchmark" },
-  { href: "https://audit.forcecalendar.org", label: "Audit" },
-];
-
-const pageLinks = [
+  { href: "/", label: "Home", current: true },
   { href: "/core", label: "Core" },
   { href: "/interface", label: "Interface" },
   { href: "/salesforce", label: "Salesforce" },
   { href: "/playground", label: "Playground" },
+  { href: "https://docs.forcecalendar.org", label: "Docs", external: true },
+  { href: "https://benchmark.forcecalendar.org", label: "Benchmark", external: true },
+  { href: "https://audit.forcecalendar.org", label: "Audit", external: true },
 ];
 
-export { sites, pageLinks };
+export { sites };
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -65,17 +62,13 @@ export default function Nav() {
 
               {dropdownOpen && (
                 <div className="absolute top-full left-0 mt-2 w-48 py-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50">
-                  {sites.map((site) => (
-                    <a
-                      key={site.href}
-                      href={site.href}
-                      onClick={() => setDropdownOpen(false)}
-                      className={`block px-3 py-2 text-sm ${
-                        site.current
-                          ? "text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 font-medium"
-                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50"
-                      } transition-colors`}
-                    >
+                  {sites.map((site) => {
+                    const cls = `block px-3 py-2 text-sm ${
+                      site.current
+                        ? "text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 font-medium"
+                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                    } transition-colors`;
+                    const inner = (
                       <span className="flex items-center justify-between">
                         {site.label}
                         {site.current && (
@@ -84,24 +77,16 @@ export default function Nav() {
                           </svg>
                         )}
                       </span>
-                    </a>
-                  ))}
+                    );
+                    return site.external ? (
+                      <a key={site.href} href={site.href} onClick={() => setDropdownOpen(false)} className={cls}>{inner}</a>
+                    ) : (
+                      <Link key={site.href} href={site.href} onClick={() => setDropdownOpen(false)} className={cls}>{inner}</Link>
+                    );
+                  })}
                 </div>
               )}
             </div>
-          </div>
-
-          {/* Center: page-level links */}
-          <div className="hidden md:flex items-center gap-6 text-sm">
-            {pageLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
           </div>
 
           {/* Right: actions */}

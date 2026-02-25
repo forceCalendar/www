@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { sites, pageLinks } from "./Nav";
+import { sites } from "./Nav";
 
 export default function MobileMenu({
   open,
@@ -42,50 +42,31 @@ export default function MobileMenu({
         </div>
 
         <nav className="px-4">
-          {/* Page links */}
+          {/* All navigation */}
           <div className="mb-6">
-            <div className="px-3 mb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
-              Pages
-            </div>
-            <div className="space-y-0.5">
-              {pageLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={onClose}
-                  className="block px-3 py-2 rounded-md text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Site links */}
-          <div className="border-t border-slate-200 dark:border-slate-800 pt-4">
             <div className="px-3 mb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
               forceCalendar
             </div>
             <div className="space-y-0.5">
-              {sites.map((site) => (
-                <a
-                  key={site.href}
-                  href={site.href}
-                  onClick={onClose}
-                  className={
-                    site.current
-                      ? "block px-3 py-2 rounded-md text-sm font-medium text-slate-900 bg-slate-100 dark:text-white dark:bg-slate-800"
-                      : "block px-3 py-2 rounded-md text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors"
-                  }
-                >
-                  {site.label}
-                </a>
-              ))}
+              {sites.map((site) => {
+                const cls = site.current
+                  ? "block px-3 py-2 rounded-md text-sm font-medium text-slate-900 bg-slate-100 dark:text-white dark:bg-slate-800"
+                  : "block px-3 py-2 rounded-md text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors";
+                return site.external ? (
+                  <a key={site.href} href={site.href} onClick={onClose} className={cls}>
+                    {site.label}
+                  </a>
+                ) : (
+                  <Link key={site.href} href={site.href} onClick={onClose} className={cls}>
+                    {site.label}
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
           {/* GitHub */}
-          <div className="border-t border-slate-200 dark:border-slate-800 pt-4 mt-4">
+          <div className="border-t border-slate-200 dark:border-slate-800 pt-4">
             <a
               href="https://github.com/forcecalendar"
               className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors"
