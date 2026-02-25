@@ -367,6 +367,86 @@ export default function Home() {
       </section>
 
 
+      {/* Benchmark Highlights */}
+      <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
+        <div className="max-w-5xl mx-auto">
+          <SectionHeader
+            title="How it compares"
+            subtitle="Independent benchmarks against FullCalendar — an excellent, widely-used library. forceCalendar exists for a different niche: strict enterprise environments where most calendar libraries cannot run."
+            id="benchmarks"
+          />
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Bundle Size */}
+            <div className="p-6 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                  </svg>
+                </div>
+                <h3 className="font-medium text-slate-900 dark:text-white">Bundle Size</h3>
+              </div>
+              <div className="space-y-3 mb-4">
+                <div>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-slate-600 dark:text-slate-400">forceCalendar <span className="text-xs text-slate-400 dark:text-slate-500">(core + interface)</span></span>
+                    <span className="font-mono font-medium text-slate-900 dark:text-white">1.04 MB</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                    <div className="h-full rounded-full bg-emerald-500 dark:bg-emerald-400" style={{ width: "35%" }} />
+                  </div>
+                </div>
+                <div>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-slate-600 dark:text-slate-400">FullCalendar <span className="text-xs text-slate-400 dark:text-slate-500">(core + 5 plugins + rrule)</span></span>
+                    <span className="font-mono font-medium text-slate-900 dark:text-white">3.01 MB</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                    <div className="h-full rounded-full bg-slate-400 dark:bg-slate-500" style={{ width: "100%" }} />
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                2.9x smaller total bundle. Fewer bytes to audit, fewer bytes to ship behind corporate firewalls.
+              </p>
+            </div>
+
+            {/* Recurrence Performance */}
+            <div className="p-6 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
+                  </svg>
+                </div>
+                <h3 className="font-medium text-slate-900 dark:text-white">Recurrence (RRULE)</h3>
+              </div>
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
+                The dedicated <span className="font-mono text-xs">rrule</span> library is significantly faster than forceCalendar&rsquo;s built-in RecurrenceEngine at expanding recurrence rules (17x to 1000x depending on pattern complexity).
+              </p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                The trade-off: forceCalendar&rsquo;s recurrence is built-in with zero extra dependencies, while FullCalendar requires the separate <span className="font-mono text-xs">rrule</span> library. For most calendars with moderate recurrence, the built-in engine is fast enough. For heavy RRULE workloads, a dedicated library wins.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-sm text-slate-400 dark:text-slate-500 mb-4">
+              Benchmarks run against published npm packages. Full methodology and interactive results available on the dashboard.
+            </p>
+            <a
+              href="https://benchmark.forcecalendar.org"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors"
+            >
+              View full benchmark
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
