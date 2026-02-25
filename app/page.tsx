@@ -8,41 +8,6 @@ import PackageCard from "./components/PackageCard";
 import CodeBlock from "./components/CodeBlock";
 import InstallCommand from "./components/InstallCommand";
 
-const trustItems = [
-  {
-    label: "Zero Dependencies",
-    icon: (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-      </svg>
-    ),
-  },
-  {
-    label: "MIT Licensed",
-    icon: (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 01-2.031.352 5.988 5.988 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.971zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 01-2.031.352 5.989 5.989 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.971z" />
-      </svg>
-    ),
-  },
-  {
-    label: "TypeScript",
-    icon: (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
-      </svg>
-    ),
-  },
-  {
-    label: "Locker Service Compatible",
-    icon: (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-      </svg>
-    ),
-  },
-];
-
 const problems = [
   {
     title: "Locker Service",
@@ -146,7 +111,14 @@ export default function Home() {
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             <InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" />
           </div>
-          <div className="mt-8 flex items-center justify-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/salesforce"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00A1E0] text-white text-sm font-medium rounded-lg hover:bg-[#0082B4] transition-colors"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M10.05 4.2a4.83 4.83 0 0 1 3.57 1.59 3.86 3.86 0 0 1 5.4.44 3.86 3.86 0 0 1 1.87 6.64 4.34 4.34 0 0 1-3.37 5.13H7.38a5.28 5.28 0 0 1-4.16-2.07A5.28 5.28 0 0 1 5.6 7.2a4.83 4.83 0 0 1 4.45-3z" /></svg>
+              Install on Salesforce
+            </Link>
             <a
               href="https://github.com/forcecalendar"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
@@ -163,20 +135,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust Strip */}
-      <section className="pb-16 px-6">
-        <div className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {trustItems.map((item) => (
-            <div
-              key={item.label}
-              className="flex items-center justify-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-3.5"
-            >
-              <span className="text-brand-600 dark:text-brand-400 flex-shrink-0">{item.icon}</span>
-              {item.label}
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* The Problem */}
       <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
@@ -212,8 +170,8 @@ export default function Home() {
       <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-5xl mx-auto">
           <SectionHeader
-            title="Proven in production Salesforce"
-            subtitle="Running natively inside Salesforce with full Locker Service compliance. No iframes, no workarounds."
+            title="Started with Salesforce"
+            subtitle="Most calendar libraries break inside Locker Service — that's where forceCalendar started. The same zero-dependency architecture works in any strict enterprise environment."
             id="salesforce"
           />
           <div className="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900/50 shadow-sm">
@@ -347,23 +305,35 @@ export default function Home() {
             <span className="mx-3 text-slate-300 dark:text-slate-600">&rarr;</span>
             @forcecalendar/interface
             <span className="mx-3 text-slate-300 dark:text-slate-600">&rarr;</span>
-            Your App
+            Salesforce LWC
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             <PackageCard
               href="/core"
               label="Core Engine"
               name="@forcecalendar/core"
-              description="Pure JavaScript scheduling engine. No DOM, no dependencies. Use when you need headless calendar logic in secure runtimes."
+              description="Pure JavaScript scheduling engine. No DOM, no dependencies. Headless calendar logic for any runtime."
               accentClass="text-violet-600 dark:text-violet-400"
             />
             <PackageCard
               href="/interface"
               label="UI Components"
               name="@forcecalendar/interface"
-              description="Web Components powered by Core. Framework-agnostic, Shadow DOM encapsulated. Use when you need calendar UI without framework lock-in."
+              description="Web Components powered by Core. Framework-agnostic, Shadow DOM encapsulated. Works in React, Vue, Angular, or vanilla JS."
               accentClass="text-cyan-600 dark:text-cyan-400"
             />
+            <div className="block p-6 rounded-lg border border-brand-200 dark:border-brand-800 bg-brand-50/30 dark:bg-brand-500/5">
+              <div className="text-xs font-mono uppercase tracking-wider mb-3 text-brand-600 dark:text-brand-400">
+                Salesforce Integration
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">Lightning Web Component</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
+                Built on top of both packages. Loads as a static resource, connects to Salesforce data through Apex. Locker Service safe.
+              </p>
+              <a href="#salesforce" className="text-sm text-brand-600 dark:text-brand-400 hover:underline">
+                See it running &rarr;
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -396,31 +366,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Banner */}
-      <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-3xl mx-auto text-center p-10 rounded-lg border border-slate-200 dark:border-slate-800 bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900/50 dark:to-slate-900/80">
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">
-            See it in action
-          </h2>
-          <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-xl mx-auto">
-            Test real components, configure options, and evaluate behavior before integrating.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/playground"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-600 text-white text-sm font-medium rounded-lg hover:bg-brand-700 transition-colors"
-            >
-              Open Playground
-            </Link>
-            <a
-              href="https://docs.forcecalendar.org"
-              className="inline-flex items-center px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            >
-              Read Documentation
-            </a>
-          </div>
-        </div>
-      </section>
 
       <Footer />
     </div>
