@@ -111,7 +111,14 @@ export default function Home() {
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             <InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" />
           </div>
-          <div className="mt-8 flex items-center justify-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04tg50000003qOfAAI"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-600 text-white text-sm font-medium rounded-lg hover:bg-brand-700 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" /></svg>
+              Install on Salesforce
+            </a>
             <a
               href="https://github.com/forcecalendar"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
