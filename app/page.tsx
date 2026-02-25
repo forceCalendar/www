@@ -8,41 +8,6 @@ import PackageCard from "./components/PackageCard";
 import CodeBlock from "./components/CodeBlock";
 import InstallCommand from "./components/InstallCommand";
 
-const trustItems = [
-  {
-    label: "Zero Dependencies",
-    icon: (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-      </svg>
-    ),
-  },
-  {
-    label: "MIT Licensed",
-    icon: (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 01-2.031.352 5.988 5.988 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.971zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 01-2.031.352 5.989 5.989 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.971z" />
-      </svg>
-    ),
-  },
-  {
-    label: "TypeScript",
-    icon: (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
-      </svg>
-    ),
-  },
-  {
-    label: "Locker Service Compatible",
-    icon: (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-      </svg>
-    ),
-  },
-];
-
 const problems = [
   {
     title: "Locker Service",
@@ -163,20 +128,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust Strip */}
-      <section className="pb-16 px-6">
-        <div className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {trustItems.map((item) => (
-            <div
-              key={item.label}
-              className="flex items-center justify-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-3.5"
-            >
-              <span className="text-brand-600 dark:text-brand-400 flex-shrink-0">{item.icon}</span>
-              {item.label}
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* The Problem */}
       <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
@@ -347,23 +298,35 @@ export default function Home() {
             <span className="mx-3 text-slate-300 dark:text-slate-600">&rarr;</span>
             @forcecalendar/interface
             <span className="mx-3 text-slate-300 dark:text-slate-600">&rarr;</span>
-            Your App
+            Salesforce LWC
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             <PackageCard
               href="/core"
               label="Core Engine"
               name="@forcecalendar/core"
-              description="Pure JavaScript scheduling engine. No DOM, no dependencies. Use when you need headless calendar logic in secure runtimes."
+              description="Pure JavaScript scheduling engine. No DOM, no dependencies. Headless calendar logic for any runtime."
               accentClass="text-violet-600 dark:text-violet-400"
             />
             <PackageCard
               href="/interface"
               label="UI Components"
               name="@forcecalendar/interface"
-              description="Web Components powered by Core. Framework-agnostic, Shadow DOM encapsulated. Use when you need calendar UI without framework lock-in."
+              description="Web Components powered by Core. Framework-agnostic, Shadow DOM encapsulated. Works in React, Vue, Angular, or vanilla JS."
               accentClass="text-cyan-600 dark:text-cyan-400"
             />
+            <div className="block p-6 rounded-lg border border-brand-200 dark:border-brand-800 bg-brand-50/30 dark:bg-brand-500/5">
+              <div className="text-xs font-mono uppercase tracking-wider mb-3 text-brand-600 dark:text-brand-400">
+                Salesforce Integration
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">Lightning Web Component</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
+                Built on top of both packages. Loads as a static resource, connects to Salesforce data through Apex. Locker Service safe.
+              </p>
+              <a href="#salesforce" className="text-sm text-brand-600 dark:text-brand-400 hover:underline">
+                See it running &rarr;
+              </a>
+            </div>
           </div>
         </div>
       </section>
