@@ -212,8 +212,8 @@ export default function Home() {
       <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-5xl mx-auto">
           <SectionHeader
-            title="Proven in production Salesforce"
-            subtitle="Running natively inside Salesforce with full Locker Service compliance. No iframes, no workarounds."
+            title="Started with Salesforce"
+            subtitle="Most calendar libraries break inside Locker Service — that's where forceCalendar started. The same zero-dependency architecture works in any strict enterprise environment."
             id="salesforce"
           />
           <div className="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900/50 shadow-sm">
