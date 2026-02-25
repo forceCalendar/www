@@ -3,6 +3,7 @@ import Link from "next/link";
 const productLinks = [
   { href: "/core", label: "Core" },
   { href: "/interface", label: "Interface" },
+  { href: "/salesforce", label: "Salesforce" },
   { href: "/playground", label: "Playground" },
 ];
 

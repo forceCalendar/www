@@ -6,6 +6,7 @@ import Link from "next/link";
 const navLinks = [
   { href: "/core", label: "Core" },
   { href: "/interface", label: "Interface" },
+  { href: "/salesforce", label: "Salesforce" },
   { href: "/playground", label: "Playground" },
   { href: "https://docs.forcecalendar.org", label: "Docs", external: true },
   { href: "https://github.com/forcecalendar", label: "GitHub", external: true },
