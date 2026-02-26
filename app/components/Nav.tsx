@@ -27,7 +27,12 @@ export default function Nav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -40,7 +45,7 @@ export default function Nav() {
   }, []);
 
   const currentSite = sites.find((s) => s.current);
-  const isCurrentPage = (href: string) => pathname === href;
+  const isCurrentPage = (href: string) => isHydrated && pathname === href;
 
   return (
     <>
