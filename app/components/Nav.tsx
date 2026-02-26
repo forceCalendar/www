@@ -7,10 +7,10 @@ import ThemeToggle from "./ThemeToggle";
 import MobileMenu from "./MobileMenu";
 
 const sites = [
-  { href: "https://forcecalendar.org", label: "Home", current: true },
-  { href: "https://docs.forcecalendar.org", label: "Docs" },
-  { href: "https://benchmark.forcecalendar.org", label: "Benchmark" },
-  { href: "https://audit.forcecalendar.org", label: "Audit" },
+  { href: "https://forcecalendar.org", label: "Home", current: true, external: true },
+  { href: "https://docs.forcecalendar.org", label: "Docs", external: true },
+  { href: "https://benchmark.forcecalendar.org", label: "Benchmark", external: true },
+  { href: "https://audit.forcecalendar.org", label: "Audit", external: true },
 ];
 
 const pageLinks = [
