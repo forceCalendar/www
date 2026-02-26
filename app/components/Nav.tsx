@@ -1,24 +1,30 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import MobileMenu from "./MobileMenu";
 
 const sites = [
-  { href: "/", label: "Home", current: true },
+  { href: "https://forcecalendar.org", label: "Home", current: true },
+  { href: "https://docs.forcecalendar.org", label: "Docs" },
+  { href: "https://benchmark.forcecalendar.org", label: "Benchmark" },
+  { href: "https://audit.forcecalendar.org", label: "Audit" },
+];
+
+const pageLinks = [
+  { href: "/", label: "Home" },
   { href: "/core", label: "Core" },
   { href: "/interface", label: "Interface" },
   { href: "/salesforce", label: "Salesforce" },
   { href: "/playground", label: "Playground" },
-  { href: "https://docs.forcecalendar.org", label: "Docs", external: true },
-  { href: "https://benchmark.forcecalendar.org", label: "Benchmark", external: true },
-  { href: "https://audit.forcecalendar.org", label: "Audit", external: true },
 ];
 
-export { sites };
+export { sites, pageLinks };
 
 export default function Nav() {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -34,6 +40,7 @@ export default function Nav() {
   }, []);
 
   const currentSite = sites.find((s) => s.current);
+  const isCurrentPage = (href: string) => pathname === href;
 
   return (
     <>
@@ -87,6 +94,23 @@ export default function Nav() {
                 </div>
               )}
             </div>
+          </div>
+
+          {/* Center: page-level links */}
+          <div className="hidden md:flex items-center gap-6 text-sm">
+            {pageLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`transition-colors ${
+                  isCurrentPage(link.href)
+                    ? "text-slate-900 dark:text-white font-medium"
+                    : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
 
           {/* Right: actions */}
