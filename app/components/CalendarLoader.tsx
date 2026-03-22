@@ -51,7 +51,7 @@ export default function CalendarLoader({
 
   if (status === "error") {
     return (
-      <div className="flex flex-col items-center justify-center text-center px-4" style={{ minHeight: height }}>
+      <div className="flex flex-col items-center justify-center text-center px-4 py-8" style={{ minHeight: 160 }}>
         <p className="text-slate-500 dark:text-slate-400 mb-3">Failed to load calendar component.</p>
         <button
           onClick={() => {
@@ -60,7 +60,7 @@ export default function CalendarLoader({
               .then(() => setStatus("ready"))
               .catch(() => setStatus("error"));
           }}
-          className="text-sm text-brand-600 dark:text-brand-400 hover:underline"
+          className="text-sm text-brand-600 dark:text-brand-400 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded"
         >
           Retry
         </button>
