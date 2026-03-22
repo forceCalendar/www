@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { createContext, useContext, useEffect, useCallback, useState } from "react";
 
 type Theme = "light" | "dark";
 
@@ -18,6 +18,21 @@ export function useTheme() {
   return useContext(ThemeContext);
 }
 
+function getInitialTheme(): Theme {
+  // Check localStorage first (client-side only)
+  if (typeof window !== "undefined") {
+    const stored = localStorage.getItem("theme") as Theme | null;
+    if (stored === "light" || stored === "dark") {
+      return stored;
+    }
+    // Fall back to system preference
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    }
+  }
+  return "light";
+}
+
 export function ThemeProvider({
   children,
   initialTheme,
@@ -26,8 +41,20 @@ export function ThemeProvider({
   initialTheme: Theme;
 }) {
   const [theme, setTheme] = useState<Theme>(initialTheme);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // After hydration, use the correct theme from localStorage or system preference
+  useEffect(() => {
+    setIsMounted(true);
+    const correctTheme = getInitialTheme();
+    if (correctTheme !== initialTheme) {
+      setTheme(correctTheme);
+    }
+  }, [initialTheme]);
 
   useEffect(() => {
+    if (!isMounted) return;
+    
     const root = document.documentElement;
     if (theme === "dark") {
       root.classList.add("dark");
@@ -36,7 +63,7 @@ export function ThemeProvider({
     }
     localStorage.setItem("theme", theme);
     document.cookie = `theme=${theme};path=/;max-age=31536000;SameSite=Lax`;
-  }, [theme]);
+  }, [theme, isMounted]);
 
   const toggleTheme = useCallback(() => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));

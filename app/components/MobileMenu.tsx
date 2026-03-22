@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { sites, pageLinks } from "./Nav";
 
@@ -11,14 +11,74 @@ export default function MobileMenu({
   open: boolean;
   onClose: () => void;
 }) {
+  const menuRef = useRef<HTMLDivElement>(null);
+  const previousActiveElement = useRef<HTMLElement | null>(null);
+
+  // Stabilize onClose to prevent memory leaks
+  const handleClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
+
   useEffect(() => {
     if (!open) return;
+
+    // Store previously focused element for focus restoration
+    previousActiveElement.current = document.activeElement as HTMLElement;
+
+    // Focus the close button when menu opens
+    const closeBtn = menuRef.current?.querySelector('button[aria-label="Close menu"]');
+    if (closeBtn) {
+      (closeBtn as HTMLElement).focus();
+    }
+
+    // Scroll lock
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    // Keyboard event handlers
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        handleClose();
+        return;
+      }
+
+      // Focus trap
+      if (e.key === "Tab") {
+        const focusableElements = menuRef.current?.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusableElements || focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0] as HTMLElement;
+        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+        if (e.shiftKey) {
+          // Shift + Tab
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          // Tab
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
+      }
     };
+
     document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [open, onClose]);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+      // Restore focus to previously focused element
+      if (previousActiveElement.current) {
+        previousActiveElement.current.focus();
+      }
+    };
+  }, [open, handleClose]);
 
   if (!open) return null;
 
@@ -26,14 +86,21 @@ export default function MobileMenu({
     <>
       <div
         className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
-        onClick={onClose}
+        onClick={handleClose}
+        aria-hidden="true"
       />
-      <div className="fixed inset-y-0 right-0 z-50 w-72 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 md:hidden animate-slide-in">
+      <div
+        ref={menuRef}
+        className="fixed inset-y-0 right-0 z-50 w-72 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 md:hidden animate-slide-in"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile navigation menu"
+      >
         <div className="flex items-center justify-end p-4">
           <button
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Close menu"
-            className="p-2 text-slate-500 hover:text-slate-900 dark:hover:text-white rounded-md"
+            className="p-2 text-slate-500 hover:text-slate-900 dark:hover:text-white rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -53,11 +120,11 @@ export default function MobileMenu({
                   ? "block px-3 py-2 rounded-md text-sm font-medium text-slate-900 bg-slate-100 dark:text-white dark:bg-slate-800"
                   : "block px-3 py-2 rounded-md text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors";
                 return site.external ? (
-                  <a key={site.href} href={site.href} onClick={onClose} className={cls}>
+                  <a key={site.href} href={site.href} onClick={handleClose} className={cls}>
                     {site.label}
                   </a>
                 ) : (
-                  <Link key={site.href} href={site.href} onClick={onClose} className={cls}>
+                  <Link key={site.href} href={site.href} onClick={handleClose} className={cls}>
                     {site.label}
                   </Link>
                 );
@@ -75,7 +142,7 @@ export default function MobileMenu({
                 <Link
                   key={link.href}
                   href={link.href}
-                  onClick={onClose}
+                  onClick={handleClose}
                   className="block px-3 py-2 rounded-md text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors"
                 >
                   {link.label}
