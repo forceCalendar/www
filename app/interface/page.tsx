@@ -101,31 +101,34 @@ export default function InterfacePage() {
       <Nav />
 
       {/* Hero */}
-      <section className="pt-24 pb-16 px-6">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-xs font-mono text-cyan-600 dark:text-cyan-400 uppercase tracking-wider mb-4">
-            UI Components
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white mb-4">
-            @forcecalendar/interface
-          </h1>
-          <p className="text-xl text-slate-500 dark:text-slate-400 mb-8">
-            Production-ready Web Components that work with any framework.
-          </p>
-          <div className="flex flex-wrap items-center gap-4">
-            <InstallCommand command="npm install @forcecalendar/interface" />
-            <Link
-              href="/playground"
-              className="text-sm text-cyan-600 dark:text-cyan-400 hover:underline"
-            >
-              Try Playground &rarr;
-            </Link>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid" aria-hidden />
+        <div className="relative pt-24 pb-16 px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-50 dark:bg-cyan-500/10 ring-1 ring-cyan-200 dark:ring-cyan-500/25 text-xs font-mono font-medium uppercase tracking-widest text-cyan-600 dark:text-cyan-400 mb-6">
+              UI Components
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white mb-4">
+              @forcecalendar/interface
+            </h1>
+            <p className="text-xl text-slate-500 dark:text-slate-400 mb-8 max-w-2xl">
+              Production-ready Web Components that work with any framework.
+            </p>
+            <div className="flex flex-wrap items-center gap-4">
+              <InstallCommand command="npm install @forcecalendar/interface" />
+              <Link
+                href="/playground"
+                className="inline-flex items-center gap-1 text-sm font-medium text-cyan-600 dark:text-cyan-400 hover:underline"
+              >
+                Try Playground <span aria-hidden>&rarr;</span>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Live Preview */}
-      <section className="py-12 px-6 border-t border-slate-200 dark:border-slate-800">
+      <section className="py-12 px-6 border-t border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/30">
         <div className="max-w-4xl mx-auto">
           <InterfacePreview />
         </div>

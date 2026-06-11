@@ -44,8 +44,8 @@ export default function Nav() {
 
   return (
     <>
-      <nav className="sticky top-0 z-30 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+      <nav className="sticky top-0 z-30 w-full bg-white/75 dark:bg-slate-950/75 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
           {/* Left: Logo + site switcher */}
           <div className="flex items-center gap-3">
@@ -107,15 +107,15 @@ export default function Nav() {
           </div>
 
           {/* Center: page-level links */}
-          <div className="hidden md:flex items-center gap-6 text-sm">
+          <div className="hidden md:flex items-center gap-1 text-sm">
             {pageLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`transition-colors ${
+                className={`px-3 py-1.5 rounded-full transition-colors ${
                   isCurrentPage(link.href)
-                    ? "text-slate-900 dark:text-white font-medium"
-                    : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                    ? "text-slate-900 dark:text-white font-medium bg-slate-100 dark:bg-slate-800/80"
+                    : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-900"
                 }`}
               >
                 {link.label}
