@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useCallback, useState } from "react";
+import { createContext, useContext, useEffect, useCallback, useState, useSyncExternalStore } from "react";
 
 type Theme = "light" | "dark";
 
@@ -33,6 +33,8 @@ function getInitialTheme(): Theme {
   return "light";
 }
 
+const emptySubscribe = () => () => {};
+
 export function ThemeProvider({
   children,
   initialTheme,
@@ -41,16 +43,25 @@ export function ThemeProvider({
   initialTheme: Theme;
 }) {
   const [theme, setTheme] = useState<Theme>(initialTheme);
-  const [isMounted, setIsMounted] = useState(false);
+  // Hydration-safe mounted flag without setState-in-effect: false during SSR
+  // and the hydration pass, true on the client afterwards
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 
-  // After hydration, use the correct theme from localStorage or system preference
+  // After hydration, use the correct theme from localStorage or system
+  // preference; deferred a tick so the hydration pass isn't invalidated
   useEffect(() => {
-    setIsMounted(true);
-    const correctTheme = getInitialTheme();
-    if (correctTheme !== initialTheme) {
-      setTheme(correctTheme);
-    }
-  }, [initialTheme]);
+    const timer = setTimeout(() => {
+      setTheme((prev) => {
+        const correctTheme = getInitialTheme();
+        return correctTheme !== prev ? correctTheme : prev;
+      });
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (!isMounted) return;
