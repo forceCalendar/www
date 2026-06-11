@@ -32,15 +32,6 @@ html {
     linear-gradient(to bottom, rgb(148 163 184 / 0.06) 1px, transparent 1px);
 }
 
-/* Soft brand glow used behind heroes */
-.hero-glow {
-  background: radial-gradient(ellipse 50% 45% at 50% 0%, rgb(37 99 235 / 0.08), transparent 70%);
-}
-
-.dark .hero-glow {
-  background: radial-gradient(ellipse 50% 45% at 50% 0%, rgb(59 130 246 / 0.12), transparent 70%);
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
