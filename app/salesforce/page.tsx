@@ -24,18 +24,21 @@ export default function SalesforcePage() {
       <Nav />
 
       {/* Hero */}
-      <section className="pt-24 pb-16 px-6">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-xs font-mono uppercase tracking-wider text-brand-600 dark:text-brand-400 mb-4">
-            Salesforce Integration
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid" aria-hidden />
+        <div className="relative pt-24 pb-16 px-6">
+          <div className="max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 dark:bg-brand-500/10 ring-1 ring-brand-200 dark:ring-brand-500/25 text-xs font-mono font-medium uppercase tracking-widest text-brand-600 dark:text-brand-400 mb-6">
+              Salesforce Integration
+            </div>
+            <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white leading-tight">
+              Install forceCalendar on Salesforce
+            </h1>
+            <p className="mt-5 text-lg sm:text-xl text-slate-500 dark:text-slate-400 max-w-2xl">
+              One-click install via unlocked package. Includes LWC components, Apex
+              controller, and the bundled static resource. No code required.
+            </p>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900 dark:text-white leading-tight">
-            Install forceCalendar on Salesforce
-          </h1>
-          <p className="mt-4 text-lg text-slate-500 dark:text-slate-400 max-w-2xl">
-            One-click install via unlocked package. Includes LWC components, Apex
-            controller, and the bundled static resource. No code required.
-          </p>
         </div>
       </section>
 

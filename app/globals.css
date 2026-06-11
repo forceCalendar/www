@@ -8,6 +8,39 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+::selection {
+  background: rgb(37 99 235 / 0.15);
+}
+
+.dark ::selection {
+  background: rgb(96 165 250 / 0.25);
+}
+
+/* Subtle blueprint grid used behind heroes */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(148 163 184 / 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(148 163 184 / 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+}
+
+.dark .bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(148 163 184 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(148 163 184 / 0.06) 1px, transparent 1px);
+}
+
+/* Soft brand glow used behind heroes */
+.hero-glow {
+  background: radial-gradient(ellipse 50% 45% at 50% 0%, rgb(37 99 235 / 0.08), transparent 70%);
+}
+
+.dark .hero-glow {
+  background: radial-gradient(ellipse 50% 45% at 50% 0%, rgb(59 130 246 / 0.12), transparent 70%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

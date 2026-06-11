@@ -34,39 +34,42 @@ export default function CorePage() {
       <Nav />
 
       {/* Hero */}
-      <section className="pt-24 pb-16 px-6">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-xs font-mono text-violet-600 dark:text-violet-400 uppercase tracking-wider mb-4">
-            Core Engine
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white mb-4">
-            @forcecalendar/core
-          </h1>
-          <p className="text-xl text-slate-500 dark:text-slate-400 mb-8">
-            Zero-dependency calendar logic for enterprise applications.
-          </p>
-          <div className="flex flex-wrap items-center gap-4">
-            <InstallCommand command="npm install @forcecalendar/core" />
-            <a
-              href="https://github.com/forcecalendar/core"
-              className="text-sm text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
-            >
-              View on GitHub &rarr;
-            </a>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid" aria-hidden />
+        <div className="relative pt-24 pb-16 px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 dark:bg-violet-500/10 ring-1 ring-violet-200 dark:ring-violet-500/25 text-xs font-mono font-medium uppercase tracking-widest text-violet-600 dark:text-violet-400 mb-6">
+              Core Engine
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white mb-4">
+              @forcecalendar/core
+            </h1>
+            <p className="text-xl text-slate-500 dark:text-slate-400 mb-8 max-w-2xl">
+              Zero-dependency calendar logic for enterprise applications.
+            </p>
+            <div className="flex flex-wrap items-center gap-4">
+              <InstallCommand command="npm install @forcecalendar/core" />
+              <a
+                href="https://github.com/forcecalendar/core"
+                className="inline-flex items-center gap-1 text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
+              >
+                View on GitHub <span aria-hidden>&rarr;</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Metrics */}
-      <section className="py-16 px-6 border-t border-slate-200 dark:border-slate-800">
+      <section className="py-12 px-6 border-y border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/30">
         <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
             {metrics.map((stat) => (
-              <div key={stat.label} className="text-center bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4">
-                <div className="text-2xl font-semibold text-slate-900 dark:text-white">
+              <div key={stat.label} className="text-center bg-white dark:bg-slate-900/60 ring-1 ring-slate-200 dark:ring-slate-800 rounded-xl p-5">
+                <div className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">
                   {stat.value}
                 </div>
-                <div className="text-xs text-slate-500 mt-1">{stat.label}</div>
+                <div className="text-xs text-slate-500 mt-1 uppercase tracking-wider">{stat.label}</div>
               </div>
             ))}
           </div>

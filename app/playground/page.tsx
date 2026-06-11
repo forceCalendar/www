@@ -16,22 +16,28 @@ export default function PlaygroundPage() {
       <Nav />
 
       {/* Header */}
-      <section className="pt-24 pb-8 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-center gap-2 text-xs font-mono text-green-600 dark:text-green-400 uppercase tracking-wider mb-3">
-            <span className="w-2 h-2 bg-green-500 rounded-full" />
-            Live
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid" aria-hidden />
+        <div className="relative pt-24 pb-10 px-6">
+          <div className="max-w-5xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 ring-1 ring-emerald-200 dark:ring-emerald-500/25 text-xs font-mono font-medium uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-6">
+              <span className="relative flex w-2 h-2" aria-hidden>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 motion-reduce:hidden" />
+                <span className="relative inline-flex rounded-full w-2 h-2 bg-emerald-500" />
+              </span>
+              Live
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900 dark:text-white mb-3">
+              Playground
+            </h1>
+            <p className="text-slate-500 dark:text-slate-400 max-w-2xl">
+              The real{" "}
+              <code className="text-sm font-mono text-cyan-600 dark:text-cyan-400">
+                @forcecalendar/interface
+              </code>{" "}
+              web component running live. Configure options and copy the output.
+            </p>
           </div>
-          <h1 className="text-3xl font-semibold text-slate-900 dark:text-white mb-2">
-            Playground
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400">
-            The real{" "}
-            <code className="text-sm font-mono text-cyan-600 dark:text-cyan-400">
-              @forcecalendar/interface
-            </code>{" "}
-            web component running live. Configure options and copy the output.
-          </p>
         </div>
       </section>
 

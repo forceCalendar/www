@@ -56,15 +56,15 @@ function FooterColumn({
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-200 dark:border-slate-800">
-      <div className="max-w-5xl mx-auto px-6 py-12">
+    <footer className="border-t border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/20">
+      <div className="max-w-6xl mx-auto px-6 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
             <div className="text-lg tracking-tight text-slate-900 dark:text-white mb-2">
               <span className="font-light">force</span>
               <span className="font-semibold">Calendar</span>
             </div>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
               Calendar infrastructure for strict enterprise environments.
             </p>
           </div>
@@ -72,8 +72,8 @@ export default function Footer() {
           <FooterColumn title="Resources" links={resourceLinks} />
           <FooterColumn title="Community" links={communityLinks} />
         </div>
-        <div className="mt-10 pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-400 dark:text-slate-500">
+        <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 dark:text-slate-400 [&>span]:inline-flex [&>span]:items-center [&>span]:gap-1.5 [&>span]:px-2.5 [&>span]:py-1 [&>span]:rounded-full [&>span]:ring-1 [&>span]:ring-slate-200 dark:[&>span]:ring-slate-800 [&>span]:bg-white dark:[&>span]:bg-slate-900">
             <span className="inline-flex items-center gap-1.5">
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
               Zero Dependencies
