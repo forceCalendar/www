@@ -70,8 +70,45 @@ export default function CalendarLoader({
 
   if (status === "loading") {
     return (
-      <div className="flex items-center justify-center" style={{ minHeight: height }}>
-        <div className="inline-block w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
+      <div className="p-4" style={{ minHeight: height }}>
+        {/* Skeleton header */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="w-20 h-7 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+            <div className="w-6 h-7 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-7 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+            <div className="w-16 h-7 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+            <div className="w-8 h-7 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-16 h-7 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+            <div className="w-12 h-7 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+            <div className="w-12 h-7 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+            <div className="w-12 h-7 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+          </div>
+        </div>
+        {/* Skeleton grid matching the active view to reduce layout shift */}
+        <div className={`grid ${view === "day" ? "grid-cols-1" : "grid-cols-7"} gap-px bg-slate-200 dark:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden`}>
+          {Array.from({ length: view === "month" ? 35 : view === "week" ? 7 : 1 }).map((_, i) => (
+            <div
+              key={i}
+              className="bg-white dark:bg-slate-900 p-2"
+              style={{ minHeight: view === "month" ? height / 6 : height }}
+            >
+              {view === "month" && (
+                <>
+                  <div className="w-6 h-5 bg-slate-200 dark:bg-slate-700 rounded animate-pulse mb-2" />
+                  <div className="space-y-1">
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                  </div>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

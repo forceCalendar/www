@@ -176,7 +176,7 @@ export default function PlaygroundClient() {
           {eventList.length > 0 && (
             <ul className="space-y-1.5">
               {eventList.map((e) => (
-                <li key={e.id} className="text-xs text-slate-500 dark:text-slate-400 font-mono truncate">
+                <li key={String(e.id)} className="text-xs text-slate-500 dark:text-slate-400 font-mono truncate">
                   {String(e.title || e.id)}
                 </li>
               ))}
