@@ -196,17 +196,26 @@ export default function PlaygroundClient() {
             Add Sample Events
           </button>
           {eventList.length > 0 && (
-            <ul className="space-y-1.5">
+            <ul className="space-y-1">
               {eventList.map((e) => (
-                <li key={String(e.id)} className="text-xs text-slate-500 dark:text-slate-400 font-mono truncate">
-                  {String(e.title || e.id)}
+                <li
+                  key={String(e.id)}
+                  className="flex items-center gap-2 px-2 py-1.5 rounded-md text-xs text-slate-600 dark:text-slate-300 font-mono truncate transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/60"
+                >
+                  <span
+                    className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-brand-500"
+                    aria-hidden
+                  />
+                  <span className="truncate">{String(e.title || e.id)}</span>
                 </li>
               ))}
             </ul>
           )}
           {eventList.length === 0 && (
-            <div className="border border-dashed border-slate-200 dark:border-slate-700 rounded-md p-3 text-center">
-              <p className="text-xs text-slate-400">No events loaded.</p>
+            <div className="border border-dashed border-slate-200 dark:border-slate-700 rounded-md px-3 py-5 text-center">
+              <p className="text-xs text-slate-400 dark:text-slate-500">
+                No events yet — add the samples to see them here.
+              </p>
             </div>
           )}
         </div>

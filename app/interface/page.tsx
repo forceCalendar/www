@@ -151,7 +151,7 @@ export default function InterfacePage() {
             {components.map((comp) => (
               <div
                 key={comp.name}
-                className="p-5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50"
+                className="p-5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 transition-all duration-200 hover:border-cyan-300 dark:hover:border-cyan-500/40 hover:shadow-lg hover:shadow-slate-200/60 dark:hover:shadow-slate-950/60"
               >
                 <code className="text-cyan-600 dark:text-cyan-400 text-sm font-mono">
                   {comp.name}
@@ -227,7 +227,7 @@ export default function InterfacePage() {
                 </thead>
                 <tbody>
                   {attributes.map((attr) => (
-                    <tr key={attr.name} className="border-b border-slate-100 dark:border-slate-800/50">
+                    <tr key={attr.name} className="border-b border-slate-100 dark:border-slate-800/50 last:border-0 transition-colors hover:bg-slate-50/60 dark:hover:bg-slate-900/40">
                       <td className="py-2.5 px-4">
                         <code className="text-xs font-mono text-cyan-600 dark:text-cyan-400">{attr.name}</code>
                       </td>
@@ -256,7 +256,7 @@ export default function InterfacePage() {
                 </thead>
                 <tbody>
                   {events.map((evt) => (
-                    <tr key={evt.name} className="border-b border-slate-100 dark:border-slate-800/50">
+                    <tr key={evt.name} className="border-b border-slate-100 dark:border-slate-800/50 last:border-0 transition-colors hover:bg-slate-50/60 dark:hover:bg-slate-900/40">
                       <td className="py-2.5 px-4">
                         <code className="text-xs font-mono text-cyan-600 dark:text-cyan-400">{evt.name}</code>
                       </td>
@@ -279,22 +279,22 @@ export default function InterfacePage() {
           <h2 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white mb-6">
             Ready to build?
           </h2>
-          <div className="flex justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-3">
             <Link
               href="/playground"
-              className="px-5 py-2.5 bg-cyan-600 text-white text-sm font-medium rounded-lg hover:bg-cyan-700 transition-colors"
+              className="px-5 py-2.5 bg-cyan-600 text-white text-sm font-medium rounded-lg shadow-sm shadow-cyan-600/25 hover:bg-cyan-700 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
             >
               Playground
             </Link>
             <a
               href="https://docs.forcecalendar.org/interface"
-              className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors"
+              className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:border-slate-400 dark:hover:border-slate-600 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
             >
               Documentation
             </a>
             <a
               href="https://github.com/forcecalendar/interface"
-              className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors"
+              className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:border-slate-400 dark:hover:border-slate-600 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
             >
               GitHub
             </a>

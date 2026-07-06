@@ -16,16 +16,19 @@ const metrics = [
   { label: "Dependencies", value: "0" },
   { label: "License", value: "MIT" },
   { label: "Module", value: "ESM" },
-  { label: "Bundle", value: "~14KB" },
+  { label: "Min + gzip", value: "~35KB" },
 ];
 
 const exports = [
-  { name: "Calendar", desc: "Core calendar engine with state, navigation, and event management" },
-  { name: "EventStore", desc: "Spatial-indexed event storage with range queries" },
-  { name: "TimezoneManager", desc: "IANA timezone conversion and DST handling" },
-  { name: "ICSParser", desc: "iCalendar import and export" },
-  { name: "SearchEngine", desc: "Full-text search across event data" },
-  { name: "StateManager", desc: "Reactive state management with subscribe/unsubscribe" },
+  { name: "Calendar", desc: "Core calendar engine with state, navigation, timezone conversion, and event management" },
+  { name: "Event", desc: "Event model with validation, normalization, and timezone-aware accessors" },
+  { name: "EventStore", desc: "Indexed event storage with range queries and conflict detection" },
+  { name: "StateManager", desc: "Reactive state management with subscribe/unsubscribe and history" },
+  { name: "DateUtils", desc: "Date math, formatting, and week/month grid helpers" },
+  { name: "EventSearch", desc: "Full-text search across event titles, descriptions, and fields" },
+  { name: "ICSParser", desc: "RFC 5545 iCalendar import and export" },
+  { name: "RecurrenceEngine", desc: "RRULE expansion with exceptions, overrides, and hard occurrence caps" },
+  { name: "EnhancedCalendar", desc: "Calendar extended with worker-backed search and RecurrenceEngineV2" },
 ];
 
 export default function CorePage() {
@@ -96,7 +99,7 @@ export default function CorePage() {
             {exports.map((exp) => (
               <div
                 key={exp.name}
-                className="p-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50"
+                className="p-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 transition-all duration-200 hover:border-violet-300 dark:hover:border-violet-500/40 hover:shadow-lg hover:shadow-slate-200/60 dark:hover:shadow-slate-950/60"
               >
                 <code className="text-sm font-mono text-violet-600 dark:text-violet-400">
                   {exp.name}
@@ -161,12 +164,15 @@ const calendar = new Calendar({
                   </pre>
                 ),
               },
-            ].map((item) => (
-              <div key={item.step} className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-violet-50 dark:bg-violet-500/10 border border-violet-200 dark:border-violet-500/20 flex items-center justify-center text-sm font-medium text-violet-600 dark:text-violet-400">
+            ].map((item, i, arr) => (
+              <div key={item.step} className="relative flex gap-4">
+                {i < arr.length - 1 && (
+                  <div className="absolute left-4 top-8 bottom-[-2rem] w-px bg-slate-200 dark:bg-slate-800" aria-hidden />
+                )}
+                <div className="relative flex-shrink-0 w-8 h-8 rounded-full bg-violet-50 dark:bg-violet-500/10 border border-violet-200 dark:border-violet-500/20 flex items-center justify-center text-sm font-medium text-violet-600 dark:text-violet-400">
                   {item.step}
                 </div>
-                <div className="flex-grow">
+                <div className="flex-grow min-w-0">
                   <h3 className="text-slate-900 dark:text-white font-medium mb-2">
                     {item.title}
                   </h3>
@@ -184,22 +190,22 @@ const calendar = new Calendar({
           <h2 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white mb-6">
             Start building
           </h2>
-          <div className="flex justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-3">
             <a
               href="https://docs.forcecalendar.org/core"
-              className="px-5 py-2.5 bg-violet-600 text-white text-sm font-medium rounded-lg hover:bg-violet-700 transition-colors"
+              className="px-5 py-2.5 bg-violet-600 text-white text-sm font-medium rounded-lg shadow-sm shadow-violet-600/25 hover:bg-violet-700 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
             >
               Documentation
             </a>
             <a
               href="https://docs.forcecalendar.org/core/api"
-              className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors"
+              className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:border-slate-400 dark:hover:border-slate-600 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
             >
               API Reference
             </a>
             <a
               href="https://github.com/forcecalendar/core"
-              className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors"
+              className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:border-slate-400 dark:hover:border-slate-600 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
             >
               GitHub
             </a>
