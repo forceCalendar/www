@@ -29,55 +29,66 @@ const components = [
 const cssTokens = [
   "--fc-primary-color",
   "--fc-primary-hover",
+  "--fc-primary-light",
+  "--fc-accent-color",
   "--fc-background",
   "--fc-background-alt",
   "--fc-background-hover",
+  "--fc-background-active",
   "--fc-text-color",
   "--fc-text-secondary",
   "--fc-text-light",
   "--fc-border-color",
+  "--fc-border-color-hover",
+  "--fc-border-width",
   "--fc-border-radius",
+  "--fc-border-radius-sm",
+  "--fc-border-radius-lg",
+  "--fc-border-radius-full",
   "--fc-font-family",
-  "--fc-font-size",
-  "--fc-header-bg",
-  "--fc-header-color",
-  "--fc-today-bg",
-  "--fc-today-color",
-  "--fc-selected-bg",
-  "--fc-selected-color",
-  "--fc-event-bg",
-  "--fc-event-color",
-  "--fc-event-border",
+  "--fc-font-size-base",
+  "--fc-font-size-xs",
+  "--fc-font-size-sm",
+  "--fc-font-size-lg",
+  "--fc-font-size-xl",
+  "--fc-font-weight-normal",
+  "--fc-font-weight-medium",
+  "--fc-font-weight-semibold",
+  "--fc-font-weight-bold",
+  "--fc-line-height",
+  "--fc-spacing-xs",
+  "--fc-spacing-sm",
+  "--fc-spacing-md",
+  "--fc-spacing-lg",
+  "--fc-spacing-xl",
   "--fc-danger-color",
   "--fc-success-color",
-  "--fc-warning-color",
   "--fc-shadow",
+  "--fc-shadow-sm",
+  "--fc-shadow-md",
   "--fc-shadow-lg",
-  "--fc-transition-speed",
-  "--fc-z-index-dropdown",
-  "--fc-z-index-modal",
-  "--fc-cell-height",
-  "--fc-cell-min-width",
-  "--fc-header-height",
-  "--fc-sidebar-width",
-  "--fc-scrollbar-width",
-  "--fc-scrollbar-color",
-  "--fc-scrollbar-track",
+  "--fc-transition",
+  "--fc-transition-fast",
+  "--fc-transition-slow",
+  "--fc-z-dropdown",
+  "--fc-z-modal",
+  "--fc-z-tooltip",
 ];
 
 const attributes = [
   { name: "view", type: "string", default: '"month"', desc: "Calendar view: month, week, day" },
+  { name: "date", type: "string", default: "today", desc: "Initial date the calendar displays" },
   { name: "locale", type: "string", default: '"en-US"', desc: "BCP 47 locale tag" },
   { name: "timezone", type: "string", default: "local", desc: "IANA timezone identifier" },
   { name: "week-starts-on", type: "string", default: '"0"', desc: "0 = Sunday, 1 = Monday, 6 = Saturday" },
-  { name: "theme", type: "string", default: '"light"', desc: "Built-in theme: light or dark" },
+  { name: "height", type: "string", default: '"800px"', desc: "Calendar height (any CSS length)" },
 ];
 
 const events = [
-  { name: "event-click", detail: "{ event }", desc: "Fired when an event is clicked" },
-  { name: "date-select", detail: "{ date, view }", desc: "Fired when a date cell is selected" },
-  { name: "view-change", detail: "{ view }", desc: "Fired when the view changes" },
-  { name: "navigate", detail: "{ date, direction }", desc: "Fired on calendar navigation" },
+  { name: "calendar-date-select", detail: "{ date }", desc: "Fired when a date cell is selected" },
+  { name: "calendar-view-change", detail: "{ view }", desc: "Fired when the view changes" },
+  { name: "calendar-navigate", detail: "{ action, date }", desc: "Fired on next/previous/today/goto navigation" },
+  { name: "calendar-event-add", detail: "{ event }", desc: "Fired when an event is added (also -update, -remove)" },
 ];
 
 const themingExample = `forcecal-main {
@@ -89,10 +100,8 @@ const themingExample = `forcecal-main {
   --fc-text-secondary: #64748b;
   --fc-font-family: 'Inter', system-ui;
   --fc-border-radius: 0.375rem;
-  --fc-today-bg: #eff6ff;
-  --fc-today-color: #2563eb;
-  --fc-event-bg: #dbeafe;
-  --fc-event-color: #1e40af;
+  --fc-background-hover: #f1f5f9;
+  --fc-accent-color: #1e40af;
 }`;
 
 export default function InterfacePage() {

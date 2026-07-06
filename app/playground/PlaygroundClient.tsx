@@ -29,11 +29,22 @@ const timezones = [
   { value: "Australia/Sydney", label: "Sydney (AEST)" },
 ];
 
-const sampleEvents = [
-  { id: "sample-1", title: "Team Standup", start: new Date().toISOString(), duration: 30 },
-  { id: "sample-2", title: "Sprint Planning", start: new Date(Date.now() + 86400000).toISOString(), duration: 60 },
-  { id: "sample-3", title: "Design Review", start: new Date(Date.now() + 172800000).toISOString(), duration: 45 },
-];
+// Core derives duration from start/end, so events must carry real end times
+const makeSampleEvents = () => {
+  const base = Date.now();
+  const at = (dayOffset: number, minutes: number) => {
+    const start = base + dayOffset * 86400000;
+    return {
+      start: new Date(start).toISOString(),
+      end: new Date(start + minutes * 60000).toISOString(),
+    };
+  };
+  return [
+    { id: "sample-1", title: "Team Standup", ...at(0, 30) },
+    { id: "sample-2", title: "Sprint Planning", ...at(1, 60) },
+    { id: "sample-3", title: "Design Review", ...at(2, 45) },
+  ];
+};
 
 export default function PlaygroundClient() {
   const [view, setView] = useState("month");
@@ -45,6 +56,7 @@ export default function PlaygroundClient() {
   const [eventList, setEventList] = useState<Record<string, unknown>[]>([]);
   const calRef = useRef<HTMLElement | null>(null);
 
+  // Custom elements are not void elements, so the snippet needs a closing tag
   const htmlOutput = `<script type="module">
   import '@forcecalendar/interface';
 </script>
@@ -53,8 +65,8 @@ export default function PlaygroundClient() {
   view="${view}"
   locale="${locale}"
   week-starts-on="${weekStartsOn}"${timezone ? `\n  timezone="${timezone}"` : ""}
-  style="min-height: ${height}px"
-/>`;
+  style="display: block; min-height: ${height}px"
+></forcecal-main>`;
 
   const handleCopy = async () => {
     try {
@@ -74,6 +86,7 @@ export default function PlaygroundClient() {
       addEvent?: (e: Record<string, unknown>) => void;
       getEvents?: () => Record<string, unknown>[];
     };
+    const sampleEvents = makeSampleEvents();
     for (const event of sampleEvents) {
       if (cal.addEvent) cal.addEvent(event);
     }
@@ -107,6 +120,15 @@ export default function PlaygroundClient() {
           weekStartsOn={weekStartsOn}
           timezone={timezone || undefined}
           height={height}
+          cssVars={{
+            "fc-background": "var(--preview-bg, #ffffff)",
+            "fc-background-alt": "var(--preview-bg-alt, #f8fafc)",
+            "fc-background-hover": "var(--preview-bg-hover, #f1f5f9)",
+            "fc-text-color": "var(--preview-text, #0f172a)",
+            "fc-text-secondary": "var(--preview-text-secondary, #64748b)",
+            "fc-border-color": "var(--preview-border, #e2e8f0)",
+            "fc-primary-color": "var(--preview-primary, #2563eb)",
+          }}
           onReady={handleReady}
         />
       </div>

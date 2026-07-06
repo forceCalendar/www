@@ -48,7 +48,7 @@ import '@forcecalendar/interface';
 
 const calendar = new Calendar({
   locale: 'en-US',
-  timezone: 'America/New_York'
+  timeZone: 'America/New_York'
 });
 
 // That's it. <forcecal-main> is ready to use.`;

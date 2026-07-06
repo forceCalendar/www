@@ -2,6 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Theme-aware tokens consumed by the embedded <forcecal-main> previews.
+   These feed the --fc-* custom properties of @forcecalendar/interface so
+   the calendar follows the site's light/dark theme. */
+:root {
+  --preview-bg: #ffffff;
+  --preview-bg-alt: #f8fafc;
+  --preview-bg-hover: #f1f5f9;
+  --preview-text: #0f172a;
+  --preview-text-secondary: #64748b;
+  --preview-border: #e2e8f0;
+  --preview-primary: #2563eb;
+}
+
+.dark {
+  --preview-bg: #0f172a;
+  --preview-bg-alt: #1e293b;
+  --preview-bg-hover: #334155;
+  --preview-text: #f1f5f9;
+  --preview-text-secondary: #94a3b8;
+  --preview-border: #334155;
+  --preview-primary: #3b82f6;
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;

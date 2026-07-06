@@ -49,9 +49,12 @@ export default function InterfacePreview() {
           height={420}
           cssVars={{
             "fc-background": "var(--preview-bg, #ffffff)",
+            "fc-background-alt": "var(--preview-bg-alt, #f8fafc)",
+            "fc-background-hover": "var(--preview-bg-hover, #f1f5f9)",
             "fc-text-color": "var(--preview-text, #0f172a)",
+            "fc-text-secondary": "var(--preview-text-secondary, #64748b)",
             "fc-border-color": "var(--preview-border, #e2e8f0)",
-            "fc-primary-color": "var(--preview-primary, #0891b2)",
+            "fc-primary-color": "#0891b2",
           }}
         />
       </div>

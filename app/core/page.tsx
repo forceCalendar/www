@@ -143,7 +143,7 @@ export default function CorePage() {
 
 const calendar = new Calendar({
   locale: 'en-US',
-  timezone: 'America/New_York'
+  timeZone: 'America/New_York'
 });`}
                   </pre>
                 ),

@@ -44,15 +44,15 @@ const codeExamples: Record<Tab, { code: string; filename: string }> = {
 
 const calendar = new Calendar({
   locale: 'en-US',
-  timezone: 'America/New_York',
+  timeZone: 'America/New_York',
   weekStartsOn: 0
 });
 
 calendar.setView('month');
 calendar.goToDate(new Date('2024-03-15'));
 
-calendar.on('viewChange', (view) => {
-  console.log('View:', view);
+calendar.on('viewChange', ({ view, date }) => {
+  console.log('View:', view, date);
 });`,
   },
   events: {
@@ -65,8 +65,8 @@ calendar.addEvent({
   id: 'meeting-1',
   title: 'Weekly Standup',
   start: '2024-01-15T09:00:00',
-  duration: 30,
-  recurring: 'FREQ=WEEKLY;BYDAY=MO,WE,FR'
+  end: '2024-01-15T09:30:00',
+  recurrenceRule: 'FREQ=WEEKLY;BYDAY=MO,WE,FR'
 });
 
 const events = calendar.getEvents();
@@ -76,17 +76,18 @@ console.log(events.length, 'events loaded');`,
     filename: "timezone.ts",
     code: `import { TimezoneManager } from '@forcecalendar/core';
 
-const tz = new TimezoneManager();
+const tz = TimezoneManager.getInstance();
 
 const nyTime = new Date('2024-03-15T15:00:00-05:00');
-const tokyoTime = tz.convert(
+const tokyoTime = tz.convertTimezone(
   nyTime,
   'America/New_York',
   'Asia/Tokyo'
 );
 
-const info = tz.getTimezoneInfo('Europe/London');
-console.log(info.offset, info.isDST);`,
+const offset = tz.getTimezoneOffset(new Date(), 'Europe/London');
+const inDST = tz.isDST(new Date(), 'Europe/London');
+console.log(offset, inDST);`,
   },
 };
 

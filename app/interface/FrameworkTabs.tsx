@@ -36,7 +36,7 @@ function App() {
   <forcecal-main
     :view="currentView"
     :locale="locale"
-    @event-click="handleEvent"
+    @calendar-date-select="handleSelect"
   />
 </template>
 
@@ -47,30 +47,28 @@ import { ref } from 'vue';
 const currentView = ref('month');
 const locale = ref('en-US');
 
-function handleEvent(e) {
-  console.log('Event clicked:', e.detail);
+function handleSelect(e) {
+  console.log('Date selected:', e.detail.date);
 }
 </script>`,
   angular: `<!-- app.component.html -->
 <forcecal-main
   [attr.view]="calendarView"
   [attr.locale]="locale"
-  (event-click)="onEventClick($event)">
+  (calendar-date-select)="onDateSelect($event)">
 </forcecal-main>
 
 <!-- app.module.ts: add CUSTOM_ELEMENTS_SCHEMA -->`,
   lwc: `<!-- calendar.html -->
 <template>
-  <forcecal-main
-    view={view}
-    locale={locale}
-    onselect={handleSelect}>
-  </forcecal-main>
+  <div lwc:dom="manual" class="calendar-host"></div>
 </template>
 
-<!-- calendar.js -->
-<!-- import '@forcecalendar/interface'
-   as a static resource -->`,
+<!-- calendar.js: create the element and
+   subscribe in renderedCallback() -->
+<!-- const cal = document.createElement('forcecal-main');
+   cal.addEventListener('calendar-date-select', this.handleSelect);
+   this.template.querySelector('.calendar-host').appendChild(cal); -->`,
 };
 
 export default function FrameworkTabs() {

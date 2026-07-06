@@ -22,7 +22,7 @@ export default function CoreDemo({ demo }: CoreDemoProps) {
         if (demo === "calendar") {
           const calendar = new core.Calendar({
             locale: "en-US",
-            timezone: "America/New_York",
+            timeZone: "America/New_York",
             weekStartsOn: 0,
           });
           calendar.setView("month");
@@ -35,17 +35,20 @@ export default function CoreDemo({ demo }: CoreDemoProps) {
           );
         } else if (demo === "events") {
           const calendar = new core.Calendar();
+          const standupStart = Date.now();
+          const planningStart = Date.now() + 86400000;
+          // Core derives duration from start/end — it has no duration input field
           calendar.addEvent({
             id: "demo-1",
             title: "Weekly Standup",
-            start: new Date().toISOString(),
-            duration: 30,
+            start: new Date(standupStart).toISOString(),
+            end: new Date(standupStart + 30 * 60000).toISOString(),
           });
           calendar.addEvent({
             id: "demo-2",
             title: "Sprint Planning",
-            start: new Date(Date.now() + 86400000).toISOString(),
-            duration: 60,
+            start: new Date(planningStart).toISOString(),
+            end: new Date(planningStart + 60 * 60000).toISOString(),
           });
           const events = calendar.getEvents();
           setOutput(
@@ -53,7 +56,7 @@ export default function CoreDemo({ demo }: CoreDemoProps) {
             (events ?? [])
               .map(
                 (e: Record<string, unknown>) =>
-                  `  → ${e.title} (${e.duration}min)`
+                  `  → ${e.title} (${e.durationMinutes}min)`
               )
               .join("\n")
           );
