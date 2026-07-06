@@ -11,7 +11,7 @@ import InstallCommand from "./components/InstallCommand";
 const problems = [
   {
     title: "Locker Service",
-    problem: "Most calendar libraries use blocked JavaScript patterns — eval, dynamic Function constructors, prototype manipulation — that Locker Service prohibits.",
+    problem: "Most calendar libraries use JavaScript patterns that Locker Service prohibits: eval, dynamic Function constructors, and prototype manipulation.",
     solution: "forceCalendar uses only Locker-safe patterns. No blocked APIs, no runtime code generation.",
   },
   {
@@ -198,7 +198,7 @@ export default async function Home() {
                 <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                   Month, week, and day views with events, recurring schedules,
                   timezones, and search. You install two packages, add one HTML
-                  tag, and connect your data. It is not a hosted service — the
+                  tag, and connect your data. It is not a hosted service. The
                   code runs entirely inside your application.
                 </p>
               </div>
@@ -212,7 +212,7 @@ export default async function Home() {
                   example, forbids generating code at runtime or injecting
                   styles. Salesforce goes further with Locker Service, a sandbox
                   around every component. Most calendar libraries rely on
-                  exactly the techniques these rules block — so they break, often
+                  exactly the techniques these rules block, so they break, often
                   silently.
                 </p>
               </div>
@@ -250,7 +250,7 @@ export default async function Home() {
                   @forcecalendar/interface
                 </div>
                 <p className="text-sm text-slate-600 dark:text-slate-300">
-                  The visible calendar — month, week, and day views as standard
+                  The visible calendar: month, week, and day views as standard
                   Web Components, themed with CSS variables.
                 </p>
               </div>
@@ -265,7 +265,7 @@ export default async function Home() {
                   @forcecalendar/core
                 </div>
                 <p className="text-sm text-slate-600 dark:text-slate-300">
-                  The engine — stores events, expands recurring schedules,
+                  The engine: stores events, expands recurring schedules,
                   handles timezones, finds conflicts, and searches. No UI, no
                   dependencies; usable on its own.
                 </p>
@@ -319,7 +319,7 @@ export default async function Home() {
           <SectionHeader
             eyebrow="Flagship integration"
             title="Started with Salesforce"
-            subtitle="Most calendar libraries break inside Locker Service — that's where forceCalendar started. The same zero-dependency architecture works in any strict enterprise environment."
+            subtitle="Most calendar libraries break inside Locker Service, and that is where forceCalendar started. The same zero-dependency architecture works in any strict enterprise environment."
             id="salesforce"
           />
           <div className="rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900/50 shadow-xl shadow-slate-200/50 dark:shadow-slate-950/50">
@@ -516,7 +516,7 @@ export default async function Home() {
           <SectionHeader
             eyebrow="Honest numbers"
             title="How it compares"
-            subtitle="Independent benchmarks against FullCalendar — an excellent, widely-used library. forceCalendar exists for a different niche: strict enterprise environments where most calendar libraries cannot run."
+            subtitle="Independent benchmarks against FullCalendar, an excellent and widely-used library. forceCalendar exists for a different niche: strict enterprise environments where most calendar libraries cannot run."
             id="benchmarks"
           />
           <div className="grid md:grid-cols-2 gap-5">
