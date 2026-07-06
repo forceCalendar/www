@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import PlaygroundClient from "./PlaygroundClient";
 
 export const metadata: Metadata = {
-  title: "Playground — Live Calendar Demo",
+  title: "Playground - Live Calendar Demo",
   description:
     "Interactive playground for forceCalendar. Configure and test real Web Components with live code output.",
   alternates: { canonical: "https://forcecalendar.org/playground" },

@@ -9,7 +9,7 @@ import InterfacePreview from "./InterfacePreview";
 import FrameworkTabs from "./FrameworkTabs";
 
 export const metadata: Metadata = {
-  title: "@forcecalendar/interface — Web Components Calendar UI",
+  title: "@forcecalendar/interface - Web Components Calendar UI",
   description:
     "Production-ready Web Components for calendar UI. Framework-agnostic, themeable with CSS custom properties, built on @forcecalendar/core.",
   alternates: { canonical: "https://forcecalendar.org/interface" },

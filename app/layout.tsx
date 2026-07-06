@@ -21,7 +21,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://forcecalendar.org"),
   title: {
-    default: "forceCalendar — Calendar Infrastructure for Enterprise",
+    default: "forceCalendar - Calendar Infrastructure for Enterprise",
     template: "%s | forceCalendar",
   },
   description:

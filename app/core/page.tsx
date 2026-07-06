@@ -6,7 +6,7 @@ import InstallCommand from "../components/InstallCommand";
 import CoreTabs from "./CoreTabs";
 
 export const metadata: Metadata = {
-  title: "@forcecalendar/core — Headless Calendar Engine",
+  title: "@forcecalendar/core - Headless Calendar Engine",
   description:
     "Zero-dependency headless calendar engine for enterprise applications. Scheduling, recurrence, timezones, and conflict detection.",
   alternates: { canonical: "https://forcecalendar.org/core" },

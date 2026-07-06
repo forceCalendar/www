@@ -7,7 +7,7 @@ import CodeBlock from "../components/CodeBlock";
 import InstallCommand from "../components/InstallCommand";
 
 export const metadata: Metadata = {
-  title: "Install on Salesforce — forceCalendar",
+  title: "Install on Salesforce",
   description:
     "Install forceCalendar in your Salesforce org. One-click unlocked package with LWC components, Apex controller, and full Locker Service compliance.",
   alternates: { canonical: "https://forcecalendar.org/salesforce" },
@@ -87,7 +87,7 @@ export default function SalesforcePage() {
         <div className="max-w-3xl mx-auto">
           <SectionHeader
             title="Install in a sandbox first"
-            subtitle="Always test in a sandbox before deploying to production. This is an unlocked package — you can inspect and modify every component after install."
+            subtitle="Always test in a sandbox before deploying to production. This is an unlocked package, so you can inspect and modify every component after install."
             id="install"
           />
 
@@ -139,7 +139,7 @@ export default function SalesforcePage() {
                 <li>Save, activate, and open the page</li>
               </ol>
               <p>
-                The demo component loads sample events automatically — you should see a working calendar with month, week, and day views immediately.
+                The demo component loads sample events automatically. You should see a working calendar with month, week, and day views immediately.
               </p>
             </div>
           </div>
