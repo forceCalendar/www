@@ -17,8 +17,8 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@forcecalendar/core": "^2.1.68",
-    "@forcecalendar/interface": "^1.0.60",
+    "@forcecalendar/core": "^2.1.69",
+    "@forcecalendar/interface": "^1.0.61",
     "next": "16.1.6",
     "react": "19.2.4",
     "react-dom": "19.2.4"

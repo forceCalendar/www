@@ -35,7 +35,9 @@ export default function PlaygroundPage() {
               <code className="text-sm font-mono text-cyan-600 dark:text-cyan-400">
                 @forcecalendar/interface
               </code>{" "}
-              web component running live. Configure options and copy the output.
+              web component running live. Load sample events, switch views,
+              watch the DOM events fire, and copy ready-to-paste code for
+              HTML, React, or Vue.
             </p>
           </div>
         </div>
