@@ -16,7 +16,7 @@ const resourceLinks = [
 const communityLinks = [
   { href: "https://www.npmjs.com/org/forcecalendar", label: "npm", external: true },
   { href: "https://github.com/forcecalendar/core/issues", label: "Issues", external: true },
-  { href: "https://github.com/forcecalendar/core/blob/master/LICENSE", label: "MIT License", external: true },
+  { href: "https://github.com/forcecalendar/core/blob/HEAD/LICENSE", label: "MIT License", external: true },
 ];
 
 function FooterColumn({

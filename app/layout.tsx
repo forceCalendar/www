@@ -44,12 +44,21 @@ export const metadata: Metadata = {
     siteName: "forceCalendar",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "forceCalendar — calendar infrastructure for strict enterprise environments",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "forceCalendar",
     description:
       "Calendar infrastructure for strict enterprise environments. Zero dependencies. MIT licensed.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,

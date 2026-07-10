@@ -35,10 +35,13 @@ declare module "@forcecalendar/core" {
     constructor(data: Record<string, unknown>);
     id: string;
     title: string;
-    start: string;
-    end?: string;
-    duration?: number;
-    recurring?: string;
+    start: Date;
+    end?: Date;
+    recurring?: boolean;
+    recurrenceRule?: string;
+    readonly duration: number;
+    readonly durationMinutes: number;
+    readonly durationHours: number;
   }
 
   export class EventStore {
@@ -58,10 +61,12 @@ declare module "@forcecalendar/core" {
   }
 
   export class TimezoneManager {
-    constructor();
-    convert(date: Date, from: string, to: string): Date;
-    getTimezoneInfo(tz: string): { offset: number; isDST: boolean; name: string };
-    getSupportedTimezones(): string[];
+    static getInstance(): TimezoneManager;
+    convertTimezone(date: Date, fromTimezone: string, toTimezone: string): Date;
+    getTimezoneOffset(date: Date, timezone: string): number;
+    isDST(date: Date, timezone: string): boolean;
+    getCommonTimezones(): { value: string; label: string; offset: number }[];
+    getSystemTimezone(): string;
   }
 
   export class ICSParser {
@@ -70,7 +75,7 @@ declare module "@forcecalendar/core" {
     serialize(events: Record<string, unknown>[]): string;
   }
 
-  export class SearchEngine {
+  export class EventSearch {
     constructor();
     search(query: string, events: Record<string, unknown>[]): Record<string, unknown>[];
   }

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   description:
     "Production-ready Web Components for calendar UI. Framework-agnostic, themeable with CSS custom properties, built on @forcecalendar/core.",
   alternates: { canonical: "https://forcecalendar.org/interface" },
+  openGraph: { url: "https://forcecalendar.org/interface" },
 };
 
 const components = [

@@ -101,7 +101,7 @@ const features = [
   },
   {
     title: "CSS Theming",
-    description: "35+ CSS custom properties for complete visual control without touching JavaScript or Shadow DOM internals.",
+    description: "45+ CSS custom properties for complete visual control without touching JavaScript or Shadow DOM internals.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z" />
@@ -116,7 +116,7 @@ export default async function Home() {
     { value: "0", label: "Runtime dependencies" },
     { value: downloads, label: "npm downloads" },
     { value: "2.9x", label: "Smaller than FullCalendar" },
-    { value: "35+", label: "CSS theming tokens" },
+    { value: "45+", label: "CSS theming tokens" },
   ];
 
   return (
@@ -232,7 +232,7 @@ export default async function Home() {
             {/* Layer diagram */}
             <div aria-label="Architecture diagram: your application uses @forcecalendar/interface, which is powered by @forcecalendar/core">
               <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5">
-                <div className="text-xs font-medium uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">
+                <div className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">
                   Your application
                 </div>
                 <p className="text-sm text-slate-600 dark:text-slate-300">
@@ -241,7 +241,7 @@ export default async function Home() {
               </div>
               <div className="flex items-center gap-3 py-2 pl-8">
                 <div className="w-px h-8 bg-slate-300 dark:bg-slate-700" aria-hidden />
-                <span className="text-xs text-slate-400 dark:text-slate-500">
+                <span className="text-xs text-slate-500 dark:text-slate-400">
                   drops in the <code className="font-mono">&lt;forcecal-main&gt;</code> tag
                 </span>
               </div>
@@ -256,7 +256,7 @@ export default async function Home() {
               </div>
               <div className="flex items-center gap-3 py-2 pl-8">
                 <div className="w-px h-8 bg-slate-300 dark:bg-slate-700" aria-hidden />
-                <span className="text-xs text-slate-400 dark:text-slate-500">
+                <span className="text-xs text-slate-500 dark:text-slate-400">
                   asks the engine what to display
                 </span>
               </div>
@@ -533,7 +533,7 @@ export default async function Home() {
               <div className="space-y-4 mb-5">
                 <div>
                   <div className="flex justify-between text-sm mb-1.5">
-                    <span className="text-slate-600 dark:text-slate-400">forceCalendar <span className="text-xs text-slate-400 dark:text-slate-500">(core + interface)</span></span>
+                    <span className="text-slate-600 dark:text-slate-400">forceCalendar <span className="text-xs text-slate-500 dark:text-slate-400">(core + interface)</span></span>
                     <span className="font-mono font-medium text-slate-900 dark:text-white">1.04 MB</span>
                   </div>
                   <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
@@ -542,7 +542,7 @@ export default async function Home() {
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-1.5">
-                    <span className="text-slate-600 dark:text-slate-400">FullCalendar <span className="text-xs text-slate-400 dark:text-slate-500">(core + 5 plugins + rrule)</span></span>
+                    <span className="text-slate-600 dark:text-slate-400">FullCalendar <span className="text-xs text-slate-500 dark:text-slate-400">(core + 5 plugins + rrule)</span></span>
                     <span className="font-mono font-medium text-slate-900 dark:text-white">3.01 MB</span>
                   </div>
                   <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
@@ -566,16 +566,16 @@ export default async function Home() {
                 <h3 className="font-medium text-slate-900 dark:text-white">Recurrence (RRULE)</h3>
               </div>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
-                The dedicated <span className="font-mono text-xs">rrule</span> library is significantly faster than forceCalendar&rsquo;s built-in RecurrenceEngine at expanding recurrence rules (17x to 1000x depending on pattern complexity).
+                The dedicated <span className="font-mono text-xs">rrule</span> library remains faster than forceCalendar&rsquo;s built-in RecurrenceEngine at raw RRULE expansion (roughly 4&ndash;7x depending on the pattern) &mdash; a five-year daily series expands in about half a millisecond either way.
               </p>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                The trade-off: forceCalendar&rsquo;s recurrence is built-in with zero extra dependencies, while FullCalendar requires the separate <span className="font-mono text-xs">rrule</span> library. For most calendars with moderate recurrence, the built-in engine is fast enough. For heavy RRULE workloads, a dedicated library wins.
+                The trade-off: forceCalendar&rsquo;s recurrence is built-in with zero extra dependencies and applies timezone/DST handling per occurrence, while FullCalendar requires the separate <span className="font-mono text-xs">rrule</span> library. At real-world calendar volumes the difference is microseconds per render.
               </p>
             </div>
           </div>
 
           <div className="mt-10 text-center">
-            <p className="text-sm text-slate-400 dark:text-slate-500 mb-5">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-5">
               Benchmarks run against published npm packages. Full methodology and interactive results available on the dashboard.
             </p>
             <a

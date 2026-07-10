@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description:
     "Interactive playground for forceCalendar. Configure and test real Web Components with live code output.",
   alternates: { canonical: "https://forcecalendar.org/playground" },
+  openGraph: { url: "https://forcecalendar.org/playground" },
 };
 
 export default function PlaygroundPage() {

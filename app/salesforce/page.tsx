@@ -11,12 +11,12 @@ export const metadata: Metadata = {
   description:
     "Install forceCalendar in your Salesforce org. One-click unlocked package with LWC components, Apex controller, and full Locker Service compliance.",
   alternates: { canonical: "https://forcecalendar.org/salesforce" },
+  openGraph: { url: "https://forcecalendar.org/salesforce" },
 };
 
-const SANDBOX_INSTALL_URL =
-  "https://test.salesforce.com/packaging/installPackage.apexp?p0=04tg50000003qOfAAI";
-const PRODUCTION_INSTALL_URL =
-  "https://login.salesforce.com/packaging/installPackage.apexp?p0=04tg50000003qOfAAI";
+const PACKAGE_ID = "04tg50000003qOfAAI";
+const SANDBOX_INSTALL_URL = `https://test.salesforce.com/packaging/installPackage.apexp?p0=${PACKAGE_ID}`;
+const PRODUCTION_INSTALL_URL = `https://login.salesforce.com/packaging/installPackage.apexp?p0=${PACKAGE_ID}`;
 
 export default function SalesforcePage() {
   return (
@@ -206,7 +206,7 @@ export default function SalesforcePage() {
               <h3 className="font-medium text-slate-900 dark:text-white mb-3 text-sm">
                 Install via Salesforce CLI
               </h3>
-              <InstallCommand command="sf package install --package 04tg50000003qOfAAI --target-org your-sandbox-alias --wait 10" />
+              <InstallCommand command={`sf package install --package ${PACKAGE_ID} --target-org your-sandbox-alias --wait 10`} />
             </div>
 
             <div>
@@ -214,7 +214,7 @@ export default function SalesforcePage() {
                 Or clone and deploy from source
               </h3>
               <CodeBlock
-                code={`git clone https://github.com/forceCalendar/salesforce.git
+                code={`git clone https://github.com/forcecalendar/salesforce.git
 cd salesforce
 npm install
 npm run build

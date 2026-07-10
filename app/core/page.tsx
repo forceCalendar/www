@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   description:
     "Zero-dependency headless calendar engine for enterprise applications. Scheduling, recurrence, timezones, and conflict detection.",
   alternates: { canonical: "https://forcecalendar.org/core" },
+  openGraph: { url: "https://forcecalendar.org/core" },
 };
 
 const metrics = [
@@ -29,6 +30,11 @@ const exports = [
   { name: "ICSParser", desc: "RFC 5545 iCalendar import and export" },
   { name: "RecurrenceEngine", desc: "RRULE expansion with exceptions, overrides, and hard occurrence caps" },
   { name: "EnhancedCalendar", desc: "Calendar extended with worker-backed search and RecurrenceEngineV2" },
+  { name: "ICSHandler", desc: "High-level ICS import/export API over ICSParser, including URL fetch" },
+  { name: "RecurrenceEngineV2", desc: "Extended recurrence engine with modified instances and complex DST handling" },
+  { name: "RRuleParser", desc: "Standalone RFC 5545 RRULE string parser" },
+  { name: "SearchWorkerManager", desc: "Offloads search indexing and queries to a Web Worker" },
+  { name: "InvertedIndex", desc: "Term-to-event index powering fast full-text lookups" },
 ];
 
 export default function CorePage() {
@@ -92,7 +98,7 @@ export default function CorePage() {
         <div className="max-w-4xl mx-auto">
           <SectionHeader
             title="API surface"
-            subtitle="Every export from @forcecalendar/core."
+            subtitle="Every class exported from @forcecalendar/core."
             id="api"
           />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
