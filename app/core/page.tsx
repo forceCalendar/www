@@ -35,6 +35,8 @@ const exports = [
   { name: "RRuleParser", desc: "Standalone RFC 5545 RRULE string parser" },
   { name: "SearchWorkerManager", desc: "Offloads search indexing and queries to a Web Worker" },
   { name: "InvertedIndex", desc: "Term-to-event index powering fast full-text lookups" },
+  { name: "TimezoneManager", desc: "IANA timezone conversions, DST detection, and offset math" },
+  { name: "ConflictDetector", desc: "Time, attendee, and resource overlap detection across event sets" },
 ];
 
 export default function CorePage() {
