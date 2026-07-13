@@ -18,6 +18,7 @@ const pageLinks = [
   { href: "/core", label: "Core" },
   { href: "/interface", label: "Interface" },
   { href: "/salesforce", label: "Salesforce" },
+  { href: "/platforms", label: "Platforms" },
   { href: "/playground", label: "Playground" },
 ];
 
