@@ -21,36 +21,33 @@ const filenames: Record<Framework, string> = {
 };
 
 const codeExamples: Record<Framework, string> = {
-  react: `import '@forcecalendar/interface';
+  react: `// npm install @forcecalendar/react
+import { ForceCalendar } from '@forcecalendar/react';
 
 function App() {
   return (
-    <forcecal-main
+    <ForceCalendar
       view="month"
       locale="en-US"
       timezone="America/New_York"
+      onDateSelect={({ date }) => console.log(date)}
     />
   );
-}`,
-  vue: `<template>
-  <forcecal-main
-    :view="currentView"
-    :locale="locale"
-    @calendar-date-select="handleSelect"
+}
+// SSR-safe: works in Next.js with no workarounds`,
+  vue: `<!-- npm install @forcecalendar/vue -->
+<template>
+  <ForceCalendar
+    view="month"
+    locale="en-US"
+    @date-select="d => console.log(d)"
   />
 </template>
 
 <script setup>
-import '@forcecalendar/interface';
-import { ref } from 'vue';
-
-const currentView = ref('month');
-const locale = ref('en-US');
-
-function handleSelect(e) {
-  console.log('Date selected:', e.detail.date);
-}
-</script>`,
+import { ForceCalendar } from '@forcecalendar/vue';
+</script>
+<!-- SSR-safe: works in Nuxt out of the box -->`,
   angular: `<!-- app.component.html -->
 <forcecal-main
   [attr.view]="calendarView"
