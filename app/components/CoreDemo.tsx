@@ -37,7 +37,7 @@ export default function CoreDemo({ demo }: CoreDemoProps) {
           const calendar = new core.Calendar();
           const standupStart = Date.now();
           const planningStart = Date.now() + 86400000;
-          // Core derives duration from start/end — it has no duration input field
+          // Core derives duration from start/end; it has no duration input field
           calendar.addEvent({
             id: "demo-1",
             title: "Weekly Standup",

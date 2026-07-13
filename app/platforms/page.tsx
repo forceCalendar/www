@@ -27,7 +27,7 @@ const platforms = [
     name: "Cloudflare Workers",
     constraint: "Edge runtime: eval and code generation banned outright",
     detail:
-      "The headless core as a server-side scheduling engine at the edge — RRULE expansion, conflict detection, and ICS export with zero dependencies to cold-start.",
+      "The headless core as a server-side scheduling engine at the edge: RRULE expansion, conflict detection, and ICS export with zero dependencies to cold-start.",
     href: `${EXAMPLES_URL}/tree/main/cloudflare-worker-scheduling`,
     linkLabel: "Runnable example",
   },
@@ -35,7 +35,7 @@ const platforms = [
     name: "Chrome Extensions (MV3)",
     constraint: "Manifest V3 CSP: no remote code, no eval, everything bundled",
     detail:
-      "The Web Component in an extension popup with no build step at all — an import map plus vendored packages is enough.",
+      "The Web Component in an extension popup with no build step at all: an import map plus vendored packages is enough.",
     href: `${EXAMPLES_URL}/tree/main/chrome-extension-mv3`,
     linkLabel: "Runnable example",
   },
@@ -51,7 +51,7 @@ const platforms = [
     name: "ServiceNow Service Portal",
     constraint: "Sandboxed widget scripting",
     detail:
-      "A Service Portal widget over ServiceNow table data — scheduling and dispatch calendars without fighting the platform sandbox.",
+      "A Service Portal widget over ServiceNow table data: scheduling and dispatch calendars without fighting the platform sandbox.",
     href: `${EXAMPLES_URL}/tree/main/servicenow-portal-widget`,
     linkLabel: "Starter",
   },
@@ -79,7 +79,7 @@ export default function PlatformsPage() {
             </h1>
             <p className="text-xl text-slate-500 dark:text-slate-400 max-w-2xl">
               forceCalendar was built for the most restrictive runtime in enterprise
-              software — Salesforce Lightning Locker Service. The same engineering
+              software: Salesforce Lightning Locker Service. The same engineering
               (zero dependencies, no eval, no dynamic code, no inline-style injection)
               makes it run inside every sandboxed platform below.
             </p>
@@ -123,7 +123,7 @@ export default function PlatformsPage() {
           <p className="mt-10 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
             These starters are intentionally minimal. When one attracts real-world
             traction, it graduates into a first-class packaged distribution with its
-            own repo and release pipeline — exactly like Salesforce did. Open issues
+            own repo and release pipeline, exactly like Salesforce did. Open issues
             on the{" "}
             <a
               href={EXAMPLES_URL}

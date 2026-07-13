@@ -50,7 +50,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "forceCalendar — calendar infrastructure for strict enterprise environments",
+        alt: "forceCalendar: calendar infrastructure for strict enterprise environments",
       },
     ],
   },

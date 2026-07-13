@@ -566,7 +566,7 @@ export default async function Home() {
                 <h3 className="font-medium text-slate-900 dark:text-white">Recurrence (RRULE)</h3>
               </div>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
-                The dedicated <span className="font-mono text-xs">rrule</span> library remains faster than forceCalendar&rsquo;s built-in RecurrenceEngine at raw RRULE expansion (roughly 4&ndash;7x depending on the pattern) &mdash; a five-year daily series expands in about half a millisecond either way.
+                The dedicated <span className="font-mono text-xs">rrule</span> library remains faster than forceCalendar&rsquo;s built-in RecurrenceEngine at raw RRULE expansion (roughly 4&ndash;7x depending on the pattern); a five-year daily series expands in about half a millisecond either way.
               </p>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                 The trade-off: forceCalendar&rsquo;s recurrence is built-in with zero extra dependencies and applies timezone/DST handling per occurrence, while FullCalendar requires the separate <span className="font-mono text-xs">rrule</span> library. At real-world calendar volumes the difference is microseconds per render.
