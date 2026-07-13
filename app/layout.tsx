@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "./components/ThemeProvider";
 import "./globals.css";
+import ReleaseBanner from "./components/ReleaseBanner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -83,6 +84,7 @@ export default async function RootLayout({
     >
       <body className="bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased">
         <ThemeProvider initialTheme={initialTheme}>
+          <ReleaseBanner />
           {children}
         </ThemeProvider>
       </body>
