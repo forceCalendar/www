@@ -292,7 +292,7 @@ export default function InterfacePage() {
               Playground
             </Link>
             <a
-              href="https://docs.forcecalendar.org/interface"
+              href="https://docs.forcecalendar.org/docs/interface"
               className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:border-slate-400 dark:hover:border-slate-600 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
             >
               Documentation

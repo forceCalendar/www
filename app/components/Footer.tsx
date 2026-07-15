@@ -9,14 +9,14 @@ const productLinks = [
 
 const resourceLinks = [
   { href: "https://docs.forcecalendar.org", label: "Documentation", external: true },
-  { href: "https://docs.forcecalendar.org/core/api", label: "API Reference", external: true },
+  { href: "https://docs.forcecalendar.org/docs/api", label: "API Reference", external: true },
   { href: "https://github.com/forcecalendar", label: "GitHub", external: true },
 ];
 
 const communityLinks = [
   { href: "https://www.npmjs.com/org/forcecalendar", label: "npm", external: true },
   { href: "https://github.com/forcecalendar/core/issues", label: "Issues", external: true },
-  { href: "https://docs.forcecalendar.org/whats-new", label: "What's new", external: true },
+  { href: "https://docs.forcecalendar.org/docs/whats-new", label: "What's new", external: true },
   { href: "https://audit.forcecalendar.org", label: "Security audit", external: true },
   { href: "https://benchmark.forcecalendar.org", label: "Benchmarks", external: true },
   { href: "https://github.com/forcecalendar/core/blob/HEAD/LICENSE", label: "MIT License", external: true },

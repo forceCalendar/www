@@ -121,10 +121,10 @@ export default function CorePage() {
           <p className="mt-6 text-sm text-slate-500">
             Full API documentation at{" "}
             <a
-              href="https://docs.forcecalendar.org/core/api"
+              href="https://docs.forcecalendar.org/docs/api"
               className="text-violet-600 dark:text-violet-400 hover:underline"
             >
-              docs.forcecalendar.org/core/api
+              docs.forcecalendar.org/docs/api
             </a>
           </p>
         </div>
@@ -200,13 +200,13 @@ const calendar = new Calendar({
           </h2>
           <div className="flex flex-wrap justify-center gap-3">
             <a
-              href="https://docs.forcecalendar.org/core"
+              href="https://docs.forcecalendar.org/docs/core"
               className="px-5 py-2.5 bg-violet-600 text-white text-sm font-medium rounded-lg shadow-sm shadow-violet-600/25 hover:bg-violet-700 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
             >
               Documentation
             </a>
             <a
-              href="https://docs.forcecalendar.org/core/api"
+              href="https://docs.forcecalendar.org/docs/api"
               className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:border-slate-400 dark:hover:border-slate-600 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
             >
               API Reference
