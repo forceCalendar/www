@@ -100,6 +100,24 @@ const features = [
     ),
   },
   {
+    title: "Accessible by Default",
+    description: "Full WAI-ARIA grid semantics and keyboard navigation across month, week, and day views. No extra configuration.",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Server-Side & Edge",
+    description: "The DOM-free engine runs in Node, serverless functions, and edge runtimes like Cloudflare Workers that ban eval.",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21.75 17.25v-.228a4.5 4.5 0 00-.12-1.03l-2.268-9.64a3.375 3.375 0 00-3.285-2.602H7.923a3.375 3.375 0 00-3.285 2.602l-2.268 9.64a4.5 4.5 0 00-.12 1.03v.228m19.5 0a3 3 0 01-3 3H5.25a3 3 0 01-3-3m19.5 0a3 3 0 00-3-3H5.25a3 3 0 00-3 3m16.5 0h.008v.008h-.008v-.008zm-3 0h.008v.008h-.008v-.008z" />
+      </svg>
+    ),
+  },
+  {
     title: "CSS Theming",
     description: "45+ CSS custom properties for complete visual control without touching JavaScript or Shadow DOM internals.",
     icon: (
@@ -133,8 +151,8 @@ export default async function Home() {
             </h1>
             <p className="mt-6 text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
               A headless scheduling engine and framework-agnostic Web Components.
-              Zero dependencies. MIT licensed. Built for Salesforce Locker Service
-              and strict CSP.
+              Zero dependencies. MIT licensed. Built for Salesforce Locker Service /
+              Lightning Web Security and strict CSP.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
               <InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" />
@@ -417,7 +435,7 @@ export default async function Home() {
                 </svg>
               </div>
               <h3 className="font-medium text-sm text-slate-900 dark:text-white mb-1">Any Web App</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Web Components work in React, Vue, Angular, or vanilla JS.</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Web Components work in React, Vue, Angular, or vanilla JS, with first-party SSR-safe adapters for React and Vue.</p>
             </div>
             <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-lg hover:shadow-slate-200/60 dark:hover:shadow-slate-950/60">
               <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center mb-3">
@@ -566,7 +584,7 @@ export default async function Home() {
                 <h3 className="font-medium text-slate-900 dark:text-white">Recurrence (RRULE)</h3>
               </div>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
-                The dedicated <span className="font-mono text-xs">rrule</span> library remains faster than forceCalendar&rsquo;s built-in RecurrenceEngine at raw RRULE expansion (roughly 4&ndash;7x depending on the pattern); a five-year daily series expands in about half a millisecond either way.
+                The dedicated <span className="font-mono text-xs">rrule</span> library is still faster at raw RRULE expansion, but the gap is now roughly 2x on common daily and weekly patterns (it was up to 1,200x before the v2.1&ndash;v2.3 engine work); a five-year daily series expands in about half a millisecond either way.
               </p>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                 The trade-off: forceCalendar&rsquo;s recurrence is built-in with zero extra dependencies and applies timezone/DST handling per occurrence, while FullCalendar requires the separate <span className="font-mono text-xs">rrule</span> library. At real-world calendar volumes the difference is microseconds per render.
@@ -576,7 +594,7 @@ export default async function Home() {
 
           <div className="mt-10 text-center">
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-5">
-              Benchmarks run against published npm packages. Full methodology and interactive results available on the dashboard.
+              Benchmarks run against published npm packages; sizes are installed (unpacked) package sizes. Full methodology and interactive results available on the dashboard.
             </p>
             <a
               href="https://benchmark.forcecalendar.org"

@@ -12,7 +12,7 @@ const descriptions: Record<Tab, { title: string; text: string; bullets: string[]
     title: "Calendar Engine",
     text: "Complete control over calendar state, navigation, and rendering logic without DOM dependencies.",
     bullets: [
-      "Month, week, day, and list views",
+      "Month, week, and day view data, plus a list format for custom UIs",
       "Navigation API with goToDate, next, previous",
       "Event-driven state with subscribe/unsubscribe",
     ],
@@ -49,7 +49,7 @@ const calendar = new Calendar({
 });
 
 calendar.setView('month');
-calendar.goToDate(new Date('2024-03-15'));
+calendar.goToDate(new Date('2026-03-16'));
 
 calendar.on('viewChange', ({ view, date }) => {
   console.log('View:', view, date);
@@ -64,8 +64,8 @@ const calendar = new Calendar();
 calendar.addEvent({
   id: 'meeting-1',
   title: 'Weekly Standup',
-  start: '2024-01-15T09:00:00',
-  end: '2024-01-15T09:30:00',
+  start: '2026-01-15T09:00:00',
+  end: '2026-01-15T09:30:00',
   recurrenceRule: 'FREQ=WEEKLY;BYDAY=MO,WE,FR'
 });
 
@@ -78,7 +78,7 @@ console.log(events.length, 'events loaded');`,
 
 const tz = TimezoneManager.getInstance();
 
-const nyTime = new Date('2024-03-15T15:00:00-05:00');
+const nyTime = new Date('2026-03-16T15:00:00-05:00');
 const tokyoTime = tz.convertTimezone(
   nyTime,
   'America/New_York',

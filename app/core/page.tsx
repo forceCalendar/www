@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 const metrics = [
   { label: "Dependencies", value: "0" },
   { label: "License", value: "MIT" },
-  { label: "Module", value: "ESM" },
+  { label: "TypeScript", value: ".d.ts" },
   { label: "Min + gzip", value: "~35KB" },
 ];
 
@@ -56,7 +56,7 @@ export default function CorePage() {
               @forcecalendar/core
             </h1>
             <p className="text-xl text-slate-500 dark:text-slate-400 mb-8 max-w-2xl">
-              Zero-dependency calendar logic for enterprise applications.
+              Zero-dependency calendar logic for enterprise applications. Runs anywhere JavaScript runs: browser, Node, serverless, and edge.
             </p>
             <div className="flex flex-wrap items-center gap-4">
               <InstallCommand command="npm install @forcecalendar/core" />
@@ -166,8 +166,8 @@ const calendar = new Calendar({
                   <pre className="px-4 py-3 bg-slate-950 border border-slate-800 rounded-lg text-sm text-slate-300 font-mono overflow-x-auto">
 {`calendar.addEvent({
   title: 'Team Meeting',
-  start: new Date('2024-03-15T10:00:00'),
-  end: new Date('2024-03-15T11:00:00')
+  start: new Date('2026-03-16T10:00:00'),
+  end: new Date('2026-03-16T11:00:00')
 });`}
                   </pre>
                 ),

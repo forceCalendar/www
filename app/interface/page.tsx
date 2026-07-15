@@ -147,7 +147,11 @@ export default function InterfacePage() {
       {/* Components Catalog */}
       <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-4xl mx-auto">
-          <SectionHeader title="Components" id="components" />
+          <SectionHeader
+            title="Components"
+            subtitle="Accessible by default: every view implements the WAI-ARIA grid pattern with full keyboard navigation, roving focus, and screen-reader labels."
+            id="components"
+          />
           <div className="grid sm:grid-cols-2 gap-4">
             {components.map((comp) => (
               <div
@@ -171,7 +175,7 @@ export default function InterfacePage() {
         <div className="max-w-4xl mx-auto">
           <SectionHeader
             title="Works with any framework"
-            subtitle="Web Components are framework-agnostic by design."
+            subtitle="Use the Web Component directly, or install the first-party SSR-safe @forcecalendar/react and @forcecalendar/vue adapters."
             id="frameworks"
           />
           <FrameworkTabs />
