@@ -71,9 +71,9 @@ const CALENDAR_EVENTS = [
   "calendar-view-change",
   "calendar-navigate",
   "calendar-date-select",
-  "calendar-event-add",
-  "calendar-event-update",
-  "calendar-event-remove",
+  "calendar-event-added",
+  "calendar-event-updated",
+  "calendar-event-deleted",
 ] as const;
 
 interface LogEntry {
@@ -105,6 +105,7 @@ export default function PlaygroundClient() {
   const calRef = useRef<CalendarElement | null>(null);
   const logIdRef = useRef(0);
   const cleanupRef = useRef<(() => void) | null>(null);
+  const seededRef = useRef(false);
 
   const pushLog = useCallback((name: string, detail: unknown) => {
     let summary = "";
@@ -143,6 +144,14 @@ export default function PlaygroundClient() {
       cleanupRef.current = () => {
         handlers.forEach(({ name, handler }) => el.removeEventListener(name, handler));
       };
+      // Seed the demo on first mount so the calendar never starts empty
+      const cal = el as CalendarElement;
+      if (!seededRef.current && cal.addEvent && cal.getEvents && cal.getEvents().length === 0) {
+        seededRef.current = true;
+        for (const event of makeSampleEvents()) {
+          cal.addEvent(event);
+        }
+      }
       syncEvents();
     },
     [pushLog, syncEvents]
@@ -191,33 +200,36 @@ export default function PlaygroundClient() {
     },
     react: {
       filename: "App.jsx",
-      code: `import '@forcecalendar/interface';
+      code: `// npm install @forcecalendar/react
+import { ForceCalendar } from '@forcecalendar/react';
 
 function App() {
   return (
-    <forcecal-main
-      ${attrLines.join("\n      ")}
-      style={{ display: 'block', minHeight: ${height} }}
+    <ForceCalendar
+      view="${view}"
+      locale="${locale}"
+      weekStartsOn={${weekStartsOn}}${timezone ? `\n      timezone="${timezone}"` : ""}
+      height="${height}px"
+      onDateSelect={({ date }) => console.log(date)}
     />
   );
 }`,
     },
     vue: {
       filename: "App.vue",
-      code: `<template>
-  <forcecal-main
-    ${attrLines.join("\n    ")}
-    style="display: block; min-height: ${height}px"
-    @calendar-date-select="onSelect"
+      code: `<!-- npm install @forcecalendar/vue -->
+<template>
+  <ForceCalendar
+    view="${view}"
+    locale="${locale}"
+    :week-starts-on="${weekStartsOn}"${timezone ? `\n    timezone="${timezone}"` : ""}
+    height="${height}px"
+    @date-select="d => console.log(d)"
   />
 </template>
 
 <script setup>
-import '@forcecalendar/interface';
-
-function onSelect(e) {
-  console.log('Selected:', e.detail.date);
-}
+import { ForceCalendar } from '@forcecalendar/vue';
 </script>`,
     },
   };
@@ -294,6 +306,10 @@ function onSelect(e) {
             }}
             onReady={handleReady}
           />
+          <div className="px-4 py-2 border-t border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/40 text-xs text-slate-500 dark:text-slate-400">
+            <span className="font-medium text-slate-600 dark:text-slate-300">Fully keyboard accessible:</span>{" "}
+            Tab into the grid, move with the arrow keys, PageUp/PageDown to change period, Enter to select. Every view implements the WAI-ARIA grid pattern.
+          </div>
         </div>
 
         {/* Code output */}
