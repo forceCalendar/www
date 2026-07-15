@@ -26,20 +26,29 @@ const problems = [
   },
 ];
 
-async function getCoreDownloads(): Promise<string> {
-  // Total downloads since first publish (2025-12-27); refreshed daily
+const NPM_PACKAGES = ["core", "interface", "react", "vue"];
+
+// Total downloads across all @forcecalendar packages since first publish
+// (2025-12-27); refreshed hourly. Returns null when the API is unreachable
+// so the caller can swap in a stat that cannot go stale.
+async function getTotalDownloads(): Promise<string | null> {
   try {
     const today = new Date().toISOString().slice(0, 10);
-    const res = await fetch(
-      `https://api.npmjs.org/downloads/range/2025-12-01:${today}/@forcecalendar/core`,
-      { next: { revalidate: 86400 } }
+    const totals = await Promise.all(
+      NPM_PACKAGES.map(async (pkg) => {
+        const res = await fetch(
+          `https://api.npmjs.org/downloads/range/2025-12-01:${today}/@forcecalendar/${pkg}`,
+          { next: { revalidate: 3600 } }
+        );
+        if (!res.ok) return 0;
+        const data: { downloads: { downloads: number }[] } = await res.json();
+        return data.downloads.reduce((sum, d) => sum + d.downloads, 0);
+      })
     );
-    if (!res.ok) throw new Error(`npm api ${res.status}`);
-    const data: { downloads: { downloads: number }[] } = await res.json();
-    const total = data.downloads.reduce((sum, d) => sum + d.downloads, 0);
-    return total.toLocaleString("en-US");
+    const total = totals.reduce((a, b) => a + b, 0);
+    return total > 0 ? total.toLocaleString("en-US") : null;
   } catch {
-    return "9,000+";
+    return null;
   }
 }
 
@@ -129,10 +138,12 @@ const features = [
 ];
 
 export default async function Home() {
-  const downloads = await getCoreDownloads();
+  const downloads = await getTotalDownloads();
   const stats = [
     { value: "0", label: "Runtime dependencies" },
-    { value: downloads, label: "npm downloads" },
+    downloads
+      ? { value: downloads, label: "npm downloads" }
+      : { value: String(NPM_PACKAGES.length), label: "Packages on npm" },
     { value: "2.9x", label: "Smaller than FullCalendar" },
     { value: "45+", label: "CSS theming tokens" },
   ];
