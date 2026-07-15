@@ -7,7 +7,7 @@ import ThemeToggle from "./ThemeToggle";
 import MobileMenu from "./MobileMenu";
 
 const sites = [
-  { href: "https://forcecalendar.org", label: "Home", current: true, external: true },
+  { href: "https://forcecalendar.org", label: "Website", current: true, external: true },
   { href: "https://docs.forcecalendar.org", label: "Docs", external: true },
   { href: "https://benchmark.forcecalendar.org", label: "Benchmark", external: true },
   { href: "https://audit.forcecalendar.org", label: "Audit", external: true },
@@ -51,6 +51,10 @@ export default function Nav() {
 
   const currentSite = sites.find((s) => s.current);
   const isCurrentPage = (href: string) => pathname !== undefined && pathname === href;
+  // The trigger reads as a breadcrumb: show the current page of this site,
+  // falling back to the site name on unknown paths
+  const triggerLabel =
+    pageLinks.find((l) => l.href === pathname)?.label ?? currentSite?.label;
 
   return (
     <>
@@ -74,7 +78,7 @@ export default function Nav() {
                 aria-haspopup="true"
                 aria-label="Switch site"
               >
-                {currentSite?.label}
+                {triggerLabel}
                 <svg className={`w-3.5 h-3.5 text-slate-400 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
