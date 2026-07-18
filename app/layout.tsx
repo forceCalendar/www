@@ -82,6 +82,15 @@ export default async function RootLayout({
       className={`${inter.className} ${initialTheme === "dark" ? "dark" : ""}`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          // Resolve theme before first paint so OS-dark visitors with no
+          // cookie do not get a light flash
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=document.cookie.match(/(?:^|; )theme=(dark|light)/);var d=t?t[1]==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d);}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased">
         <ThemeProvider initialTheme={initialTheme}>
           <ReleaseBanner />

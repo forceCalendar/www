@@ -271,7 +271,7 @@ sf project deploy start --target-org your-sandbox-alias`}
                 <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Month view with color-coded events</p>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900/50 shadow-sm transition-shadow hover:shadow-lg hover:shadow-slate-200/60 dark:hover:shadow-slate-950/60">
                 <Image
                   src="/salesforce-week.png"

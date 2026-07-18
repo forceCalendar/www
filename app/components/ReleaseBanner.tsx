@@ -36,8 +36,9 @@ async function getLatestReleases(): Promise<ReleaseInfo[]> {
 
 export default async function ReleaseBanner() {
   const releases = await getLatestReleases();
-  if (releases.length === 0) return null;
   const hasNew = releases.some(r => r.isNew);
+  // A permanent version strip is noise; show the banner only around releases
+  if (releases.length === 0 || !hasNew) return null;
 
   return (
     <div className="w-full bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-800/80">
