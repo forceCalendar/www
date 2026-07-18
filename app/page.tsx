@@ -27,29 +27,78 @@ const problems = [
 ];
 
 const NPM_PACKAGES = ["core", "interface", "react", "vue"];
+const SPARK_WEEKS = 12;
 
-// Total downloads across all @forcecalendar packages since first publish
-// (2025-12-27); refreshed hourly. Returns null when the API is unreachable
-// so the caller can swap in a stat that cannot go stale.
-async function getTotalDownloads(): Promise<string | null> {
+// Downloads across all @forcecalendar packages since first publish
+// (2025-12-27); refreshed hourly. Returns the total plus a weekly series
+// for the sparkline, or null when the API is unreachable so the caller
+// can swap in a stat that cannot go stale.
+async function getTotalDownloads(): Promise<{ total: string; weekly: number[] } | null> {
   try {
     const today = new Date().toISOString().slice(0, 10);
-    const totals = await Promise.all(
+    const byDate = new Map<string, number>();
+    await Promise.all(
       NPM_PACKAGES.map(async (pkg) => {
         const res = await fetch(
           `https://api.npmjs.org/downloads/range/2025-12-01:${today}/@forcecalendar/${pkg}`,
           { next: { revalidate: 3600 } }
         );
-        if (!res.ok) return 0;
-        const data: { downloads: { downloads: number }[] } = await res.json();
-        return data.downloads.reduce((sum, d) => sum + d.downloads, 0);
+        if (!res.ok) return;
+        const data: { downloads: { downloads: number; day: string }[] } = await res.json();
+        for (const d of data.downloads) {
+          byDate.set(d.day, (byDate.get(d.day) ?? 0) + d.downloads);
+        }
       })
     );
-    const total = totals.reduce((a, b) => a + b, 0);
-    return total > 0 ? total.toLocaleString("en-US") : null;
+    const days = [...byDate.keys()].sort();
+    const total = days.reduce((sum, d) => sum + (byDate.get(d) ?? 0), 0);
+    if (total === 0) return null;
+    // Whole 7-day buckets ending at the most recent reported day
+    const weekly: number[] = [];
+    for (let end = days.length; end - 7 >= 0 && weekly.length < SPARK_WEEKS; end -= 7) {
+      weekly.unshift(days.slice(end - 7, end).reduce((s, d) => s + (byDate.get(d) ?? 0), 0));
+    }
+    return { total: total.toLocaleString("en-US"), weekly };
   } catch {
     return null;
   }
+}
+
+// Single-series sparkline: 2px line, no axes, endpoint dot. Strokes are
+// contrast-validated per surface (#2563eb on light, #3b82f6 on dark).
+function Sparkline({ points, label }: { points: number[]; label: string }) {
+  if (points.length < 2) return null;
+  const w = 96;
+  const h = 24;
+  const pad = 3;
+  const max = Math.max(...points);
+  const min = Math.min(...points);
+  const span = max - min || 1;
+  const coords = points.map((v, i) => [
+    pad + (i * (w - pad * 2)) / (points.length - 1),
+    pad + (h - pad * 2) * (1 - (v - min) / span),
+  ]);
+  const [lastX, lastY] = coords[coords.length - 1];
+  return (
+    <svg
+      viewBox={`0 0 ${w} ${h}`}
+      width={w}
+      height={h}
+      role="img"
+      aria-label={label}
+      className="mx-auto mt-2 text-[#2563eb] dark:text-[#3b82f6]"
+    >
+      <polyline
+        points={coords.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" ")}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx={lastX.toFixed(1)} cy={lastY.toFixed(1)} r="2.5" fill="currentColor" />
+    </svg>
+  );
 }
 
 const codeExample = `import { Calendar } from '@forcecalendar/core';
@@ -142,7 +191,7 @@ export default async function Home() {
   const stats = [
     { value: "0", label: "Runtime dependencies" },
     downloads
-      ? { value: downloads, label: "npm downloads" }
+      ? { value: downloads.total, label: "npm downloads", spark: downloads.weekly }
       : { value: String(NPM_PACKAGES.length), label: "Packages on npm" },
     { value: "2.9x", label: "Smaller than FullCalendar" },
     { value: "45+", label: "CSS theming tokens" },
@@ -203,6 +252,12 @@ export default async function Home() {
                 <div className="mt-1 text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                   {stat.label}
                 </div>
+                {"spark" in stat && stat.spark && (
+                  <Sparkline
+                    points={stat.spark}
+                    label={`Weekly npm downloads, last ${stat.spark.length} weeks`}
+                  />
+                )}
               </div>
             ))}
           </div>
