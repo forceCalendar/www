@@ -39,7 +39,16 @@ export default function PlaygroundPage() {
               web component running live. Load sample events, switch views,
               watch the DOM events fire, and copy ready-to-paste code for
               HTML, React, or Vue.
-            </p>
+             Prefer a real editor?{" "}
+            <a
+              href="https://stackblitz.com/github/forceCalendar/examples/tree/main/vanilla-vite"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-brand-600 dark:text-brand-400 hover:underline"
+            >
+              Open the starter in StackBlitz
+            </a>
+            .</p>
           </div>
         </div>
       </section>

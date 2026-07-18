@@ -218,6 +218,15 @@ export default async function Home() {
               <InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" />
             </div>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <a
+                href="https://stackblitz.com/github/forceCalendar/examples/tree/main/vanilla-vite"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-brand-600 text-white text-sm font-medium rounded-lg shadow-sm hover:bg-brand-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
+              >
+                Try it in 60 seconds
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+              </a>
               <Link
                 href="/salesforce"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00A1E0] text-white text-sm font-medium rounded-lg shadow-sm shadow-[#00A1E0]/25 hover:bg-[#0082B4] hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A1E0] focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
