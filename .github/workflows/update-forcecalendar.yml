@@ -1,0 +1,42 @@
+name: Update forceCalendar packages
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # daily, 02:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Update calendar packages within their semver ranges
+        run: npm update @forcecalendar/core @forcecalendar/interface
+      - name: Exit early when nothing changed
+        id: diff
+        run: |
+          if git diff --quiet package-lock.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Verify the site builds with the new versions
+        if: steps.diff.outputs.changed == 'true'
+        run: npm run build
+      - name: Commit and push
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          VERSIONS=$(node -p "['core','interface'].map(p => p + ' ' + require('./node_modules/@forcecalendar/' + p + '/package.json').version).join(', ')")
+          git add package.json package-lock.json
+          git commit -m "chore(deps): update forceCalendar packages ($VERSIONS)"
+          git push
