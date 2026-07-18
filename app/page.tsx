@@ -29,19 +29,6 @@ const problems = [
 
 const NPM_PACKAGES = ["core", "interface", "react", "vue"];
 
-async function getGitHubStars(): Promise<string | null> {
-  try {
-    const res = await fetch("https://api.github.com/repos/forceCalendar/core", {
-      next: { revalidate: 3600 },
-      headers: { Accept: "application/vnd.github+json" },
-    });
-    if (!res.ok) return null;
-    const data: { stargazers_count: number } = await res.json();
-    return data.stargazers_count.toLocaleString("en-US");
-  } catch {
-    return null;
-  }
-}
 const SPARK_WEEKS = 12;
 
 // Downloads across all @forcecalendar packages since first publish
@@ -202,9 +189,8 @@ const features = [
 ];
 
 export default async function Home() {
-  const [downloads, stars] = await Promise.all([getTotalDownloads(), getGitHubStars()]);
+  const downloads = await getTotalDownloads();
   const stats = [
-    ...(stars ? [{ value: stars, label: "GitHub stars" }] : []),
     { value: "0", label: "Runtime dependencies" },
     downloads
       ? { value: downloads.total, label: "npm downloads", spark: downloads.weekly }
@@ -221,8 +207,8 @@ export default async function Home() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-grid" aria-hidden />
         <div className="relative pt-24 pb-16 px-6">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center lg:text-left">
+          <div className="max-w-6xl mx-auto">
+            <div className="max-w-3xl mx-auto text-center">
               <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white leading-tight">
                 Calendar infrastructure for strict enterprise environments.
               </h1>
@@ -231,10 +217,10 @@ export default async function Home() {
                 Zero dependencies. MIT licensed. Built for Salesforce Locker Service /
                 Lightning Web Security and strict CSP.
               </p>
-              <div className="mt-8 flex flex-col sm:flex-row items-center lg:items-start lg:justify-start justify-center gap-3">
+              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
                 <InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" />
               </div>
-              <div className="mt-6 flex flex-wrap items-center lg:justify-start justify-center gap-3">
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                 <a
                   href="https://stackblitz.com/github/forceCalendar/examples/tree/main/vanilla-vite"
                   target="_blank"
@@ -251,7 +237,7 @@ export default async function Home() {
                   GitHub
                 </a>
               </div>
-              <div className="mt-4 flex flex-wrap items-center lg:justify-start justify-center gap-x-5 gap-y-1 text-sm">
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-sm">
                 <Link href="/salesforce" className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
                   Install on Salesforce <span aria-hidden>&rarr;</span>
                 </Link>
@@ -259,7 +245,7 @@ export default async function Home() {
                   Documentation <span aria-hidden>&rarr;</span>
                 </a>
               </div>
-              <div className="mt-8 flex flex-wrap items-center lg:justify-start justify-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                 {["Zero dependencies", "MIT licensed", "TypeScript", "Locker / LWS ready", "WCAG keyboard nav"].map(chip => (
                   <span key={chip} className="px-2.5 py-1 rounded-full ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900">
                     {chip}
@@ -267,7 +253,9 @@ export default async function Home() {
                 ))}
               </div>
             </div>
-            <HeroCalendar />
+            <div className="mt-14 max-w-5xl mx-auto">
+              <HeroCalendar />
+            </div>
           </div>
         </div>
 

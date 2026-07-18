@@ -58,7 +58,7 @@ export default function HeroCalendar() {
       </div>
       <CalendarLoader
         view="month"
-        height={420}
+        height={520}
         cssVars={{
           "fc-background": "var(--preview-bg, #ffffff)",
           "fc-background-alt": "var(--preview-bg-alt, #f8fafc)",
