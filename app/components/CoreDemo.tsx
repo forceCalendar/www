@@ -54,10 +54,7 @@ export default function CoreDemo({ demo }: CoreDemoProps) {
           setOutput(
             `EventStore: ${events?.length ?? 0} events\n` +
             (events ?? [])
-              .map(
-                (e: Record<string, unknown>) =>
-                  `  → ${e.title} (${e.durationMinutes}min)`
-              )
+              .map((e) => `  → ${e.title} (${e.durationMinutes}min)`)
               .join("\n")
           );
         } else if (demo === "timezone") {
