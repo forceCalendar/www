@@ -10,6 +10,7 @@ The official website for [forceCalendar](https://forcecalendar.org) — enterpri
 - `/core` — the headless engine (`@forcecalendar/core`)
 - `/interface` — the Web Components UI (`@forcecalendar/interface`)
 - `/salesforce` — Salesforce installation guide
+- `/platforms` — sandboxed platforms the packages run in (Salesforce, ServiceNow, SharePoint, Forge, Chrome MV3, edge runtimes)
 - `/playground` — live interactive demo running the real published packages
 
 ## Stack

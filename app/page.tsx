@@ -31,6 +31,17 @@ const NPM_PACKAGES = ["core", "interface", "react", "vue"];
 
 const SPARK_WEEKS = 12;
 
+// Installed (unpacked) package sizes from the committed benchmark run
+// (results/latest.json in the benchmark repo): @forcecalendar/core + interface
+// versus @fullcalendar/core + 5 plugins + rrule. Every figure in the benchmark
+// section derives from these two numbers so the copy cannot drift from them.
+const BENCHMARK_RESULTS_URL =
+  "https://github.com/forceCalendar/benchmark/blob/main/results/latest.json";
+const BUNDLE_BYTES = { forceCalendar: 1_226_109, fullCalendar: 3_098_735 };
+const bundleRatio = `${(BUNDLE_BYTES.fullCalendar / BUNDLE_BYTES.forceCalendar).toFixed(1)}x`;
+const bundleShare = `${Math.round((BUNDLE_BYTES.forceCalendar / BUNDLE_BYTES.fullCalendar) * 100)}%`;
+const formatMB = (bytes: number) => `${(bytes / 1_000_000).toFixed(2)} MB`;
+
 // Downloads across all @forcecalendar packages since first publish
 // (2025-12-27); refreshed hourly. Returns the total plus a weekly series
 // for the sparkline, or null when the API is unreachable so the caller
@@ -195,7 +206,7 @@ export default async function Home() {
     downloads
       ? { value: downloads.total, label: "npm downloads", spark: downloads.weekly }
       : { value: String(NPM_PACKAGES.length), label: "Packages on npm" },
-    { value: "2.9x", label: "Smaller than FullCalendar" },
+    { value: bundleRatio, label: "Smaller than FullCalendar" },
     { value: "45+", label: "CSS theming tokens" },
   ];
 
@@ -635,16 +646,16 @@ export default async function Home() {
                 <div>
                   <div className="flex justify-between text-sm mb-1.5">
                     <span className="text-slate-600 dark:text-slate-400">forceCalendar <span className="text-xs text-slate-500 dark:text-slate-400">(core + interface)</span></span>
-                    <span className="font-mono font-medium text-slate-900 dark:text-white">1.04 MB</span>
+                    <span className="font-mono font-medium text-slate-900 dark:text-white">{formatMB(BUNDLE_BYTES.forceCalendar)}</span>
                   </div>
                   <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                    <div className="h-full rounded-full bg-emerald-500 dark:bg-emerald-400" style={{ width: "35%" }} />
+                    <div className="h-full rounded-full bg-emerald-500 dark:bg-emerald-400" style={{ width: bundleShare }} />
                   </div>
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-1.5">
                     <span className="text-slate-600 dark:text-slate-400">FullCalendar <span className="text-xs text-slate-500 dark:text-slate-400">(core + 5 plugins + rrule)</span></span>
-                    <span className="font-mono font-medium text-slate-900 dark:text-white">3.01 MB</span>
+                    <span className="font-mono font-medium text-slate-900 dark:text-white">{formatMB(BUNDLE_BYTES.fullCalendar)}</span>
                   </div>
                   <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
                     <div className="h-full rounded-full bg-slate-300 dark:bg-slate-600" style={{ width: "100%" }} />
@@ -652,7 +663,7 @@ export default async function Home() {
                 </div>
               </div>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                2.9x smaller total bundle. Fewer bytes to audit, fewer bytes to ship behind corporate firewalls.
+                {bundleRatio} smaller total bundle. Fewer bytes to audit, fewer bytes to ship behind corporate firewalls.
               </p>
             </div>
 
@@ -667,7 +678,7 @@ export default async function Home() {
                 <h3 className="font-medium text-slate-900 dark:text-white">Recurrence (RRULE)</h3>
               </div>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
-                The dedicated <span className="font-mono text-xs">rrule</span> library is still faster at raw RRULE expansion, but the gap is now roughly 2x on common daily and weekly patterns (it was up to 1,200x before the v2.1&ndash;v2.3 engine work); a five-year daily series expands in about half a millisecond either way.
+                The dedicated <span className="font-mono text-xs">rrule</span> library is still faster at raw RRULE expansion, but the gap is now roughly 2x on common daily and weekly patterns (it was up to 1,200x before the v2.1&ndash;v2.3 engine work); a five-year daily series (1,825 occurrences) expands in about a quarter of a millisecond.
               </p>
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                 The trade-off: forceCalendar&rsquo;s recurrence is built-in with zero extra dependencies and applies timezone/DST handling per occurrence, while FullCalendar requires the separate <span className="font-mono text-xs">rrule</span> library. At real-world calendar volumes the difference is microseconds per render.
@@ -677,7 +688,14 @@ export default async function Home() {
 
           <div className="mt-10 text-center">
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-5">
-              Benchmarks run against published npm packages; sizes are installed (unpacked) package sizes. Full methodology and interactive results available on the dashboard.
+              Benchmarks run against published npm packages; sizes are installed (unpacked) package sizes taken from the committed{" "}
+              <a
+                href={BENCHMARK_RESULTS_URL}
+                className="text-brand-600 dark:text-brand-400 hover:underline"
+              >
+                results file
+              </a>
+              . Full methodology and interactive results available on the dashboard.
             </p>
             <a
               href="https://benchmark.forcecalendar.org"
