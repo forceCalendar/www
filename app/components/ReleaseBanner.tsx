@@ -17,7 +17,7 @@ async function getLatestReleases(): Promise<ReleaseInfo[]> {
     PACKAGES.map(async ({ pkg, label, releases }) => {
       try {
         const res = await fetch(`https://registry.npmjs.org/${pkg}`, {
-          next: { revalidate: 3600 },
+          next: { revalidate: 300 },
         });
         if (!res.ok) return null;
         const data: { "dist-tags": { latest: string }; time: Record<string, string> } =
