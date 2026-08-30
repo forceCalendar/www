@@ -15,6 +15,7 @@ const descriptions: Record<Tab, { title: string; text: string; bullets: string[]
       "Month, week, and day view data, plus a list format for custom UIs",
       "Navigation API with goToDate, next, previous",
       "Event-driven state with subscribe/unsubscribe",
+      "setEvents(events, { reconcile: true }) applies only the diff from a snapshot and reports added, updated, and removed",
     ],
   },
   events: {
@@ -24,6 +25,8 @@ const descriptions: Record<Tab, { title: string; text: string; bullets: string[]
       "Efficient range queries with spatial indexing",
       "RFC 5545 RRULE with exceptions and overrides",
       "Automatic conflict detection across events",
+      "Month, week, and day views expand recurring series into occurrences with stable ids",
+      "Lazy occurrence iterator: iterateOccurrences, getNextOccurrence, takeOccurrences",
     ],
   },
   timezone: {
@@ -70,7 +73,10 @@ calendar.addEvent({
 });
 
 const events = calendar.getEvents();
-console.log(events.length, 'events loaded');`,
+console.log(events.length, 'events loaded');
+
+const next = calendar.getNextOccurrence('meeting-1', new Date());
+console.log('Next standup:', next?.start);`,
   },
   timezone: {
     filename: "timezone.ts",

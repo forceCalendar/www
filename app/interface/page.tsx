@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 const components = [
   {
     name: "<forcecal-main>",
-    desc: "Complete calendar with month, week, and day views. The primary component for most use cases.",
+    desc: "Complete calendar with month, week, and day views. Load data through the events property or setEvents(). The primary component for most use cases.",
   },
   {
     name: "<forcecal-event-form>",
@@ -83,6 +83,7 @@ const attributes = [
   { name: "timezone", type: "string", default: "local", desc: "IANA timezone identifier" },
   { name: "week-starts-on", type: "string", default: '"0"', desc: "0 = Sunday, 1 = Monday, 6 = Saturday" },
   { name: "height", type: "string", default: '"800px"', desc: "Calendar height (any CSS length)" },
+  { name: "theme", type: "string", default: "none", desc: 'Named preset, e.g. "slds" for Salesforce Lightning styling' },
 ];
 
 const events = [
@@ -90,6 +91,8 @@ const events = [
   { name: "calendar-view-change", detail: "{ view }", desc: "Fired when the view changes" },
   { name: "calendar-navigate", detail: "{ action, date }", desc: "Fired on next/previous/today/goto navigation" },
   { name: "calendar-event-add", detail: "{ event }", desc: "Fired when an event is added (also -update, -remove)" },
+  { name: "calendar-events-set", detail: "{ events, added, updated, removed, unchanged }", desc: "Fired once per events / setEvents() snapshot with the reconciled change set" },
+  { name: "calendar-range-change", detail: "{ start, end, view, date }", desc: "Fired after first render and whenever the visible date window changes; getVisibleRange() reads it on demand" },
 ];
 
 const themingExample = `forcecal-main {

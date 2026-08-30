@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import type { ForceCalendarElement } from "@forcecalendar/interface";
 import CalendarLoader from "../components/CalendarLoader";
 
 const locales = [
@@ -70,11 +71,36 @@ const makeSampleEvents = () => {
 const CALENDAR_EVENTS = [
   "calendar-view-change",
   "calendar-navigate",
+  "calendar-range-change",
   "calendar-date-select",
   "calendar-event-added",
   "calendar-event-updated",
   "calendar-event-deleted",
+  "calendar-events-set",
 ] as const;
+
+const isoDay = (d: unknown) => (d instanceof Date ? d.toISOString().slice(0, 10) : d);
+
+// Snapshot and range payloads carry whole Event instances and Dates; reduce
+// them to what is worth reading in a one-line log entry.
+const summarizeDetail = (name: string, detail: unknown): unknown => {
+  if (!detail || typeof detail !== "object") return detail;
+  const d = detail as Record<string, unknown>;
+  if (name === "calendar-events-set") {
+    const count = (v: unknown) => (Array.isArray(v) ? v.length : 0);
+    return {
+      events: count(d.events),
+      added: count(d.added),
+      updated: count(d.updated),
+      removed: count(d.removed),
+      unchanged: count(d.unchanged),
+    };
+  }
+  if (name === "calendar-range-change") {
+    return { start: isoDay(d.start), end: isoDay(d.end), view: d.view };
+  }
+  return detail;
+};
 
 interface LogEntry {
   id: number;
@@ -84,13 +110,6 @@ interface LogEntry {
 }
 
 type CodeTab = "html" | "react" | "vue";
-
-interface CalendarElement extends HTMLElement {
-  addEvent?: (e: Record<string, unknown>) => unknown;
-  removeEvent?: (id: string) => unknown;
-  deleteEvent?: (id: string) => unknown;
-  getEvents?: () => Record<string, unknown>[];
-}
 
 export default function PlaygroundClient() {
   const [view, setView] = useState("month");
@@ -102,7 +121,7 @@ export default function PlaygroundClient() {
   const [codeTab, setCodeTab] = useState<CodeTab>("html");
   const [eventList, setEventList] = useState<Record<string, unknown>[]>([]);
   const [log, setLog] = useState<LogEntry[]>([]);
-  const calRef = useRef<CalendarElement | null>(null);
+  const calRef = useRef<ForceCalendarElement | null>(null);
   const logIdRef = useRef(0);
   const cleanupRef = useRef<(() => void) | null>(null);
   const seededRef = useRef(false);
@@ -110,7 +129,7 @@ export default function PlaygroundClient() {
   const pushLog = useCallback((name: string, detail: unknown) => {
     let summary = "";
     try {
-      summary = JSON.stringify(detail) ?? "";
+      summary = JSON.stringify(summarizeDetail(name, detail)) ?? "";
     } catch {
       summary = String(detail);
     }
@@ -126,16 +145,18 @@ export default function PlaygroundClient() {
 
   const syncEvents = useCallback(() => {
     const cal = calRef.current;
-    if (cal?.getEvents) setEventList(cal.getEvents());
+    if (cal) setEventList(cal.events as unknown as Record<string, unknown>[]);
   }, []);
 
   const handleReady = useCallback(
     (el: HTMLElement) => {
-      calRef.current = el as CalendarElement;
+      const cal = el as ForceCalendarElement;
+      calRef.current = cal;
       cleanupRef.current?.();
       const handlers = CALENDAR_EVENTS.map((name) => {
         const handler = (e: Event) => {
           pushLog(name, (e as CustomEvent).detail);
+          // covers calendar-event-* and calendar-events-set
           if (name.startsWith("calendar-event")) syncEvents();
         };
         el.addEventListener(name, handler);
@@ -144,13 +165,11 @@ export default function PlaygroundClient() {
       cleanupRef.current = () => {
         handlers.forEach(({ name, handler }) => el.removeEventListener(name, handler));
       };
-      // Seed the demo on first mount so the calendar never starts empty
-      const cal = el as CalendarElement;
-      if (!seededRef.current && cal.addEvent && cal.getEvents && cal.getEvents().length === 0) {
+      // Seed the demo on first mount so the calendar never starts empty. The
+      // `events` property takes a whole snapshot and reconciles it in one go.
+      if (!seededRef.current && cal.events.length === 0) {
         seededRef.current = true;
-        for (const event of makeSampleEvents()) {
-          cal.addEvent(event);
-        }
+        cal.events = makeSampleEvents();
       }
       syncEvents();
     },
@@ -159,23 +178,20 @@ export default function PlaygroundClient() {
 
   useEffect(() => () => cleanupRef.current?.(), []);
 
+  // Merge the samples into whatever is already loaded: with removeMissing off,
+  // setEvents() keeps events absent from the snapshot (e.g. ones you created)
   const addSampleEvents = () => {
     const cal = calRef.current;
-    if (!cal?.addEvent) return;
-    for (const event of makeSampleEvents()) {
-      cal.addEvent(event);
-    }
+    if (!cal) return;
+    cal.setEvents(makeSampleEvents(), { removeMissing: false });
     syncEvents();
   };
 
+  // An empty snapshot reconciles everything away in a single render
   const clearEvents = () => {
     const cal = calRef.current;
     if (!cal) return;
-    const remove = cal.removeEvent ?? cal.deleteEvent;
-    if (!remove || !cal.getEvents) return;
-    for (const e of cal.getEvents()) {
-      remove.call(cal, String(e.id));
-    }
+    cal.events = [];
     syncEvents();
   };
 
@@ -189,14 +205,33 @@ export default function PlaygroundClient() {
   const codeSamples: Record<CodeTab, { filename: string; code: string }> = {
     html: {
       filename: "index.html",
-      code: `<script type="module">
-  import '@forcecalendar/interface';
-</script>
-
-<forcecal-main
+      code: `<forcecal-main
   ${attrLines.join("\n  ")}
   style="display: block; min-height: ${height}px"
-></forcecal-main>`,
+></forcecal-main>
+
+<script type="module">
+  import '@forcecalendar/interface';
+
+  const calendar = document.querySelector('forcecal-main');
+
+  // Assign a complete snapshot; the calendar reconciles it and
+  // dispatches one calendar-events-set with the change set
+  calendar.events = [
+    {
+      id: 'standup',
+      title: 'Daily Standup',
+      start: '2026-09-07T09:15:00',
+      end: '2026-09-07T09:30:00',
+      recurrenceRule: 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR'
+    }
+  ];
+
+  // Fires after first render and on every navigation or view change
+  calendar.addEventListener('calendar-range-change', ({ detail }) => {
+    console.log('visible', detail.start, detail.end);
+  });
+</script>`,
     },
     react: {
       filename: "App.jsx",
@@ -477,7 +512,8 @@ import { ForceCalendar } from '@forcecalendar/vue';
           </div>
           <p className="text-xs text-slate-400 dark:text-slate-500 mb-3">
             DOM events dispatched by <code className="font-mono">&lt;forcecal-main&gt;</code>.
-            Click around the calendar to see them fire.
+            Navigate to see <code className="font-mono">calendar-range-change</code>; load or
+            clear events to see one <code className="font-mono">calendar-events-set</code> per snapshot.
           </p>
           {log.length > 0 ? (
             <ul className="space-y-1 max-h-64 overflow-y-auto" aria-live="polite">
