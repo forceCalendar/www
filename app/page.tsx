@@ -2,9 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import Section from "./components/Section";
 import SectionHeader from "./components/SectionHeader";
-import FeatureCard from "./components/FeatureCard";
-import PackageCard from "./components/PackageCard";
+import Eyebrow from "./components/Eyebrow";
+import Button, { Arrow, ExternalIcon } from "./components/Button";
+import Card, { IconWell } from "./components/Card";
+import { StatRow, StatTile } from "./components/StatTile";
 import CodeBlock from "./components/CodeBlock";
 import InstallCommand from "./components/InstallCommand";
 import HeroCalendar from "./components/HeroCalendar";
@@ -77,8 +80,8 @@ async function getTotalDownloads(): Promise<{ total: string; weekly: number[] } 
   }
 }
 
-// Single-series sparkline: 2px line, no axes, endpoint dot. Strokes are
-// contrast-validated per surface (#2563eb on light, #3b82f6 on dark).
+// Single-series sparkline: 2px line, no axes, endpoint dot. Stroke uses the
+// accent text token, which is contrast-validated on both surfaces.
 function Sparkline({ points, label }: { points: number[]; label: string }) {
   if (points.length < 2) return null;
   const w = 96;
@@ -99,7 +102,7 @@ function Sparkline({ points, label }: { points: number[]; label: string }) {
       height={h}
       role="img"
       aria-label={label}
-      className="mx-auto mt-2 text-[#2563eb] dark:text-[#3b82f6]"
+      className="mx-auto mt-2 text-accent-text"
     >
       <polyline
         points={coords.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" ")}
@@ -199,6 +202,68 @@ const features = [
   },
 ];
 
+const platformTiles = [
+  {
+    title: "Salesforce",
+    text: "Shipping now. LWC + Apex with full Locker Service compliance.",
+    accent: true,
+    path: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z",
+  },
+  {
+    title: "Any Web App",
+    text: "Web Components work in React, Vue, Angular, or vanilla JS, with first-party SSR-safe adapters for React and Vue.",
+    path: "M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5a17.92 17.92 0 01-8.716-2.247m0 0A9.015 9.015 0 003 12c0-1.605.42-3.113 1.157-4.418",
+  },
+  {
+    title: "Strict CSP",
+    text: "No eval, no inline styles. Works behind the strictest policies.",
+    path: "M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z",
+  },
+  {
+    title: "Air-Gapped",
+    text: "Zero external requests. Runs fully offline with no CDN dependencies.",
+    path: "M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z",
+  },
+];
+
+const salesforceFacts = [
+  {
+    title: "Native LWC Integration",
+    text: "Runs as a Lightning Web Component. Uses real Salesforce data through Apex, not external APIs.",
+  },
+  {
+    title: "Locker Service Safe",
+    text: "Zero blocked API calls. No eval, no dynamic Function constructors, no prototype manipulation.",
+  },
+  {
+    title: "All Views Included",
+    text: "Month, week, and day views with event creation, color coding, and full navigation.",
+  },
+];
+
+function Screenshot({
+  src,
+  alt,
+  caption,
+  priority = false,
+}: {
+  src: string;
+  alt: string;
+  caption?: string;
+  priority?: boolean;
+}) {
+  return (
+    <figure className="overflow-hidden rounded-xl bg-raised ring-1 ring-hairline shadow-elev-2 ring-hi">
+      <Image src={src} alt={alt} width={1388} height={860} className="h-auto w-full" priority={priority} />
+      {caption && (
+        <figcaption className="border-t border-hairline px-4 py-2.5 text-xs font-medium text-muted">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
 export default async function Home() {
   const downloads = await getTotalDownloads();
   const stats = [
@@ -217,522 +282,474 @@ export default async function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-grid" aria-hidden />
-        <div className="relative pt-24 pb-16 px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white leading-tight">
+        <div className="relative mx-auto max-w-page px-6 pt-14 pb-16 sm:pt-20 lg:pt-24 lg:pb-20">
+          <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-5">
+              <div className="animate-fade-up">
+                <Eyebrow pill>
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
+                  Zero dependencies &middot; MIT
+                </Eyebrow>
+              </div>
+              <h1 className="mt-6 font-display text-display-lg sm:text-display-xl text-fg animate-fade-up [animation-delay:60ms]">
                 Calendar infrastructure for strict enterprise environments.
               </h1>
-              <p className="mt-6 text-lg text-slate-500 dark:text-slate-400 leading-relaxed">
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted animate-fade-up [animation-delay:120ms]">
                 A headless scheduling engine and framework-agnostic Web Components.
                 Zero dependencies. MIT licensed. Built for Salesforce Locker Service /
                 Lightning Web Security and strict CSP.
               </p>
-              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <div className="mt-8 animate-fade-up [animation-delay:180ms]">
                 <InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" />
               </div>
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-                <a
+              <div className="mt-5 flex flex-wrap items-center gap-3 animate-fade-up [animation-delay:240ms]">
+                <Button
                   href="https://stackblitz.com/github/forceCalendar/examples/tree/main/vanilla-vite"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-brand-600 text-white text-sm font-medium rounded-lg shadow-sm hover:bg-brand-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
+                  size="lg"
                 >
                   Try it in 60 seconds
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                </a>
-                <a
-                  href="https://github.com/forcecalendar"
-                  className="inline-flex items-center px-5 py-2.5 ring-1 ring-slate-300 dark:ring-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:ring-slate-400 dark:hover:ring-slate-600 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
-                >
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </Button>
+                <Button href="https://github.com/forcecalendar" variant="secondary" size="lg">
                   GitHub
-                </a>
+                </Button>
               </div>
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-sm">
-                <Link href="/salesforce" className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-                  Install on Salesforce <span aria-hidden>&rarr;</span>
+              <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm animate-fade-up [animation-delay:300ms]">
+                <Link href="/salesforce" className="group text-muted transition-colors hover:text-fg">
+                  Install on Salesforce <Arrow />
                 </Link>
-                <a href="https://docs.forcecalendar.org" className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-                  Documentation <span aria-hidden>&rarr;</span>
+                <a href="https://docs.forcecalendar.org" className="group text-muted transition-colors hover:text-fg">
+                  Documentation <Arrow />
                 </a>
               </div>
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+              <ul className="mt-8 flex flex-wrap items-center gap-2 text-xs text-muted animate-fade-up [animation-delay:360ms]" aria-label="Highlights">
                 {["Zero dependencies", "MIT licensed", "TypeScript", "Locker / LWS ready", "WCAG keyboard nav"].map(chip => (
-                  <span key={chip} className="px-2.5 py-1 rounded-full ring-1 ring-slate-200 dark:ring-slate-800 bg-white dark:bg-slate-900">
+                  <li key={chip} className="rounded-full bg-raised px-2.5 py-1 ring-1 ring-inset ring-hairline">
                     {chip}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
-            <div className="mt-14 max-w-5xl mx-auto">
-              <HeroCalendar />
+
+            <div className="min-w-0 lg:col-span-7">
+              <div className="bg-hero-mesh relative rounded-2xl p-3 ring-1 ring-hairline sm:p-5 lg:-mr-10 xl:-mr-20 animate-fade-up [animation-delay:200ms]">
+                <HeroCalendar />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Facts strip */}
-        <div className="border-y border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/30">
-          <div className="max-w-5xl mx-auto px-6 py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0 lg:divide-x lg:divide-slate-200 dark:lg:divide-slate-800">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center lg:px-6">
-                <div className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">
-                  {stat.value}
-                </div>
-                <div className="mt-1 text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                  {stat.label}
-                </div>
-                {"spark" in stat && stat.spark && (
-                  <Sparkline
-                    points={stat.spark}
-                    label={`Weekly npm downloads, last ${stat.spark.length} weeks`}
-                  />
-                )}
-              </div>
-            ))}
+          {/* Facts strip */}
+          <div className="mt-14 lg:mt-16">
+            <StatRow>
+              {stats.map((stat) => (
+                <StatTile key={stat.label} value={stat.value} label={stat.label}>
+                  {"spark" in stat && stat.spark && (
+                    <Sparkline
+                      points={stat.spark}
+                      label={`Weekly npm downloads, last ${stat.spark.length} weeks`}
+                    />
+                  )}
+                </StatTile>
+              ))}
+            </StatRow>
           </div>
         </div>
       </section>
 
       {/* Plain words */}
-      <section className="py-24 px-6">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeader
-            eyebrow="In plain words"
-            title="What forceCalendar is"
-            id="what"
-          />
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Explainer */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="font-medium text-slate-900 dark:text-white mb-2">
-                  A calendar you can put inside your own product
-                </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                  Month, week, and day views with events, recurring schedules,
-                  timezones, and search. You install two packages, add one HTML
-                  tag, and connect your data. It is not a hosted service. The
-                  code runs entirely inside your application.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-medium text-slate-900 dark:text-white mb-2">
-                  Built for places where most JavaScript is not allowed
-                </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                  Large companies restrict what code on their pages may do. A
-                  Content Security Policy (CSP) is a browser rule set that, for
-                  example, forbids generating code at runtime or injecting
-                  styles. Salesforce goes further with Locker Service, a sandbox
-                  around every component. Most calendar libraries rely on
-                  exactly the techniques these rules block, so they break, often
-                  silently.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-medium text-slate-900 dark:text-white mb-2">
-                  Why it exists
-                </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                  forceCalendar was written from scratch to work under those
-                  rules: no blocked techniques, no third-party code to audit, one
-                  MIT license. If your security team has ever rejected a
-                  JavaScript library, this is the calendar they will approve.
-                </p>
-              </div>
+      <Section width="wide" divider>
+        <SectionHeader
+          eyebrow="In plain words"
+          title="What forceCalendar is"
+          id="what"
+        />
+        <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
+          {/* Explainer */}
+          <div className="divide-y divide-hairline">
+            <div className="pb-7">
+              <h3 className="mb-2 text-base font-semibold text-fg">
+                A calendar you can put inside your own product
+              </h3>
+              <p className="text-[15px] leading-relaxed text-muted">
+                Month, week, and day views with events, recurring schedules,
+                timezones, and search. You install two packages, add one HTML
+                tag, and connect your data. It is not a hosted service. The
+                code runs entirely inside your application.
+              </p>
             </div>
+            <div className="py-7">
+              <h3 className="mb-2 text-base font-semibold text-fg">
+                Built for places where most JavaScript is not allowed
+              </h3>
+              <p className="text-[15px] leading-relaxed text-muted">
+                Large companies restrict what code on their pages may do. A
+                Content Security Policy (CSP) is a browser rule set that, for
+                example, forbids generating code at runtime or injecting
+                styles. Salesforce goes further with Locker Service, a sandbox
+                around every component. Most calendar libraries rely on
+                exactly the techniques these rules block, so they break, often
+                silently.
+              </p>
+            </div>
+            <div className="pt-7">
+              <h3 className="mb-2 text-base font-semibold text-fg">
+                Why it exists
+              </h3>
+              <p className="text-[15px] leading-relaxed text-muted">
+                forceCalendar was written from scratch to work under those
+                rules: no blocked techniques, no third-party code to audit, one
+                MIT license. If your security team has ever rejected a
+                JavaScript library, this is the calendar they will approve.
+              </p>
+            </div>
+          </div>
 
-            {/* Layer diagram */}
-            <div aria-label="Architecture diagram: your application uses @forcecalendar/interface, which is powered by @forcecalendar/core">
-              <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5">
-                <div className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">
-                  Your application
-                </div>
-                <p className="text-sm text-slate-600 dark:text-slate-300">
-                  Salesforce LWC &middot; React &middot; Vue &middot; Angular &middot; plain HTML
-                </p>
+          {/* Layer diagram */}
+          <div
+            className="rounded-2xl bg-sunken p-4 ring-1 ring-hairline sm:p-5"
+            aria-label="Architecture diagram: your application uses @forcecalendar/interface, which is powered by @forcecalendar/core"
+          >
+            <Card tone="default" padding="sm" interactive={false} className="sm:p-5">
+              <div className="mb-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-subtle">
+                Your application
               </div>
-              <div className="flex items-center gap-3 py-2 pl-8">
-                <div className="w-px h-8 bg-slate-300 dark:bg-slate-700" aria-hidden />
-                <span className="text-xs text-slate-500 dark:text-slate-400">
-                  drops in the <code className="font-mono">&lt;forcecal-main&gt;</code> tag
-                </span>
+              <p className="text-sm text-fg">
+                Salesforce LWC &middot; React &middot; Vue &middot; Angular &middot; plain HTML
+              </p>
+            </Card>
+            <div className="flex items-center gap-3 py-1.5 pl-8">
+              <div className="h-8 w-px bg-line" aria-hidden />
+              <span className="text-xs text-muted">
+                drops in the <code className="font-mono text-accent-text">&lt;forcecal-main&gt;</code> tag
+              </span>
+            </div>
+            <Card tone="accent" padding="sm" interactive={false} className="sm:p-5">
+              <div className="mb-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-accent-text">
+                @forcecalendar/interface
               </div>
-              <div className="rounded-xl border border-cyan-200 dark:border-cyan-500/30 bg-cyan-50/40 dark:bg-cyan-500/5 p-5">
-                <div className="text-xs font-mono font-medium uppercase tracking-wider text-cyan-600 dark:text-cyan-400 mb-1.5">
-                  @forcecalendar/interface
-                </div>
-                <p className="text-sm text-slate-600 dark:text-slate-300">
-                  The visible calendar: month, week, and day views as standard
-                  Web Components, themed with CSS variables.
-                </p>
+              <p className="text-sm text-fg">
+                The visible calendar: month, week, and day views as standard
+                Web Components, themed with CSS variables.
+              </p>
+            </Card>
+            <div className="flex items-center gap-3 py-1.5 pl-8">
+              <div className="h-8 w-px bg-line" aria-hidden />
+              <span className="text-xs text-muted">
+                asks the engine what to display
+              </span>
+            </div>
+            <div className="rounded-xl bg-code-bg p-4 text-code-fg ring-1 ring-code-border sm:p-5">
+              <div className="mb-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-brand-300">
+                @forcecalendar/core
               </div>
-              <div className="flex items-center gap-3 py-2 pl-8">
-                <div className="w-px h-8 bg-slate-300 dark:bg-slate-700" aria-hidden />
-                <span className="text-xs text-slate-500 dark:text-slate-400">
-                  asks the engine what to display
-                </span>
-              </div>
-              <div className="rounded-xl border border-violet-200 dark:border-violet-500/30 bg-violet-50/40 dark:bg-violet-500/5 p-5">
-                <div className="text-xs font-mono font-medium uppercase tracking-wider text-violet-600 dark:text-violet-400 mb-1.5">
-                  @forcecalendar/core
-                </div>
-                <p className="text-sm text-slate-600 dark:text-slate-300">
-                  The engine: stores events, expands recurring schedules,
-                  handles timezones, finds conflicts, and searches. No UI, no
-                  dependencies; usable on its own.
-                </p>
-              </div>
+              <p className="text-sm text-code-fg/90">
+                The engine: stores events, expands recurring schedules,
+                handles timezones, finds conflicts, and searches. No UI, no
+                dependencies; usable on its own.
+              </p>
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* The Problem */}
-      <section className="py-24 px-6 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeader
-            eyebrow="Why forceCalendar"
-            title="The problem with calendar libraries in enterprise"
-            id="why"
-          />
-          <div className="grid md:grid-cols-3 gap-5">
-            {problems.map((item, i) => (
-              <div
-                key={item.title}
-                className="relative p-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-lg hover:shadow-slate-200/60 dark:hover:shadow-slate-950/60"
-              >
-                <div className="text-xs font-mono text-slate-400 dark:text-slate-600 mb-3">
-                  0{i + 1}
-                </div>
-                <h3 className="font-medium text-slate-900 dark:text-white mb-3">
-                  {item.title}
-                </h3>
-                <div className="flex gap-2.5 mb-4">
-                  <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-rose-400 dark:bg-rose-500" aria-hidden />
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                    {item.problem}
-                  </p>
-                </div>
-                <div className="flex gap-2.5 border-t border-slate-100 dark:border-slate-800 pt-4">
-                  <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-emerald-500" aria-hidden />
-                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                    {item.solution}
-                  </p>
-                </div>
+      <Section width="wide" divider>
+        <SectionHeader
+          eyebrow="Why forceCalendar"
+          title="The problem with calendar libraries in enterprise"
+          id="why"
+        />
+        <div className="grid gap-px overflow-hidden rounded-2xl bg-hairline ring-1 ring-hairline md:grid-cols-3">
+          {problems.map((item, i) => (
+            <div key={item.title} className="bg-raised p-6 sm:p-7">
+              <div className="mb-4 flex items-center gap-3">
+                <span className="font-mono text-xs tabular text-subtle">0{i + 1}</span>
+                <h3 className="text-base font-semibold text-fg">{item.title}</h3>
               </div>
-            ))}
-          </div>
+              <div className="mb-4 flex gap-2.5">
+                <span className="mt-[7px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-rose-500" aria-hidden />
+                <p className="text-sm leading-relaxed text-muted">
+                  {item.problem}
+                </p>
+              </div>
+              <div className="flex gap-2.5 border-t border-hairline pt-4">
+                <span className="mt-[7px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-500" aria-hidden />
+                <p className="text-sm leading-relaxed text-fg">
+                  {item.solution}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
-      </section>
+      </Section>
 
       {/* Salesforce Showcase */}
-      <section className="py-24 px-6 bg-slate-50/70 dark:bg-slate-900/30 border-y border-slate-200 dark:border-slate-800">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeader
-            eyebrow="Flagship integration"
-            title="Started with Salesforce"
-            subtitle="Most calendar libraries break inside Locker Service, and that is where forceCalendar started. The same zero-dependency architecture works in any strict enterprise environment."
-            id="salesforce"
-          />
-          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900/50 shadow-xl shadow-slate-200/50 dark:shadow-slate-950/50">
-            <div className="relative">
-              <Image
-                src="/salesforce-month.png"
-                alt="forceCalendar month view running inside a Salesforce org, showing colorful events across February 2026"
-                width={1388}
-                height={860}
-                className="w-full h-auto"
-              />
-            </div>
-            <div className="p-6 border-t border-slate-200 dark:border-slate-800">
-              <div className="grid sm:grid-cols-3 gap-6">
-                <div>
-                  <h3 className="font-medium text-slate-900 dark:text-white mb-1 text-sm">
-                    Native LWC Integration
-                  </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Runs as a Lightning Web Component. Uses real Salesforce data through Apex, not external APIs.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-medium text-slate-900 dark:text-white mb-1 text-sm">
-                    Locker Service Safe
-                  </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Zero blocked API calls. No eval, no dynamic Function constructors, no prototype manipulation.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-medium text-slate-900 dark:text-white mb-1 text-sm">
-                    All Views Included
-                  </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Month, week, and day views with event creation, color coding, and full navigation.
-                  </p>
-                </div>
-              </div>
-            </div>
+      <Section width="wide" tone="sunken">
+        <SectionHeader
+          eyebrow="Flagship integration"
+          title="Started with Salesforce"
+          subtitle="Most calendar libraries break inside Locker Service, and that is where forceCalendar started. The same zero-dependency architecture works in any strict enterprise environment."
+          id="salesforce"
+          aside={
+            <Link href="/salesforce" className="group inline-flex items-center gap-1 text-sm font-medium text-accent-text hover:underline">
+              Install on Salesforce <Arrow />
+            </Link>
+          }
+        />
+        <div className="grid gap-5 lg:grid-cols-12">
+          <div className="lg:col-span-8">
+            <Screenshot
+              src="/salesforce-month.png"
+              alt="forceCalendar month view running inside a Salesforce org, showing colorful events across February 2026"
+              caption="Month view inside a Salesforce org"
+            />
           </div>
-          <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div className="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900/50 shadow-sm transition-shadow hover:shadow-lg hover:shadow-slate-200/60 dark:hover:shadow-slate-950/60">
-              <Image
-                src="/salesforce-week.png"
-                alt="forceCalendar week view inside Salesforce showing timed events"
-                width={1388}
-                height={860}
-                className="w-full h-auto"
-              />
-              <div className="px-4 py-3 border-t border-slate-200 dark:border-slate-800">
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Week view with timed events</p>
-              </div>
-            </div>
-            <div className="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900/50 shadow-sm transition-shadow hover:shadow-lg hover:shadow-slate-200/60 dark:hover:shadow-slate-950/60">
-              <Image
-                src="/salesforce-day.png"
-                alt="forceCalendar day view inside Salesforce showing detailed event blocks"
-                width={1388}
-                height={860}
-                className="w-full h-auto"
-              />
-              <div className="px-4 py-3 border-t border-slate-200 dark:border-slate-800">
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Day view with event details</p>
-              </div>
-            </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1">
+            <Screenshot
+              src="/salesforce-week.png"
+              alt="forceCalendar week view inside Salesforce showing timed events"
+              caption="Week view with timed events"
+            />
+            <Screenshot
+              src="/salesforce-day.png"
+              alt="forceCalendar day view inside Salesforce showing detailed event blocks"
+              caption="Day view with event details"
+            />
           </div>
         </div>
-      </section>
+        <div className="mt-5 grid gap-px overflow-hidden rounded-xl bg-hairline ring-1 ring-hairline sm:grid-cols-3">
+          {salesforceFacts.map((fact) => (
+            <div key={fact.title} className="bg-raised p-5">
+              <h3 className="mb-1 text-sm font-semibold text-fg">{fact.title}</h3>
+              <p className="text-sm leading-relaxed text-muted">{fact.text}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
 
       {/* Enterprise Platform */}
-      <section className="py-24 px-6">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeader
-            eyebrow="Where it runs"
-            title="Enterprise calendar infrastructure"
-            subtitle="Salesforce is the flagship integration. The same architecture works anywhere strict security is required."
-            id="enterprise"
-          />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            <div className="p-5 rounded-xl border border-brand-200 dark:border-brand-500/30 bg-brand-50/50 dark:bg-brand-500/5 transition-all duration-200 hover:shadow-lg hover:shadow-brand-100/60 dark:hover:shadow-slate-950/60">
-              <div className="w-9 h-9 rounded-lg bg-brand-100 dark:bg-brand-500/15 ring-1 ring-brand-200 dark:ring-brand-500/25 text-brand-600 dark:text-brand-400 flex items-center justify-center mb-3">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+      <Section width="wide">
+        <SectionHeader
+          eyebrow="Where it runs"
+          title="Enterprise calendar infrastructure"
+          subtitle="Salesforce is the flagship integration. The same architecture works anywhere strict security is required."
+          id="enterprise"
+          aside={
+            <Link href="/platforms" className="group inline-flex items-center gap-1 text-sm font-medium text-accent-text hover:underline">
+              All platforms <Arrow />
+            </Link>
+          }
+        />
+        <div className="grid gap-px overflow-hidden rounded-2xl bg-hairline ring-1 ring-hairline sm:grid-cols-2 lg:grid-cols-4">
+          {platformTiles.map((tile) => (
+            <div key={tile.title} className={`p-6 ${tile.accent ? "bg-accent-soft" : "bg-raised"}`}>
+              <IconWell tone={tile.accent ? "solid" : "neutral"}>
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={tile.path} />
                 </svg>
-              </div>
-              <h3 className="font-medium text-sm text-slate-900 dark:text-white mb-1">Salesforce</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Shipping now. LWC + Apex with full Locker Service compliance.</p>
+              </IconWell>
+              <h3 className="mt-4 text-sm font-semibold text-fg">{tile.title}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted">{tile.text}</p>
             </div>
-            <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-lg hover:shadow-slate-200/60 dark:hover:shadow-slate-950/60">
-              <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center mb-3">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5a17.92 17.92 0 01-8.716-2.247m0 0A9.015 9.015 0 003 12c0-1.605.42-3.113 1.157-4.418" />
-                </svg>
-              </div>
-              <h3 className="font-medium text-sm text-slate-900 dark:text-white mb-1">Any Web App</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Web Components work in React, Vue, Angular, or vanilla JS, with first-party SSR-safe adapters for React and Vue.</p>
-            </div>
-            <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-lg hover:shadow-slate-200/60 dark:hover:shadow-slate-950/60">
-              <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center mb-3">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                </svg>
-              </div>
-              <h3 className="font-medium text-sm text-slate-900 dark:text-white mb-1">Strict CSP</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">No eval, no inline styles. Works behind the strictest policies.</p>
-            </div>
-            <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-lg hover:shadow-slate-200/60 dark:hover:shadow-slate-950/60">
-              <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center mb-3">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z" />
-                </svg>
-              </div>
-              <h3 className="font-medium text-sm text-slate-900 dark:text-white mb-1">Air-Gapped</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Zero external requests. Runs fully offline with no CDN dependencies.</p>
-            </div>
-          </div>
+          ))}
         </div>
-      </section>
+      </Section>
 
       {/* Architecture */}
-      <section className="py-24 px-6 bg-slate-50/70 dark:bg-slate-900/30 border-y border-slate-200 dark:border-slate-800">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeader
-            eyebrow="Architecture"
-            title="Two packages, one architecture"
-            subtitle="Use Core for scheduling logic and Interface for production-ready UI components."
-            id="architecture"
-          />
-          <div className="grid md:grid-cols-3 gap-5">
-            <PackageCard
-              href="/core"
-              label="Core Engine"
-              name="@forcecalendar/core"
-              description="Pure JavaScript scheduling engine. No DOM, no dependencies. Headless calendar logic for any runtime."
-              accentClass="text-violet-600 dark:text-violet-400"
-            />
-            <PackageCard
-              href="/interface"
-              label="UI Components"
-              name="@forcecalendar/interface"
-              description="Web Components powered by Core. Framework-agnostic, Shadow DOM encapsulated. Works in React, Vue, Angular, or vanilla JS."
-              accentClass="text-cyan-600 dark:text-cyan-400"
-            />
-            <div className="relative block p-6 rounded-xl border border-brand-200 dark:border-brand-500/30 bg-brand-50/50 dark:bg-brand-500/5">
-              <div className="text-xs font-mono font-medium uppercase tracking-widest mb-3 text-brand-600 dark:text-brand-400">
-                Salesforce Integration
-              </div>
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2 tracking-tight">Lightning Web Component</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
-                Built on top of both packages. Loads as a static resource, connects to Salesforce data through Apex. Locker Service safe.
-              </p>
-              <a href="#salesforce" className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 dark:text-brand-400 hover:underline">
-                See it running <span aria-hidden>&rarr;</span>
-              </a>
-            </div>
-          </div>
+      <Section width="wide" tone="sunken">
+        <SectionHeader
+          eyebrow="Architecture"
+          title="Two packages, one architecture"
+          subtitle="Use Core for scheduling logic and Interface for production-ready UI components."
+          id="architecture"
+        />
+        <div className="grid gap-5 md:grid-cols-2">
+          <Card href="/core" padding="lg">
+            <Eyebrow>Core Engine</Eyebrow>
+            <h3 className="mt-3 font-mono text-lg font-semibold tracking-tight text-fg">@forcecalendar/core</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              Pure JavaScript scheduling engine. No DOM, no dependencies. Headless calendar logic for any runtime.
+            </p>
+            <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-accent-text">
+              Learn more <Arrow />
+            </span>
+          </Card>
+          <Card href="/interface" padding="lg">
+            <Eyebrow>UI Components</Eyebrow>
+            <h3 className="mt-3 font-mono text-lg font-semibold tracking-tight text-fg">@forcecalendar/interface</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              Web Components powered by Core. Framework-agnostic, Shadow DOM encapsulated. Works in React, Vue, Angular, or vanilla JS.
+            </p>
+            <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-accent-text">
+              Learn more <Arrow />
+            </span>
+          </Card>
         </div>
-      </section>
+        <div className="mt-5 flex flex-col gap-4 rounded-xl bg-accent-soft p-6 ring-1 ring-accent-line/60 sm:flex-row sm:items-center sm:justify-between sm:p-7">
+          <div>
+            <Eyebrow>Salesforce Integration</Eyebrow>
+            <h3 className="mt-2 text-lg font-semibold tracking-tight text-fg">Lightning Web Component</h3>
+            <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted">
+              Built on top of both packages. Loads as a static resource, connects to Salesforce data through Apex. Locker Service safe.
+            </p>
+          </div>
+          <a href="#salesforce" className="group inline-flex flex-shrink-0 items-center gap-1 text-sm font-medium text-accent-text hover:underline">
+            See it running <Arrow />
+          </a>
+        </div>
+      </Section>
 
       {/* Code Example */}
-      <section className="py-24 px-6">
-        <div className="max-w-3xl mx-auto">
-          <SectionHeader
-            eyebrow="Quick start"
-            title="Five lines to a working calendar"
-            id="code"
-          />
-          <CodeBlock code={codeExample} filename="app.js" language="JavaScript" />
+      <Section width="wide">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <SectionHeader
+              eyebrow="Quick start"
+              title="Five lines to a working calendar"
+              id="code"
+              className="mb-6 lg:mb-6"
+            />
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+              <Link href="/playground" className="group inline-flex items-center gap-1 font-medium text-accent-text hover:underline">
+                Open the playground <Arrow />
+              </Link>
+              <a href="https://docs.forcecalendar.org" className="group inline-flex items-center gap-1 text-muted transition-colors hover:text-fg">
+                Documentation <Arrow />
+              </a>
+            </div>
+          </div>
+          <div className="min-w-0 lg:col-span-7">
+            <CodeBlock code={codeExample} filename="app.js" language="JavaScript" />
+          </div>
         </div>
-      </section>
+      </Section>
 
       {/* Feature Grid */}
-      <section className="py-24 px-6 bg-slate-50/70 dark:bg-slate-900/30 border-y border-slate-200 dark:border-slate-800">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeader eyebrow="Capabilities" title="What&rsquo;s included" id="features" />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {features.map((feature) => (
-              <FeatureCard
-                key={feature.title}
-                icon={feature.icon}
-                title={feature.title}
-                description={feature.description}
-              />
-            ))}
-          </div>
+      <Section width="wide" tone="sunken">
+        <SectionHeader eyebrow="Capabilities" title="What&rsquo;s included" id="features" />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {features.map((feature, i) => (
+            <Card
+              key={feature.title}
+              interactive
+              className={[0, 5, 6, 7].includes(i) ? "sm:col-span-2" : ""}
+            >
+              <IconWell>{feature.icon}</IconWell>
+              <h3 className="mt-4 text-sm font-semibold text-fg">{feature.title}</h3>
+              <p className="mt-1.5 max-w-md text-sm leading-relaxed text-muted">
+                {feature.description}
+              </p>
+            </Card>
+          ))}
         </div>
-      </section>
+      </Section>
 
       {/* Benchmark Highlights */}
-      <section className="py-24 px-6">
-        <div className="max-w-5xl mx-auto">
-          <SectionHeader
-            eyebrow="Honest numbers"
-            title="How it compares"
-            subtitle="Independent benchmarks against FullCalendar, an excellent and widely-used library. forceCalendar exists for a different niche: strict enterprise environments where most calendar libraries cannot run."
-            id="benchmarks"
-          />
-          <div className="grid md:grid-cols-2 gap-5">
-            {/* Bundle Size */}
-            <div className="p-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 ring-1 ring-emerald-200 dark:ring-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-                  </svg>
-                </div>
-                <h3 className="font-medium text-slate-900 dark:text-white">Bundle Size</h3>
-              </div>
-              <div className="space-y-4 mb-5">
-                <div>
-                  <div className="flex justify-between text-sm mb-1.5">
-                    <span className="text-slate-600 dark:text-slate-400">forceCalendar <span className="text-xs text-slate-500 dark:text-slate-400">(core + interface)</span></span>
-                    <span className="font-mono font-medium text-slate-900 dark:text-white">{formatMB(BUNDLE_BYTES.forceCalendar)}</span>
-                  </div>
-                  <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                    <div className="h-full rounded-full bg-emerald-500 dark:bg-emerald-400" style={{ width: bundleShare }} />
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between text-sm mb-1.5">
-                    <span className="text-slate-600 dark:text-slate-400">FullCalendar <span className="text-xs text-slate-500 dark:text-slate-400">(core + 5 plugins + rrule)</span></span>
-                    <span className="font-mono font-medium text-slate-900 dark:text-white">{formatMB(BUNDLE_BYTES.fullCalendar)}</span>
-                  </div>
-                  <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                    <div className="h-full rounded-full bg-slate-300 dark:bg-slate-600" style={{ width: "100%" }} />
-                  </div>
-                </div>
-              </div>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                {bundleRatio} smaller total bundle. Fewer bytes to audit, fewer bytes to ship behind corporate firewalls.
-              </p>
+      <Section width="wide">
+        <SectionHeader
+          eyebrow="Honest numbers"
+          title="How it compares"
+          subtitle="Independent benchmarks against FullCalendar, an excellent and widely-used library. forceCalendar exists for a different niche: strict enterprise environments where most calendar libraries cannot run."
+          id="benchmarks"
+        />
+        <div className="grid gap-px overflow-hidden rounded-2xl bg-hairline ring-1 ring-hairline md:grid-cols-2">
+          {/* Bundle Size */}
+          <div className="bg-raised p-6 sm:p-8">
+            <div className="mb-6 flex items-center gap-3">
+              <IconWell>
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                </svg>
+              </IconWell>
+              <h3 className="text-base font-semibold text-fg">Bundle Size</h3>
             </div>
-
-            {/* Recurrence Performance */}
-            <div className="p-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-500/10 ring-1 ring-amber-200 dark:ring-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
-                  </svg>
+            <div className="mb-6 space-y-5">
+              <div>
+                <div className="mb-2 flex items-baseline justify-between gap-4 text-sm">
+                  <span className="text-fg">forceCalendar <span className="text-xs text-muted">(core + interface)</span></span>
+                  <span className="font-mono text-sm font-medium tabular text-fg">{formatMB(BUNDLE_BYTES.forceCalendar)}</span>
                 </div>
-                <h3 className="font-medium text-slate-900 dark:text-white">Recurrence (RRULE)</h3>
+                <div className="h-2.5 overflow-hidden rounded-full bg-sunken ring-1 ring-inset ring-hairline">
+                  <div className="h-full rounded-full bg-accent" style={{ width: bundleShare }} />
+                </div>
               </div>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
-                The dedicated <span className="font-mono text-xs">rrule</span> library is still faster at raw RRULE expansion, but the gap is now roughly 2x on common daily and weekly patterns (it was up to 1,200x before the v2.1&ndash;v2.3 engine work); a five-year daily series (1,825 occurrences) expands in about a quarter of a millisecond.
-              </p>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                The trade-off: forceCalendar&rsquo;s recurrence is built-in with zero extra dependencies and applies timezone/DST handling per occurrence, while FullCalendar requires the separate <span className="font-mono text-xs">rrule</span> library. At real-world calendar volumes the difference is microseconds per render.
-              </p>
+              <div>
+                <div className="mb-2 flex items-baseline justify-between gap-4 text-sm">
+                  <span className="text-fg">FullCalendar <span className="text-xs text-muted">(core + 5 plugins + rrule)</span></span>
+                  <span className="font-mono text-sm font-medium tabular text-fg">{formatMB(BUNDLE_BYTES.fullCalendar)}</span>
+                </div>
+                <div className="h-2.5 overflow-hidden rounded-full bg-sunken ring-1 ring-inset ring-hairline">
+                  <div className="h-full rounded-full bg-line" style={{ width: "100%" }} />
+                </div>
+              </div>
             </div>
+            <p className="text-sm leading-relaxed text-muted">
+              {bundleRatio} smaller total bundle. Fewer bytes to audit, fewer bytes to ship behind corporate firewalls.
+            </p>
           </div>
 
-          <div className="mt-10 text-center">
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-5">
-              Benchmarks run against published npm packages; sizes are installed (unpacked) package sizes taken from the committed{" "}
-              <a
-                href={BENCHMARK_RESULTS_URL}
-                className="text-brand-600 dark:text-brand-400 hover:underline"
-              >
-                results file
-              </a>
-              . Full methodology and interactive results available on the dashboard.
+          {/* Recurrence Performance */}
+          <div className="bg-raised p-6 sm:p-8">
+            <div className="mb-6 flex items-center gap-3">
+              <IconWell>
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
+                </svg>
+              </IconWell>
+              <h3 className="text-base font-semibold text-fg">Recurrence (RRULE)</h3>
+            </div>
+            <p className="mb-4 text-sm leading-relaxed text-muted">
+              The dedicated <span className="font-mono text-xs">rrule</span> library is still faster at raw RRULE expansion, but the gap is now roughly 2x on common daily and weekly patterns (it was up to 1,200x before the v2.1&ndash;v2.3 engine work); a five-year daily series (1,825 occurrences) expands in about a quarter of a millisecond.
             </p>
-            <a
-              href="https://benchmark.forcecalendar.org"
-              className="inline-flex items-center gap-2 px-5 py-2.5 ring-1 ring-slate-300 dark:ring-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:ring-slate-400 dark:hover:ring-slate-600 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
-            >
-              View full benchmark
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-              </svg>
-            </a>
+            <p className="text-sm leading-relaxed text-muted">
+              The trade-off: forceCalendar&rsquo;s recurrence is built-in with zero extra dependencies and applies timezone/DST handling per occurrence, while FullCalendar requires the separate <span className="font-mono text-xs">rrule</span> library. At real-world calendar volumes the difference is microseconds per render.
+            </p>
           </div>
         </div>
-      </section>
+
+        <div className="mt-8 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="max-w-2xl text-sm leading-relaxed text-muted">
+            Benchmarks run against published npm packages; sizes are installed (unpacked) package sizes taken from the committed{" "}
+            <a
+              href={BENCHMARK_RESULTS_URL}
+              className="font-medium text-accent-text hover:underline"
+            >
+              results file
+            </a>
+            . Full methodology and interactive results available on the dashboard.
+          </p>
+          <Button href="https://benchmark.forcecalendar.org" variant="secondary" className="flex-shrink-0">
+            View full benchmark
+            <ExternalIcon />
+          </Button>
+        </div>
+      </Section>
 
       {/* Final CTA */}
-      <section className="border-t border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/30">
-        <div className="py-24 px-6 text-center">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">
+      <Section width="wide" spacing="none" className="pb-20 lg:pb-24">
+        <div className="bg-hero-mesh relative overflow-hidden rounded-3xl px-6 py-16 text-center ring-1 ring-hairline sm:px-12 sm:py-20">
+          <div className="absolute inset-0 bg-grid opacity-70" aria-hidden />
+          <div className="relative mx-auto max-w-2xl">
+            <h2 className="font-display text-display-md sm:text-display-lg text-fg">
               Ship a calendar your security team will approve.
             </h2>
-            <p className="mt-4 text-lg text-slate-500 dark:text-slate-400">
+            <p className="mt-4 text-lg text-muted">
               One audit, zero dependencies, MIT licensed. Up and running in minutes.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="mt-8 flex flex-col items-center justify-center gap-4">
               <InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" />
-              <Link
-                href="/playground"
-                className="inline-flex items-center gap-2 px-5 py-3 bg-brand-600 text-white text-sm font-medium rounded-xl shadow-sm shadow-brand-600/25 hover:bg-brand-700 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
-              >
+              <Button href="/playground" size="lg">
                 Try the playground
                 <span aria-hidden>&rarr;</span>
-              </Link>
+              </Button>
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
       <Footer />
     </div>
