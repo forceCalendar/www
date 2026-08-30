@@ -336,7 +336,7 @@ export default async function Home() {
             </div>
 
             <div className="min-w-0 lg:col-span-7">
-              <div className="bg-hero-mesh relative rounded-2xl p-3 ring-1 ring-hairline sm:p-5 lg:-mr-10 xl:-mr-20 animate-fade-up [animation-delay:200ms]">
+              <div className="bg-hero-mesh relative rounded-2xl p-3 ring-1 ring-hairline sm:p-5 lg:-mr-6 xl:-mr-16 animate-fade-up [animation-delay:200ms]">
                 <HeroCalendar />
               </div>
             </div>
