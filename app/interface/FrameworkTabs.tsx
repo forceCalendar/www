@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import CodeBlock from "../components/CodeBlock";
+import Tabs from "../components/Tabs";
 
 const frameworks = ["react", "vue", "angular", "lwc"] as const;
 type Framework = (typeof frameworks)[number];
@@ -73,21 +74,14 @@ export default function FrameworkTabs() {
 
   return (
     <div>
-      <div className="flex gap-1 mb-8 border-b border-slate-200 dark:border-slate-800">
-        {frameworks.map((fw) => (
-          <button
-            key={fw}
-            onClick={() => setActive(fw)}
-            className={`px-4 py-3 text-sm transition-colors border-b-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 ${
-              active === fw
-                ? "text-cyan-600 dark:text-cyan-400 border-cyan-600 dark:border-cyan-400"
-                : "text-slate-500 border-transparent hover:text-slate-700 dark:hover:text-slate-300"
-            }`}
-          >
-            {labels[fw]}
-          </button>
-        ))}
-      </div>
+      <Tabs
+        tabs={frameworks}
+        active={active}
+        onChange={setActive}
+        labels={labels}
+        label="Framework"
+        className="mb-6"
+      />
       <CodeBlock
         code={codeExamples[active]}
         filename={filenames[active]}

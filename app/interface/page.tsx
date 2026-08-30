@@ -2,9 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import Section from "../components/Section";
 import SectionHeader from "../components/SectionHeader";
+import PageHeader from "../components/PageHeader";
 import InstallCommand from "../components/InstallCommand";
 import CodeBlock from "../components/CodeBlock";
+import Button, { Arrow } from "../components/Button";
+import Card from "../components/Card";
 import InterfacePreview from "./InterfacePreview";
 import FrameworkTabs from "./FrameworkTabs";
 
@@ -108,207 +112,175 @@ const themingExample = `forcecal-main {
   --fc-accent-color: #1e40af;
 }`;
 
+const th = "px-4 py-2.5 text-left font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-subtle";
+const td = "px-4 py-3 align-top";
+
+function Table({ caption, head, rows }: { caption: string; head: string[]; rows: React.ReactNode[][] }) {
+  return (
+    <div className="overflow-hidden rounded-xl bg-raised ring-1 ring-hairline">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[40rem] text-sm">
+          <caption className="sr-only">{caption}</caption>
+          <thead>
+            <tr className="border-b border-hairline bg-sunken">
+              {head.map((h) => (
+                <th key={h} scope="col" className={th}>
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-hairline">
+            {rows.map((cells, i) => (
+              <tr key={i} className="transition-colors hover:bg-sunken/70">
+                {cells.map((cell, j) => (
+                  <td key={j} className={td}>
+                    {cell}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 export default function InterfacePage() {
   return (
     <div className="min-h-screen">
       <Nav />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid" aria-hidden />
-        <div className="relative pt-24 pb-16 px-6">
-          <div className="max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-50 dark:bg-cyan-500/10 ring-1 ring-cyan-200 dark:ring-cyan-500/25 text-xs font-mono font-medium uppercase tracking-widest text-cyan-600 dark:text-cyan-400 mb-6">
-              UI Components
-            </div>
-            <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white mb-4">
-              @forcecalendar/interface
-            </h1>
-            <p className="text-xl text-slate-500 dark:text-slate-400 mb-8 max-w-2xl">
-              Production-ready Web Components that work with any framework.
-            </p>
-            <div className="flex flex-wrap items-center gap-4">
-              <InstallCommand command="npm install @forcecalendar/interface" />
-              <Link
-                href="/playground"
-                className="inline-flex items-center gap-1 text-sm font-medium text-cyan-600 dark:text-cyan-400 hover:underline"
-              >
-                Try Playground <span aria-hidden>&rarr;</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="UI Components"
+        title={
+          <>
+            <span className="font-normal text-muted">@forcecalendar/</span>interface
+          </>
+        }
+        lede="Production-ready Web Components that work with any framework."
+        actions={
+          <>
+            <InstallCommand command="npm install @forcecalendar/interface" />
+            <Link
+              href="/playground"
+              className="group inline-flex items-center gap-1 text-sm font-medium text-accent-text hover:underline"
+            >
+              Try Playground <Arrow />
+            </Link>
+          </>
+        }
+      />
 
       {/* Live Preview */}
-      <section className="py-12 px-6 border-t border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/30">
-        <div className="max-w-4xl mx-auto">
-          <InterfacePreview />
-        </div>
-      </section>
+      <Section width="narrow" spacing="compact" className="bg-hero-mesh border-b border-hairline">
+        <InterfacePreview />
+      </Section>
 
       {/* Components Catalog */}
-      <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-4xl mx-auto">
-          <SectionHeader
-            title="Components"
-            subtitle="Accessible by default: every view implements the WAI-ARIA grid pattern with full keyboard navigation, roving focus, and screen-reader labels."
-            id="components"
-          />
-          <div className="grid sm:grid-cols-2 gap-4">
-            {components.map((comp) => (
-              <div
-                key={comp.name}
-                className="p-5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 transition-all duration-200 hover:border-cyan-300 dark:hover:border-cyan-500/40 hover:shadow-lg hover:shadow-slate-200/60 dark:hover:shadow-slate-950/60"
-              >
-                <code className="text-cyan-600 dark:text-cyan-400 text-sm font-mono">
-                  {comp.name}
-                </code>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
-                  {comp.desc}
-                </p>
-              </div>
-            ))}
-          </div>
+      <Section width="narrow">
+        <SectionHeader
+          eyebrow="Catalog"
+          title="Components"
+          subtitle="Accessible by default: every view implements the WAI-ARIA grid pattern with full keyboard navigation, roving focus, and screen-reader labels."
+          id="components"
+        />
+        <div className="grid gap-4 sm:grid-cols-2">
+          {components.map((comp) => (
+            <Card key={comp.name} interactive>
+              <code className="font-mono text-[13px] font-semibold text-accent-text">{comp.name}</code>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{comp.desc}</p>
+            </Card>
+          ))}
         </div>
-      </section>
+      </Section>
 
       {/* Framework Integration */}
-      <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-4xl mx-auto">
-          <SectionHeader
-            title="Works with any framework"
-            subtitle="Use the Web Component directly, or install the first-party SSR-safe @forcecalendar/react and @forcecalendar/vue adapters."
-            id="frameworks"
-          />
-          <FrameworkTabs />
-        </div>
-      </section>
+      <Section width="narrow" tone="sunken">
+        <SectionHeader
+          eyebrow="Integration"
+          title="Works with any framework"
+          subtitle="Use the Web Component directly, or install the first-party SSR-safe @forcecalendar/react and @forcecalendar/vue adapters."
+          id="frameworks"
+        />
+        <FrameworkTabs />
+      </Section>
 
       {/* Theming */}
-      <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-4xl mx-auto">
-          <SectionHeader
-            title="Theming"
-            subtitle="Complete visual control through CSS custom properties."
-            id="theming"
-          />
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-3">
-                Available tokens ({cssTokens.length})
-              </h3>
-              <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-4 max-h-96 overflow-y-auto">
-                <div className="flex flex-wrap gap-1.5">
-                  {cssTokens.map((token) => (
-                    <code
-                      key={token}
-                      className="text-xs font-mono text-slate-500 dark:text-slate-400 px-2 py-1 bg-white dark:bg-slate-800 rounded"
-                    >
+      <Section width="narrow">
+        <SectionHeader
+          eyebrow="Theming"
+          title="Theming"
+          subtitle="Complete visual control through CSS custom properties."
+          id="theming"
+        />
+        <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+          <div>
+            <h3 className="mb-3 text-sm font-semibold text-fg">
+              Available tokens <span className="font-mono text-xs font-normal text-subtle">({cssTokens.length})</span>
+            </h3>
+            <div className="max-h-96 overflow-y-auto rounded-xl bg-sunken p-3 ring-1 ring-hairline">
+              <ul className="flex flex-wrap gap-1.5">
+                {cssTokens.map((token) => (
+                  <li key={token}>
+                    <code className="inline-block rounded-md bg-raised px-2 py-1 font-mono text-xs text-muted ring-1 ring-inset ring-hairline">
                       {token}
                     </code>
-                  ))}
-                </div>
-              </div>
+                  </li>
+                ))}
+              </ul>
             </div>
+          </div>
+          <div className="min-w-0">
             <CodeBlock code={themingExample} filename="styles.css" language="CSS" />
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* Attributes & Events */}
-      <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-4xl mx-auto">
-          <SectionHeader title="Attributes &amp; events" id="api" />
+      <Section width="narrow" tone="sunken">
+        <SectionHeader eyebrow="Reference" title="Attributes &amp; events" id="api" />
 
-          <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-4">Attributes</h3>
-          <div className="rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden mb-10">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
-                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Attribute</th>
-                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Type</th>
-                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Default</th>
-                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {attributes.map((attr) => (
-                    <tr key={attr.name} className="border-b border-slate-100 dark:border-slate-800/50 last:border-0 transition-colors hover:bg-slate-50/60 dark:hover:bg-slate-900/40">
-                      <td className="py-2.5 px-4">
-                        <code className="text-xs font-mono text-cyan-600 dark:text-cyan-400">{attr.name}</code>
-                      </td>
-                      <td className="py-2.5 px-4 text-slate-600 dark:text-slate-400">{attr.type}</td>
-                      <td className="py-2.5 px-4">
-                        <code className="text-xs font-mono text-slate-400">{attr.default}</code>
-                      </td>
-                      <td className="py-2.5 px-4 text-slate-600 dark:text-slate-400">{attr.desc}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+        <h3 className="mb-3 text-sm font-semibold text-fg">Attributes</h3>
+        <Table
+          caption="Attributes of forcecal-main"
+          head={["Attribute", "Type", "Default", "Description"]}
+          rows={attributes.map((attr) => [
+            <code key="n" className="font-mono text-xs font-semibold text-accent-text">{attr.name}</code>,
+            <span key="t" className="text-muted">{attr.type}</span>,
+            <code key="d" className="font-mono text-xs text-subtle">{attr.default}</code>,
+            <span key="s" className="text-muted">{attr.desc}</span>,
+          ])}
+        />
 
-          <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-4">Events</h3>
-          <div className="rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
-                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Event</th>
-                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Detail</th>
-                    <th className="text-left py-2.5 px-4 font-medium text-slate-500">Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {events.map((evt) => (
-                    <tr key={evt.name} className="border-b border-slate-100 dark:border-slate-800/50 last:border-0 transition-colors hover:bg-slate-50/60 dark:hover:bg-slate-900/40">
-                      <td className="py-2.5 px-4">
-                        <code className="text-xs font-mono text-cyan-600 dark:text-cyan-400">{evt.name}</code>
-                      </td>
-                      <td className="py-2.5 px-4">
-                        <code className="text-xs font-mono text-slate-400">{evt.detail}</code>
-                      </td>
-                      <td className="py-2.5 px-4 text-slate-600 dark:text-slate-400">{evt.desc}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
+        <h3 className="mb-3 mt-10 text-sm font-semibold text-fg">Events</h3>
+        <Table
+          caption="Events dispatched by forcecal-main"
+          head={["Event", "Detail", "Description"]}
+          rows={events.map((evt) => [
+            <code key="n" className="font-mono text-xs font-semibold text-accent-text">{evt.name}</code>,
+            <code key="d" className="font-mono text-xs text-subtle">{evt.detail}</code>,
+            <span key="s" className="text-muted">{evt.desc}</span>,
+          ])}
+        />
+      </Section>
 
       {/* CTA */}
-      <section className="py-20 px-6 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white mb-6">
-            Ready to build?
-          </h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link
-              href="/playground"
-              className="px-5 py-2.5 bg-cyan-600 text-white text-sm font-medium rounded-lg shadow-sm shadow-cyan-600/25 hover:bg-cyan-700 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
-            >
-              Playground
-            </Link>
-            <a
-              href="https://docs.forcecalendar.org/docs/interface"
-              className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:border-slate-400 dark:hover:border-slate-600 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
-            >
+      <Section width="narrow" spacing="none" className="py-20 lg:py-24">
+        <div className="bg-hero-mesh flex flex-col items-start gap-6 rounded-3xl p-8 ring-1 ring-hairline sm:flex-row sm:items-center sm:justify-between sm:p-10">
+          <h2 className="font-display text-display-sm text-fg">Ready to build?</h2>
+          <div className="flex flex-wrap gap-3">
+            <Button href="/playground">Playground</Button>
+            <Button href="https://docs.forcecalendar.org/docs/interface" variant="secondary">
               Documentation
-            </a>
-            <a
-              href="https://github.com/forcecalendar/interface"
-              className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 hover:border-slate-400 dark:hover:border-slate-600 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
-            >
+            </Button>
+            <Button href="https://github.com/forcecalendar/interface" variant="secondary">
               GitHub
-            </a>
+            </Button>
           </div>
         </div>
-      </section>
+      </Section>
 
       <Footer />
     </div>

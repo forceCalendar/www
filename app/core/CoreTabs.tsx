@@ -3,6 +3,7 @@
 import { useState } from "react";
 import CodeBlock from "../components/CodeBlock";
 import CoreDemo from "../components/CoreDemo";
+import Tabs from "../components/Tabs";
 
 const tabs = ["calendar", "events", "timezone"] as const;
 type Tab = (typeof tabs)[number];
@@ -104,41 +105,28 @@ export default function CoreTabs() {
 
   return (
     <div>
-      {/* Tabs */}
-      <div className="flex gap-1 mb-8 border-b border-slate-200 dark:border-slate-800">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`px-4 py-3 text-sm capitalize transition-colors border-b-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 ${
-              activeTab === tab
-                ? "text-violet-600 dark:text-violet-400 border-violet-600 dark:border-violet-400"
-                : "text-slate-500 border-transparent hover:text-slate-700 dark:hover:text-slate-300"
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
+      <Tabs
+        tabs={tabs}
+        active={activeTab}
+        onChange={setActiveTab}
+        label="Core modules"
+        className="mb-8"
+      />
 
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div className="grid gap-8 lg:grid-cols-2 lg:gap-10">
         {/* Description */}
         <div>
-          <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-3">
-            {desc.title}
-          </h3>
-          <p className="text-slate-500 dark:text-slate-400 mb-6 text-sm leading-relaxed">
-            {desc.text}
-          </p>
-          <ul className="space-y-3 text-sm mb-8">
+          <h3 className="text-lg font-semibold tracking-tight text-fg">{desc.title}</h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted">{desc.text}</p>
+          <ul className="mt-5 mb-7 space-y-2.5 text-sm">
             {desc.bullets.map((bullet) => (
               <li key={bullet} className="flex gap-3">
-                <span className="text-violet-500 mt-0.5">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className="mt-0.5 flex-shrink-0 text-accent-text">
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </span>
-                <span className="text-slate-600 dark:text-slate-300">{bullet}</span>
+                <span className="text-fg/90">{bullet}</span>
               </li>
             ))}
           </ul>
@@ -146,7 +134,9 @@ export default function CoreTabs() {
         </div>
 
         {/* Code */}
-        <CodeBlock code={example.code} filename={example.filename} language="TypeScript" />
+        <div className="min-w-0">
+          <CodeBlock code={example.code} filename={example.filename} language="TypeScript" />
+        </div>
       </div>
     </div>
   );
