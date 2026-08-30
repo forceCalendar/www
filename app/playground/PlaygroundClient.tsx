@@ -3,6 +3,8 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import type { ForceCalendarElement } from "@forcecalendar/interface";
 import CalendarLoader from "../components/CalendarLoader";
+import Tabs from "../components/Tabs";
+import Button from "../components/Button";
 
 const locales = [
   { value: "en-US", label: "English (US)" },
@@ -109,10 +111,12 @@ interface LogEntry {
   detail: string;
 }
 
-type CodeTab = "html" | "react" | "vue";
+const codeTabs = ["html", "react", "vue"] as const;
+type CodeTab = (typeof codeTabs)[number];
+const codeTabLabels: Record<CodeTab, string> = { html: "HTML", react: "React", vue: "Vue" };
 
 export default function PlaygroundClient() {
-  const [view, setView] = useState("month");
+  const [view, setView] = useState<(typeof views)[number]>("month");
   const [locale, setLocale] = useState("en-US");
   const [weekStartsOn, setWeekStartsOn] = useState("0");
   const [timezone, setTimezone] = useState("");
@@ -280,50 +284,44 @@ import { ForceCalendar } from '@forcecalendar/vue';
   };
 
   const selectClass =
-    "w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-md text-sm text-slate-900 dark:text-white focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500";
+    "h-9 w-full appearance-none rounded-md bg-raised px-3 pr-8 text-sm text-fg ring-1 ring-inset ring-line shadow-elev-1 transition-[box-shadow,ring-color] hover:ring-line focus:outline-none focus:ring-2 focus:ring-ring dark:ring-hairline dark:shadow-none dark:hover:ring-line";
+  const labelClass = "mb-1.5 block text-xs font-medium text-muted";
+  const panelClass = "rounded-xl bg-raised p-5 ring-1 ring-hairline shadow-elev-1 dark:shadow-none ring-hi";
+  const panelTitle = "text-sm font-semibold text-fg";
+  const emptyClass = "rounded-md border border-dashed border-line px-3 py-5 text-center text-xs text-subtle";
+  const selectChevron = (
+    <svg className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+  );
 
   return (
-    <div className="grid lg:grid-cols-[1fr,340px] gap-6 items-start">
+    <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
       {/* Left column: calendar + code output */}
-      <div className="space-y-6 min-w-0">
-        <div className="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900/50">
+      <div className="min-w-0 space-y-6">
+        <div className="overflow-hidden rounded-xl bg-raised ring-1 ring-hairline shadow-elev-2 ring-hi dark:ring-line/80">
           {/* Calendar toolbar */}
-          <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3 bg-slate-50/70 dark:bg-slate-900/40">
-            <div className="flex items-center gap-1" role="group" aria-label="Calendar view">
-              {views.map((v) => (
-                <button
-                  key={v}
-                  onClick={() => setView(v)}
-                  aria-pressed={view === v}
-                  className={`px-3 py-1.5 text-xs font-medium capitalize rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
-                    view === v
-                      ? "bg-brand-600 text-white shadow-sm"
-                      : "text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
-                  }`}
-                >
-                  {v}
-                </button>
-              ))}
-            </div>
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline bg-sunken px-4 py-2.5">
+            <Tabs
+              variant="segmented"
+              tabs={views}
+              active={view}
+              onChange={setView}
+              label="Calendar view"
+            />
             <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-400 dark:text-slate-500 tabular-nums">
+              <span className="text-xs tabular text-subtle">
                 {eventList.length} event{eventList.length === 1 ? "" : "s"}
               </span>
-              <button
-                onClick={addSampleEvents}
-                className="px-3 py-1.5 bg-brand-600 text-white text-xs font-medium rounded-md hover:bg-brand-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
-              >
+              <Button size="sm" onClick={addSampleEvents}>
                 Add sample events
-              </button>
-              <button
-                onClick={clearEvents}
-                disabled={eventList.length === 0}
-                className="px-3 py-1.5 text-xs font-medium rounded-md ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
-              >
+              </Button>
+              <Button size="sm" variant="secondary" onClick={clearEvents} disabled={eventList.length === 0}>
                 Clear
-              </button>
+              </Button>
             </div>
           </div>
+          <div className="overflow-x-auto">
           <CalendarLoader
             view={view}
             locale={locale}
@@ -332,53 +330,58 @@ import { ForceCalendar } from '@forcecalendar/vue';
             height={height}
             cssVars={{
               "fc-background": "var(--preview-bg, #ffffff)",
-              "fc-background-alt": "var(--preview-bg-alt, #f8fafc)",
-              "fc-background-hover": "var(--preview-bg-hover, #f1f5f9)",
-              "fc-text-color": "var(--preview-text, #0f172a)",
-              "fc-text-secondary": "var(--preview-text-secondary, #64748b)",
-              "fc-border-color": "var(--preview-border, #e2e8f0)",
-              "fc-primary-color": "var(--preview-primary, #2563eb)",
+              "fc-background-alt": "var(--preview-bg-alt, #f7f8fa)",
+              "fc-background-hover": "var(--preview-bg-hover, #eef1f5)",
+              "fc-text-color": "var(--preview-text, #0e131d)",
+              "fc-text-secondary": "var(--preview-text-secondary, #606b7d)",
+              "fc-border-color": "var(--preview-border, #e5e8ed)",
+              "fc-primary-color": "var(--preview-primary, #2448e0)",
+              "fc-font-family": "var(--font-inter), Inter, system-ui, sans-serif",
             }}
             onReady={handleReady}
           />
-          <div className="px-4 py-2 border-t border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/40 text-xs text-slate-500 dark:text-slate-400">
-            <span className="font-medium text-slate-600 dark:text-slate-300">Fully keyboard accessible:</span>{" "}
+          </div>
+          <div className="border-t border-hairline bg-sunken px-4 py-2.5 text-xs leading-relaxed text-muted">
+            <span className="font-medium text-fg">Fully keyboard accessible:</span>{" "}
             Tab into the grid, move with the arrow keys, PageUp/PageDown to change period, Enter to select. Every view implements the WAI-ARIA grid pattern.
           </div>
         </div>
 
         {/* Code output */}
-        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-950 overflow-hidden">
-          <div className="px-4 py-2 border-b border-slate-800 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-1" role="group" aria-label="Code sample framework">
-              {(Object.keys(codeSamples) as CodeTab[]).map((tab) => (
+        <div className="overflow-hidden rounded-xl bg-code-bg text-code-fg ring-1 ring-code-border shadow-window">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-code-border bg-code-chrome px-3 py-2">
+            <div className="flex items-center gap-0.5 rounded-md bg-black/20 p-0.5" role="tablist" aria-label="Code sample framework">
+              {codeTabs.map((tab) => (
                 <button
                   key={tab}
+                  type="button"
+                  role="tab"
                   onClick={() => setCodeTab(tab)}
-                  aria-pressed={codeTab === tab}
-                  className={`px-2.5 py-1 text-xs font-medium rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ${
+                  aria-selected={codeTab === tab}
+                  className={`h-7 rounded-[5px] px-2.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                     codeTab === tab
-                      ? "bg-slate-800 text-white"
-                      : "text-slate-500 hover:text-slate-300"
+                      ? "bg-white/10 text-code-fg"
+                      : "text-code-muted hover:text-code-fg"
                   }`}
                 >
-                  {tab === "html" ? "HTML" : tab === "react" ? "React" : "Vue"}
+                  {codeTabLabels[tab]}
                 </button>
               ))}
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-xs font-mono text-slate-600">
+            <div className="flex items-center gap-3 pr-1">
+              <span className="font-mono text-xs text-code-muted">
                 {codeSamples[codeTab].filename}
               </span>
               <button
+                type="button"
                 onClick={handleCopy}
-                className="text-xs text-slate-500 hover:text-white transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                className="rounded-md px-2 py-1 text-xs font-medium text-code-muted transition-colors hover:bg-white/[0.08] hover:text-code-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 {copied ? "Copied" : "Copy"}
               </button>
             </div>
           </div>
-          <pre className="p-4 text-xs font-mono text-slate-300 overflow-x-auto leading-relaxed">
+          <pre className="overflow-x-auto p-4 font-mono text-[12.5px] leading-relaxed">
             {codeSamples[codeTab].code}
           </pre>
         </div>
@@ -387,61 +390,71 @@ import { ForceCalendar } from '@forcecalendar/vue';
       {/* Sidebar */}
       <div className="space-y-5">
         {/* Config */}
-        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5">
-          <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-4">Configuration</h3>
+        <div className={panelClass}>
+          <h3 className={`${panelTitle} mb-4`}>Configuration</h3>
           <div className="space-y-4">
             <div>
-              <label htmlFor="pg-locale" className="block text-xs text-slate-500 mb-1.5">
+              <label htmlFor="pg-locale" className={labelClass}>
                 Locale
               </label>
-              <select
-                id="pg-locale"
-                value={locale}
-                onChange={(e) => setLocale(e.target.value)}
-                className={selectClass}
-              >
-                {locales.map((l) => (
-                  <option key={l.value} value={l.value}>
-                    {l.label}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  id="pg-locale"
+                  value={locale}
+                  onChange={(e) => setLocale(e.target.value)}
+                  className={selectClass}
+                >
+                  {locales.map((l) => (
+                    <option key={l.value} value={l.value}>
+                      {l.label}
+                    </option>
+                  ))}
+                </select>
+                {selectChevron}
+              </div>
             </div>
             <div>
-              <label htmlFor="pg-tz" className="block text-xs text-slate-500 mb-1.5">
+              <label htmlFor="pg-tz" className={labelClass}>
                 Timezone
               </label>
-              <select
-                id="pg-tz"
-                value={timezone}
-                onChange={(e) => setTimezone(e.target.value)}
-                className={selectClass}
-              >
-                {timezones.map((tz) => (
-                  <option key={tz.value} value={tz.value}>
-                    {tz.label}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  id="pg-tz"
+                  value={timezone}
+                  onChange={(e) => setTimezone(e.target.value)}
+                  className={selectClass}
+                >
+                  {timezones.map((tz) => (
+                    <option key={tz.value} value={tz.value}>
+                      {tz.label}
+                    </option>
+                  ))}
+                </select>
+                {selectChevron}
+              </div>
             </div>
             <div>
-              <label htmlFor="pg-wso" className="block text-xs text-slate-500 mb-1.5">
+              <label htmlFor="pg-wso" className={labelClass}>
                 Week starts on
               </label>
-              <select
-                id="pg-wso"
-                value={weekStartsOn}
-                onChange={(e) => setWeekStartsOn(e.target.value)}
-                className={selectClass}
-              >
-                <option value="0">Sunday</option>
-                <option value="1">Monday</option>
-                <option value="6">Saturday</option>
-              </select>
+              <div className="relative">
+                <select
+                  id="pg-wso"
+                  value={weekStartsOn}
+                  onChange={(e) => setWeekStartsOn(e.target.value)}
+                  className={selectClass}
+                >
+                  <option value="0">Sunday</option>
+                  <option value="1">Monday</option>
+                  <option value="6">Saturday</option>
+                </select>
+                {selectChevron}
+              </div>
             </div>
             <div>
-              <label htmlFor="pg-height" className="block text-xs text-slate-500 mb-1.5">
-                Height ({height}px)
+              <label htmlFor="pg-height" className={`${labelClass} flex items-center justify-between`}>
+                <span>Height</span>
+                <span className="font-mono tabular text-subtle">{height}px</span>
               </label>
               <input
                 id="pg-height"
@@ -451,37 +464,37 @@ import { ForceCalendar } from '@forcecalendar/vue';
                 step={40}
                 value={height}
                 onChange={(e) => setHeight(Number(e.target.value))}
-                className="w-full accent-brand-600"
+                className="w-full accent-accent"
               />
             </div>
           </div>
         </div>
 
         {/* Events */}
-        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-slate-900 dark:text-white">Events</h3>
+        <div className={panelClass}>
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className={panelTitle}>Events</h3>
             {eventList.length > 0 && (
-              <span className="text-xs px-1.5 py-0.5 rounded-full bg-brand-50 dark:bg-brand-500/10 text-brand-600 dark:text-brand-400 font-medium tabular-nums">
+              <span className="rounded-full bg-accent-soft px-2 py-0.5 text-xs font-medium tabular text-accent-text ring-1 ring-inset ring-accent-line/60">
                 {eventList.length}
               </span>
             )}
           </div>
           {eventList.length > 0 ? (
-            <ul className="space-y-1">
+            <ul className="-mx-2 space-y-0.5">
               {eventList.map((e) => (
                 <li
                   key={String(e.id)}
-                  className="flex items-center gap-2 px-2 py-1.5 rounded-md text-xs text-slate-600 dark:text-slate-300 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/60"
+                  className="flex items-center gap-2.5 rounded-md px-2 py-1.5 text-xs text-fg transition-colors hover:bg-sunken"
                 >
                   <span
-                    className="flex-shrink-0 w-2 h-2 rounded-full"
-                    style={{ backgroundColor: String(e.color || "#2563EB") }}
+                    className="h-2 w-2 flex-shrink-0 rounded-full"
+                    style={{ backgroundColor: String(e.color || "#2448E0") }}
                     aria-hidden
                   />
                   <span className="truncate">{String(e.title || e.id)}</span>
                   {Boolean(e.recurring) && (
-                    <span className="ml-auto flex-shrink-0 text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                    <span className="ml-auto flex-shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-subtle">
                       repeats
                     </span>
                   )}
@@ -489,46 +502,45 @@ import { ForceCalendar } from '@forcecalendar/vue';
               ))}
             </ul>
           ) : (
-            <div className="border border-dashed border-slate-200 dark:border-slate-700 rounded-md px-3 py-5 text-center">
-              <p className="text-xs text-slate-400 dark:text-slate-500">
-                No events yet. Add the samples to see the calendar in action.
-              </p>
+            <div className={emptyClass}>
+              No events yet. Add the samples to see the calendar in action.
             </div>
           )}
         </div>
 
         {/* Event log */}
-        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-slate-900 dark:text-white">Event log</h3>
+        <div className={panelClass}>
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className={panelTitle}>Event log</h3>
             {log.length > 0 && (
               <button
+                type="button"
                 onClick={() => setLog([])}
-                className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                className="rounded-sm text-xs text-subtle transition-colors hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Clear
               </button>
             )}
           </div>
-          <p className="text-xs text-slate-400 dark:text-slate-500 mb-3">
+          <p className="mb-3 text-xs leading-relaxed text-subtle">
             DOM events dispatched by <code className="font-mono">&lt;forcecal-main&gt;</code>.
             Navigate to see <code className="font-mono">calendar-range-change</code>; load or
             clear events to see one <code className="font-mono">calendar-events-set</code> per snapshot.
           </p>
           {log.length > 0 ? (
-            <ul className="space-y-1 max-h-64 overflow-y-auto" aria-live="polite">
+            <ul className="max-h-64 space-y-1 overflow-y-auto" aria-live="polite">
               {log.map((entry) => (
-                <li key={entry.id} className="px-2 py-1.5 rounded-md bg-slate-50 dark:bg-slate-900/60">
+                <li key={entry.id} className="rounded-md bg-sunken px-2.5 py-1.5 ring-1 ring-inset ring-hairline">
                   <div className="flex items-baseline justify-between gap-2">
-                    <code className="text-[11px] font-mono text-brand-600 dark:text-brand-400 truncate">
+                    <code className="truncate font-mono text-[11px] font-medium text-accent-text">
                       {entry.name}
                     </code>
-                    <span className="text-[10px] text-slate-400 dark:text-slate-500 tabular-nums flex-shrink-0">
+                    <span className="flex-shrink-0 font-mono text-[10px] tabular text-subtle">
                       {entry.time}
                     </span>
                   </div>
                   {entry.detail && entry.detail !== "{}" && (
-                    <div className="text-[10px] font-mono text-slate-400 dark:text-slate-500 truncate mt-0.5">
+                    <div className="mt-0.5 truncate font-mono text-[10px] text-subtle">
                       {entry.detail}
                     </div>
                   )}
@@ -536,9 +548,7 @@ import { ForceCalendar } from '@forcecalendar/vue';
               ))}
             </ul>
           ) : (
-            <div className="border border-dashed border-slate-200 dark:border-slate-700 rounded-md px-3 py-4 text-center">
-              <p className="text-xs text-slate-400 dark:text-slate-500">Waiting for activity…</p>
-            </div>
+            <div className={emptyClass}>Waiting for activity…</div>
           )}
         </div>
       </div>
