@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
-import { Inter } from "next/font/google";
+import { Inter, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "./components/ThemeProvider";
 import "./globals.css";
 import ReleaseBanner from "./components/ReleaseBanner";
@@ -8,6 +8,21 @@ import ReleaseBanner from "./components/ReleaseBanner";
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
+  variable: "--font-inter",
+});
+
+// Display face for headings; self-hosted at build time by next/font so the
+// strict font-src 'self' CSP holds
+const display = Instrument_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
 });
 
 export const viewport: Viewport = {
@@ -15,7 +30,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#020617" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0e14" },
   ],
 };
 
@@ -79,7 +94,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.className} ${initialTheme === "dark" ? "dark" : ""}`}
+      className={`${inter.variable} ${display.variable} ${mono.variable} ${inter.className} ${initialTheme === "dark" ? "dark" : ""}`}
       suppressHydrationWarning
     >
       <head>
@@ -91,7 +106,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className="bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased">
+      <body className="bg-surface text-fg antialiased">
         <ThemeProvider initialTheme={initialTheme}>
           <ReleaseBanner />
           {children}

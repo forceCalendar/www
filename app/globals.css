@@ -2,57 +2,197 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Theme-aware tokens consumed by the embedded <forcecal-main> previews.
-   These feed the --fc-* custom properties of @forcecalendar/interface so
-   the calendar follows the site's light/dark theme. */
+/* ---------------------------------------------------------------------------
+   Design tokens. Colours are RGB triplets so Tailwind utilities keep their
+   alpha modifier (see tailwind.config.ts). Light on :root, dark on .dark.
+   --------------------------------------------------------------------------- */
 :root {
+  color-scheme: light;
+
+  /* Surfaces */
+  --surface: 255 255 255;
+  --surface-raised: 255 255 255;
+  --surface-sunken: 247 248 250;
+
+  /* Borders */
+  --hairline: 229 232 237;
+  --line: 205 211 221;
+
+  /* Text */
+  --fg: 14 19 29;
+  --fg-muted: 82 91 107;
+  --fg-subtle: 96 107 125;
+
+  /* Accent (one hue, everywhere) */
+  --accent: 36 72 224;
+  --accent-hover: 29 56 184;
+  --accent-fg: 255 255 255;
+  --accent-text: 30 58 190;
+  --accent-soft: 238 243 255;
+  --accent-line: 188 207 255;
+  --ring: 53 99 245;
+
+  /* Code windows: dark on both themes; slightly lifted in dark mode */
+  --code-bg: 15 20 30;
+  --code-chrome: 21 27 40;
+  --code-border: 36 43 58;
+  --code-fg: 214 220 230;
+  --code-muted: 124 134 154;
+
+  /* Theme-aware tokens consumed by the embedded <forcecal-main> previews.
+     These feed the --fc-* custom properties of @forcecalendar/interface so
+     the calendar follows the site's light/dark theme. */
   --preview-bg: #ffffff;
-  --preview-bg-alt: #f8fafc;
-  --preview-bg-hover: #f1f5f9;
-  --preview-text: #0f172a;
-  --preview-text-secondary: #64748b;
-  --preview-border: #e2e8f0;
-  --preview-primary: #2563eb;
+  --preview-bg-alt: #f7f8fa;
+  --preview-bg-hover: #eef1f5;
+  --preview-bg-active: #e3e9ff;
+  --preview-text: #0e131d;
+  --preview-text-secondary: #606b7d;
+  --preview-text-light: #8a93a5;
+  --preview-border: #e5e8ed;
+  --preview-border-hover: #cdd3dd;
+  --preview-primary: #2448e0;
+  --preview-primary-hover: #1d38b8;
+  --preview-primary-light: #eef3ff;
 }
 
 .dark {
-  --preview-bg: #0f172a;
-  --preview-bg-alt: #1e293b;
-  --preview-bg-hover: #334155;
-  --preview-text: #f1f5f9;
-  --preview-text-secondary: #94a3b8;
-  --preview-border: #334155;
-  --preview-primary: #3b82f6;
+  color-scheme: dark;
+
+  --surface: 11 14 20;
+  --surface-raised: 18 22 30;
+  --surface-sunken: 8 10 15;
+
+  --hairline: 33 39 51;
+  --line: 54 62 79;
+
+  --fg: 236 239 244;
+  --fg-muted: 160 168 183;
+  --fg-subtle: 128 137 154;
+
+  --accent: 53 99 245;
+  --accent-hover: 92 132 255;
+  --accent-fg: 255 255 255;
+  --accent-text: 133 163 255;
+  --accent-soft: 22 32 62;
+  --accent-line: 44 64 122;
+  --ring: 92 132 255;
+
+  --code-bg: 17 21 30;
+  --code-chrome: 22 27 38;
+  --code-border: 40 47 62;
+  --code-fg: 214 220 230;
+  --code-muted: 124 134 154;
+
+  --preview-bg: #12161e;
+  --preview-bg-alt: #171c26;
+  --preview-bg-hover: #1f2531;
+  --preview-bg-active: #1c2745;
+  --preview-text: #eceff4;
+  --preview-text-secondary: #a0a8b7;
+  --preview-text-light: #6f788a;
+  --preview-border: #262d3b;
+  --preview-border-hover: #363e4f;
+  --preview-primary: #5c84ff;
+  --preview-primary-hover: #85a3ff;
+  --preview-primary-light: #1a2445;
+}
+
+/* <forcecal-main> declares its light defaults in a :host rule and clears any
+   inline --fc-* overrides after each render, so the site theme is applied
+   from the outer document instead: light-tree declarations on the host win
+   over :host and are never touched by the element. */
+forcecal-main {
+  --fc-background: var(--preview-bg);
+  --fc-background-alt: var(--preview-bg-alt);
+  --fc-background-hover: var(--preview-bg-hover);
+  --fc-background-active: var(--preview-bg-active);
+  --fc-text-color: var(--preview-text);
+  --fc-text-secondary: var(--preview-text-secondary);
+  --fc-text-light: var(--preview-text-light);
+  --fc-border-color: var(--preview-border);
+  --fc-border-color-hover: var(--preview-border-hover);
+  --fc-primary-color: var(--preview-primary);
+  --fc-primary-hover: var(--preview-primary-hover);
+  --fc-primary-light: var(--preview-primary-light);
+  --fc-font-family: var(--font-inter), Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: rgb(var(--surface));
+  color: rgb(var(--fg));
 }
 
 ::selection {
-  background: rgb(37 99 235 / 0.15);
+  background: rgb(var(--accent) / 0.18);
 }
 
 .dark ::selection {
-  background: rgb(96 165 250 / 0.25);
+  background: rgb(var(--accent-hover) / 0.3);
 }
 
-/* Subtle blueprint grid used behind heroes */
+@layer base {
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  /* Display faces get tighter tracking and stable numerals */
+  .font-display {
+    font-feature-settings: "ss01", "cv11";
+  }
+  /* Keep code literal: no => or != ligatures in samples people copy */
+  code, pre, kbd, samp {
+    font-variant-ligatures: none;
+  }
+}
+
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  /* Soft accent glow behind hero panels; sits on the surface token so it
+     stays legible in both themes */
+  .bg-hero-mesh {
+    background-image:
+      radial-gradient(60% 55% at 20% 0%, rgb(var(--accent) / 0.14), transparent 70%),
+      radial-gradient(45% 50% at 100% 100%, rgb(var(--accent) / 0.10), transparent 70%),
+      linear-gradient(180deg, rgb(var(--accent-soft) / 0.9), rgb(var(--surface-sunken)));
+  }
+  .dark .bg-hero-mesh {
+    background-image:
+      radial-gradient(60% 55% at 20% 0%, rgb(var(--accent) / 0.22), transparent 70%),
+      radial-gradient(45% 50% at 100% 100%, rgb(var(--accent) / 0.12), transparent 70%),
+      linear-gradient(180deg, rgb(var(--surface-raised)), rgb(var(--surface-sunken)));
+  }
+  /* Dark-mode inner highlight on raised panels */
+  .dark .ring-hi {
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
+  }
+}
+
+/* Subtle blueprint grid used behind page headers */
 .bg-grid {
   background-image:
-    linear-gradient(to right, rgb(148 163 184 / 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(148 163 184 / 0.08) 1px, transparent 1px);
+    linear-gradient(to right, rgb(var(--fg) / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--fg) / 0.045) 1px, transparent 1px);
   background-size: 32px 32px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 72%);
 }
 
 .dark .bg-grid {
   background-image:
-    linear-gradient(to right, rgb(148 163 184 / 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(148 163 184 / 0.06) 1px, transparent 1px);
+    linear-gradient(to right, rgb(var(--fg) / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--fg) / 0.05) 1px, transparent 1px);
 }
 
 @media (prefers-reduced-motion: reduce) {

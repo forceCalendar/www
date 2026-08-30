@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
-import { sites, pageLinks } from "./Nav";
+import { usePathname } from "next/navigation";
+import { sites, pageLinks, Wordmark, GitHubIcon } from "./Nav";
 
 export default function MobileMenu({
   open,
@@ -11,6 +12,7 @@ export default function MobileMenu({
   open: boolean;
   onClose: () => void;
 }) {
+  const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
 
@@ -53,13 +55,11 @@ export default function MobileMenu({
         const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
 
         if (e.shiftKey) {
-          // Shift + Tab
           if (document.activeElement === firstElement) {
             e.preventDefault();
             lastElement.focus();
           }
         } else {
-          // Tab
           if (document.activeElement === lastElement) {
             e.preventDefault();
             firstElement.focus();
@@ -82,88 +82,101 @@ export default function MobileMenu({
 
   if (!open) return null;
 
+  const item = (active: boolean) =>
+    `flex items-center justify-between rounded-md px-3 py-2.5 text-[15px] transition-colors ${
+      active ? "bg-sunken font-medium text-fg" : "text-muted hover:bg-sunken hover:text-fg"
+    }`;
+
+  const heading = "mb-2 px-3 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-subtle";
+
   return (
     <>
       <div
-        className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
+        className="fixed inset-0 z-40 bg-fg/40 backdrop-blur-sm md:hidden"
         onClick={handleClose}
         aria-hidden="true"
       />
       <div
+        id="mobile-menu"
         ref={menuRef}
-        className="fixed inset-y-0 right-0 z-50 w-72 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 md:hidden animate-slide-in"
+        className="fixed inset-y-0 right-0 z-50 flex w-[min(20rem,88vw)] flex-col border-l border-hairline bg-surface md:hidden animate-slide-in"
         role="dialog"
         aria-modal="true"
-        aria-label="Mobile navigation menu"
+        aria-label="Site navigation"
       >
-        <div className="flex items-center justify-end p-4">
+        <div className="flex h-16 items-center justify-between border-b border-hairline px-5">
+          <Wordmark />
           <button
+            type="button"
             onClick={handleClose}
             aria-label="Close menu"
-            className="p-2 text-slate-500 hover:text-slate-900 dark:hover:text-white rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
+            className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:bg-sunken hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <nav className="px-4 space-y-6">
-          {/* Site selector */}
+        <nav className="flex-1 space-y-7 overflow-y-auto px-3 py-5" aria-label="Mobile">
           <div>
-            <div className="px-3 mb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
-              Sites
-            </div>
+            <div className={heading}>Pages</div>
             <div className="space-y-0.5">
-              {sites.map((site) => {
-                const cls = site.current
-                  ? "block px-3 py-2 rounded-md text-sm font-medium text-slate-900 bg-slate-100 dark:text-white dark:bg-slate-800"
-                  : "block px-3 py-2 rounded-md text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors";
-                return site.external ? (
-                  <a key={site.href} href={site.href} onClick={handleClose} className={cls}>
-                    {site.label}
-                  </a>
-                ) : (
-                  <Link key={site.href} href={site.href} onClick={handleClose} className={cls}>
-                    {site.label}
+              {pageLinks.map((link) => {
+                const active = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={handleClose}
+                    aria-current={active ? "page" : undefined}
+                    className={item(active)}
+                  >
+                    {link.label}
+                    {active && <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />}
                   </Link>
                 );
               })}
             </div>
           </div>
 
-          {/* Page links */}
           <div>
-            <div className="px-3 mb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
-              Pages
-            </div>
+            <div className={heading}>Sites</div>
             <div className="space-y-0.5">
-              {pageLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={handleClose}
-                  className="block px-3 py-2 rounded-md text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {sites.map((site) => {
+                const inner = (
+                  <>
+                    {site.label}
+                    {site.current ? (
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-subtle">here</span>
+                    ) : (
+                      <span aria-hidden className="text-subtle">&#8599;</span>
+                    )}
+                  </>
+                );
+                return site.external ? (
+                  <a key={site.href} href={site.href} onClick={handleClose} className={item(Boolean(site.current))}>
+                    {inner}
+                  </a>
+                ) : (
+                  <Link key={site.href} href={site.href} onClick={handleClose} className={item(Boolean(site.current))}>
+                    {inner}
+                  </Link>
+                );
+              })}
             </div>
-          </div>
-
-          {/* GitHub */}
-          <div className="border-t border-slate-200 dark:border-slate-800 pt-4">
-            <a
-              href="https://github.com/forcecalendar"
-              className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors"
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-              </svg>
-              GitHub
-            </a>
           </div>
         </nav>
+
+        <div className="border-t border-hairline p-3">
+          <a
+            href="https://github.com/forcecalendar"
+            className="flex items-center gap-2.5 rounded-md px-3 py-2.5 text-[15px] text-muted transition-colors hover:bg-sunken hover:text-fg"
+          >
+            <GitHubIcon />
+            GitHub
+          </a>
+        </div>
       </div>
     </>
   );

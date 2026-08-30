@@ -47,26 +47,31 @@ export default function HeroCalendar() {
   }, []);
 
   return (
-    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-xl shadow-slate-200/60 dark:shadow-slate-950/60 overflow-hidden">
-      <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/40">
-        <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" aria-hidden />
-        <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" aria-hidden />
-        <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" aria-hidden />
-        <code className="ml-3 text-[11px] font-mono text-slate-400 dark:text-slate-500">
+    <div className="overflow-hidden rounded-xl bg-raised ring-1 ring-hairline shadow-elev-3 ring-hi dark:ring-line/80">
+      <div className="flex items-center gap-1.5 border-b border-hairline bg-sunken px-4 py-2.5">
+        <span className="h-2.5 w-2.5 rounded-full bg-fg/10" aria-hidden />
+        <span className="h-2.5 w-2.5 rounded-full bg-fg/10" aria-hidden />
+        <span className="h-2.5 w-2.5 rounded-full bg-fg/10" aria-hidden />
+        <code className="ml-3 font-mono text-[11px] text-subtle">
           &lt;forcecal-main&gt; — live, drag an event
         </code>
+        <span className="ml-auto inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-subtle">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden />
+          live
+        </span>
       </div>
       <CalendarLoader
         view="month"
         height={520}
         cssVars={{
           "fc-background": "var(--preview-bg, #ffffff)",
-          "fc-background-alt": "var(--preview-bg-alt, #f8fafc)",
-          "fc-background-hover": "var(--preview-bg-hover, #f1f5f9)",
-          "fc-text-color": "var(--preview-text, #0f172a)",
-          "fc-text-secondary": "var(--preview-text-secondary, #64748b)",
-          "fc-border-color": "var(--preview-border, #e2e8f0)",
-          "fc-primary-color": "var(--preview-primary, #2563eb)",
+          "fc-background-alt": "var(--preview-bg-alt, #f7f8fa)",
+          "fc-background-hover": "var(--preview-bg-hover, #eef1f5)",
+          "fc-text-color": "var(--preview-text, #0e131d)",
+          "fc-text-secondary": "var(--preview-text-secondary, #606b7d)",
+          "fc-border-color": "var(--preview-border, #e5e8ed)",
+          "fc-primary-color": "var(--preview-primary, #2448e0)",
+          "fc-font-family": "var(--font-inter), Inter, system-ui, sans-serif",
         }}
         onReady={handleReady}
       />

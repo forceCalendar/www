@@ -41,10 +41,10 @@ export default async function ReleaseBanner() {
   if (releases.length === 0 || !hasNew) return null;
 
   return (
-    <div className="w-full bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-800/80">
-      <div className="max-w-6xl mx-auto px-6 py-1.5 flex items-center justify-center gap-x-4 gap-y-1 flex-wrap text-xs">
+    <div className="w-full border-b border-hairline bg-sunken">
+      <div className="mx-auto flex max-w-page flex-wrap items-center justify-center gap-x-4 gap-y-1 px-6 py-1.5 text-xs">
         {hasNew && (
-          <span className="font-mono font-semibold uppercase tracking-wider text-[10px] px-2 py-0.5 rounded-full bg-brand-50 dark:bg-brand-500/10 text-brand-600 dark:text-brand-400 ring-1 ring-brand-200 dark:ring-brand-500/25">
+          <span className="rounded-full bg-accent-soft px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-accent-text ring-1 ring-inset ring-accent-line/70">
             New release
           </span>
         )}
@@ -54,10 +54,10 @@ export default async function ReleaseBanner() {
             href={r.releases}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="font-mono text-muted transition-colors hover:text-fg"
           >
             {r.label}{" "}
-            <span className={r.isNew ? "font-semibold text-brand-600 dark:text-brand-400" : ""}>
+            <span className={r.isNew ? "font-semibold text-accent-text" : ""}>
               v{r.version}
             </span>
             {r.isNew && <span aria-hidden> ↗</span>}
