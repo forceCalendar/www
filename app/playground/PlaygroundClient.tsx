@@ -29,6 +29,10 @@ function snapshot(events: CalendarEvent[]) {
   return events.map(event => event.toObject());
 }
 
+function formatRange(start: Date, end: Date) {
+  return `${start.toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${end.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`;
+}
+
 function Symbol({ type }: { type: "plus" | "reset" | "arrow" | "code" }) {
   return <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d={type === "plus" ? "M10 4v12M4 10h12" : type === "reset" ? "M4 7a6 6 0 1 1 0 6M4 3v4h4" : type === "code" ? "m6 6-4 4 4 4m8-8 4 4-4 4m-3-11-2 14" : "M4 10h12m-5-5 5 5-5 5"} /></svg>;
 }
@@ -75,6 +79,11 @@ export default function PlaygroundClient() {
     setSelectedId(id => current.some(event => event.id === id) ? id : current[0]?.id ?? "");
   }, []);
 
+  const syncRange = useCallback((cal: ForceCalendarElement) => {
+    const range = cal.getVisibleRange();
+    if (range) setRangeLabel(formatRange(range.start, range.end));
+  }, []);
+
   const pushLog = useCallback((name: string, detail: Record<string, unknown>) => {
     const entry = { id: ++logIdRef.current, name, time: new Date().toLocaleTimeString("en-GB"), detail: JSON.stringify(summarize(name, detail), null, 2) };
     setLog(previous => [entry, ...previous].slice(0, 40));
@@ -92,7 +101,8 @@ export default function PlaygroundClient() {
     setShowForm(false);
     setNotice(`${scenarios[id].workspace} loaded with ${samples.length} synthetic records for this week.`);
     syncEvents();
-  }, [syncEvents]);
+    syncRange(cal);
+  }, [syncEvents, syncRange]);
 
   const handleReady = useCallback((element: HTMLElement) => {
     const cal = element as ForceCalendarElement;
@@ -108,7 +118,7 @@ export default function PlaygroundClient() {
         if (name === "calendar-range-change") {
           const start = new Date(detail.start as string | Date);
           const end = new Date(detail.end as string | Date);
-          setRangeLabel(`${start.toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${end.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`);
+          setRangeLabel(formatRange(start, end));
         }
         if ((name === "calendar-navigate" || name === "calendar-date-select") && detail.date) {
           setActiveDate(localDateInput(new Date(detail.date as string | Date)));
@@ -122,8 +132,9 @@ export default function PlaygroundClient() {
       initializedRef.current = cal;
       loadScenario(cal, "crm");
     }
+    syncRange(cal);
     setReady(true);
-  }, [loadScenario, pushLog, syncEvents]);
+  }, [loadScenario, pushLog, syncEvents, syncRange]);
 
   useEffect(() => () => {
     cleanupRef.current?.();

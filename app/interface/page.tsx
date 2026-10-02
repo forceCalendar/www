@@ -11,7 +11,7 @@ import s from "../core/core.module.css";
 import ui from "./interface.module.css";
 
 export const metadata: Metadata = {
-  title: "Interface — a calendar that belongs in your app | forceCalendar",
+  title: "Interface — a calendar that belongs in your app",
   description: "Embed month, week, and day calendars with Web Components. Theme your interface, reconcile event snapshots, and connect React, Vue, or Salesforce to your own data.",
   alternates: { canonical: "https://forcecalendar.org/interface" },
   openGraph: { url: "https://forcecalendar.org/interface" },
