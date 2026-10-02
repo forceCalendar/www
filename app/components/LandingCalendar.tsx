@@ -19,7 +19,7 @@ export default function LandingCalendar() {
   const [view, setView] = useState<View>("week");
   const [element, setElement] = useState<CalendarElement | null>(null);
   const [playing, setPlaying] = useState(false);
-  const [action, setAction] = useState("A full week of local sample appointments.");
+  const [action, setAction] = useState("23 sample appointments · overlapping sessions · editable events");
   const rangeStart = useRef<Date | null>(null);
   const step = useRef(0);
   const stopped = useRef(false);
@@ -30,6 +30,7 @@ export default function LandingCalendar() {
     if (!element) return;
     let frame = 0;
     let attempts = 0;
+    let observer: IntersectionObserver | undefined;
     const initialise = () => {
       const range = element.getVisibleRange();
       if (!range) { if (++attempts < 120) frame = requestAnimationFrame(initialise); return; }
@@ -37,13 +38,18 @@ export default function LandingCalendar() {
       const events = createDemoEvents(rangeStart.current);
       element.setEvents(events);
       setFixture(events);
-      setPlaying(!stopped.current && !window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+      observer = new IntersectionObserver(entries => {
+        if (!entries.some(entry => entry.isIntersecting)) return;
+        observer?.disconnect();
+        setPlaying(!stopped.current && !window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+      }, { threshold: 0.15 });
+      observer.observe(element);
     };
     initialise();
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const reduce = () => { if (preference.matches) pause(); };
     preference.addEventListener("change", reduce);
-    return () => { cancelAnimationFrame(frame); preference.removeEventListener("change", reduce); };
+    return () => { observer?.disconnect(); cancelAnimationFrame(frame); preference.removeEventListener("change", reduce); };
   }, [element, pause]);
 
   useEffect(() => {
@@ -55,14 +61,14 @@ export default function LandingCalendar() {
       const before = element.shadowRoot?.querySelector(selector)?.getBoundingClientRect();
       const index = step.current % 4;
       if (index === 0) {
-        element.addEvent({id: "demo-agent-appointment", title: "Coffee with Jordan", start: demoTime(start, 1, 9), end: demoTime(start, 1, 10), color: "#ad5277"});
-        setAction('01 / CREATE → Coffee with Jordan · Monday 09:00');
+        element.addEvent({id: "demo-agent-appointment", title: "Northstar kickoff", start: demoTime(start, 1, 9), end: demoTime(start, 1, 10), color: "#ad5277"});
+        setAction('01 / CREATE → Northstar kickoff · Monday 09:00');
       } else if (index === 1) {
         element.updateEvent("demo-agent-appointment", {start: demoTime(start, 3, 9), end: demoTime(start, 3, 10)});
-        setAction('02 / MOVE → Coffee with Jordan · Wednesday 09:00');
+        setAction('02 / MOVE → Northstar kickoff · Wednesday 09:00');
       } else if (index === 2) {
-        element.updateEvent("demo-agent-appointment", {title: "Coffee & catch-up", end: demoTime(start, 3, 10, 30)});
-        setAction('03 / UPDATE → Coffee & catch-up · 90 minutes');
+        element.updateEvent("demo-agent-appointment", {title: "Northstar kickoff + Q&A", end: demoTime(start, 3, 10, 30)});
+        setAction('03 / UPDATE → Northstar kickoff + Q&A · 90 minutes');
       } else {
         element.deleteEvent("demo-agent-appointment");
         setAction('04 / DELETE → Sample appointment removed. Your calendar to explore.');
@@ -88,17 +94,17 @@ export default function LandingCalendar() {
   return (
     <div>
       <div className="flex flex-wrap items-center gap-1 border-b border-hairline bg-raised px-4 py-3" role="group" aria-label="Explore calendar architecture">
-        {([{key:"calendar",label:"01 / Calendar UI"},{key:"model",label:"02 / Event model"},{key:"agent",label:"03 / Headless use"}] as const).map(item => <button key={item.key} type="button" aria-pressed={surface === item.key} onClick={() => { pause(); setSurface(item.key); }} className={`rounded-sm px-3 py-2 font-mono text-[10px] tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${surface === item.key ? "bg-fg text-surface" : "text-muted hover:bg-sunken"}`}>{item.label}</button>)}
+        {([{key:"calendar",label:"01 / Calendar UI"},{key:"model",label:"02 / Event model"},{key:"agent",label:"03 / Headless API"}] as const).map(item => <button key={item.key} type="button" aria-pressed={surface === item.key} onClick={() => { pause(); setSurface(item.key); }} className={`rounded-sm px-3 py-2 font-mono text-[10px] tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${surface === item.key ? "bg-fg text-surface" : "text-muted hover:bg-sunken"}`}>{item.label}</button>)}
       </div>
       <div hidden={surface !== "calendar"}>
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-hairline bg-sunken px-5 py-4">
-        <div><p className="text-sm font-semibold">Your calendar, in your application.</p><p className="mt-1 text-xs text-muted">Live Web Component · local sample events</p></div>
+        <div><p className="text-sm font-semibold">Customer appointments, in context.</p><p className="mt-1 text-xs text-muted">Live Web Component · local sample events</p></div>
         <div className="flex gap-1" role="group" aria-label="Preview calendar view">
           {(["month", "week", "day"] as const).map(value => <button key={value} type="button" aria-pressed={view === value} onClick={() => { pause(); setView(value); }} className={`rounded-sm px-3 py-2 text-xs capitalize focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${view === value ? "bg-accent text-accent-fg" : "text-muted hover:bg-raised"}`}>{value}</button>)}
         </div>
       </div>
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline bg-[#191b2a] px-5 py-4 text-white">
-        <div className="min-w-0"><p className="font-mono text-[9px] uppercase tracking-widest text-[#b3a8ff]">Illustrative agent request → real local calendar API</p><p className="mt-2 text-xs" role="status" aria-live={playing ? "off" : "polite"}>{action}</p><p className="mt-1 text-[10px] text-[#b8bcce]">Scripted sample. No agent or connected account. Interact with the calendar to stop.</p></div>
+        <div className="min-w-0"><p className="font-mono text-[9px] uppercase tracking-widest text-[#b3a8ff]">Application request → real local calendar API</p><p className="mt-2 text-xs" role="status" aria-live={playing ? "off" : "polite"}>{action}</p><p className="mt-1 text-[10px] text-[#b8bcce]">Scripted local demo. No connected account. Interact with the calendar to stop.</p></div>
         <button type="button" className="shrink-0 rounded border border-[#77718f] px-4 py-2 text-xs focus-visible:outline-2" onClick={() => { if (playing) pause(); else { stopped.current = false; setPlaying(true); } }} aria-pressed={playing}>{playing ? "Pause demo" : "Play demo"}</button>
       </div>
       <div onPointerDownCapture={pause} onKeyDownCapture={pause} onWheelCapture={pause} className="overflow-x-auto bg-raised" role="region" aria-label="Interactive sample calendar; scroll horizontally on small screens" tabIndex={0}>

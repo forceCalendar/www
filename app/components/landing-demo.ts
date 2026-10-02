@@ -7,22 +7,22 @@ export function demoTime(start: Date, day: number, hour: number, minute = 0) {
 }
 export function createDemoEvents(rangeStart: Date): DemoEvent[] {
   const names = [
-    ['Morning walk', 'Family brunch', 'Reading hour'],
-    ['Design studio', 'Customer interview', 'Lunch with Maya'],
-    ['Research session', 'Product review', 'Piano lesson'],
-    ['Coffee with Alex', 'Studio workshop', 'Team lunch'],
-    ['Deep focus', 'Architecture review', 'Dentist appointment'],
-    ['Weekly review', 'Show & tell', 'Lunch with Sam'],
-    ['Farmers market', 'Cycling club', 'Weekend plans'],
+    ['Client support clinic', 'New account orientation', 'Partner briefing'],
+    ['Northstar · discovery', 'Meridian · account review', 'Acme · onboarding'],
+    ['Client solution workshop', 'Harbor · renewal review', 'Product demonstration'],
+    ['Pioneer · consultation', 'Customer success clinic', 'Implementation review'],
+    ['Atlas · discovery', 'Client training session', 'Account planning'],
+    ['Quarterly client review', 'Partner introduction', 'Service appointment'],
+    ['Customer office hours', 'Regional client briefing', 'New customer orientation'],
   ];
   const colors = ['#6657ce', '#237a68', '#b6752b', '#446da8', '#ad5277'];
   return names.flatMap((titles, day) => titles.map((title, slot) => ({
     id: `sample-${day}-${slot}`, title,
     start: demoTime(rangeStart, day, 8 + slot * 2, slot === 1 ? 30 : 0),
     end: demoTime(rangeStart, day, 9 + slot * 2, 30),
-    color: colors[(day + slot) % colors.length],
+    color: colors[slot],
   }))).concat([
-    {id: 'sample-overlap', title: 'Office hours', start: demoTime(rangeStart, 2, 10), end: demoTime(rangeStart, 2, 11, 30), color: '#ad5277'},
-    {id: 'sample-open-studio', title: 'Open studio', start: demoTime(rangeStart, 4, 8, 30), end: demoTime(rangeStart, 4, 10), color: '#237a68'},
+    {id: 'sample-overlap', title: 'Client consultation', start: demoTime(rangeStart, 2, 10), end: demoTime(rangeStart, 2, 11, 30), color: '#ad5277'},
+    {id: 'sample-open-studio', title: 'Solution design', start: demoTime(rangeStart, 4, 8, 30), end: demoTime(rangeStart, 4, 10), color: '#446da8'},
   ]);
 }

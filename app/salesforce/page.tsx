@@ -66,12 +66,9 @@ export default function SalesforcePage() {
             <strong className={strong}> Install for Admins Only</strong>, then grant access to your pilot users.
           </p>
           <p>
-            A new installer is being validated. Use the source deployment route below in the meantime; the earlier package is not presented as the current release.
+            Released unlocked package 0.3.0.1 is available for sandbox and production installation. It passed a clean install and 32 Apex test methods, with 98% package coverage. Validate it in your own sandbox before production rollout.
           </p>
-          <Button href={RELEASES_URL} target="_blank" rel="noopener noreferrer">
-            <SalesforceGlyph />
-            Review Salesforce Releases
-          </Button>
+          <div className="flex flex-wrap gap-3"><Button href="https://test.salesforce.com/packaging/installPackage.apexp?p0=04tg5000000ExTFAA0" target="_blank" rel="noopener noreferrer">Install in a sandbox</Button><Button href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04tg5000000ExTFAA0" variant="secondary" target="_blank" rel="noopener noreferrer">Production / Developer Edition</Button></div>
         </div>
       ),
     },
@@ -101,13 +98,10 @@ export default function SalesforcePage() {
             Use an org-managed permission set or profile to grant access to
             <code className={inlineCode}> ForceCalendarController</code>, the page, and the
             Event records and fields your users need. The source distribution includes the optional
-            ForceCalendarAccess permission set for controller access only; it does not grant Event object or field access.
+            ForceCalendarAccess permission set for controller access only; it does not grant Event object or field access. ForceCalendarReader adds Access Activities and read access to the five configurable fields. ForceCalendarEditor adds Edit Events and field edit access. No permission set is assigned automatically.
           </p>
           <p>
-            Reading requires access to the queried Event fields: Subject, StartDateTime,
-            EndDateTime, IsAllDayEvent, Description, Location, WhoId, and WhatId.
-            Grant create, edit, or delete access only for the actions each user needs.
-            Record sharing and access to related records still apply.
+            Permissions are additive: Reader cannot revoke write access granted elsewhere. Edit Events permits create, update, and delete subject to sharing. These sets do not grant related Account, Contact, or Lead access, Edit Tasks, View All, or Modify All. Access Activities applies beyond this calendar; Salesforce shares Description, WhoId, and WhatId permissions with Task. Subject, StartDateTime, and EndDateTime do not have independent configurable field permissions.
           </p>
         </div>
       ),
@@ -159,7 +153,7 @@ export default function SalesforcePage() {
           <div className="rounded-2xl bg-raised p-6 ring-1 ring-hairline shadow-elev-3 ring-hi lg:ml-auto lg:max-w-md">
             <div className="flex items-center justify-between gap-4">
               <span className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-subtle">Salesforce distribution</span>
-              <span className="text-xs text-muted">Source deployment</span>
+              <span className="text-xs text-muted">Released 0.3.0.1</span>
             </div>
             <div className="mt-5 grid gap-3">
               <Button href={RELEASES_URL} target="_blank" rel="noopener noreferrer" size="lg" className="w-full">
@@ -173,7 +167,7 @@ export default function SalesforcePage() {
               </Button>
             </div>
             <p className="mt-4 text-xs leading-relaxed text-subtle">
-              Deploy a reviewed release to your sandbox. A new one-click installer is undergoing clean-org validation.
+              Released package 0.3.0.1 includes Core 2.5.6 and Interface 1.9.0. The website demo uses Core 2.5.7. Package and npm releases are versioned separately.
             </p>
           </div>
         }
@@ -344,7 +338,7 @@ sf apex run test --class-names ForceCalendarControllerTest --target-org your-san
         <div className="grid gap-5 sm:grid-cols-2">
           <div className="rounded-xl bg-raised p-6 ring-1 ring-hairline">
             <h3 className="text-base font-semibold">Salesforce distribution</h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted">Review release notes and the deployable source archive before installation. The current source bundle pins Core 2.5.6 and Interface 1.9.0. A JavaScript package version is separate from a Salesforce install-package version.</p>
+            <p className="mt-3 text-sm leading-relaxed text-muted">Review release notes and the deployable source archive before installation. Released package 0.3.0.1 freezes Core 2.5.6 and Interface 1.9.0. A JavaScript package version is separate from a Salesforce install-package version.</p>
             <a className="mt-4 inline-flex text-sm font-medium text-accent-text hover:underline" href="https://github.com/forceCalendar/salesforce/releases">Salesforce releases ↗</a>
           </div>
           <div className="rounded-xl bg-raised p-6 ring-1 ring-hairline">

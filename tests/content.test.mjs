@@ -5,7 +5,7 @@ const read = name => readFileSync(new URL(`../${name}`, import.meta.url), 'utf8'
 const home = read('app/page.tsx');
 const salesforce = read('app/salesforce/page.tsx');
 test('new editorial design leads with shared scheduling and real live UI', () => {
-  assert.ok(home.includes('Time,<span>in common.'));
+  assert.ok(home.includes('in your system.'));
   assert.ok(home.includes('<LandingCalendar />'));
   assert.ok(home.includes('headless engine'));
   for (const href of ['/playground', 'https://docs.forcecalendar.org', '/core', '/interface', '/salesforce']) assert.ok(home.includes(href));
@@ -22,7 +22,7 @@ test('responsive layouts explicitly collapse without widening the page', () => {
   assert.ok(css.includes('prefers-reduced-motion'));
 });
 test('roadmap preserves prototype and provider limits', () => {
-  for (const phrase of ['In development', 'Planned', 'private prototype', 'two-way synchronization are planned', 'not live account synchronization', 'not available as a public service']) assert.ok(home.includes(phrase), phrase);
+  for (const phrase of ['private prototype', 'two-way synchronization are not shipped', 'not live account synchronization', 'not a public hosted service']) assert.ok(home.includes(phrase), phrase);
   assert.ok(!home.includes('github.com/forceCalendar/agent'));
   assert.ok(!home.includes('npm install @forcecalendar/agent'));
 });
@@ -31,7 +31,7 @@ test('genuine pointer-free captures remain available', () => {
     assert.ok(statSync(new URL(`../public/salesforce-lightning-${view}-clean.png`, import.meta.url)).size > 10000);
     assert.ok(salesforce.includes(`src="/salesforce-lightning-${view}-clean.png"`));
   }
-  assert.ok(home.includes('synthetic demo events'));
+  assert.ok(home.includes('Synthetic sample records'));
 });
 test('guide preserves access and current source version boundaries', () => {
   for (const text of ['ForceCalendarAccess', 'controller access only', 'Lightning Web Security', 'Lightning Locker is not supported', 'WhoId or WhatId', '1,000 records', 'does not revoke permissions elsewhere', 'Core 2.5.6 and Interface 1.9.0']) assert.ok(salesforce.includes(text), text);
@@ -53,6 +53,11 @@ test('prominent maker signature uses the approved destination', () => {
 });
 
 test('calendar library is not positioned as an agent work manager', () => {
- for (const text of ['assign tasks', 'Your application decides', 'another caller']) assert.ok(home.includes(text));
+ for (const text of ['assign tasks', 'Your application decides', 'Agent-accessible by choice']) assert.ok(home.includes(text));
  for (const text of ['A shared agent layer.', 'Your agent works', 'Shared agent calendars']) assert.ok(!home.includes(text));
+});
+
+test('enterprise calendar centerpiece and genuine Salesforce path stay prominent', () => {
+ for(const phrase of ['Acme CRM', 'CRM and enterprise applications', 'id="salesforce"', 'Lightning Web Security', 'Your org, deliberately configured', 'Client meetings']) assert.ok(home.includes(phrase),phrase);
+ assert.ok(home.indexOf('id="salesforce"') < home.indexOf('id="system"'));
 });

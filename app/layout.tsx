@@ -37,11 +37,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://forcecalendar.org"),
   title: {
-    default: "forceCalendar - Time, in common.",
+    default: "forceCalendar - Put time in your system.",
     template: "%s | forceCalendar",
   },
   description:
-    "Open-source calendar infrastructure for your application. A headless engine, Web Components, and integration adapters. Your data, permissions, and architecture.",
+    "A calendar library for CRMs and enterprise applications. Embed a headless engine and adaptable UI, with a Salesforce Lightning integration and application-owned data and permissions.",
   keywords: [
     "calendar",
     "salesforce",

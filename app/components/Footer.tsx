@@ -90,7 +90,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
             <Wordmark />
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-              Open-source scheduling infrastructure for applications, people, and agents.
+              Open-source calendar infrastructure for CRMs and enterprise applications.
             </p>
             <a
               href="https://github.com/forcecalendar"
