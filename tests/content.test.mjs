@@ -7,13 +7,13 @@ const salesforce = read('app/salesforce/page.tsx');
 test('new editorial design leads with shared scheduling and real live UI', () => {
   assert.ok(home.includes('Time,<span>in common.'));
   assert.ok(home.includes('<LandingCalendar />'));
-  assert.ok(home.includes('people, applications, and agents'));
+  assert.ok(home.includes('headless engine'));
   for (const href of ['/playground', 'https://docs.forcecalendar.org', '/core', '/interface', '/salesforce']) assert.ok(home.includes(href));
 });
 test('demo seeds a snapshot and exposes accessible view controls', () => {
   const demo = read('app/components/LandingCalendar.tsx');
-  for (const phrase of ['setEvents?.(', 'aria-pressed', 'onClick', 'CalendarLoader', 'local sample events', 'overflow-x-auto']) assert.ok(demo.includes(phrase), phrase);
-  assert.ok(!demo.includes('addEvent('));
+  for (const phrase of ['element.setEvents(', 'aria-pressed', 'onClick', 'CalendarLoader', 'local sample events', 'overflow-x-auto']) assert.ok(demo.includes(phrase), phrase);
+  for (const phrase of ['element.addEvent(', 'element.updateEvent(', 'element.deleteEvent(', 'prefers-reduced-motion', 'onPointerDownCapture={pause}', 'onKeyDownCapture={pause}', 'getVisibleRange()', 'Pause demo']) assert.ok(demo.includes(phrase), phrase);
 });
 test('responsive layouts explicitly collapse without widening the page', () => {
   const css = read('app/landing.module.css');
@@ -50,4 +50,9 @@ test('prominent maker signature uses the approved destination', () => {
  assert.ok(footer.includes('N. R. Dhanawada'));
  assert.ok(footer.includes('https://dhanawada.org'));
  assert.ok(!footer.includes('Dhanawada Labs'));
+});
+
+test('calendar library is not positioned as an agent work manager', () => {
+ for (const text of ['assign tasks', 'Your application decides', 'another caller']) assert.ok(home.includes(text));
+ for (const text of ['A shared agent layer.', 'Your agent works', 'Shared agent calendars']) assert.ok(!home.includes(text));
 });

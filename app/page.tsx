@@ -11,7 +11,7 @@ import s from "./landing.module.css";
 const layers = [
   { number: "01 / LOGIC", title: "A headless engine.", text: "Events, recurrence, time zones, conflict detection, and search. Calendar logic that belongs to your application, with no runtime dependencies.", href: "/core", link: "Explore Core", state: "Available" },
   { number: "02 / EXPERIENCE", title: "A human interface.", text: "A real calendar, wherever you need it. Month, week, and day Web Components, with React and Vue adapters and a theme that fits your product.", href: "/interface", link: "Explore Interface", state: "Available" },
-  { number: "03 / COORDINATION", title: "A shared agent layer.", text: "A private prototype for persistent shared calendars and scoped tools. Designed to let people and agents work from the same schedule, with explicit authority over changes.", href: "#agents", link: "See what’s next", state: "In development" },
+  { number: "03 / INTEGRATION", title: "Your application.", text: "Connect your data, permissions, and callers. Use the headless library from application code or expose calendar operations to an agent through your own adapter.", href: "#architecture", link: "Explore the architecture", state: "Your architecture" },
 ];
 
 export default function Home() {
@@ -21,33 +21,33 @@ export default function Home() {
       <main>
         <section className={s.hero} aria-labelledby="landing-title">
           <div className={s.wrap}>
-            <div className={s.heroTop}><span className={s.eyebrow}>forceCalendar / open-source infrastructure</span><a className={s.link} href="#system">Meet the system <Arrow /></a></div>
+            <div className={s.heroTop}><span className={s.eyebrow}>forceCalendar / open-source calendar library</span><a className={s.link} href="#system">Meet the system <Arrow /></a></div>
             <div className={s.heroGrid}>
               <h1 id="landing-title" className={s.title}>Time,<span>in common.</span></h1>
-              <div className={s.intro}><p>A calendar is more than a view.<br />It’s a place for people, applications, and agents to coordinate what happens next.</p><div className={s.actions}><Button href="/playground" size="lg">Try the calendar <Arrow /></Button><Button href="https://docs.forcecalendar.org" variant="secondary" size="lg">Build with it</Button></div></div>
+              <div className={s.intro}><p>Calendar infrastructure for your application.<br />A headless engine, a beautiful interface, and adapters that fit the way you build.</p><div className={s.actions}><Button href="/playground" size="lg">Try the calendar <Arrow /></Button><Button href="https://docs.forcecalendar.org" variant="secondary" size="lg">Build with it</Button></div></div>
             </div>
             <div className={s.stage}>
               <div className={s.stageLabel}><span>Real component. Real interaction.</span><span>Browser demo / sample data only</span></div>
               <div className={s.calendar}><LandingCalendar /></div>
             </div>
-            <div className={s.heroNote}><span>Available today: scheduling engine, Web Components, and Salesforce integration.</span><span>Shared agent layer in development. Provider sync planned.</span></div>
+            <div className={s.heroNote}><span>Available today: scheduling engine, Web Components, and Salesforce integration.</span><span>Your data. Your permissions. Your application.</span></div>
           </div>
         </section>
 
-        <div className={s.rail}><div className={s.wrap}><div className={s.railInner}><span>JavaScript <em>engine</em></span><span>Web Components <em>UI</em></span><span>React & Vue <em>adapters</em></span><span>Salesforce <em>integration</em></span><span>Agents <em>in development</em></span></div></div></div>
+        <div className={s.rail}><div className={s.wrap}><div className={s.railInner}><span>JavaScript <em>engine</em></span><span>Web Components <em>UI</em></span><span>React & Vue <em>adapters</em></span><span>Salesforce <em>integration</em></span><span>Headless <em>API</em></span></div></div></div>
 
         <section className={s.section} id="system">
           <div className={s.wrap}>
-            <div className={s.sectionIntro}><p className={s.eyebrow}>01 / the foundation</p><div><h2 className={s.sectionTitle}>One model of time.<br />Room for every interface.</h2><p className={`${s.lede} mt-6`}>The same event should make sense in your product, in a person’s day, and in an agent’s plan. Start with the engine and interface. Connect the data and permissions your application needs.</p></div></div>
+            <div className={s.sectionIntro}><p className={s.eyebrow}>01 / the foundation</p><div><h2 className={s.sectionTitle}>One model of time.<br />Room for every interface.</h2><p className={`${s.lede} mt-6`}>Start with a calendar engine. Add an interface where people need one. Let application code, integrations, or agents call the same underlying library. You own the surrounding system.</p></div></div>
             <div className={s.stack}>{layers.map(layer => <article key={layer.number} className={s.layer}><div className="flex flex-wrap justify-between gap-2"><span className={s.eyebrow}>{layer.number}</span><span className="font-mono text-[9px] uppercase tracking-wider text-accent-text">{layer.state}</span></div><h3>{layer.title}</h3><p>{layer.text}</p><a href={layer.href} className={s.link}>{layer.link} <Arrow /></a></article>)}</div>
           </div>
         </section>
 
-        <section className={`${s.section} ${s.dark}`} id="agents">
+        <section className={`${s.section} ${s.dark}`} id="architecture">
           <div className={s.wrap}>
             <div className={s.visionGrid}>
-              <div><p className={s.eyebrow}>02 / why this matters</p><h2 className={s.visionTitle}>You see the plan.<br /><span>Your agent works<br />from the same one.</span></h2><p className={`${s.lede} mt-7`}>An agent’s work should have a place in your day, not disappear into a separate queue. We’re building toward a shared schedule you can inspect, change, and understand.</p></div>
-              <div><p className={s.eyebrow}>Shared-calendar direction / not a live service</p><div className={s.trace}><div className={s.traceItem}><strong>A person sets the intention.</strong><p>A meeting to prepare for. A task with a window. A block of time that needs protecting.</p></div><div className={s.traceItem}><strong>The calendar holds the context.</strong><p>Time, ownership, and the state of the plan, visible through a common event model.</p></div><div className={s.traceItem}><strong>An agent works within its authority.</strong><p>Scoped tools and explicit change controls, with an understandable record of what happened.</p></div></div><p className={s.note}>The agent layer is a private prototype. Hosted access, live provider connections, and reliable agent execution are not available as a public service. Local tests do not establish those production guarantees.</p></div>
+              <div><p className={s.eyebrow}>02 / built to be embedded</p><h2 className={s.visionTitle}>The calendar layer.<br /><span>The rest<br />is yours.</span></h2><p className={`${s.lede} mt-7`}>Give your product calendar capabilities without handing over its architecture. Use the UI, call the engine headlessly, or do both.</p></div>
+              <div><p className={s.eyebrow}>Library → interface → your application</p><div className={s.trace}><div className={s.traceItem}><strong>The engine understands calendars.</strong><p>Events, recurrence, date ranges, and conflict detection through a reusable JavaScript API.</p></div><div className={s.traceItem}><strong>The interface makes them tangible.</strong><p>Views, event blocks, and editing interactions, with your application supplying the data.</p></div><div className={s.traceItem}><strong>Your application decides what happens.</strong><p>Storage, users, permissions, integrations, and agent decisions stay in your system. An agent is simply another caller of calendar tools.</p></div></div><p className={s.note}>forceCalendar provides calendar infrastructure. It does not manage projects, assign tasks, or orchestrate agents. A separate tool adapter is a private prototype and is not available as a public service.</p></div>
             </div>
           </div>
         </section>
@@ -61,9 +61,9 @@ export default function Home() {
 
         <section className={`${s.section} border-y border-hairline bg-sunken`} id="connections">
           <div className={s.wrap}>
-            <div className={s.sectionIntro}><p className={s.eyebrow}>04 / connected, deliberately</p><div><h2 className={s.sectionTitle}>Meet people<br />where they schedule.</h2><p className={`${s.lede} mt-6`}>The destination is a calendar you can share with an agent and view in the tools you already use. Here is what exists now, and what we’re still building.</p></div></div>
+            <div className={s.sectionIntro}><p className={s.eyebrow}>04 / connected, deliberately</p><div><h2 className={s.sectionTitle}>Meet people<br />where they schedule.</h2><p className={`${s.lede} mt-6`}>Choose the surfaces and integrations your application needs. The library is available today; external account connections need their own adapters and validation.</p></div></div>
             <div className={s.connections}>
-              {[{name:"Web applications",text:"Web Components, React and Vue adapters. Bring your own data layer.",status:"Available"},{name:"Salesforce",text:"Lightning components and Apex for standard Event records. Validate access and deployment in your org.",status:"Available integration"},{name:"iCalendar / ICS",text:"Core supports file import and export. This is not live account synchronization.",status:"Available"},{name:"Shared agent calendars",text:"Persistent events, scoped tools, and change controls in a private prototype. No public hosted service.",status:"In development"},{name:"Apple · Google · Microsoft",text:"Provider account connections and two-way synchronization are planned. Live integration validation is pending.",status:"Planned"}].map(item=><div key={item.name} className={s.connection}><strong>{item.name}</strong><p>{item.text}</p><span className={s.status}>{item.status}</span></div>)}
+              {[{name:"Web applications",text:"Web Components, React and Vue adapters. Bring your own data layer.",status:"Available"},{name:"Salesforce",text:"Lightning components and Apex for standard Event records. Validate access and deployment in your org.",status:"Available integration"},{name:"iCalendar / ICS",text:"Core supports file import and export. This is not live account synchronization.",status:"Available"},{name:"Agent tool adapters",text:"A private prototype for exposing calendar operations to agents. Your application owns storage, identity, and authorization.",status:"In development"},{name:"Apple · Google · Microsoft",text:"Provider account connections and two-way synchronization are planned. Live integration validation is pending.",status:"Planned"}].map(item=><div key={item.name} className={s.connection}><strong>{item.name}</strong><p>{item.text}</p><span className={s.status}>{item.status}</span></div>)}
             </div>
           </div>
         </section>
@@ -93,7 +93,7 @@ calendar.setEvents(events);
 // You control storage, access, and integrations.`} />
           </div></div>
         </section>
-        <section className={s.end}><div className={`${s.wrap} ${s.endInner}`}><div><p className={s.eyebrow}>Open source / MIT</p><h2 className="mt-3">Make time work together.</h2></div><Button href="https://github.com/forcecalendar" size="lg" variant="secondary">Explore the source <Arrow /></Button></div></section>
+        <section className={s.end}><div className={`${s.wrap} ${s.endInner}`}><div><p className={s.eyebrow}>Open source / MIT</p><h2 className="mt-3">Build something worth making time for.</h2></div><Button href="https://github.com/forcecalendar" size="lg" variant="secondary">Explore the source <Arrow /></Button></div></section>
       </main>
       <Footer />
     </div>

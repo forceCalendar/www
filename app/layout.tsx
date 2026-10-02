@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     template: "%s | forceCalendar",
   },
   description:
-    "Open-source calendar infrastructure for applications, people, and agents. A headless engine, Web Components, and Salesforce integration, with a shared agent layer in development.",
+    "Open-source calendar infrastructure for your application. A headless engine, Web Components, and integration adapters. Your data, permissions, and architecture.",
   keywords: [
     "calendar",
     "salesforce",
