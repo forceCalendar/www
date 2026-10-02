@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     template: "%s | forceCalendar",
   },
   description:
-    "Open-source calendar infrastructure: a headless scheduling engine, framework-neutral Web Components, and a Salesforce LWC and Apex integration.",
+    "Open-source calendar infrastructure for applications, people, and agents. A headless engine, Web Components, and Salesforce integration, with a shared agent layer in development.",
   keywords: [
     "calendar",
     "salesforce",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "forceCalendar",
     description:
-      "A headless calendar engine and framework-neutral Web Components, with a Salesforce Lightning integration.",
+      "One calendar model, many ways to work. Open-source scheduling engine, Web Components, and integrations.",
     url: "https://forcecalendar.org",
     siteName: "forceCalendar",
     locale: "en_US",
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "forceCalendar",
     description:
-      "A headless calendar engine and framework-neutral Web Components, with a Salesforce Lightning integration.",
+      "One calendar model, many ways to work. Open-source scheduling engine, Web Components, and integrations.",
     images: ["/og-image.png"],
   },
   robots: {

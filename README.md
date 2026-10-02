@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-The official website for [forceCalendar](https://forcecalendar.org) — an open-source calendar for standard Salesforce Events, with reusable JavaScript packages.
+The official website for [forceCalendar](https://forcecalendar.org) — open-source scheduling infrastructure for applications, people, and agents. The landing page separates the shipped engine, UI and Salesforce integration from the shared-calendar/agent layer in development and planned provider synchronization.
 
 ## Pages
 
