@@ -37,7 +37,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://forcecalendar.org"),
   title: {
-    default: "forceCalendar - Put time in your system.",
+    default: "forceCalendar - Calendar components for enterprise applications",
     template: "%s | forceCalendar",
   },
   description:
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "forceCalendar",
     description:
-      "One calendar model, many ways to work. Open-source scheduling engine, Web Components, and integrations.",
+      "Build interactive calendars into Salesforce, CRMs and custom applications with a headless engine and flexible UI components.",
     url: "https://forcecalendar.org",
     siteName: "forceCalendar",
     locale: "en_US",
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "forceCalendar",
     description:
-      "One calendar model, many ways to work. Open-source scheduling engine, Web Components, and integrations.",
+      "Build interactive calendars into Salesforce, CRMs and custom applications with a headless engine and flexible UI components.",
     images: ["/og-image.png"],
   },
   robots: {
