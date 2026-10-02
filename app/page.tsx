@@ -266,16 +266,16 @@ export default async function Home() {
               <div className="animate-fade-up">
                 <Eyebrow pill>
                   <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
-                  Salesforce calendar &middot; MIT
+                  Open-source calendar &middot; MIT
                 </Eyebrow>
               </div>
               <h1 className="mt-6 font-display text-display-lg sm:text-display-xl text-fg animate-fade-up [animation-delay:60ms]">
-                Your Salesforce events, in one clear calendar.
+                Calendar infrastructure for your applications.
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted animate-fade-up [animation-delay:120ms]">
-                Bring standard Salesforce Events into month, week, and day views
-                on your Lightning pages. Open-source LWC and Apex, with a sandbox-first
-                setup guide for your admin and developer team.
+                A headless scheduling engine and framework-neutral Web Components.
+                Bring month, week, and day views to your application, with a ready-to-integrate
+                LWC and Apex distribution for Salesforce.
               </p>
               <div className="mt-5 flex flex-wrap items-center gap-3 animate-fade-up [animation-delay:240ms]">
                 <Button href="/salesforce" size="lg">
@@ -288,14 +288,14 @@ export default async function Home() {
               </div>
               <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm animate-fade-up [animation-delay:300ms]">
                 <Link href="/interface" className="group text-muted transition-colors hover:text-fg">
-                  Building another app? <Arrow />
+                  Explore the components <Arrow />
                 </Link>
                 <a href="https://docs.forcecalendar.org" className="group text-muted transition-colors hover:text-fg">
                   Documentation <Arrow />
                 </a>
               </div>
               <ul className="mt-8 flex flex-wrap items-center gap-2 text-xs text-muted animate-fade-up [animation-delay:360ms]" aria-label="Highlights">
-                {["Standard Salesforce Events", "MIT licensed", "LWC + Apex", "Month / week / day"].map(chip => (
+                {["Framework-neutral", "MIT licensed", "Salesforce integration", "Month / week / day"].map(chip => (
                   <li key={chip} className="rounded-full bg-raised px-2.5 py-1 ring-1 ring-inset ring-hairline">
                     {chip}
                   </li>
@@ -306,7 +306,7 @@ export default async function Home() {
             <div className="min-w-0 lg:col-span-7">
               <div className="bg-hero-mesh relative rounded-2xl p-3 ring-1 ring-hairline sm:p-5 lg:-mr-6 xl:-mr-16 animate-fade-up [animation-delay:200ms]">
                 <SalesforceScreenshot
-                  src="/salesforce-lightning-month.png"
+                  src="/salesforce-lightning-month-clean.png"
                   alt="ForceCalendar running in Salesforce Lightning, displaying synthetic sample events in month view"
                   caption="Inside Salesforce Lightning · sample-data demo"
                   sizes="(max-width: 1024px) 100vw, 740px"
@@ -430,7 +430,7 @@ export default async function Home() {
       <Section width="wide" divider>
         <SectionHeader
           eyebrow="Why forceCalendar"
-          title="Built for a practical Salesforce rollout"
+          title="Built for application teams"
           id="why"
         />
         <div className="grid gap-px overflow-hidden rounded-2xl bg-hairline ring-1 ring-hairline md:grid-cols-3">
@@ -478,7 +478,7 @@ export default async function Home() {
         <div className="grid gap-5 lg:grid-cols-12">
           <div className="lg:col-span-8">
             <SalesforceScreenshot
-              src="/salesforce-lightning-month.png"
+              src="/salesforce-lightning-month-clean.png"
               alt="ForceCalendar Demo in Salesforce Lightning showing synthetic sample events in October 2026 month view"
               caption="Month view"
               sizes="(max-width: 1024px) 100vw, 800px"
@@ -486,13 +486,13 @@ export default async function Home() {
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1">
             <SalesforceScreenshot
-              src="/salesforce-lightning-week.png"
+              src="/salesforce-lightning-week-clean.png"
               alt="ForceCalendar Demo in Salesforce Lightning showing timed and all-day synthetic sample events in week view"
               caption="Week view"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
             />
             <SalesforceScreenshot
-              src="/salesforce-lightning-day.png"
+              src="/salesforce-lightning-day-clean.png"
               alt="ForceCalendar Demo in Salesforce Lightning showing synthetic sample events in day view"
               caption="Day view"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
@@ -534,6 +534,15 @@ export default async function Home() {
               <p className="mt-1.5 text-sm leading-relaxed text-muted">{tile.text}</p>
             </div>
           ))}
+        </div>
+      </Section>
+
+      <Section width="wide" divider>
+        <SectionHeader eyebrow="Salesforce security" title="How the Lightning integration fits" subtitle="A bundled calendar UI, a native data-access layer, and an explicit platform requirement." id="lightning-security" />
+        <div className="grid gap-6 md:grid-cols-3">
+          <div><h3 className="text-base font-semibold">Bundled in your org</h3><p className="mt-3 text-sm leading-relaxed text-muted">The LWC loads Core and Interface from a Salesforce static resource. The calendar UI does not depend on a runtime CDN, and event data flows through your Apex controller.</p></div>
+          <div><h3 className="text-base font-semibold">Salesforce access controls</h3><p className="mt-3 text-sm leading-relaxed text-muted">Apex applies sharing and user-mode data access. Assign controller access and Event permissions deliberately; a read-only display setting does not replace your org’s security model.</p></div>
+          <div><h3 className="text-base font-semibold">Lightning Web Security required</h3><p className="mt-3 text-sm leading-relaxed text-muted">The UI uses third-party custom elements. Salesforce supports these with Lightning Web Security enabled, not legacy Lightning Locker. This is an LWS integration, not a claim of legacy Locker compatibility.</p><a href="https://developer.salesforce.com/docs/platform/lwc/guide/create-use-custom-elements.html" className="mt-3 inline-block text-sm font-medium text-accent-text hover:underline">Salesforce compatibility guidance ↗</a></div>
         </div>
       </Section>
 
@@ -718,10 +727,10 @@ export default async function Home() {
           <div className="absolute inset-0 bg-grid opacity-70" aria-hidden />
           <div className="relative mx-auto max-w-2xl">
             <h2 className="font-display text-display-md sm:text-display-lg text-fg">
-              Start with your Salesforce sandbox.
+              Bring a clear calendar to your application.
             </h2>
             <p className="mt-4 text-lg text-muted">
-              Follow the install guide, configure access, and validate the calendar with your team.
+              Explore the components, or use the Salesforce guide to configure your Lightning pages.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4">
               <Button href="/salesforce" size="lg">

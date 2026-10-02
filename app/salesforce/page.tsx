@@ -365,27 +365,28 @@ sf apex run test --class-names ForceCalendarControllerTest --target-org your-san
         </div>
         <div className="space-y-5">
           <SalesforceScreenshot
-            src="/salesforce-lightning-month.png"
+            src="/salesforce-lightning-month-clean.png"
             alt="ForceCalendar Demo in Salesforce Lightning showing synthetic sample events in October 2026 month view"
             caption="Month view"
           />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <SalesforceScreenshot
-              src="/salesforce-lightning-week.png"
+              src="/salesforce-lightning-week-clean.png"
               alt="ForceCalendar Demo in Salesforce Lightning showing timed and all-day synthetic sample events in week view"
               caption="Week view"
               sizes="(max-width: 640px) 100vw, 480px"
             />
             <SalesforceScreenshot
-              src="/salesforce-lightning-day.png"
+              src="/salesforce-lightning-day-clean.png"
               alt="ForceCalendar Demo in Salesforce Lightning showing synthetic sample events in day view"
               caption="Day view"
               sizes="(max-width: 640px) 100vw, 480px"
             />
           </div>
           <SalesforceScreenshot
-            src="/salesforce-lightning-editor.png"
-            alt="Salesforce Lightning demo event creation form with a synthetic Release planning event, date fields, and Save Event control"
+            src="/salesforce-lightning-editor-clean.png"
+            height={663}
+            alt="Salesforce Lightning demo event creation form with a synthetic Project kickoff event, date fields, and Save Event control"
             caption="Event creation · synthetic sample-data workflow"
           />
         </div>

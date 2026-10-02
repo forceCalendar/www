@@ -91,7 +91,7 @@ export default function PlatformsPage() {
 
       <PageHeader
         eyebrow="Platforms"
-        title="Salesforce first. Packages for your other apps."
+        title="Calendar components across your stack."
         lede="Use the Salesforce integration for standard Event records, or explore developer starters for other platforms. Core has no runtime dependencies and Interface uses Core as a peer dependency. Each host still needs its own security, styling, and deployment validation."
       />
 
