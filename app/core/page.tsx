@@ -14,13 +14,13 @@ import CoreTabs from "./CoreTabs";
 export const metadata: Metadata = {
   title: "@forcecalendar/core - Headless Calendar Engine",
   description:
-    "Zero-dependency headless calendar engine for enterprise applications. Scheduling, recurrence, timezones, and conflict detection.",
+    "Headless calendar engine with no runtime dependencies for enterprise applications. Scheduling, recurrence, timezones, and conflict detection.",
   alternates: { canonical: "https://forcecalendar.org/core" },
   openGraph: { url: "https://forcecalendar.org/core" },
 };
 
 const metrics = [
-  { label: "Dependencies", value: "0" },
+  { label: "Runtime dependencies", value: "0" },
   { label: "License", value: "MIT" },
   { label: "TypeScript", value: ".d.ts" },
   { label: "Min + gzip", value: "~35KB" },
@@ -93,7 +93,7 @@ export default function CorePage() {
             <span className="font-normal text-muted">@forcecalendar/</span>core
           </>
         }
-        lede="Zero-dependency calendar logic for enterprise applications. Runs anywhere JavaScript runs: browser, Node, serverless, and edge."
+        lede="Calendar logic with no runtime dependencies. Use the headless engine in browser, Node, serverless, and edge applications."
         actions={
           <>
             <InstallCommand command="npm install @forcecalendar/core" />

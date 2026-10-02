@@ -1,42 +1,39 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import Section from "../components/Section";
 import SectionHeader from "../components/SectionHeader";
 import PageHeader from "../components/PageHeader";
 import CodeBlock from "../components/CodeBlock";
-import InstallCommand from "../components/InstallCommand";
 import Button, { ExternalIcon } from "../components/Button";
 import Stepper from "../components/Stepper";
+import SalesforceScreenshot from "../components/SalesforceScreenshot";
 
 export const metadata: Metadata = {
   title: "Install on Salesforce",
   description:
-    "Install forceCalendar in your Salesforce org. One-click unlocked package with LWC components, Apex controller, and full Locker Service compliance.",
+    "Install and configure forceCalendar for standard Salesforce Events. Sandbox-first setup, access requirements, Lightning App Builder settings, and source deployment steps.",
   alternates: { canonical: "https://forcecalendar.org/salesforce" },
   openGraph: { url: "https://forcecalendar.org/salesforce" },
 };
 
-const PACKAGE_ID = "04tg50000003qOfAAI";
-const SANDBOX_INSTALL_URL = `https://test.salesforce.com/packaging/installPackage.apexp?p0=${PACKAGE_ID}`;
-const PRODUCTION_INSTALL_URL = `https://login.salesforce.com/packaging/installPackage.apexp?p0=${PACKAGE_ID}`;
+const RELEASES_URL = "https://github.com/forceCalendar/salesforce/releases";
 
 const contents = [
   {
     name: "forceCalendar",
     kind: "LWC",
-    text: "Production-ready LWC component that connects to Salesforce Events through Apex. Supports month, week, and day views with create, update, and delete.",
+    text: "Lightning component for standard Event records, connected through Apex. Month, week, and day views with event actions subject to Salesforce access.",
   },
   {
     name: "forceCalendarDemo",
     kind: "LWC",
-    text: "Standalone demo component with sample events. No Apex required. Use this to verify the install worked before wiring up real data.",
+    text: "Separate demo with generated sample events and no Apex data access. Use it to check rendering; it does not verify access to real Event records.",
   },
   {
     name: "ForceCalendarController",
     kind: "Apex",
-    text: "Apex controller for querying and managing Salesforce Event records. Includes test class with coverage.",
+    text: "Apex data layer for querying and managing standard Event records. Includes a test class; run org tests and validate your access configuration before rollout.",
   },
   {
     name: "Static Resource",
@@ -60,64 +57,91 @@ const strong = "font-medium text-fg";
 export default function SalesforcePage() {
   const installSteps = [
     {
-      title: "Install to your sandbox",
+      title: "Review and install in a sandbox",
       children: (
         <div className="space-y-4 text-sm leading-relaxed text-muted">
           <p>
-            Click the button below to open the Salesforce package installer in your sandbox org.
-            Log in with your sandbox credentials. Select &ldquo;Install for Admins Only&rdquo; or
-            &ldquo;Install for All Users&rdquo; depending on who should access the calendar.
+            Download the deployable source archive from a reviewed release and deploy it
+            to a sandbox with Salesforce CLI. When installing a verified package, start with
+            <strong className={strong}> Install for Admins Only</strong>, then grant access to your pilot users.
           </p>
-          <Button href={SANDBOX_INSTALL_URL} target="_blank" rel="noopener noreferrer">
+          <p>
+            A new installer is being validated. Use the source deployment route below in the meantime; the earlier package is not presented as the current release.
+          </p>
+          <Button href={RELEASES_URL} target="_blank" rel="noopener noreferrer">
             <SalesforceGlyph />
-            Install on Sandbox
+            Review Salesforce Releases
           </Button>
         </div>
       ),
     },
     {
-      title: "Add the calendar to a Lightning page",
+      title: "Check the demo, then add the real calendar",
       children: (
         <div className="space-y-3 text-sm leading-relaxed text-muted">
-          <p>After install, the components are available in Lightning App Builder:</p>
           <ol className="list-decimal space-y-2 pl-5 marker:text-subtle">
             <li>Go to <strong className={strong}>Setup &rarr; Lightning App Builder</strong></li>
-            <li>Create a new App Page or edit an existing one</li>
-            <li>Search for <strong className={strong}>&ldquo;ForceCalendar&rdquo;</strong> in the component panel</li>
-            <li>Drag <strong className={strong}>ForceCalendar Demo</strong> onto the page to verify it works</li>
-            <li>Save, activate, and open the page</li>
+            <li>Create or edit an App, Home, or Record page</li>
+            <li>Add <strong className={strong}>ForceCalendar Demo</strong>, save, activate, and open the page to check sample-data rendering</li>
+            <li>Add <strong className={strong}>Force Calendar</strong> for real Event records and review the available settings against the configuration notes below</li>
+            <li>Save and activate the page for the intended app and users</li>
           </ol>
           <p>
-            The demo component loads sample events automatically. You should see a working calendar with month, week, and day views immediately.
+            The demo&rsquo;s sample events are not Salesforce records. Seeing the demo render
+            is only the first check; test the production component with Event access next.
           </p>
         </div>
       ),
     },
     {
-      title: "Test thoroughly before production",
+      title: "Assign access to pilot users",
       children: (
         <div className="space-y-3 text-sm leading-relaxed text-muted">
-          <p>Before deploying to production, verify in your sandbox:</p>
+          <p>
+            Use an org-managed permission set or profile to grant access to
+            <code className={inlineCode}> ForceCalendarController</code>, the page, and the
+            Event records and fields your users need. The source distribution includes the optional
+            ForceCalendarAccess permission set for controller access only; it does not grant Event object or field access.
+          </p>
+          <p>
+            Reading requires access to the queried Event fields: Subject, StartDateTime,
+            EndDateTime, IsAllDayEvent, Description, Location, WhoId, and WhatId.
+            Grant create, edit, or delete access only for the actions each user needs.
+            Record sharing and access to related records still apply.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: "Validate the real workflow in your sandbox",
+      children: (
+        <div className="space-y-3 text-sm leading-relaxed text-muted">
+          <p>Use synthetic test events and sign in as a representative non-admin user:</p>
           <ul className="list-disc space-y-2 pl-5 marker:text-subtle">
-            <li>All three views (month, week, day) render correctly</li>
-            <li>Event creation, editing, and deletion work with your data</li>
-            <li>Calendar displays correctly for all user profiles that need access</li>
-            <li>Performance is acceptable with your typical event volume</li>
+            <li>Switch month, week, and day views; navigate away and back</li>
+            <li>Create a test Event, then reload to confirm the saved result; validate Apex/programmatic update and delete separately</li>
+            <li>Check all-day and timed events, including your team&rsquo;s time zones</li>
+            <li>Verify Record page relationships, read-only behavior, and expected permission-denied cases</li>
+            <li>Test your org&rsquo;s Lightning security settings and typical event volume; the current query returns at most 1,000 records per requested date range</li>
+            <li>Run the Apex tests and resolve deployment or validation-rule failures before rollout</li>
           </ul>
         </div>
       ),
     },
     {
-      title: "Deploy to production",
+      title: "Roll out the version you tested",
       muted: true,
       children: (
         <div className="space-y-4 text-sm leading-relaxed text-muted">
           <p>
-            Once you&rsquo;ve verified everything works in your sandbox, install the same package in production.
+            Record the package version or source revision you validated. Deploy that same
+            version to production, repeat the page activation and access assignments, and
+            check the calendar as an intended user.
           </p>
-          <Button href={PRODUCTION_INSTALL_URL} target="_blank" rel="noopener noreferrer" variant="secondary">
-            Install on Production
+          <Button href={RELEASES_URL} target="_blank" rel="noopener noreferrer" variant="secondary">
+            Review Release Notes
           </Button>
+          <p className="text-xs text-subtle">Deploy the exact source revision or package version tested in your sandbox.</p>
         </div>
       ),
     },
@@ -130,34 +154,60 @@ export default function SalesforcePage() {
       <PageHeader
         eyebrow="Salesforce Integration"
         title="Install forceCalendar on Salesforce"
-        lede="One-click install via unlocked package. Includes LWC components, Apex controller, and the bundled static resource. No code required."
+        lede="Put standard Salesforce Events on your Lightning pages. Start in a sandbox, configure the component and user access, then validate your team’s workflow before production."
         aside={
           <div className="rounded-2xl bg-raised p-6 ring-1 ring-hairline shadow-elev-3 ring-hi lg:ml-auto lg:max-w-md">
             <div className="flex items-center justify-between gap-4">
-              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-subtle">Unlocked package</span>
-              <code className="font-mono text-xs text-muted">{PACKAGE_ID}</code>
+              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-subtle">Salesforce distribution</span>
+              <span className="text-xs text-muted">Source deployment</span>
             </div>
             <div className="mt-5 grid gap-3">
-              <Button href={SANDBOX_INSTALL_URL} target="_blank" rel="noopener noreferrer" size="lg" className="w-full">
+              <Button href={RELEASES_URL} target="_blank" rel="noopener noreferrer" size="lg" className="w-full">
                 <SalesforceGlyph />
-                Install on Sandbox
+                Review Salesforce Releases
                 <ExternalIcon className="ml-auto h-3.5 w-3.5 opacity-70" />
               </Button>
-              <Button href={PRODUCTION_INSTALL_URL} target="_blank" rel="noopener noreferrer" size="lg" variant="secondary" className="w-full">
-                Install on Production
+              <Button href={RELEASES_URL} target="_blank" rel="noopener noreferrer" size="lg" variant="secondary" className="w-full">
+                Review Release Notes
                 <ExternalIcon className="ml-auto h-3.5 w-3.5 opacity-70" />
               </Button>
             </div>
             <p className="mt-4 text-xs leading-relaxed text-subtle">
-              Always test in a sandbox before deploying to production.
+              Deploy a reviewed release to your sandbox. A new one-click installer is undergoing clean-org validation.
             </p>
           </div>
         }
       />
 
-      {/* What You Get */}
       <Section width="narrow">
-        <SectionHeader eyebrow="Contents" title="What the package includes" id="contents" />
+        <SectionHeader
+          eyebrow="Before you start"
+          title="Check your org and use case"
+          subtitle="An admin or developer should own the first sandbox setup."
+          id="prerequisites"
+        />
+        <ul className="list-disc space-y-3 pl-5 text-sm leading-relaxed text-muted marker:text-subtle">
+          <li>A Salesforce sandbox with Lightning Experience, Lightning Web Security enabled, and permission to install a package or deploy Apex and LWC metadata</li>
+          <li>A supported Salesforce CLI and authenticated target org for CLI deployment; Node.js and npm are also needed when building from source</li>
+          <li>Standard Event records and the required object, field, Apex class, and record access for pilot users</li>
+          <li>An App, Home, or Record page that you can edit and activate in Lightning App Builder</li>
+        </ul>
+        <p className="mt-5 text-sm leading-relaxed text-muted">
+          The integration manages standard Events. The current UI supports event creation and navigation; clicking an existing event selects it, without an edit/delete form. Apex/programmatic update and delete APIs are separate. Tasks, custom-object calendars, resource
+          booking, and native Salesforce recurring-series editing are not configured by this guide.
+          Org validation rules, flows, and required fields can affect event actions.
+          Lightning Locker does not support the third-party custom elements used by this integration; Lightning Web Security is required.
+        </p>
+      </Section>
+
+      {/* Source distribution */}
+      <Section width="narrow" divider>
+        <SectionHeader
+          eyebrow="Source distribution"
+          title="How the integration is assembled"
+          subtitle="These components are defined in the source repository. Check your installed package against its release and contents."
+          id="contents"
+        />
         <div className="grid gap-px overflow-hidden rounded-2xl bg-hairline ring-1 ring-hairline sm:grid-cols-2">
           {contents.map((item) => (
             <div key={item.name} className="bg-raised p-6">
@@ -171,7 +221,7 @@ export default function SalesforcePage() {
                 {item.text ?? (
                   <>
                     Bundled <code className={inlineCode}>@forcecalendar/core</code> and <code className={inlineCode}>@forcecalendar/interface</code> as
-                    a single IIFE file. Zero external dependencies.
+                    a single IIFE static resource. The calendar assets are loaded from your org rather than a runtime CDN.
                   </>
                 )}
               </p>
@@ -185,11 +235,49 @@ export default function SalesforcePage() {
         <SectionHeader
           eyebrow="Install"
           title="Install in a sandbox first"
-          subtitle="Always test in a sandbox before deploying to production. This is an unlocked package, so you can inspect and modify every component after install."
+          subtitle="Check the installation, configure the real-data component, and validate access as a non-admin user."
           id="install"
         />
         <div className="max-w-3xl">
           <Stepper steps={installSteps} />
+        </div>
+      </Section>
+
+      <Section width="narrow">
+        <SectionHeader
+          eyebrow="Lightning App Builder"
+          title="Configure the source component"
+          subtitle="These are the current source settings. Verify that your installed version exposes the same controls."
+          id="configuration"
+        />
+        <div className="grid gap-4 sm:grid-cols-3">
+          {[
+            { title: "Default View", value: "month / week / day", text: "Starts in month view unless you choose another view." },
+            { title: "Calendar Height", value: "800px by default", text: "Choose a CSS height appropriate for the Lightning page and test at smaller widths." },
+            { title: "Read Only", value: "false by default", text: "Disables editing and dragging in the current source bundle. Enforce data access separately with Salesforce permissions." },
+          ].map((setting) => (
+            <div key={setting.title} className="rounded-xl bg-raised p-5 ring-1 ring-hairline">
+              <h3 className="text-sm font-semibold text-fg">{setting.title}</h3>
+              <p className="mt-2 font-mono text-xs text-accent-text">{setting.value}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{setting.text}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-6 space-y-3 text-sm leading-relaxed text-muted">
+          <p>
+            <strong className={strong}>App and Home pages:</strong> show accessible Events in
+            the requested date range. There is no owner-only filter configured by this guide.
+          </p>
+          <p>
+            <strong className={strong}>Record pages:</strong> use the page&rsquo;s record ID to
+            filter Events linked through WhoId or WhatId. They do not automatically include
+            every Event on related child records. Test event creation on the specific record
+            types your team uses; only supported Event relationships can be assigned.
+          </p>
+          <p>
+            <strong className={strong}>Read-only mode:</strong> the current source bundle disables editing and dragging while preserving navigation and selection. The LWC also blocks save callbacks. Test these controls in your installed version. This setting does not revoke permissions elsewhere
+            in Salesforce. Use profiles or permission sets to enforce data permissions.
+          </p>
         </div>
       </Section>
 
@@ -198,92 +286,108 @@ export default function SalesforcePage() {
         <SectionHeader
           eyebrow="CLI &amp; source"
           title="For developers"
-          subtitle="If you prefer CLI deployment or want to customize the source code."
+          subtitle="Use an authenticated sandbox alias. Source builds require dependencies in both the repository root and src directory."
           id="developers"
         />
 
         <div className="space-y-10">
-          <div>
-            <h3 className="mb-3 text-sm font-semibold text-fg">Install via Salesforce CLI</h3>
-            <InstallCommand command={`sf package install --package ${PACKAGE_ID} --target-org your-sandbox-alias --wait 10`} />
-          </div>
-
           <div className="grid gap-8 lg:grid-cols-2">
             <div className="min-w-0">
               <h3 className="mb-3 text-sm font-semibold text-fg">Or clone and deploy from source</h3>
               <CodeBlock
                 code={`git clone https://github.com/forcecalendar/salesforce.git
 cd salesforce
-npm install
+npm ci
+cd src
+npm ci
+cd ..
 npm run build
 cd dist
-sf project deploy start --target-org your-sandbox-alias`}
+sf project deploy start --source-dir force-app --target-org your-sandbox-alias
+sf apex run test --class-names ForceCalendarControllerTest --target-org your-sandbox-alias --result-format human --wait 10`}
                 filename="Terminal"
               />
               <p className="mt-3 text-sm leading-relaxed text-muted">
                 The build script bundles <code className={inlineCode}>@forcecalendar/core</code> and <code className={inlineCode}>@forcecalendar/interface</code> from
-                npm into a single static resource. You can modify the LWC components, Apex controller,
-                or build configuration before deploying.
+                npm into a single static resource. The generated <code className={inlineCode}>dist/</code> directory
+                contains <code className={inlineCode}>sfdx-project.json</code> and the deployable metadata;
+                run the deploy command there. A source checkout and its resolved npm versions may
+                differ from previously released Salesforce packages.
               </p>
             </div>
 
             <div className="min-w-0">
-              <h3 className="mb-3 text-sm font-semibold text-fg">What the package installs</h3>
+              <h3 className="mb-3 text-sm font-semibold text-fg">Generated source layout</h3>
               <CodeBlock
                 dense
                 code={`force-app/
   main/default/
     classes/
       ForceCalendarController.cls       # Apex: CRUD for Event records
-      ForceCalendarControllerTest.cls   # Test class with coverage
+      ForceCalendarControllerTest.cls   # Apex test class
     lwc/
       forceCalendar/                    # Production LWC (Apex-connected)
       forceCalendarDemo/                # Standalone demo (no Apex)
+    permissionsets/
+      ForceCalendarAccess.permissionset-meta.xml # Optional Apex access
     staticresources/
       forcecalendar.js                  # Bundled core + interface (IIFE)`}
-                filename="Package contents"
+                filename="dist/"
               />
             </div>
           </div>
         </div>
       </Section>
 
+      <Section width="narrow" divider>
+        <SectionHeader eyebrow="Releases & compatibility" title="Review the version you deploy" subtitle="Keep the LWC, Apex controller, and static resource on the same release." id="releases" />
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div className="rounded-xl bg-raised p-6 ring-1 ring-hairline">
+            <h3 className="text-base font-semibold">Salesforce distribution</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">Review release notes and the deployable source archive before installation. The current source bundle pins Core 2.5.5 and Interface 1.8.1. A JavaScript package version is separate from a Salesforce install-package version.</p>
+            <a className="mt-4 inline-flex text-sm font-medium text-accent-text hover:underline" href="https://github.com/forceCalendar/salesforce/releases">Salesforce releases ↗</a>
+          </div>
+          <div className="rounded-xl bg-raised p-6 ring-1 ring-hairline">
+            <h3 className="text-base font-semibold">Lightning compatibility</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">Use Lightning Experience with Lightning Web Security enabled. Validate your org’s browser support, page configuration, event volume, and access model in a sandbox. Lightning Locker is not supported.</p>
+            <a className="mt-4 inline-flex text-sm font-medium text-accent-text hover:underline" href="https://developer.salesforce.com/docs/platform/lwc/guide/create-use-custom-elements.html">Salesforce custom-element guidance ↗</a>
+          </div>
+        </div>
+      </Section>
+
       {/* Screenshots */}
       <Section width="narrow" tone="sunken">
-        <SectionHeader eyebrow="In the org" title="What it looks like" id="screenshots" />
+        <SectionHeader eyebrow="Salesforce Lightning captures" title="See the calendar in Salesforce" subtitle="Real Lightning captures of the demo with synthetic sample events. These show rendering and the demo interface; they do not verify live Apex event actions, the install package, or your org’s data access." id="screenshots" />
+        <div className="mb-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted">
+          <span className="rounded-full bg-raised px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] ring-1 ring-inset ring-hairline">Lightning Experience</span>
+          <span>Synthetic demo data</span>
+          <span>Core 2.5.5 · Interface 1.8.1 · October 2026</span>
+        </div>
         <div className="space-y-5">
-          <figure className="overflow-hidden rounded-xl bg-raised ring-1 ring-hairline shadow-elev-2">
-            <Image
-              src="/salesforce-month.png"
-              alt="forceCalendar month view inside Salesforce"
-              width={1388}
-              height={860}
-              className="h-auto w-full"
-            />
-            <figcaption className="border-t border-hairline px-4 py-2.5 text-xs font-medium text-muted">Month view with color-coded events</figcaption>
-          </figure>
+          <SalesforceScreenshot
+            src="/salesforce-lightning-month.png"
+            alt="ForceCalendar Demo in Salesforce Lightning showing synthetic sample events in October 2026 month view"
+            caption="Month view"
+          />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <figure className="overflow-hidden rounded-xl bg-raised ring-1 ring-hairline shadow-elev-2">
-              <Image
-                src="/salesforce-week.png"
-                alt="forceCalendar week view inside Salesforce"
-                width={1388}
-                height={860}
-                className="h-auto w-full"
-              />
-              <figcaption className="border-t border-hairline px-4 py-2.5 text-xs font-medium text-muted">Week view</figcaption>
-            </figure>
-            <figure className="overflow-hidden rounded-xl bg-raised ring-1 ring-hairline shadow-elev-2">
-              <Image
-                src="/salesforce-day.png"
-                alt="forceCalendar day view inside Salesforce"
-                width={1388}
-                height={860}
-                className="h-auto w-full"
-              />
-              <figcaption className="border-t border-hairline px-4 py-2.5 text-xs font-medium text-muted">Day view</figcaption>
-            </figure>
+            <SalesforceScreenshot
+              src="/salesforce-lightning-week.png"
+              alt="ForceCalendar Demo in Salesforce Lightning showing timed and all-day synthetic sample events in week view"
+              caption="Week view"
+              sizes="(max-width: 640px) 100vw, 480px"
+            />
+            <SalesforceScreenshot
+              src="/salesforce-lightning-day.png"
+              alt="ForceCalendar Demo in Salesforce Lightning showing synthetic sample events in day view"
+              caption="Day view"
+              sizes="(max-width: 640px) 100vw, 480px"
+            />
           </div>
+          <SalesforceScreenshot
+            src="/salesforce-lightning-editor.png"
+            alt="Salesforce Lightning demo event creation form with a synthetic Release planning event, date fields, and Save Event control"
+            caption="Event creation · synthetic sample-data workflow"
+          />
         </div>
       </Section>
 

@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-The official website for [forceCalendar](https://forcecalendar.org) — enterprise calendar components for Salesforce and strict-CSP environments.
+The official website for [forceCalendar](https://forcecalendar.org) — an open-source calendar for standard Salesforce Events, with reusable JavaScript packages.
 
 ## Pages
 
@@ -15,7 +15,7 @@ The official website for [forceCalendar](https://forcecalendar.org) — enterpri
 
 ## Stack
 
-Next.js (App Router) · React 19 · Tailwind CSS · TypeScript. Deployed on Vercel with a strict security-header set (HSTS, full CSP, `frame-ancestors 'none'`) — the site holds itself to the same CSP standard the library is built for.
+Next.js (App Router) · React 19 · Tailwind CSS · TypeScript. Response headers are defined in `next.config.ts`, including HSTS and `frame-ancestors 'none'`. The current CSP permits inline scripts/styles and eval; it is not a strict-CSP compatibility test for the calendar.
 
 ## Development
 
@@ -26,7 +26,7 @@ npm run build
 npm run lint
 ```
 
-The site consumes `@forcecalendar/core` and `@forcecalendar/interface` from npm for its live demos, so the playground always reflects the shipped packages.
+The site consumes `@forcecalendar/core` and `@forcecalendar/interface` from npm for its live demos, so the playground reflects the published versions resolved by the lockfile. It does not verify a Salesforce package or org deployment.
 
 ## Contributing
 
@@ -35,3 +35,9 @@ See the [contributing guide](https://github.com/forceCalendar/.github/blob/main/
 ## License
 
 [MIT](LICENSE)
+
+## Salesforce content verification
+
+The install guide distinguishes repository source from install-package releases. Legacy package links are withheld while the new installer is validated. Do not claim a package contains current source changes until its version and contents are verified in a clean org. The `salesforce-lightning-*` images are real Salesforce Lightning demo captures from October 2, 2026, using Core 2.5.5 and Interface 1.8.1 with synthetic in-memory sample events, including the event creation form. They do not demonstrate live Apex CRUD or verify the package behind the install link. Original `salesforce-month.png`, `salesforce-week.png`, and `salesforce-day.png` assets are retained as earlier demo captures. Refresh Salesforce images only with real org captures using synthetic data after deployment validation.
+
+Before merging content changes, run `npm test`, `npm run lint`, `npx tsc --noEmit`, and `npm run build`, then check the home page, Salesforce guide, and live demo at desktop and mobile widths.
