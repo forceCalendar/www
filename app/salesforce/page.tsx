@@ -193,7 +193,7 @@ export default function SalesforcePage() {
           <li>An App, Home, or Record page that you can edit and activate in Lightning App Builder</li>
         </ul>
         <p className="mt-5 text-sm leading-relaxed text-muted">
-          The integration manages standard Events. The current UI supports event creation and navigation; clicking an existing event selects it, without an edit/delete form. Apex/programmatic update and delete APIs are separate. Tasks, custom-object calendars, resource
+          The integration manages standard Events. The current source bundle supports event creation, editing, deletion, and navigation. Validate these actions against your org’s permissions and rules; recurring-series mutations have additional safeguards. Tasks, custom-object calendars, resource
           booking, and native Salesforce recurring-series editing are not configured by this guide.
           Org validation rules, flows, and required fields can affect event actions.
           Lightning Locker does not support the third-party custom elements used by this integration; Lightning Web Security is required.
@@ -344,7 +344,7 @@ sf apex run test --class-names ForceCalendarControllerTest --target-org your-san
         <div className="grid gap-5 sm:grid-cols-2">
           <div className="rounded-xl bg-raised p-6 ring-1 ring-hairline">
             <h3 className="text-base font-semibold">Salesforce distribution</h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted">Review release notes and the deployable source archive before installation. The current source bundle pins Core 2.5.5 and Interface 1.8.1. A JavaScript package version is separate from a Salesforce install-package version.</p>
+            <p className="mt-3 text-sm leading-relaxed text-muted">Review release notes and the deployable source archive before installation. The current source bundle pins Core 2.5.6 and Interface 1.9.0. A JavaScript package version is separate from a Salesforce install-package version.</p>
             <a className="mt-4 inline-flex text-sm font-medium text-accent-text hover:underline" href="https://github.com/forceCalendar/salesforce/releases">Salesforce releases ↗</a>
           </div>
           <div className="rounded-xl bg-raised p-6 ring-1 ring-hairline">
