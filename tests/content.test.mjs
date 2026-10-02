@@ -1,41 +1,53 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, statSync } from 'node:fs';
-const read = (name) => readFileSync(new URL(`../${name}`, import.meta.url), 'utf8');
+const read = name => readFileSync(new URL(`../${name}`, import.meta.url), 'utf8');
 const home = read('app/page.tsx');
 const salesforce = read('app/salesforce/page.tsx');
-test('homepage leads with shared infrastructure, with meaningful developer paths', () => {
-  assert.ok(home.includes('One calendar model.'));
-  assert.ok(home.includes('Many ways to work.'));
-  assert.ok(home.indexOf('Try the calendar') < home.indexOf('Salesforce setup'));
+test('new editorial design leads with shared scheduling and real live UI', () => {
+  assert.ok(home.includes('Time,<span>in common.'));
+  assert.ok(home.includes('<LandingCalendar />'));
+  assert.ok(home.includes('people, applications, and agents'));
   for (const href of ['/playground', 'https://docs.forcecalendar.org', '/core', '/interface', '/salesforce']) assert.ok(home.includes(href));
 });
-test('roadmap is explicitly separated from available packages', () => {
-  for (const phrase of ['In development', 'Planned', 'not yet a hosted product', 'two-way synchronization are planned', 'not shipping features today', 'not live provider synchronization']) assert.ok(home.includes(phrase), phrase);
-  assert.ok(home.includes('Core and UI are available today'));
-  assert.ok(home.includes('scoped agent tools'));
+test('demo seeds a snapshot and exposes accessible view controls', () => {
+  const demo = read('app/components/LandingCalendar.tsx');
+  for (const phrase of ['setEvents?.(', 'aria-pressed', 'onClick', 'CalendarLoader', 'local sample events', 'overflow-x-auto']) assert.ok(demo.includes(phrase), phrase);
+  assert.ok(!demo.includes('addEvent('));
 });
-test('genuine pointer-free Salesforce evidence remains an integration example', () => {
-  assert.ok(home.includes('At home in Salesforce.'));
+test('responsive layouts explicitly collapse without widening the page', () => {
+  const css = read('app/landing.module.css');
+  assert.ok(css.includes('@media (max-width: 640px)'));
+  assert.ok(css.includes('grid-template-columns: 1fr'));
+  assert.ok(css.includes('prefers-reduced-motion'));
+});
+test('roadmap preserves prototype and provider limits', () => {
+  for (const phrase of ['In development', 'Planned', 'private prototype', 'two-way synchronization are planned', 'not live account synchronization', 'not available as a public service']) assert.ok(home.includes(phrase), phrase);
+  assert.ok(!home.includes('github.com/forceCalendar/agent'));
+  assert.ok(!home.includes('npm install @forcecalendar/agent'));
+});
+test('genuine pointer-free captures remain available', () => {
   for (const view of ['month', 'week', 'day', 'editor']) {
     assert.ok(statSync(new URL(`../public/salesforce-lightning-${view}-clean.png`, import.meta.url)).size > 10000);
     assert.ok(salesforce.includes(`src="/salesforce-lightning-${view}-clean.png"`));
   }
-  assert.ok(home.includes('synthetic demo data'));
-  const component = read('app/components/SalesforceScreenshot.tsx');
-  assert.ok(component.includes('aria-label='));
-  assert.ok(component.includes('<figcaption'));
+  assert.ok(home.includes('synthetic demo events'));
 });
-test('guide preserves access and version boundaries', () => {
-  for (const text of ['ForceCalendarAccess', 'controller access only', 'Lightning Web Security', 'Lightning Locker is not supported', 'standard Events', 'WhoId or WhatId', '1,000 records', 'does not revoke permissions elsewhere', 'Core 2.5.5 and Interface 1.8.1']) assert.ok(salesforce.includes(text), text);
-});
-test('source install remains repeatable', () => {
+test('guide preserves access and current source version boundaries', () => {
+  for (const text of ['ForceCalendarAccess', 'controller access only', 'Lightning Web Security', 'Lightning Locker is not supported', 'WhoId or WhatId', '1,000 records', 'does not revoke permissions elsewhere', 'Core 2.5.6 and Interface 1.9.0']) assert.ok(salesforce.includes(text), text);
   assert.ok(salesforce.includes('cd salesforce\nnpm ci\ncd src\nnpm ci\ncd ..\nnpm run build\ncd dist'));
 });
-test('security explanation follows Salesforce platform boundary', () => {
-  assert.ok(home.includes('Lightning Web Security required'));
-  assert.ok(home.includes('Legacy Lightning Locker is not supported'));
+test('evidence claims are scoped and primary compatibility source remains linked', () => {
   assert.ok(home.includes('https://developer.salesforce.com/docs/platform/lwc/guide/create-use-custom-elements.html'));
-  const copy = [home, salesforce, read('app/platforms/page.tsx')].join('\n');
-  for (const phrase of ['zero supply chain risk', 'security team will approve', 'full Locker Service compliance', 'Salesforce first.']) assert.ok(!copy.includes(phrase), phrase);
+  assert.ok(home.includes('not a penetration test'));
+  assert.ok(home.includes('https://audit.forcecalendar.org'));
+  assert.ok(home.includes('https://benchmark.forcecalendar.org'));
+  for (const phrase of ['zero supply chain risk', 'security team will approve', 'full Locker Service compliance', 'Salesforce first.']) assert.ok(!home.includes(phrase), phrase);
+});
+
+test('prominent maker signature uses the approved destination', () => {
+ const footer = read('app/components/Footer.tsx');
+ assert.ok(footer.includes('N. R. Dhanawada'));
+ assert.ok(footer.includes('https://dhanawada.org'));
+ assert.ok(!footer.includes('Dhanawada Labs'));
 });
