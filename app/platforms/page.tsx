@@ -8,9 +8,9 @@ import Card, { IconWell } from "../components/Card";
 import { Arrow } from "../components/Button";
 
 export const metadata: Metadata = {
-  title: "Platforms - Runs Where Others Can't",
+  title: "Platforms and Integration Starters",
   description:
-    "forceCalendar runs inside sandboxed enterprise platforms: Salesforce, ServiceNow, SharePoint, Atlassian Forge, Chrome MV3 extensions, and edge runtimes like Cloudflare Workers.",
+    "Salesforce integration and developer examples for bringing forceCalendar to other applications. Validate each starter against your platform configuration.",
   alternates: { canonical: "https://forcecalendar.org/platforms" },
   openGraph: { url: "https://forcecalendar.org/platforms" },
 };
@@ -29,9 +29,9 @@ const icons = {
 const platforms = [
   {
     name: "Salesforce Lightning",
-    constraint: "Locker Service / LWS: no eval, no dynamic code, no prototype manipulation",
+    constraint: "LWC, Apex, and a bundled static resource",
     detail:
-      "The founding use case. A first-class packaged distribution: LWC component, Apex controller over the Event sObject, one-command deploy.",
+      "The primary integration: Lightning components and an Apex controller over standard Event records. Begin with the sandbox installation and access guide.",
     href: "/salesforce",
     linkLabel: "Install guide",
     firstClass: true,
@@ -41,7 +41,7 @@ const platforms = [
     name: "Cloudflare Workers",
     constraint: "Edge runtime: eval and code generation banned outright",
     detail:
-      "The headless core as a server-side scheduling engine at the edge: RRULE expansion, conflict detection, and ICS export with zero dependencies to cold-start.",
+      "The headless core as a server-side scheduling engine at the edge: RRULE expansion, conflict detection, and ICS export without runtime dependencies in Core.",
     href: `${EXAMPLES_URL}/tree/main/cloudflare-worker-scheduling`,
     linkLabel: "Runnable example",
     icon: icons.bolt,
@@ -59,7 +59,7 @@ const platforms = [
     name: "SharePoint / Teams (SPFx)",
     constraint: "Security-reviewed, size-audited bundles",
     detail:
-      "A calendar web part for Microsoft 365 pages and Teams tabs. Zero transitive dependencies means nothing extra for your review board to audit.",
+      "A starting point for a calendar web part on Microsoft 365 pages and Teams tabs. Review the integration and its build dependencies for your tenant.",
     href: `${EXAMPLES_URL}/tree/main/sharepoint-spfx-webpart`,
     linkLabel: "Starter",
     icon: icons.grid,
@@ -68,7 +68,7 @@ const platforms = [
     name: "ServiceNow Service Portal",
     constraint: "Sandboxed widget scripting",
     detail:
-      "A Service Portal widget over ServiceNow table data: scheduling and dispatch calendars without fighting the platform sandbox.",
+      "A Service Portal widget over ServiceNow table data: a starting point for a scheduling interface that you can adapt and test.",
     href: `${EXAMPLES_URL}/tree/main/servicenow-portal-widget`,
     linkLabel: "Starter",
     icon: icons.wrench,
@@ -91,15 +91,15 @@ export default function PlatformsPage() {
 
       <PageHeader
         eyebrow="Platforms"
-        title={<>Runs where others can&rsquo;t.</>}
-        lede="forceCalendar was built for the most restrictive runtime in enterprise software: Salesforce Lightning Locker Service. The same engineering (zero dependencies, no eval, no dynamic code, no inline-style injection) makes it run inside every sandboxed platform below."
+        title="Salesforce first. Packages for your other apps."
+        lede="Use the Salesforce integration for standard Event records, or explore developer starters for other platforms. Core has no runtime dependencies and Interface uses Core as a peer dependency. Each host still needs its own security, styling, and deployment validation."
       />
 
       <Section width="narrow">
         <SectionHeader
           eyebrow="Distributions &amp; starters"
           title="Platforms"
-          subtitle="Each links to an installable distribution or a runnable starter."
+          subtitle="Salesforce has a dedicated install guide. Other links are examples or starters, not equivalent packaged integrations."
           id="platforms"
         />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

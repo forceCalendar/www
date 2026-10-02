@@ -2,14 +2,15 @@ import Link from "next/link";
 import { Wordmark, GitHubIcon } from "./Nav";
 
 const productLinks = [
+  { href: "/salesforce", label: "Salesforce" },
   { href: "/core", label: "Core" },
   { href: "/interface", label: "Interface" },
-  { href: "/salesforce", label: "Salesforce" },
   { href: "/platforms", label: "Platforms" },
   { href: "/playground", label: "Playground" },
 ];
 
 const resourceLinks = [
+  { href: "https://github.com/forceCalendar/salesforce/releases", label: "Salesforce releases", external: true },
   { href: "https://docs.forcecalendar.org", label: "Documentation", external: true },
   { href: "https://docs.forcecalendar.org/docs/api", label: "API Reference", external: true },
   { href: "https://github.com/forcecalendar", label: "GitHub", external: true },
@@ -26,7 +27,7 @@ const communityLinks = [
 
 const badges = [
   {
-    label: "Zero Dependencies",
+    label: "Core: No Runtime Dependencies",
     path: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
   },
   {
@@ -38,7 +39,7 @@ const badges = [
     path: "M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5",
   },
   {
-    label: "Locker Service Compatible",
+    label: "Salesforce LWC + Apex",
     path: "M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z",
   },
 ];
@@ -83,7 +84,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
             <Wordmark />
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-              Calendar infrastructure for strict enterprise environments.
+              An open-source calendar for Salesforce, with reusable packages for developers.
             </p>
             <a
               href="https://github.com/forcecalendar"

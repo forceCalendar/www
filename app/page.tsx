@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Section from "./components/Section";
@@ -10,23 +9,23 @@ import Card, { IconWell } from "./components/Card";
 import { StatRow, StatTile } from "./components/StatTile";
 import CodeBlock from "./components/CodeBlock";
 import InstallCommand from "./components/InstallCommand";
-import HeroCalendar from "./components/HeroCalendar";
+import SalesforceScreenshot from "./components/SalesforceScreenshot";
 
 const problems = [
   {
-    title: "Locker Service",
-    problem: "Most calendar libraries use JavaScript patterns that Locker Service prohibits: eval, dynamic Function constructors, and prototype manipulation.",
-    solution: "forceCalendar uses only Locker-safe patterns. No blocked APIs, no runtime code generation.",
+    title: "Salesforce data",
+    problem: "A useful calendar needs to work with your team's records and access rules.",
+    solution: "The LWC connects to standard Salesforce Event records through Apex. Start with a sandbox and test as the users who will use it.",
   },
   {
-    title: "Strict CSP",
-    problem: "Content Security Policy blocks inline styles, eval, and unsafe-inline. Calendar libraries that inject CSS or generate styles at runtime fail silently.",
-    solution: "All styling uses CSS custom properties and external stylesheets. No inline style injection.",
+    title: "Platform fit",
+    problem: "Your org's Lightning security settings and browser policies shape how embedded components run.",
+    solution: "The integration bundles the calendar as a Salesforce static resource. Validate rendering and event actions under your org's settings.",
   },
   {
-    title: "Security Reviews",
-    problem: "Enterprise security teams audit every dependency. A library with 50+ transitive dependencies creates weeks of review work and ongoing supply chain risk.",
-    solution: "Zero dependencies means zero supply chain risk. One package to audit, one license to approve.",
+    title: "Reviewable source",
+    problem: "Security review includes application code, build tooling, dependencies, and the way you deploy.",
+    solution: "Core has no runtime dependencies; Interface uses Core as its peer dependency. Both are MIT licensed and available for review.",
   },
 ];
 
@@ -36,10 +35,10 @@ const SPARK_WEEKS = 12;
 
 // Installed (unpacked) package sizes from the committed benchmark run
 // (results/latest.json in the benchmark repo): @forcecalendar/core + interface
-// versus @fullcalendar/core + 5 plugins + rrule. Every figure in the benchmark
+// versus @fullcalendar/core + 4 plugins + rrule. Every figure in the benchmark
 // section derives from these two numbers so the copy cannot drift from them.
 const BENCHMARK_RESULTS_URL =
-  "https://github.com/forceCalendar/benchmark/blob/main/results/latest.json";
+  "https://github.com/forceCalendar/benchmark/blob/e2977db34a65974478114cc54248980457b343f0/results/latest.json";
 const BUNDLE_BYTES = { forceCalendar: 1_226_109, fullCalendar: 3_098_735 };
 const bundleRatio = `${(BUNDLE_BYTES.fullCalendar / BUNDLE_BYTES.forceCalendar).toFixed(1)}x`;
 const bundleShare = `${Math.round((BUNDLE_BYTES.forceCalendar / BUNDLE_BYTES.fullCalendar) * 100)}%`;
@@ -117,15 +116,14 @@ function Sparkline({ points, label }: { points: number[]; label: string }) {
   );
 }
 
-const codeExample = `import { Calendar } from '@forcecalendar/core';
-import '@forcecalendar/interface';
+const codeExample = `import '@forcecalendar/interface';
 
-const calendar = new Calendar({
-  locale: 'en-US',
-  timeZone: 'America/New_York'
-});
+const calendar = document.createElement('forcecal-main');
+calendar.setAttribute('view', 'month');
+document.querySelector('#calendar').appendChild(calendar);
 
-// That's it. <forcecal-main> is ready to use.`;
+// In your HTML: <div id="calendar"></div>
+// Load your data with calendar.setEvents(events).`;
 
 const features = [
   {
@@ -139,7 +137,7 @@ const features = [
   },
   {
     title: "Timezone Support",
-    description: "Full IANA timezone database with automatic daylight-saving transitions and cross-timezone conversion.",
+    description: "IANA timezone support through the runtime’s Intl API, including daylight-saving transitions.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5a17.92 17.92 0 01-8.716-2.247m0 0A9.015 9.015 0 003 12c0-1.605.42-3.113 1.157-4.418" />
@@ -174,8 +172,8 @@ const features = [
     ),
   },
   {
-    title: "Accessible by Default",
-    description: "Full WAI-ARIA grid semantics and keyboard navigation across month, week, and day views. No extra configuration.",
+    title: "Keyboard Navigation",
+    description: "Calendar views include keyboard navigation and ARIA semantics. Validate accessibility in your application and with your users.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
@@ -205,7 +203,7 @@ const features = [
 const platformTiles = [
   {
     title: "Salesforce",
-    text: "Shipping now. LWC + Apex with full Locker Service compliance.",
+    text: "LWC + Apex for standard Event records. Follow the sandbox installation and configuration guide.",
     accent: true,
     path: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z",
   },
@@ -215,63 +213,43 @@ const platformTiles = [
     path: "M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5a17.92 17.92 0 01-8.716-2.247m0 0A9.015 9.015 0 003 12c0-1.605.42-3.113 1.157-4.418",
   },
   {
-    title: "Strict CSP",
-    text: "No eval, no inline styles. Works behind the strictest policies.",
+    title: "Reviewable code",
+    text: "MIT-licensed source with no eval-based code generation. Validate the UI against your application’s CSP.",
     path: "M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z",
   },
   {
-    title: "Air-Gapped",
-    text: "Zero external requests. Runs fully offline with no CDN dependencies.",
+    title: "Self-hosted assets",
+    text: "Bundle the calendar with your application. Your integration controls where event data is stored and loaded.",
     path: "M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z",
   },
 ];
 
-const salesforceFacts = [
+const salesforceSetupSteps = [
   {
-    title: "Native LWC Integration",
-    text: "Runs as a Lightning Web Component. Uses real Salesforce data through Apex, not external APIs.",
+    title: "1. Review the sandbox install",
+    text: "Check the package and target org, or deploy the source revision you want to validate.",
+    href: "/salesforce#install",
   },
   {
-    title: "Locker Service Safe",
-    text: "Zero blocked API calls. No eval, no dynamic Function constructors, no prototype manipulation.",
+    title: "2. Configure your Lightning page",
+    text: "Add the component in App Builder and choose the view, height, and intended users.",
+    href: "/salesforce#configuration",
   },
   {
-    title: "All Views Included",
-    text: "Month, week, and day views with event creation, color coding, and full navigation.",
+    title: "3. Validate access and event actions",
+    text: "Test standard Events as a pilot user before rolling out the version you reviewed.",
+    href: "/salesforce#prerequisites",
   },
 ];
-
-function Screenshot({
-  src,
-  alt,
-  caption,
-  priority = false,
-}: {
-  src: string;
-  alt: string;
-  caption?: string;
-  priority?: boolean;
-}) {
-  return (
-    <figure className="overflow-hidden rounded-xl bg-raised ring-1 ring-hairline shadow-elev-2 ring-hi">
-      <Image src={src} alt={alt} width={1388} height={860} className="h-auto w-full" priority={priority} />
-      {caption && (
-        <figcaption className="border-t border-hairline px-4 py-2.5 text-xs font-medium text-muted">
-          {caption}
-        </figcaption>
-      )}
-    </figure>
-  );
-}
 
 export default async function Home() {
   const downloads = await getTotalDownloads();
   const stats = [
-    { value: "0", label: "Runtime dependencies" },
+    { value: "0", label: "Core runtime dependencies" },
     downloads
       ? { value: downloads.total, label: "npm downloads", spark: downloads.weekly }
       : { value: String(NPM_PACKAGES.length), label: "Packages on npm" },
-    { value: bundleRatio, label: "Smaller than FullCalendar" },
+    { value: "3", label: "Calendar views" },
     { value: "45+", label: "CSS theming tokens" },
   ];
 
@@ -288,46 +266,36 @@ export default async function Home() {
               <div className="animate-fade-up">
                 <Eyebrow pill>
                   <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
-                  Zero dependencies &middot; MIT
+                  Salesforce calendar &middot; MIT
                 </Eyebrow>
               </div>
               <h1 className="mt-6 font-display text-display-lg sm:text-display-xl text-fg animate-fade-up [animation-delay:60ms]">
-                Calendar infrastructure for strict enterprise environments.
+                Your Salesforce events, in one clear calendar.
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted animate-fade-up [animation-delay:120ms]">
-                A headless scheduling engine and framework-agnostic Web Components.
-                Zero dependencies. MIT licensed. Built for Salesforce Locker Service /
-                Lightning Web Security and strict CSP.
+                Bring standard Salesforce Events into month, week, and day views
+                on your Lightning pages. Open-source LWC and Apex, with a sandbox-first
+                setup guide for your admin and developer team.
               </p>
-              <div className="mt-8 animate-fade-up [animation-delay:180ms]">
-                <InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" />
-              </div>
               <div className="mt-5 flex flex-wrap items-center gap-3 animate-fade-up [animation-delay:240ms]">
-                <Button
-                  href="https://stackblitz.com/github/forceCalendar/examples/tree/main/vanilla-vite"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  size="lg"
-                >
-                  Try it in 60 seconds
-                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
+                <Button href="/salesforce" size="lg">
+                  Set up Salesforce
+                  <Arrow />
                 </Button>
-                <Button href="https://github.com/forcecalendar" variant="secondary" size="lg">
-                  GitHub
+                <Button href="/playground" variant="secondary" size="lg">
+                  Try the live calendar
                 </Button>
               </div>
               <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm animate-fade-up [animation-delay:300ms]">
-                <Link href="/salesforce" className="group text-muted transition-colors hover:text-fg">
-                  Install on Salesforce <Arrow />
+                <Link href="/interface" className="group text-muted transition-colors hover:text-fg">
+                  Building another app? <Arrow />
                 </Link>
                 <a href="https://docs.forcecalendar.org" className="group text-muted transition-colors hover:text-fg">
                   Documentation <Arrow />
                 </a>
               </div>
               <ul className="mt-8 flex flex-wrap items-center gap-2 text-xs text-muted animate-fade-up [animation-delay:360ms]" aria-label="Highlights">
-                {["Zero dependencies", "MIT licensed", "TypeScript", "Locker / LWS ready", "WCAG keyboard nav"].map(chip => (
+                {["Standard Salesforce Events", "MIT licensed", "LWC + Apex", "Month / week / day"].map(chip => (
                   <li key={chip} className="rounded-full bg-raised px-2.5 py-1 ring-1 ring-inset ring-hairline">
                     {chip}
                   </li>
@@ -337,7 +305,12 @@ export default async function Home() {
 
             <div className="min-w-0 lg:col-span-7">
               <div className="bg-hero-mesh relative rounded-2xl p-3 ring-1 ring-hairline sm:p-5 lg:-mr-6 xl:-mr-16 animate-fade-up [animation-delay:200ms]">
-                <HeroCalendar />
+                <SalesforceScreenshot
+                  src="/salesforce-lightning-month.png"
+                  alt="ForceCalendar running in Salesforce Lightning, displaying synthetic sample events in month view"
+                  caption="Inside Salesforce Lightning · sample-data demo"
+                  sizes="(max-width: 1024px) 100vw, 740px"
+                />
               </div>
             </div>
           </div>
@@ -372,38 +345,35 @@ export default async function Home() {
           <div className="divide-y divide-hairline">
             <div className="pb-7">
               <h3 className="mb-2 text-base font-semibold text-fg">
-                A calendar you can put inside your own product
+                A calendar for your Lightning pages
               </h3>
               <p className="text-[15px] leading-relaxed text-muted">
-                Month, week, and day views with events, recurring schedules,
-                timezones, and search. You install two packages, add one HTML
-                tag, and connect your data. It is not a hosted service. The
-                code runs entirely inside your application.
+                Add the Force Calendar component to an App, Home, or Record page.
+                The Salesforce integration reads and manages standard Event records
+                through Apex. Start with the sample-data demo, then configure access
+                and test your own event workflow in a sandbox.
               </p>
             </div>
             <div className="py-7">
               <h3 className="mb-2 text-base font-semibold text-fg">
-                Built for places where most JavaScript is not allowed
+                A clear starting point for your team
               </h3>
               <p className="text-[15px] leading-relaxed text-muted">
-                Large companies restrict what code on their pages may do. A
-                Content Security Policy (CSP) is a browser rule set that, for
-                example, forbids generating code at runtime or injecting
-                styles. Salesforce goes further with Locker Service, a sandbox
-                around every component. Most calendar libraries rely on
-                exactly the techniques these rules block, so they break, often
-                silently.
+                Choose a default view and calendar height in Lightning App Builder.
+                Check the settings against your installed version and use Salesforce
+                permissions to control data access. Custom objects, resource booking, and native
+                Salesforce recurring-series editing need additional integration.
               </p>
             </div>
             <div className="pt-7">
               <h3 className="mb-2 text-base font-semibold text-fg">
-                Why it exists
+                Packages for developers, too
               </h3>
               <p className="text-[15px] leading-relaxed text-muted">
-                forceCalendar was written from scratch to work under those
-                rules: no blocked techniques, no third-party code to audit, one
-                MIT license. If your security team has ever rejected a
-                JavaScript library, this is the calendar they will approve.
+                The same calendar is available as a headless JavaScript engine and
+                Web Components for your own application. Core has no runtime
+                dependencies; Interface uses Core as a peer dependency. Your team
+                can inspect the MIT-licensed source and review it for your environment.
               </p>
             </div>
           </div>
@@ -448,7 +418,7 @@ export default async function Home() {
               </div>
               <p className="text-sm text-code-fg/90">
                 The engine: stores events, expands recurring schedules,
-                handles timezones, finds conflicts, and searches. No UI, no
+                handles timezones, finds conflicts, and searches. No UI, no runtime
                 dependencies; usable on its own.
               </p>
             </div>
@@ -460,7 +430,7 @@ export default async function Home() {
       <Section width="wide" divider>
         <SectionHeader
           eyebrow="Why forceCalendar"
-          title="The problem with calendar libraries in enterprise"
+          title="Built for a practical Salesforce rollout"
           id="why"
         />
         <div className="grid gap-px overflow-hidden rounded-2xl bg-hairline ring-1 ring-hairline md:grid-cols-3">
@@ -491,8 +461,8 @@ export default async function Home() {
       <Section width="wide" tone="sunken">
         <SectionHeader
           eyebrow="Flagship integration"
-          title="Started with Salesforce"
-          subtitle="Most calendar libraries break inside Locker Service, and that is where forceCalendar started. The same zero-dependency architecture works in any strict enterprise environment."
+          title="See the Salesforce demo"
+          subtitle="Real Salesforce Lightning captures of the demo with synthetic sample events. These show the interface, not live Event records or verification of the install package."
           id="salesforce"
           aside={
             <Link href="/salesforce" className="group inline-flex items-center gap-1 text-sm font-medium text-accent-text hover:underline">
@@ -500,33 +470,41 @@ export default async function Home() {
             </Link>
           }
         />
+        <div className="mb-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted">
+          <span className="rounded-full bg-raised px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] ring-1 ring-inset ring-hairline">Lightning Experience</span>
+          <span>Synthetic demo data</span>
+          <span>Captured October 2026</span>
+        </div>
         <div className="grid gap-5 lg:grid-cols-12">
           <div className="lg:col-span-8">
-            <Screenshot
-              src="/salesforce-month.png"
-              alt="forceCalendar month view running inside a Salesforce org, showing colorful events across February 2026"
-              caption="Month view inside a Salesforce org"
+            <SalesforceScreenshot
+              src="/salesforce-lightning-month.png"
+              alt="ForceCalendar Demo in Salesforce Lightning showing synthetic sample events in October 2026 month view"
+              caption="Month view"
+              sizes="(max-width: 1024px) 100vw, 800px"
             />
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1">
-            <Screenshot
-              src="/salesforce-week.png"
-              alt="forceCalendar week view inside Salesforce showing timed events"
-              caption="Week view with timed events"
+            <SalesforceScreenshot
+              src="/salesforce-lightning-week.png"
+              alt="ForceCalendar Demo in Salesforce Lightning showing timed and all-day synthetic sample events in week view"
+              caption="Week view"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
             />
-            <Screenshot
-              src="/salesforce-day.png"
-              alt="forceCalendar day view inside Salesforce showing detailed event blocks"
-              caption="Day view with event details"
+            <SalesforceScreenshot
+              src="/salesforce-lightning-day.png"
+              alt="ForceCalendar Demo in Salesforce Lightning showing synthetic sample events in day view"
+              caption="Day view"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
             />
           </div>
         </div>
         <div className="mt-5 grid gap-px overflow-hidden rounded-xl bg-hairline ring-1 ring-hairline sm:grid-cols-3">
-          {salesforceFacts.map((fact) => (
-            <div key={fact.title} className="bg-raised p-5">
-              <h3 className="mb-1 text-sm font-semibold text-fg">{fact.title}</h3>
-              <p className="text-sm leading-relaxed text-muted">{fact.text}</p>
-            </div>
+          {salesforceSetupSteps.map((step) => (
+            <Link key={step.title} href={step.href} className="group bg-raised p-5 transition-colors hover:bg-sunken focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring">
+              <h3 className="mb-1 text-sm font-semibold text-fg group-hover:text-accent-text">{step.title} <span aria-hidden>&rarr;</span></h3>
+              <p className="text-sm leading-relaxed text-muted">{step.text}</p>
+            </Link>
           ))}
         </div>
       </Section>
@@ -536,7 +514,7 @@ export default async function Home() {
         <SectionHeader
           eyebrow="Where it runs"
           title="Enterprise calendar infrastructure"
-          subtitle="Salesforce is the flagship integration. The same architecture works anywhere strict security is required."
+          subtitle="Start with the Salesforce integration, or use the underlying packages in your own application. Other platform examples are starting points to validate."
           id="enterprise"
           aside={
             <Link href="/platforms" className="group inline-flex items-center gap-1 text-sm font-medium text-accent-text hover:underline">
@@ -564,7 +542,7 @@ export default async function Home() {
         <SectionHeader
           eyebrow="Architecture"
           title="Two packages, one architecture"
-          subtitle="Use Core for scheduling logic and Interface for production-ready UI components."
+          subtitle="For developers building beyond the Salesforce integration: use Core for scheduling logic and Interface for the calendar UI."
           id="architecture"
         />
         <div className="grid gap-5 md:grid-cols-2">
@@ -572,7 +550,7 @@ export default async function Home() {
             <Eyebrow>Core Engine</Eyebrow>
             <h3 className="mt-3 font-mono text-lg font-semibold tracking-tight text-fg">@forcecalendar/core</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              Pure JavaScript scheduling engine. No DOM, no dependencies. Headless calendar logic for any runtime.
+              Pure JavaScript scheduling engine. No DOM or runtime dependencies. Headless calendar logic for JavaScript applications.
             </p>
             <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-accent-text">
               Learn more <Arrow />
@@ -594,7 +572,7 @@ export default async function Home() {
             <Eyebrow>Salesforce Integration</Eyebrow>
             <h3 className="mt-2 text-lg font-semibold tracking-tight text-fg">Lightning Web Component</h3>
             <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted">
-              Built on top of both packages. Loads as a static resource, connects to Salesforce data through Apex. Locker Service safe.
+              Built on top of both packages. Loads as a static resource and connects to standard Salesforce Event records through Apex.
             </p>
           </div>
           <a href="#salesforce" className="group inline-flex flex-shrink-0 items-center gap-1 text-sm font-medium text-accent-text hover:underline">
@@ -609,10 +587,13 @@ export default async function Home() {
           <div className="lg:col-span-5">
             <SectionHeader
               eyebrow="Quick start"
-              title="Five lines to a working calendar"
+              title="Add the calendar to your web app"
               id="code"
               className="mb-6 lg:mb-6"
             />
+            <div className="mb-5">
+              <InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" />
+            </div>
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
               <Link href="/playground" className="group inline-flex items-center gap-1 font-medium text-accent-text hover:underline">
                 Open the playground <Arrow />
@@ -630,7 +611,7 @@ export default async function Home() {
 
       {/* Feature Grid */}
       <Section width="wide" tone="sunken">
-        <SectionHeader eyebrow="Capabilities" title="What&rsquo;s included" id="features" />
+        <SectionHeader eyebrow="Developer packages" title="Engine and interface capabilities" subtitle="These are package capabilities. The Salesforce integration exposes standard Event workflows; additional features need integration work." id="features" />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature, i) => (
             <Card
@@ -653,7 +634,7 @@ export default async function Home() {
         <SectionHeader
           eyebrow="Honest numbers"
           title="How it compares"
-          subtitle="Independent benchmarks against FullCalendar, an excellent and widely-used library. forceCalendar exists for a different niche: strict enterprise environments where most calendar libraries cannot run."
+          subtitle="Project-maintained benchmarks compare selected published packages and workloads. Review the versions and methodology before applying the results to your app."
           id="benchmarks"
         />
         <div className="grid gap-px overflow-hidden rounded-2xl bg-hairline ring-1 ring-hairline md:grid-cols-2">
@@ -665,7 +646,7 @@ export default async function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                 </svg>
               </IconWell>
-              <h3 className="text-base font-semibold text-fg">Bundle Size</h3>
+              <h3 className="text-base font-semibold text-fg">Installed package size</h3>
             </div>
             <div className="mb-6 space-y-5">
               <div>
@@ -679,7 +660,7 @@ export default async function Home() {
               </div>
               <div>
                 <div className="mb-2 flex items-baseline justify-between gap-4 text-sm">
-                  <span className="text-fg">FullCalendar <span className="text-xs text-muted">(core + 5 plugins + rrule)</span></span>
+                  <span className="text-fg">FullCalendar <span className="text-xs text-muted">(core + 4 plugins + rrule)</span></span>
                   <span className="font-mono text-sm font-medium tabular text-fg">{formatMB(BUNDLE_BYTES.fullCalendar)}</span>
                 </div>
                 <div className="h-2.5 overflow-hidden rounded-full bg-sunken ring-1 ring-inset ring-hairline">
@@ -688,7 +669,7 @@ export default async function Home() {
               </div>
             </div>
             <p className="text-sm leading-relaxed text-muted">
-              {bundleRatio} smaller total bundle. Fewer bytes to audit, fewer bytes to ship behind corporate firewalls.
+              The selected forceCalendar packages occupy {bundleShare} of the installed space in this run ({bundleRatio} difference). This is not browser download or production bundle size.
             </p>
           </div>
 
@@ -703,10 +684,10 @@ export default async function Home() {
               <h3 className="text-base font-semibold text-fg">Recurrence (RRULE)</h3>
             </div>
             <p className="mb-4 text-sm leading-relaxed text-muted">
-              The dedicated <span className="font-mono text-xs">rrule</span> library is still faster at raw RRULE expansion, but the gap is now roughly 2x on common daily and weekly patterns (it was up to 1,200x before the v2.1&ndash;v2.3 engine work); a five-year daily series (1,825 occurrences) expands in about a quarter of a millisecond.
+              The benchmark includes daily and weekly recurrence workloads. Results depend on the package versions, event patterns, and runtime; use the dashboard to inspect the measured cases.
             </p>
             <p className="text-sm leading-relaxed text-muted">
-              The trade-off: forceCalendar&rsquo;s recurrence is built-in with zero extra dependencies and applies timezone/DST handling per occurrence, while FullCalendar requires the separate <span className="font-mono text-xs">rrule</span> library. At real-world calendar volumes the difference is microseconds per render.
+              forceCalendar Core includes recurrence processing without an additional runtime package. The Salesforce adapter does not currently expose this as native Salesforce recurring-series management.
             </p>
           </div>
         </div>
@@ -720,7 +701,9 @@ export default async function Home() {
             >
               results file
             </a>
-            . Full methodology and interactive results available on the dashboard.
+            . This run is from July 12, 2026, using Core 2.3.0 and Interface 1.1.0,
+            compared with FullCalendar 6.1.21 and rrule 2.8.1. These are historical
+            results, not measurements of the current releases. Full methodology is on the dashboard.
           </p>
           <Button href="https://benchmark.forcecalendar.org" variant="secondary" className="flex-shrink-0">
             View full benchmark
@@ -735,15 +718,14 @@ export default async function Home() {
           <div className="absolute inset-0 bg-grid opacity-70" aria-hidden />
           <div className="relative mx-auto max-w-2xl">
             <h2 className="font-display text-display-md sm:text-display-lg text-fg">
-              Ship a calendar your security team will approve.
+              Start with your Salesforce sandbox.
             </h2>
             <p className="mt-4 text-lg text-muted">
-              One audit, zero dependencies, MIT licensed. Up and running in minutes.
+              Follow the install guide, configure access, and validate the calendar with your team.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4">
-              <InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" />
-              <Button href="/playground" size="lg">
-                Try the playground
+              <Button href="/salesforce" size="lg">
+                Set up Salesforce
                 <span aria-hidden>&rarr;</span>
               </Button>
             </div>
