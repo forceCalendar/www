@@ -1,557 +1,308 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
-import type { ForceCalendarElement } from "@forcecalendar/interface";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
+import type { CalendarEvent, CalendarView, ForceCalendarElement } from "@forcecalendar/interface";
 import CalendarLoader from "../components/CalendarLoader";
-import Tabs from "../components/Tabs";
-import Button from "../components/Button";
+import { localDateInput, localDateTimeInput, makeScenarioEvents, scenarioIds, scenarios, type ScenarioId } from "./scenarios";
+import s from "./playground.module.css";
 
-const locales = [
-  { value: "en-US", label: "English (US)" },
-  { value: "en-GB", label: "English (UK)" },
-  { value: "es-ES", label: "Spanish" },
-  { value: "fr-FR", label: "French" },
-  { value: "de-DE", label: "German" },
-  { value: "ja-JP", label: "Japanese" },
-  { value: "zh-CN", label: "Chinese" },
-  { value: "ar-SA", label: "Arabic" },
-  { value: "ko-KR", label: "Korean" },
-  { value: "pt-BR", label: "Portuguese (BR)" },
-];
+const views: CalendarView[] = ["month", "week", "day"];
+const locales = [["en-US", "English (US)"], ["en-GB", "English (UK)"], ["fr-FR", "French"], ["de-DE", "German"], ["es-ES", "Spanish"], ["ja-JP", "Japanese"], ["ar-SA", "Arabic"]];
+const timezones = [["", "Browser timezone"], ["UTC", "UTC"], ["America/New_York", "New York"], ["America/Los_Angeles", "Los Angeles"], ["Europe/London", "London"], ["Europe/Paris", "Paris"], ["Asia/Kolkata", "Kolkata"], ["Asia/Tokyo", "Tokyo"], ["Australia/Sydney", "Sydney"]];
+const eventNames = ["calendar-view-change", "calendar-navigate", "calendar-range-change", "calendar-date-select", "calendar-range-select", "calendar-event-added", "calendar-event-updated", "calendar-event-deleted", "calendar-events-set"] as const;
+const inspectorPanels = ["records", "code", "activity"] as const;
+type InspectorPanel = (typeof inspectorPanels)[number];
+type LogEntry = { id: number; name: string; time: string; detail: string };
 
-const timezones = [
-  { value: "", label: "Local (browser)" },
-  { value: "America/New_York", label: "New York (ET)" },
-  { value: "America/Chicago", label: "Chicago (CT)" },
-  { value: "America/Denver", label: "Denver (MT)" },
-  { value: "America/Los_Angeles", label: "Los Angeles (PT)" },
-  { value: "Europe/London", label: "London (GMT/BST)" },
-  { value: "Europe/Paris", label: "Paris (CET)" },
-  { value: "Asia/Tokyo", label: "Tokyo (JST)" },
-  { value: "Asia/Shanghai", label: "Shanghai (CST)" },
-  { value: "Australia/Sydney", label: "Sydney (AEST)" },
-];
-
-const views = ["month", "week", "day"] as const;
-
-// Core derives duration from start/end, so events carry real end times.
-// Mix of timed, recurring, and all-day events so every view has something
-// interesting to show.
-const makeSampleEvents = () => {
-  const at = (dayOffset: number, hour: number, minute: number, durationMin: number) => {
-    const d = new Date();
-    d.setDate(d.getDate() + dayOffset);
-    d.setHours(hour, minute, 0, 0);
-    return {
-      start: d.toISOString(),
-      end: new Date(d.getTime() + durationMin * 60000).toISOString(),
-    };
-  };
-  return [
-    {
-      id: "sample-standup",
-      title: "Daily Standup",
-      ...at(0, 9, 15, 15),
-      recurrenceRule: "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR",
-      color: "#2563EB",
-    },
-    { id: "sample-oneonone", title: "1:1 with Alex", ...at(1, 15, 30, 30), color: "#6B7280" },
-    { id: "sample-planning", title: "Sprint Planning", ...at(1, 10, 0, 60), color: "#8B5CF6" },
-    { id: "sample-review", title: "Design Review", ...at(2, 14, 0, 45), color: "#F59E0B" },
-    { id: "sample-demo", title: "Customer Demo", ...at(3, 11, 0, 45), color: "#10B981" },
-    {
-      id: "sample-offsite",
-      title: "Team Offsite",
-      ...at(5, 0, 0, 24 * 60),
-      allDay: true,
-      color: "#EF4444",
-    },
-  ];
-};
-
-// DOM events forcecal-main dispatches; the log panel subscribes to all of them
-const CALENDAR_EVENTS = [
-  "calendar-view-change",
-  "calendar-navigate",
-  "calendar-range-change",
-  "calendar-date-select",
-  "calendar-event-added",
-  "calendar-event-updated",
-  "calendar-event-deleted",
-  "calendar-events-set",
-] as const;
-
-const isoDay = (d: unknown) => (d instanceof Date ? d.toISOString().slice(0, 10) : d);
-
-// Snapshot and range payloads carry whole Event instances and Dates; reduce
-// them to what is worth reading in a one-line log entry.
-const summarizeDetail = (name: string, detail: unknown): unknown => {
-  if (!detail || typeof detail !== "object") return detail;
-  const d = detail as Record<string, unknown>;
+function summarize(name: string, detail: Record<string, unknown>) {
   if (name === "calendar-events-set") {
-    const count = (v: unknown) => (Array.isArray(v) ? v.length : 0);
-    return {
-      events: count(d.events),
-      added: count(d.added),
-      updated: count(d.updated),
-      removed: count(d.removed),
-      unchanged: count(d.unchanged),
-    };
+    return Object.fromEntries(["added", "updated", "removed", "unchanged"].map(key => [key, Array.isArray(detail[key]) ? detail[key].length : 0]));
   }
-  if (name === "calendar-range-change") {
-    return { start: isoDay(d.start), end: isoDay(d.end), view: d.view };
+  if (detail.event) {
+    const event = detail.event as CalendarEvent;
+    return { id: event.id, title: event.title, start: event.startUTC, end: event.endUTC };
   }
   return detail;
-};
-
-interface LogEntry {
-  id: number;
-  time: string;
-  name: string;
-  detail: string;
 }
 
-const codeTabs = ["html", "react", "vue"] as const;
-type CodeTab = (typeof codeTabs)[number];
-const codeTabLabels: Record<CodeTab, string> = { html: "HTML", react: "React", vue: "Vue" };
+function snapshot(events: CalendarEvent[]) {
+  return events.map(event => event.toObject());
+}
+
+function Symbol({ type }: { type: "plus" | "reset" | "arrow" | "code" }) {
+  return <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d={type === "plus" ? "M10 4v12M4 10h12" : type === "reset" ? "M4 7a6 6 0 1 1 0 6M4 3v4h4" : type === "code" ? "m6 6-4 4 4 4m8-8 4 4-4 4m-3-11-2 14" : "M4 10h12m-5-5 5 5-5 5"} /></svg>;
+}
 
 export default function PlaygroundClient() {
-  const [view, setView] = useState<(typeof views)[number]>("month");
+  const [scenarioId, setScenarioId] = useState<ScenarioId>("crm");
+  const [view, setView] = useState<CalendarView>("week");
   const [locale, setLocale] = useState("en-US");
-  const [weekStartsOn, setWeekStartsOn] = useState("0");
   const [timezone, setTimezone] = useState("");
-  const [height, setHeight] = useState(560);
-  const [copied, setCopied] = useState(false);
-  const [codeTab, setCodeTab] = useState<CodeTab>("html");
-  const [eventList, setEventList] = useState<Record<string, unknown>[]>([]);
+  const [browserTimezone, setBrowserTimezone] = useState("");
+  const [weekStartsOn, setWeekStartsOn] = useState("1");
+  const [readOnly, setReadOnly] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [selectedId, setSelectedId] = useState("");
+  const [activeDate, setActiveDate] = useState("");
+  const [rangeLabel, setRangeLabel] = useState("Loading the current week…");
+  const [panel, setPanel] = useState<InspectorPanel>("records");
+  const [codeFormat, setCodeFormat] = useState<"javascript" | "json">("javascript");
+  const [query, setQuery] = useState("");
   const [log, setLog] = useState<LogEntry[]>([]);
+  const [notice, setNotice] = useState("Choose a workspace, then make it yours.");
+  const [copyState, setCopyState] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const [title, setTitle] = useState("");
+  const [startsAt, setStartsAt] = useState("");
+  const [duration, setDuration] = useState("45");
+  const [category, setCategory] = useState("0");
   const calRef = useRef<ForceCalendarElement | null>(null);
-  const logIdRef = useRef(0);
+  const initializedRef = useRef<ForceCalendarElement | null>(null);
   const cleanupRef = useRef<(() => void) | null>(null);
-  const seededRef = useRef(false);
-
-  const pushLog = useCallback((name: string, detail: unknown) => {
-    let summary = "";
-    try {
-      summary = JSON.stringify(summarizeDetail(name, detail)) ?? "";
-    } catch {
-      summary = String(detail);
-    }
-    if (summary.length > 100) summary = summary.slice(0, 100) + "…";
-    const entry: LogEntry = {
-      id: ++logIdRef.current,
-      time: new Date().toLocaleTimeString(undefined, { hour12: false }),
-      name,
-      detail: summary,
-    };
-    setLog((prev) => [entry, ...prev].slice(0, 30));
-  }, []);
+  const logIdRef = useRef(0);
+  const addedIdRef = useRef(0);
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const formTitleRef = useRef<HTMLInputElement>(null);
+  const scenario = scenarios[scenarioId];
+  const selected = events.find(event => event.id === selectedId);
+  const normalizedQuery = query.trim().toLocaleLowerCase();
+  const filteredEvents = events.filter(event => `${event.title} ${event.location} ${event.id} ${event.categories.join(" ")}`.toLocaleLowerCase().includes(normalizedQuery));
 
   const syncEvents = useCallback(() => {
-    const cal = calRef.current;
-    if (cal) setEventList(cal.events as unknown as Record<string, unknown>[]);
+    const current = calRef.current?.getEvents() ?? [];
+    setEvents([...current].sort((a, b) => a.startUTC.getTime() - b.startUTC.getTime()));
+    setSelectedId(id => current.some(event => event.id === id) ? id : current[0]?.id ?? "");
   }, []);
 
-  const handleReady = useCallback(
-    (el: HTMLElement) => {
-      const cal = el as ForceCalendarElement;
-      calRef.current = cal;
-      cleanupRef.current?.();
-      const handlers = CALENDAR_EVENTS.map((name) => {
-        const handler = (e: Event) => {
-          pushLog(name, (e as CustomEvent).detail);
-          // covers calendar-event-* and calendar-events-set
-          if (name.startsWith("calendar-event")) syncEvents();
-        };
-        el.addEventListener(name, handler);
-        return { name, handler };
-      });
-      cleanupRef.current = () => {
-        handlers.forEach(({ name, handler }) => el.removeEventListener(name, handler));
+  const pushLog = useCallback((name: string, detail: Record<string, unknown>) => {
+    const entry = { id: ++logIdRef.current, name, time: new Date().toLocaleTimeString("en-GB"), detail: JSON.stringify(summarize(name, detail), null, 2) };
+    setLog(previous => [entry, ...previous].slice(0, 40));
+  }, []);
+
+  const loadScenario = useCallback((cal: ForceCalendarElement, id: ScenarioId) => {
+    const now = new Date();
+    const samples = makeScenarioEvents(id, now);
+    cal.setDate(now);
+    cal.setEvents(samples);
+    setSelectedId(samples.find(event => localDateInput(new Date(event.start)) === localDateInput(now))?.id ?? samples[0].id);
+    setActiveDate(localDateInput(now));
+    setScenarioId(id);
+    setQuery("");
+    setShowForm(false);
+    setNotice(`${scenarios[id].workspace} loaded with ${samples.length} synthetic records for this week.`);
+    syncEvents();
+  }, [syncEvents]);
+
+  const handleReady = useCallback((element: HTMLElement) => {
+    const cal = element as ForceCalendarElement;
+    calRef.current = cal;
+    setBrowserTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+    cleanupRef.current?.();
+    const handlers = eventNames.map(name => {
+      const handler = (event: Event) => {
+        const detail = (event as CustomEvent).detail as Record<string, unknown>;
+        pushLog(name, detail ?? {});
+        if (name.startsWith("calendar-event")) syncEvents();
+        if (name === "calendar-view-change" && views.includes(detail.view as CalendarView)) setView(detail.view as CalendarView);
+        if (name === "calendar-range-change") {
+          const start = new Date(detail.start as string | Date);
+          const end = new Date(detail.end as string | Date);
+          setRangeLabel(`${start.toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${end.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`);
+        }
+        if ((name === "calendar-navigate" || name === "calendar-date-select") && detail.date) {
+          setActiveDate(localDateInput(new Date(detail.date as string | Date)));
+        }
       };
-      // Seed the demo on first mount so the calendar never starts empty. The
-      // `events` property takes a whole snapshot and reconciles it in one go.
-      if (!seededRef.current && cal.events.length === 0) {
-        seededRef.current = true;
-        cal.events = makeSampleEvents();
-      }
+      cal.addEventListener(name, handler);
+      return { name, handler };
+    });
+    cleanupRef.current = () => handlers.forEach(({ name, handler }) => cal.removeEventListener(name, handler));
+    if (initializedRef.current !== cal) {
+      initializedRef.current = cal;
+      loadScenario(cal, "crm");
+    }
+    setReady(true);
+  }, [loadScenario, pushLog, syncEvents]);
+
+  useEffect(() => () => {
+    cleanupRef.current?.();
+    if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (showForm) formTitleRef.current?.focus();
+  }, [showForm]);
+
+  function perform(action: () => void) {
+    try { action(); } catch (error) { setNotice(error instanceof Error ? error.message : "The calendar could not apply that change."); }
+  }
+
+  function chooseScenario(id: ScenarioId) {
+    if (calRef.current) perform(() => loadScenario(calRef.current!, id));
+  }
+
+  function changeView(next: CalendarView) {
+    setView(next);
+    calRef.current?.setView(next);
+  }
+
+  function openCreateForm() {
+    const date = activeDate ? new Date(`${activeDate}T11:00:00`) : new Date();
+    date.setHours(11, 0, 0, 0);
+    setTitle(scenario.sampleTitle);
+    setStartsAt(localDateTimeInput(date));
+    setDuration("45");
+    setCategory("0");
+    setShowForm(true);
+  }
+
+  function createEvent(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const cal = calRef.current;
+    if (!cal) return;
+    const start = new Date(startsAt);
+    if (!title.trim() || !Number.isFinite(start.getTime())) { setNotice("Add a title and a valid start time."); return; }
+    perform(() => {
+      const group = Number(category);
+      const result = cal.addEvent({
+        id: `playground-${Date.now()}-${++addedIdRef.current}`, title: title.trim(),
+        start: start.toISOString(), end: new Date(start.getTime() + Number(duration) * 60000).toISOString(),
+        color: scenario.colors[group], location: scenario.locations[group], categories: [scenario.groups[group]],
+        description: "Created locally in the forceCalendar playground.", metadata: { scenario: scenarioId, source: "playground" },
+      });
+      if (!result) throw new Error("The calendar is still loading. Try again in a moment.");
+      setSelectedId(result.id);
+      cal.setDate(start);
+      setShowForm(false);
+      setNotice(`Created “${result.title}”. Select it on the calendar to try the built-in editor.`);
       syncEvents();
-    },
-    [pushLog, syncEvents]
-  );
+    });
+  }
 
-  useEffect(() => () => cleanupRef.current?.(), []);
+  function moveSelected() {
+    if (!selected || !calRef.current) return;
+    perform(() => {
+      const start = new Date(selected.startUTC.getTime() + 30 * 60000);
+      const end = new Date(selected.endUTC.getTime() + 30 * 60000);
+      const result = calRef.current!.updateEvent(selected.id, { start: start.toISOString(), end: end.toISOString() });
+      if (!result) throw new Error("This record is no longer available. Choose another record.");
+      calRef.current!.setDate(start);
+      setNotice(`Moved “${selected.title}” 30 minutes later${selected.recurrenceRule ? " for the whole series" : ""}.`);
+      syncEvents();
+    });
+  }
 
-  // Merge the samples into whatever is already loaded: with removeMissing off,
-  // setEvents() keeps events absent from the snapshot (e.g. ones you created)
-  const addSampleEvents = () => {
-    const cal = calRef.current;
-    if (!cal) return;
-    cal.setEvents(makeSampleEvents(), { removeMissing: false });
-    syncEvents();
-  };
+  function deleteSelected() {
+    if (!selected || !calRef.current) return;
+    perform(() => {
+      const title = selected.title;
+      if (!calRef.current!.deleteEvent(selected.id)) throw new Error("This record is no longer available.");
+      setNotice(`Deleted “${title}”${selected.recurrenceRule ? " and its recurring series" : ""}. Reset the workspace to restore the samples.`);
+      syncEvents();
+    });
+  }
 
-  // An empty snapshot reconciles everything away in a single render
-  const clearEvents = () => {
-    const cal = calRef.current;
-    if (!cal) return;
-    cal.events = [];
-    syncEvents();
-  };
+  function inspectEvent(event: CalendarEvent) {
+    setSelectedId(event.id);
+    calRef.current?.setDate(new Date(event.startUTC));
+    setNotice(`Selected “${event.title}”. Try moving or deleting it with the API controls.`);
+  }
 
-  const attrLines = [
-    `view="${view}"`,
-    `locale="${locale}"`,
-    `week-starts-on="${weekStartsOn}"`,
-    ...(timezone ? [`timezone="${timezone}"`] : []),
-  ];
+  const records = snapshot(events);
+  const configCode = `import '@forcecalendar/interface';\n\nconst calendar = document.createElement('forcecal-main');\ncalendar.setAttribute('view', '${view}');\ncalendar.setAttribute('locale', '${locale}');\ncalendar.setAttribute('week-starts-on', '${weekStartsOn}');${timezone ? `\ncalendar.setAttribute('timezone', '${timezone}');` : ""}\ncalendar.readOnly = ${readOnly};\ndocument.body.append(calendar);${activeDate ? `\ncalendar.setDate(new Date('${activeDate}T12:00:00'));` : ""}\n\n// Local snapshot from this playground. Your app owns persistence.\ncalendar.setEvents(${JSON.stringify(records, null, 2)});\n\n// Use this window when loading data through your own adapter.\n// Range boundaries follow the browser timezone; end is inclusive.\ncalendar.addEventListener('calendar-range-change', ({ detail }) => {\n  console.log(detail.start, detail.end, detail.view);\n});\n\n// Host operations remain available when the built-in UI is read-only.\n// calendar.addEvent({ id, title, start, end });\n// calendar.updateEvent(id, { start, end });\n// calendar.deleteEvent(id);`;
+  const code = codeFormat === "javascript" ? configCode : JSON.stringify(records, null, 2);
 
-  const codeSamples: Record<CodeTab, { filename: string; code: string }> = {
-    html: {
-      filename: "index.html",
-      code: `<forcecal-main
-  ${attrLines.join("\n  ")}
-  style="display: block; min-height: ${height}px"
-></forcecal-main>
-
-<script type="module">
-  import '@forcecalendar/interface';
-
-  const calendar = document.querySelector('forcecal-main');
-
-  // Assign a complete snapshot; the calendar reconciles it and
-  // dispatches one calendar-events-set with the change set
-  calendar.events = [
-    {
-      id: 'standup',
-      title: 'Daily Standup',
-      start: '2026-09-07T09:15:00',
-      end: '2026-09-07T09:30:00',
-      recurrenceRule: 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR'
-    }
-  ];
-
-  // Fires after first render and on every navigation or view change
-  calendar.addEventListener('calendar-range-change', ({ detail }) => {
-    console.log('visible', detail.start, detail.end);
-  });
-</script>`,
-    },
-    react: {
-      filename: "App.jsx",
-      code: `// npm install @forcecalendar/react
-import { ForceCalendar } from '@forcecalendar/react';
-
-function App() {
-  return (
-    <ForceCalendar
-      view="${view}"
-      locale="${locale}"
-      weekStartsOn={${weekStartsOn}}${timezone ? `\n      timezone="${timezone}"` : ""}
-      height="${height}px"
-      onDateSelect={({ date }) => console.log(date)}
-    />
-  );
-}`,
-    },
-    vue: {
-      filename: "App.vue",
-      code: `<!-- npm install @forcecalendar/vue -->
-<template>
-  <ForceCalendar
-    view="${view}"
-    locale="${locale}"
-    :week-starts-on="${weekStartsOn}"${timezone ? `\n    timezone="${timezone}"` : ""}
-    height="${height}px"
-    @date-select="d => console.log(d)"
-  />
-</template>
-
-<script setup>
-import { ForceCalendar } from '@forcecalendar/vue';
-</script>`,
-    },
-  };
-
-  const handleCopy = async () => {
+  async function copyCode() {
     try {
-      await navigator.clipboard.writeText(codeSamples[codeTab].code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      await navigator.clipboard.writeText(code);
+      setCopyState("Copied to clipboard");
     } catch {
-      /* clipboard may be unavailable */
+      setCopyState("Copy unavailable. Select and copy the code below.");
     }
-  };
+    if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+    copyTimerRef.current = setTimeout(() => setCopyState(""), 4000);
+  }
 
-  const selectClass =
-    "h-9 w-full appearance-none rounded-md bg-raised px-3 pr-8 text-sm text-fg ring-1 ring-inset ring-line shadow-elev-1 transition-[box-shadow,ring-color] hover:ring-line focus:outline-none focus:ring-2 focus:ring-ring dark:ring-hairline dark:shadow-none dark:hover:ring-line";
-  const labelClass = "mb-1.5 block text-xs font-medium text-muted";
-  const panelClass = "rounded-xl bg-raised p-5 ring-1 ring-hairline shadow-elev-1 dark:shadow-none ring-hi";
-  const panelTitle = "text-sm font-semibold text-fg";
-  const emptyClass = "rounded-md border border-dashed border-line px-3 py-5 text-center text-xs text-subtle";
-  const selectChevron = (
-    <svg className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-    </svg>
-  );
+  const formatStart = (event: CalendarEvent) => event.startUTC.toLocaleString(locale, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", ...(timezone ? { timeZone: timezone } : {}) });
 
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-      {/* Left column: calendar + code output */}
-      <div className="min-w-0 space-y-6">
-        <div className="overflow-hidden rounded-xl bg-raised ring-1 ring-hairline shadow-elev-2 ring-hi dark:ring-line/80">
-          {/* Calendar toolbar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline bg-sunken px-4 py-2.5">
-            <Tabs
-              variant="segmented"
-              tabs={views}
-              active={view}
-              onChange={setView}
-              label="Calendar view"
-            />
-            <div className="flex items-center gap-2">
-              <span className="text-xs tabular text-subtle">
-                {eventList.length} event{eventList.length === 1 ? "" : "s"}
-              </span>
-              <Button size="sm" onClick={addSampleEvents}>
-                Add sample events
-              </Button>
-              <Button size="sm" variant="secondary" onClick={clearEvents} disabled={eventList.length === 0}>
-                Clear
-              </Button>
-            </div>
-          </div>
-          <div className="overflow-x-auto">
-          <CalendarLoader
-            view={view}
-            locale={locale}
-            weekStartsOn={weekStartsOn}
-            timezone={timezone || undefined}
-            height={height}
-            cssVars={{
-              "fc-background": "var(--preview-bg, #ffffff)",
-              "fc-background-alt": "var(--preview-bg-alt, #f7f8fa)",
-              "fc-background-hover": "var(--preview-bg-hover, #eef1f5)",
-              "fc-text-color": "var(--preview-text, #0e131d)",
-              "fc-text-secondary": "var(--preview-text-secondary, #606b7d)",
-              "fc-border-color": "var(--preview-border, #e5e8ed)",
-              "fc-primary-color": "var(--preview-primary, #2448e0)",
-              "fc-font-family": "var(--font-inter), Inter, system-ui, sans-serif",
-            }}
-            onReady={handleReady}
-          />
-          </div>
-          <div className="border-t border-hairline bg-sunken px-4 py-2.5 text-xs leading-relaxed text-muted">
-            <span className="font-medium text-fg">Fully keyboard accessible:</span>{" "}
-            Tab into the grid, move with the arrow keys, PageUp/PageDown to change period, Enter to select. Every view implements the WAI-ARIA grid pattern.
-          </div>
-        </div>
-
-        {/* Code output */}
-        <div className="overflow-hidden rounded-xl bg-code-bg text-code-fg ring-1 ring-code-border shadow-window">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-code-border bg-code-chrome px-3 py-2">
-            <div className="flex items-center gap-0.5 rounded-md bg-black/20 p-0.5" role="tablist" aria-label="Code sample framework">
-              {codeTabs.map((tab) => (
-                <button
-                  key={tab}
-                  type="button"
-                  role="tab"
-                  onClick={() => setCodeTab(tab)}
-                  aria-selected={codeTab === tab}
-                  className={`h-7 rounded-[5px] px-2.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                    codeTab === tab
-                      ? "bg-white/10 text-code-fg"
-                      : "text-code-muted hover:text-code-fg"
-                  }`}
-                >
-                  {codeTabLabels[tab]}
-                </button>
-              ))}
-            </div>
-            <div className="flex items-center gap-3 pr-1">
-              <span className="font-mono text-xs text-code-muted">
-                {codeSamples[codeTab].filename}
-              </span>
-              <button
-                type="button"
-                onClick={handleCopy}
-                className="rounded-md px-2 py-1 text-xs font-medium text-code-muted transition-colors hover:bg-white/[0.08] hover:text-code-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                {copied ? "Copied" : "Copy"}
-              </button>
-            </div>
-          </div>
-          <pre className="overflow-x-auto p-4 font-mono text-[12.5px] leading-relaxed">
-            {codeSamples[codeTab].code}
-          </pre>
-        </div>
+    <>
+      <div className={s.stepHeading}><span className={s.eyebrow}>01 / Choose your context</span><span>Switching workspaces replaces local edits.</span></div>
+      <div className={s.scenarios} role="group" aria-label="Sample workspace">
+        {scenarioIds.map(id => {
+          const item = scenarios[id];
+          return <button type="button" key={id} disabled={!ready} aria-pressed={scenarioId === id} onClick={() => chooseScenario(id)} className={`${s.scenario} ${scenarioId === id ? s.scenarioActive : ""}`}><span className={s.scenarioTop}><span>{item.number} / {id === "crm" ? "CRM" : id === "campus" ? "EDUCATION" : "WORKPLACE"}</span><span className={s.scenarioRadio} aria-hidden="true" /></span><strong>{item.name}</strong><span className={s.scenarioDescription}>{item.description}</span><span className={s.scenarioBottom}>{scenarioId === id ? "Workspace selected" : "Explore workspace"}<Symbol type="arrow" /></span></button>;
+        })}
       </div>
 
-      {/* Sidebar */}
-      <div className="space-y-5">
-        {/* Config */}
-        <div className={panelClass}>
-          <h3 className={`${panelTitle} mb-4`}>Configuration</h3>
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="pg-locale" className={labelClass}>
-                Locale
-              </label>
-              <div className="relative">
-                <select
-                  id="pg-locale"
-                  value={locale}
-                  onChange={(e) => setLocale(e.target.value)}
-                  className={selectClass}
-                >
-                  {locales.map((l) => (
-                    <option key={l.value} value={l.value}>
-                      {l.label}
-                    </option>
-                  ))}
-                </select>
-                {selectChevron}
-              </div>
-            </div>
-            <div>
-              <label htmlFor="pg-tz" className={labelClass}>
-                Timezone
-              </label>
-              <div className="relative">
-                <select
-                  id="pg-tz"
-                  value={timezone}
-                  onChange={(e) => setTimezone(e.target.value)}
-                  className={selectClass}
-                >
-                  {timezones.map((tz) => (
-                    <option key={tz.value} value={tz.value}>
-                      {tz.label}
-                    </option>
-                  ))}
-                </select>
-                {selectChevron}
-              </div>
-            </div>
-            <div>
-              <label htmlFor="pg-wso" className={labelClass}>
-                Week starts on
-              </label>
-              <div className="relative">
-                <select
-                  id="pg-wso"
-                  value={weekStartsOn}
-                  onChange={(e) => setWeekStartsOn(e.target.value)}
-                  className={selectClass}
-                >
-                  <option value="0">Sunday</option>
-                  <option value="1">Monday</option>
-                  <option value="6">Saturday</option>
-                </select>
-                {selectChevron}
-              </div>
-            </div>
-            <div>
-              <label htmlFor="pg-height" className={`${labelClass} flex items-center justify-between`}>
-                <span>Height</span>
-                <span className="font-mono tabular text-subtle">{height}px</span>
-              </label>
-              <input
-                id="pg-height"
-                type="range"
-                min={400}
-                max={800}
-                step={40}
-                value={height}
-                onChange={(e) => setHeight(Number(e.target.value))}
-                className="w-full accent-accent"
-              />
-            </div>
-          </div>
-        </div>
+      <div className={s.workspace}>
+        <div className={s.workspaceBar}><div className={s.workspaceIdentity}><span className={s.appMark}>{scenario.mark}</span><strong>{scenario.workspace}</strong><span className={s.slash}>/</span><span>{scenario.shortName}</span></div><span className={s.liveBadge}><i />Local demo workspace</span></div>
+        <div className={s.workspaceIntro}><div><p className={s.eyebrow}>02 / Work with the real component</p><h2>{scenario.shortName}</h2><p>{scenario.context}</p></div><button type="button" className={s.resetButton} disabled={!ready} onClick={() => chooseScenario(scenarioId)}><Symbol type="reset" />Reset workspace</button></div>
 
-        {/* Events */}
-        <div className={panelClass}>
-          <div className="mb-3 flex items-center justify-between">
-            <h3 className={panelTitle}>Events</h3>
-            {eventList.length > 0 && (
-              <span className="rounded-full bg-accent-soft px-2 py-0.5 text-xs font-medium tabular text-accent-text ring-1 ring-inset ring-accent-line/60">
-                {eventList.length}
-              </span>
-            )}
-          </div>
-          {eventList.length > 0 ? (
-            <ul className="-mx-2 space-y-0.5">
-              {eventList.map((e) => (
-                <li
-                  key={String(e.id)}
-                  className="flex items-center gap-2.5 rounded-md px-2 py-1.5 text-xs text-fg transition-colors hover:bg-sunken"
-                >
-                  <span
-                    className="h-2 w-2 flex-shrink-0 rounded-full"
-                    style={{ backgroundColor: String(e.color || "#2448E0") }}
-                    aria-hidden
-                  />
-                  <span className="truncate">{String(e.title || e.id)}</span>
-                  {Boolean(e.recurring) && (
-                    <span className="ml-auto flex-shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-subtle">
-                      repeats
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className={emptyClass}>
-              No events yet. Add the samples to see the calendar in action.
+        <div className={s.workbench}>
+          <div className={s.calendarColumn}>
+            <div className={s.calendarTopline}><span><i />{events.length} records loaded</span><span>{rangeLabel}</span></div>
+            <div className={s.calendarScroller} role="region" aria-label="Interactive calendar. Scroll horizontally on small screens." tabIndex={0}>
+              <div className={s.calendarInner}><CalendarLoader view={view} locale={locale} timezone={timezone || browserTimezone || undefined} weekStartsOn={weekStartsOn} height={600} onReady={handleReady} /></div>
             </div>
-          )}
-        </div>
-
-        {/* Event log */}
-        <div className={panelClass}>
-          <div className="mb-3 flex items-center justify-between">
-            <h3 className={panelTitle}>Event log</h3>
-            {log.length > 0 && (
-              <button
-                type="button"
-                onClick={() => setLog([])}
-                className="rounded-sm text-xs text-subtle transition-colors hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                Clear
-              </button>
-            )}
+            <div className={s.legend}>{scenario.groups.map((group, index) => <span key={group}><i style={{ background: scenario.colors[index] }} />{group}</span>)}<span>Click a record to edit it</span></div>
+            <div className={s.hint}><span aria-hidden="true">↳</span><p>Navigate with the calendar toolbar. Select a time to create an event, or use the API controls. Changes stay here until you reset or leave.</p></div>
           </div>
-          <p className="mb-3 text-xs leading-relaxed text-subtle">
-            DOM events dispatched by <code className="font-mono">&lt;forcecal-main&gt;</code>.
-            Navigate to see <code className="font-mono">calendar-range-change</code>; load or
-            clear events to see one <code className="font-mono">calendar-events-set</code> per snapshot.
-          </p>
-          {log.length > 0 ? (
-            <ul className="max-h-64 space-y-1 overflow-y-auto" aria-live="polite">
-              {log.map((entry) => (
-                <li key={entry.id} className="rounded-md bg-sunken px-2.5 py-1.5 ring-1 ring-inset ring-hairline">
-                  <div className="flex items-baseline justify-between gap-2">
-                    <code className="truncate font-mono text-[11px] font-medium text-accent-text">
-                      {entry.name}
-                    </code>
-                    <span className="flex-shrink-0 font-mono text-[10px] tabular text-subtle">
-                      {entry.time}
-                    </span>
-                  </div>
-                  {entry.detail && entry.detail !== "{}" && (
-                    <div className="mt-0.5 truncate font-mono text-[10px] text-subtle">
-                      {entry.detail}
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className={emptyClass}>Waiting for activity…</div>
-          )}
+
+          <aside className={s.controls} aria-label="Calendar controls">
+            <div className={s.controlSection}>
+              <div className={s.controlHeading}><h3>Shape the view</h3><span>UI</span></div>
+              <div className={s.viewButtons} role="group" aria-label="Calendar view">{views.map(item => <button type="button" key={item} disabled={!ready} aria-pressed={view === item} className={view === item ? s.viewActive : ""} onClick={() => changeView(item)}>{item}</button>)}</div>
+              <label className={s.field}>Jump to date<input type="date" value={activeDate} disabled={!ready} onChange={event => { setActiveDate(event.target.value); if (event.target.value) calRef.current?.setDate(new Date(`${event.target.value}T12:00:00`)); }} /></label>
+              <details className={s.config}><summary>Locale & display settings<span aria-hidden="true">+</span></summary><div className={s.configFields}>
+                <label className={s.field}>Language<select value={locale} onChange={event => setLocale(event.target.value)}>{locales.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+                <label className={s.field}>Timezone<select value={timezone} onChange={event => setTimezone(event.target.value)}>{timezones.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+                <label className={s.field}>Week starts on<select value={weekStartsOn} onChange={event => setWeekStartsOn(event.target.value)}><option value="1">Monday</option><option value="0">Sunday</option><option value="6">Saturday</option></select></label>
+                <label className={s.checkField}><input type="checkbox" checked={readOnly} disabled={!ready} onChange={event => { setReadOnly(event.target.checked); if (calRef.current) calRef.current.readOnly = event.target.checked; }} /><span>Read-only calendar UI</span></label>
+                <p className={s.tiny}>Read-only disables built-in editing. Host API actions below remain available. This is a UI setting, not an access-control policy.</p>
+              </div></details>
+            </div>
+            <div className={s.controlSection}>
+              <div className={s.controlHeading}><h3>Try an operation</h3><span>API</span></div>
+              <button type="button" className={s.primaryButton} disabled={!ready} onClick={openCreateForm} aria-expanded={showForm} aria-controls="create-event-form"><Symbol type="plus" />Create {scenario.noun}</button>
+              {showForm ? <form className={s.createForm} id="create-event-form" onSubmit={createEvent}>
+                <label className={s.field}>Title<input ref={formTitleRef} value={title} onChange={event => setTitle(event.target.value)} required maxLength={120} /></label>
+                <label className={s.field}>Starts at<input type="datetime-local" value={startsAt} onChange={event => setStartsAt(event.target.value)} required /></label>
+                <p className={s.tiny}>Enter the time in your browser&apos;s local timezone.</p>
+                <div className={s.formRow}><label className={s.field}>Duration<select value={duration} onChange={event => setDuration(event.target.value)}>{[15, 30, 45, 60, 90, 120].map(minutes => <option key={minutes} value={minutes}>{minutes} min</option>)}</select></label><label className={s.field}>Category<select value={category} onChange={event => setCategory(event.target.value)}>{scenario.groups.map((group, index) => <option key={group} value={index}>{group}</option>)}</select></label></div>
+                <div className={s.formActions}><button className={s.primaryButton} type="submit">Add to calendar</button><button className={s.quietButton} type="button" onClick={() => setShowForm(false)}>Cancel</button></div>
+              </form> : null}
+              <label className={s.field}>Selected record<select value={selectedId} disabled={!events.length} onChange={event => { const record = events.find(item => item.id === event.target.value); if (record) inspectEvent(record); }}><option value="" disabled>{events.length ? "Select a record" : "No records loaded"}</option>{events.map(event => <option key={event.id} value={event.id}>{event.title}</option>)}</select></label>
+              {selected ? <div className={s.selectedRecord}><span className={s.recordCategory}><i style={{ background: selected.color || scenario.colors[0] }} />{selected.categories[0] || "Calendar event"}{selected.recurrenceRule ? " · recurring" : ""}</span><strong>{selected.title}</strong><span>{formatStart(selected)}</span><span>{selected.location}</span></div> : <p className={s.emptySmall}>Create a record or reset this workspace to get started.</p>}
+              <div className={s.recordActions}><button className={s.secondaryButton} type="button" disabled={!selected} onClick={moveSelected}>{selected?.recurrenceRule ? "Move series +30 min" : "Move +30 min"}<Symbol type="arrow" /></button><button className={s.deleteButton} type="button" disabled={!selected} onClick={deleteSelected}>{selected?.recurrenceRule ? "Delete series" : "Delete"}</button></div>
+              <p className={s.apiFootnote}>Calls {" "}<code>addEvent</code>, <code>updateEvent</code>, and <code>deleteEvent</code> on the live component.</p>
+            </div>
+          </aside>
         </div>
+        <div className={s.statusBar} role="status" aria-live="polite"><span className={s.statusDot} aria-hidden="true" /><span>{notice}</span></div>
       </div>
-    </div>
+      <p className={s.scenarioNote}>{scenario.note}</p>
+
+      <section className={s.inspector} aria-labelledby="inspector-title">
+        <div className={s.inspectorHeading}><div><p className={s.eyebrow}>03 / Look under the surface</p><h2 id="inspector-title">Every change has a story.</h2></div><p>The records, the configuration, and the events that connect them. All from the calendar above.</p></div>
+        <div className={s.inspectorTabs} role="group" aria-label="Inspector panels">{inspectorPanels.map(item => <button key={item} type="button" aria-pressed={panel === item} onClick={() => setPanel(item)} className={panel === item ? s.inspectorTabActive : ""}>{item === "records" ? "Event records" : item === "code" ? "Use the code" : "Live activity"}<span>{item === "records" ? events.length : item === "code" ? "{ }" : log.length}</span></button>)}</div>
+        {panel === "records" ? <div className={s.recordsPanel}>
+          <div className={s.panelToolbar}><label className={s.searchField}><span className="sr-only">Search event records</span><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" /><path d="m13 13 4 4" /></svg><input type="search" placeholder="Find a title, place, or category…" value={query} onChange={event => setQuery(event.target.value)} /></label><span>{filteredEvents.length} of {events.length} records</span><button type="button" className={s.quietButton} disabled={!events.length} onClick={() => perform(() => { calRef.current?.setEvents([]); setNotice("All local records cleared. Create a record or reset the workspace."); syncEvents(); })}>Clear all records</button></div>
+          {filteredEvents.length ? <div className={s.tableScroller} tabIndex={0} role="region" aria-label="Event records table"><table className={s.table}><thead><tr><th scope="col">Event / record</th><th scope="col">Starts at</th><th scope="col">Category</th><th scope="col">Location</th></tr></thead><tbody>{filteredEvents.map(event => <tr key={event.id} className={event.id === selectedId ? s.selectedRow : ""}><td><button type="button" onClick={() => inspectEvent(event)} aria-label={`Inspect ${event.title}`}><i style={{ background: event.color || scenario.colors[0] }} /><span><strong>{event.title}</strong><small>{event.id}{event.recurrenceRule ? " · recurring series" : ""}</small></span><Symbol type="arrow" /></button></td><td>{formatStart(event)}</td><td>{event.categories[0] || "—"}</td><td>{event.location || "—"}</td></tr>)}</tbody></table></div> : <div className={s.emptyState}><h3>{query ? "No matching records." : "A clean slate."}</h3><p>{query ? "Try another title, location, or category." : "Create your first event with the API controls, or reset the workspace to restore its sample week."}</p>{query ? <button type="button" className={s.secondaryButton} onClick={() => setQuery("")}>Clear search</button> : null}</div>}
+          <p className={s.panelFootnote}>Select a record to locate its start on the calendar and use the API controls. Recurring records represent a complete series. Search filters this table only.</p>
+        </div> : null}
+        {panel === "code" ? <div className={s.codePanel}>
+          <div className={s.codeToolbar}><div role="group" aria-label="Code format"><button type="button" aria-pressed={codeFormat === "javascript"} onClick={() => setCodeFormat("javascript")} className={codeFormat === "javascript" ? s.codeActive : ""}>JavaScript</button><button type="button" aria-pressed={codeFormat === "json"} onClick={() => setCodeFormat("json")} className={codeFormat === "json" ? s.codeActive : ""}>Event JSON</button></div><button type="button" onClick={copyCode}>Copy {codeFormat === "json" ? "JSON" : "code"}</button></div>
+          <div className={s.codeIntro}><Symbol type="code" /><span>{codeFormat === "javascript" ? "Live configuration + complete event snapshot. Install @forcecalendar/interface and run with your module bundler." : "The current stored event records. Times are serialized as UTC instants; recurrence rules and application metadata are preserved."}</span></div>
+          <pre className={s.code} tabIndex={0} aria-label={codeFormat === "javascript" ? "JavaScript calendar example" : "Current event JSON"}><code>{code}</code></pre><p className={s.copyStatus} role="status">{copyState || "Changes above are reflected here automatically."}</p>
+        </div> : null}
+        {panel === "activity" ? <div className={s.activityPanel}>
+          <div className={s.panelToolbar}><span>Latest {log.length} DOM events · up to 40 retained</span><button type="button" className={s.quietButton} disabled={!log.length} onClick={() => setLog([])}>Clear activity</button></div>
+          {log.length ? <ol className={s.eventLog}>{log.map(entry => <li key={entry.id}><span className={s.logTime}>{entry.time}</span><details><summary><span className={s.logDot} /><code>{entry.name}</code><span>Inspect payload +</span></summary><pre>{entry.detail}</pre></details></li>)}</ol> : <div className={s.emptyState}><h3>Listening for the next change.</h3><p>Navigate, switch views, or create a record to see the component&apos;s real DOM events.</p></div>}
+          <p className={s.panelFootnote}>Snapshot loads emit one calendar-events-set with a change summary. Record operations emit lifecycle events. Range boundaries use the browser timezone, with an inclusive end.</p>
+        </div> : null}
+      </section>
+    </>
   );
 }
