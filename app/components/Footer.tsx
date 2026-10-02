@@ -80,12 +80,6 @@ export default function Footer() {
   return (
     <footer className="border-t border-hairline bg-sunken">
       <div className="mx-auto max-w-page px-6 pt-16 pb-10">
-        <div className="mb-12 border-b border-line pb-10">
-          <p className="font-display text-3xl font-medium leading-tight tracking-[-0.035em] sm:text-4xl">
-            forceCalendar <span className="font-normal text-muted">by</span>{" "}
-            <a href="https://dhanawada.org" className="underline decoration-line underline-offset-8 transition-colors hover:text-accent-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">N. R. Dhanawada</a>
-          </p>
-        </div>
         <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-x-12">
           <div className="col-span-2 md:col-span-1">
             <Wordmark />
@@ -117,6 +111,9 @@ export default function Footer() {
                 {b.label}
               </li>
             ))}
+            <li className="inline-flex items-center gap-1 text-xs text-subtle">
+              forceCalendar by <a href="https://dhanawada.org/" className="transition-colors hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">N. R. Dhanawada</a>
+            </li>
           </ul>
         </div>
       </div>
