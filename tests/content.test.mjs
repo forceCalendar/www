@@ -4,16 +4,16 @@ import { readFileSync, statSync } from 'node:fs';
 const read = (name) => readFileSync(new URL(`../${name}`, import.meta.url), 'utf8');
 const home = read('app/page.tsx');
 const salesforce = read('app/salesforce/page.tsx');
-test('homepage leads with Salesforce and a genuine Lightning capture', () => {
-  assert.ok(home.includes('Your Salesforce events, in one clear calendar.'));
+test('homepage keeps neutral product identity and a genuine Lightning capture', () => {
+  assert.ok(home.includes('Calendar infrastructure for your applications.'));
   assert.ok(home.indexOf('Set up Salesforce') < home.indexOf('<InstallCommand'));
-  assert.ok(home.indexOf('salesforce-lightning-month.png') < home.indexOf('{/* Facts strip */}'));
+  assert.ok(home.indexOf('salesforce-lightning-month-clean.png') < home.indexOf('{/* Facts strip */}'));
   assert.ok(!home.includes('<HeroCalendar'));
 });
 test('all Salesforce captures exist and have accessible descriptions', () => {
   for (const view of ['month', 'week', 'day']) {
-    assert.ok(statSync(new URL(`../public/salesforce-lightning-${view}.png`, import.meta.url)).size > 10000);
-    assert.ok(salesforce.includes(`src="/salesforce-lightning-${view}.png"`));
+    assert.ok(statSync(new URL(`../public/salesforce-lightning-${view}-clean.png`, import.meta.url)).size > 10000);
+    assert.ok(salesforce.includes(`src="/salesforce-lightning-${view}-clean.png"`));
   }
   assert.ok(salesforce.includes('synthetic sample events'));
   const component = read('app/components/SalesforceScreenshot.tsx');
@@ -29,4 +29,10 @@ test('source installation uses repeatable root and bundle dependency installs', 
 test('unsupported security guarantees stay absent', () => {
   const copy = [home, salesforce, read('app/platforms/page.tsx')].join('\n');
   for (const phrase of ['zero supply chain risk', 'security team will approve', 'full Locker Service compliance', 'No eval, no inline styles']) assert.ok(!copy.includes(phrase), phrase);
+});
+
+test('security explanation distinguishes LWS from legacy Locker', () => {
+ assert.ok(home.includes('Lightning Web Security required'));
+ assert.ok(home.includes('not a claim of legacy Locker compatibility'));
+ assert.ok(!read('app/platforms/page.tsx').includes('Salesforce first.'));
 });

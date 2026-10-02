@@ -37,25 +37,25 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://forcecalendar.org"),
   title: {
-    default: "forceCalendar - Calendar for Salesforce",
+    default: "forceCalendar - Calendar Infrastructure",
     template: "%s | forceCalendar",
   },
   description:
-    "An open-source Salesforce calendar for standard Event records. Month, week, and day views with LWC and Apex, plus reusable JavaScript packages.",
+    "Open-source calendar infrastructure: a headless scheduling engine, framework-neutral Web Components, and a Salesforce LWC and Apex integration.",
   keywords: [
     "calendar",
     "salesforce",
     "enterprise",
     "javascript",
     "web components",
-    "locker service",
+    "lightning web security",
     "csp",
     "standard Salesforce Events",
   ],
   openGraph: {
     title: "forceCalendar",
     description:
-      "An open-source calendar for standard Salesforce Events. LWC, Apex, and reusable JavaScript packages.",
+      "A headless calendar engine and framework-neutral Web Components, with a Salesforce Lightning integration.",
     url: "https://forcecalendar.org",
     siteName: "forceCalendar",
     locale: "en_US",
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "forceCalendar",
     description:
-      "An open-source calendar for standard Salesforce Events. LWC, Apex, and reusable JavaScript packages.",
+      "A headless calendar engine and framework-neutral Web Components, with a Salesforce Lightning integration.",
     images: ["/og-image.png"],
   },
   robots: {

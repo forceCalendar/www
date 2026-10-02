@@ -84,7 +84,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
             <Wordmark />
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-              An open-source calendar for Salesforce, with reusable packages for developers.
+              Open-source calendar infrastructure, with a Salesforce Lightning integration.
             </p>
             <a
               href="https://github.com/forcecalendar"
