@@ -9,7 +9,7 @@ import CoreWorkbench from "./CoreWorkbench";
 import s from "./core.module.css";
 
 export const metadata: Metadata = {
-  title: "Core — the headless calendar engine | forceCalendar",
+  title: "Core — the headless calendar engine",
   description: "Give your application calendar logic: events, recurrence, timezones, conflict detection, search, and ICS. A headless JavaScript engine with no runtime dependencies.",
   alternates: { canonical: "https://forcecalendar.org/core" },
   openGraph: { url: "https://forcecalendar.org/core" },
