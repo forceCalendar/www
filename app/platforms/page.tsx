@@ -1,159 +1,36 @@
 import type { Metadata } from "next";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-import Section from "../components/Section";
-import SectionHeader from "../components/SectionHeader";
-import PageHeader from "../components/PageHeader";
-import Card, { IconWell } from "../components/Card";
-import { Arrow } from "../components/Button";
+import Button, { Arrow } from "../components/Button";
+import CodeBlock from "../components/CodeBlock";
+import s from "../product-pages.module.css";
 
-export const metadata: Metadata = {
-  title: "Platforms and Integration Starters",
-  description:
-    "Salesforce integration and developer examples for bringing forceCalendar to other applications. Validate each starter against your platform configuration.",
-  alternates: { canonical: "https://forcecalendar.org/platforms" },
-  openGraph: { url: "https://forcecalendar.org/platforms" },
-};
-
-const EXAMPLES_URL = "https://github.com/forcecalendar/examples";
-
-const icons = {
-  shield: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z",
-  bolt: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z",
-  puzzle: "M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 01-.657.643 48.39 48.39 0 01-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 01-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 00-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 01-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 00.657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 01-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 005.427-.63 48.05 48.05 0 00.582-4.717.532.532 0 00-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 00.658-.663 48.422 48.422 0 00-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 01-.61-.58v0z",
-  grid: "M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z",
-  wrench: "M11.42 15.17l-5.877 5.877a2.652 2.652 0 01-3.75-3.75L8.11 11.42M11.42 15.17l3.75-3.75m-3.75 3.75l-3.31-3.31m3.31 3.31L15.17 11.42M15.17 11.42a6 6 0 007.38-5.84 6.003 6.003 0 00-.19-1.5l-3.25 3.25-2.84-.72-.72-2.84 3.25-3.25a6 6 0 00-7.34 7.34",
-  kanban: "M9 4.5v15m6-15v15m-10.875 0h15.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125z",
-} as const;
-
-const platforms = [
-  {
-    name: "Salesforce Lightning",
-    constraint: "LWC, Apex, and a bundled static resource",
-    detail:
-      "The primary integration: Lightning components and an Apex controller over standard Event records. Begin with the sandbox installation and access guide.",
-    href: "/salesforce",
-    linkLabel: "Install guide",
-    firstClass: true,
-    icon: icons.shield,
-  },
-  {
-    name: "Cloudflare Workers",
-    constraint: "Edge runtime: eval and code generation banned outright",
-    detail:
-      "The headless core as a server-side scheduling engine at the edge: RRULE expansion, conflict detection, and ICS export without runtime dependencies in Core.",
-    href: `${EXAMPLES_URL}/tree/main/cloudflare-worker-scheduling`,
-    linkLabel: "Runnable example",
-    icon: icons.bolt,
-  },
-  {
-    name: "Chrome Extensions (MV3)",
-    constraint: "Manifest V3 CSP: no remote code, no eval, everything bundled",
-    detail:
-      "The Web Component in an extension popup with no build step at all: an import map plus vendored packages is enough.",
-    href: `${EXAMPLES_URL}/tree/main/chrome-extension-mv3`,
-    linkLabel: "Runnable example",
-    icon: icons.puzzle,
-  },
-  {
-    name: "SharePoint / Teams (SPFx)",
-    constraint: "Security-reviewed, size-audited bundles",
-    detail:
-      "A starting point for a calendar web part on Microsoft 365 pages and Teams tabs. Review the integration and its build dependencies for your tenant.",
-    href: `${EXAMPLES_URL}/tree/main/sharepoint-spfx-webpart`,
-    linkLabel: "Starter",
-    icon: icons.grid,
-  },
-  {
-    name: "ServiceNow Service Portal",
-    constraint: "Sandboxed widget scripting",
-    detail:
-      "A Service Portal widget over ServiceNow table data: a starting point for a scheduling interface that you can adapt and test.",
-    href: `${EXAMPLES_URL}/tree/main/servicenow-portal-widget`,
-    linkLabel: "Starter",
-    icon: icons.wrench,
-  },
-  {
-    name: "Atlassian Forge (Jira)",
-    constraint: "Custom UI in a strictly CSP'd iframe, Marketplace dependency scrutiny",
-    detail:
-      "A sprint calendar as a Forge Custom UI project page, with the packages vendored into static assets.",
-    href: `${EXAMPLES_URL}/tree/main/atlassian-forge-app`,
-    linkLabel: "Starter",
-    icon: icons.kanban,
-  },
+export const metadata: Metadata = { title:"Platforms & Integration Paths", description:"Choose the right forceCalendar integration: a released Salesforce distribution, browser components, a headless engine, or platform-specific developer starters.",alternates:{canonical:"https://forcecalendar.org/platforms"},openGraph:{url:"https://forcecalendar.org/platforms"} };
+const examples = "https://github.com/forceCalendar/examples";
+const starters = [
+ {name:"Browser applications",status:"Runnable starter",detail:"A vanilla Vite example for embedding the Web Component in your application. Start with local events, then connect your authorized data layer.",slug:"vanilla-vite",check:"Verify record mapping, event callbacks, persistence, and keyboard interaction in your app."},
+ {name:"Cloudflare Workers",status:"Headless starter",detail:"An example using Core for recurrence expansion, conflict detection, and ICS export in an edge handler.",slug:"cloudflare-worker-scheduling",check:"Review the handler, runtime limits, request authorization, and workload size before deployment."},
+ {name:"Chrome Extensions",status:"Manifest V3 starter",detail:"A packaged calendar interface for an extension popup, with vendored assets and an example manifest.",slug:"chrome-extension-mv3",check:"Review requested extension permissions and validate the manifest and content-security policy."},
+ {name:"SharePoint & Teams",status:"SPFx starter",detail:"A calendar web-part starting point for Microsoft 365 pages and Teams tabs. Adapt its data and deployment model to your tenant.",slug:"sharepoint-spfx-webpart",check:"Validate the SPFx toolchain, tenant deployment, identity, and data permissions."},
+ {name:"ServiceNow",status:"Service Portal starter",detail:"A widget example over ServiceNow table data. Your instance determines records, access rules, and supported portal behavior.",slug:"servicenow-portal-widget",check:"Review ACLs, table queries, field mappings, and the target instance’s widget policies."},
+ {name:"Atlassian Forge",status:"Custom UI starter",detail:"A sprint-calendar example presented through Forge Custom UI. Use it as an implementation reference for your own application.",slug:"atlassian-forge-app",check:"Verify scopes, host integration, static assets, and deployment against current Forge requirements."},
 ];
+export default function PlatformsPage(){return <div className={s.page}><Nav/><main>
+ <header className={s.hero}><div className={s.wrap}><p className={s.eyebrow}>Platforms / choose the right integration surface</p><div className={s.heroGrid}><h1 className={s.title}>Your stack.<br/><span>Its calendar.</span></h1><div><p className={s.lede}>Bring calendar capabilities into the application you already own. Use the released Salesforce distribution, embed the UI in a web app, or call the engine without a browser.</p><div className={s.actions}><Button href="/salesforce">Start with Salesforce <Arrow/></Button><Button href="/playground" variant="secondary">Try the playground</Button></div></div></div><div className={`${s.boundary} !mt-10`}><div><p className={s.eyebrow}>Ready distribution</p><h3 className="mt-4">Salesforce Lightning</h3><p>Released unlocked package, LWC, Apex over standard Event records, and an installation and permissions guide.</p></div><div><p className={s.eyebrow}>Developer building blocks</p><h3 className="mt-4">Your application + an adapter</h3><p>Core and Interface packages plus example projects. Other platform starters are not equivalent packaged integrations.</p></div></div></div></header>
+ <section className={`${s.section} ${s.dark}`}><div className={s.wrap}><p className={s.eyebrow}>One library / different host boundaries</p><h2 className={s.heading}>Put each responsibility<br/>where it belongs.</h2><div className={s.flow}>{[{n:"01",title:"Your records",text:"Fetch and authorize events using your platform’s identity and data layer."},{n:"02",title:"Your adapter",text:"Map IDs, dates, fields, and mutation callbacks. Persist changes deliberately."},{n:"03",title:"Calendar engine",text:"Use Core for reusable event, recurrence, query, and conflict logic."},{n:"04",title:"Your surface",text:"Render the calendar component or expose headless operations to application code."}].map(item=><div key={item.n}><span>{item.n}</span><h3>{item.title}</h3><p>{item.text}</p></div>)}</div><p className={`${s.note} mt-6`}>Host compatibility requires host-specific validation. No library replaces your platform’s identity, permissions, content-security policy, or deployment checks.</p></div></section>
+ <section className={s.section} id="starters"><div className={s.wrap}><div className={s.split}><div><p className={s.eyebrow}>Developer examples</p><h2 className={s.heading}>Start closer<br/>to your environment.</h2></div><p className={s.lede}>These repository examples show integration patterns. They are intentionally minimal starters, not supported products or a claim of verified production compatibility in your account.</p></div><div className={`${s.integration} mt-10`}>{starters.map(item=><article className={s.integrationRow} key={item.slug}><div><h3>{item.name}</h3><span className={s.status}>{item.status}</span></div><div><p>{item.detail}</p><details className={s.disclosure}><summary>Before you deploy</summary><p>{item.check}</p></details></div><a className={s.link} href={`${examples}/tree/main/${item.slug}`}>View starter <Arrow/></a></article>)}</div></div></section>
+ <section className={`${s.section} border-y border-hairline bg-sunken`}><div className={`${s.wrap} ${s.split}`}><div><p className={s.eyebrow}>The mapping is yours</p><h2 className={s.heading}>Your record model.<br/>A common event shape.</h2><p className={s.lede}>Transform authorized source records into calendar events. A snapshot updates the view; it is not a request to write those records back to the source system.</p><a className={`${s.link} mt-5`} href="https://docs.forcecalendar.org">Read integration documentation <Arrow/></a></div><CodeBlock filename="application-adapter.js" code={`// Illustrative mapping: adapt these fields to your schema.
+const events = authorizedRecords.map(record => ({
+  id: String(record.id),
+  title: record.subject,
+  start: record.startsAt,
+  end: record.endsAt,
+}));
 
-export default function PlatformsPage() {
-  return (
-    <div className="min-h-screen">
-      <Nav />
+calendar.setEvents(events);
 
-      <PageHeader
-        eyebrow="Platforms"
-        title="Calendar components across your stack."
-        lede="Use the Salesforce integration for standard Event records, or explore developer starters for other platforms. Core has no runtime dependencies and Interface uses Core as a peer dependency. Each host still needs its own security, styling, and deployment validation."
-      />
-
-      <Section width="narrow">
-        <SectionHeader
-          eyebrow="Distributions &amp; starters"
-          title="Platforms"
-          subtitle="Salesforce has a dedicated install guide. Other links are examples or starters, not equivalent packaged integrations."
-          id="platforms"
-        />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {platforms.map((p) => {
-            const external = p.href.startsWith("http");
-            return (
-              <Card
-                key={p.name}
-                href={p.href}
-                external={external}
-                tone={p.firstClass ? "accent" : "default"}
-                className="flex h-full flex-col"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <IconWell tone={p.firstClass ? "solid" : "soft"}>
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={p.icon} />
-                    </svg>
-                  </IconWell>
-                  {p.firstClass && (
-                    <span className="rounded-full bg-raised px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-accent-text ring-1 ring-inset ring-accent-line/70">
-                      First-class
-                    </span>
-                  )}
-                </div>
-                <h3 className="mt-4 text-base font-semibold text-fg">{p.name}</h3>
-                <p className="mt-1.5 font-mono text-[11.5px] leading-relaxed text-subtle">{p.constraint}</p>
-                <p className="mt-3 text-sm leading-relaxed text-muted">{p.detail}</p>
-                <span className="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-medium text-accent-text">
-                  {p.linkLabel} <Arrow />
-                </span>
-              </Card>
-            );
-          })}
-        </div>
-
-        <p className="mt-10 max-w-3xl text-sm leading-relaxed text-muted">
-          These starters are intentionally minimal. When one attracts real-world
-          traction, it graduates into a first-class packaged distribution with its
-          own repo and release pipeline, exactly like Salesforce did. Open issues
-          on the{" "}
-          <a
-            href={EXAMPLES_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-accent-text hover:underline"
-          >
-            examples repo
-          </a>{" "}
-          to vote with your use case.
-        </p>
-      </Section>
-
-      <Footer />
-    </div>
-  );
-}
+// Separately authorize and persist user changes.
+// Use your platform's own API and access controls.`}/></div></section>
+ <section className={s.section}><div className={`${s.wrap} ${s.split}`}><div><p className={s.eyebrow}>Interoperability, precisely</p><h2 className={s.heading}>Files, tools,<br/>and future connections.</h2></div><div><details open className={s.disclosure}><summary>iCalendar / ICS</summary><p>Core supports file import and export. An ICS file is not a connected Apple, Google, or Microsoft account. Live account synchronization is not shipped.</p></details><details className={s.disclosure}><summary>Headless & agent callers</summary><p>An agent can use the same headless engine through an application-owned adapter. Authorization, storage, and execution remain your application’s responsibility. The separate scoped-tool adapter is a private prototype, not a public hosted service.</p></details><details className={s.disclosure}><summary>Salesforce security compatibility</summary><p>Lightning Web Security is required for the third-party custom elements used by the Salesforce integration. Legacy Lightning Locker is not supported. Use the dedicated Salesforce guide for Apex permissions, package contents, and validation scope.</p></details></div></div></section>
+ <div className={s.wrap}><div className={s.end}><div><p className={s.eyebrow}>Try the behavior before the integration</p><h2 className="mt-3">Explore a working calendar.</h2></div><Button href="/playground">Open playground <Arrow/></Button></div></div>
+ </main><Footer/></div>;}

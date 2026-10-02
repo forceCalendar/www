@@ -34,7 +34,7 @@ test('genuine pointer-free captures remain available', () => {
   assert.ok(home.includes('Synthetic sample records'));
 });
 test('guide preserves access and current source version boundaries', () => {
-  for (const text of ['ForceCalendarAccess', 'controller access only', 'Lightning Web Security', 'Lightning Locker is not supported', 'WhoId or WhatId', '1,000 records', 'does not revoke permissions elsewhere', 'Core 2.5.6 and Interface 1.9.0']) assert.ok(salesforce.includes(text), text);
+  for (const text of ['ForceCalendarAccess', 'Controller access only', 'Lightning Web Security', 'Lightning Locker is not supported', 'WhoId or WhatId', '1,000 records', 'does not revoke permissions elsewhere', 'Core 2.5.6 and Interface 1.9.0']) assert.ok(salesforce.includes(text), text);
   assert.ok(salesforce.includes('cd salesforce\nnpm ci\ncd src\nnpm ci\ncd ..\nnpm run build\ncd dist'));
 });
 test('evidence claims are scoped and primary compatibility source remains linked', () => {
@@ -45,11 +45,13 @@ test('evidence claims are scoped and primary compatibility source remains linked
   for (const phrase of ['zero supply chain risk', 'security team will approve', 'full Locker Service compliance', 'Salesforce first.']) assert.ok(!home.includes(phrase), phrase);
 });
 
-test('prominent maker signature uses the approved destination', () => {
+test('understated maker signature uses the approved destination', () => {
  const footer = read('app/components/Footer.tsx');
  assert.ok(footer.includes('N. R. Dhanawada'));
  assert.ok(footer.includes('https://dhanawada.org'));
  assert.ok(!footer.includes('Dhanawada Labs'));
+ assert.ok(footer.indexOf('forceCalendar by') > footer.indexOf('badges.map'));
+ assert.ok(!footer.includes('text-3xl'));
 });
 
 test('calendar library is not positioned as an agent work manager', () => {

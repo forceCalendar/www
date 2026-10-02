@@ -18,7 +18,7 @@ export default function Home() {
             <div className={s.heroTop}><span className={s.eyebrow}>forceCalendar / embedded calendar infrastructure</span><Link className={s.link} href="/salesforce">Explore Salesforce <Arrow /></Link></div>
             <div className={s.heroGrid}>
               <div><p className={s.heroKicker}>Your records have dates.<br />Give them a place to happen.</p><h1 id="landing-title" className={s.title}>Put time<br /><span>in your system.</span></h1></div>
-              <div className={s.intro}><p>A calendar library for the CRM and enterprise applications you build. Bring events to life inside your product, with a headless engine, adaptable UI, and a real Salesforce integration.</p><div className={s.actions}><Button href="#calendar-demo" size="lg">Explore the calendar <Arrow /></Button><Button href="https://docs.forcecalendar.org" variant="secondary" size="lg">Build with it</Button></div><p className={s.versionNote}>Core 2.5.7 / Interface 1.9.0 / MIT</p></div>
+              <div className={s.intro}><p>A calendar library for the CRM and enterprise applications you build. Bring events to life inside your product, with a headless engine, adaptable UI, and a real Salesforce integration.</p><div className={s.actions}><Button href="/playground" size="lg">Try the playground <Arrow /></Button><Button href="https://docs.forcecalendar.org" variant="secondary" size="lg">Build with it</Button></div><p className={s.versionNote}>Core 2.5.7 / Interface 1.9.0 / MIT</p></div>
             </div>
             <div className={s.stage} id="calendar-demo">
               <div className={s.stageLabel}><span>Inside your application</span><span>Interactive specimen 01 / customer appointments</span></div>
@@ -31,6 +31,8 @@ export default function Home() {
         </section>
 
         <div className={s.rail}><div className={s.wrap}><div className={s.railInner}><span>Salesforce <em>Lightning + Apex</em></span><span>Web Components <em>UI</em></span><span>React & Vue <em>adapters</em></span><span>JavaScript <em>headless engine</em></span><span>ICS <em>import / export</em></span></div></div></div>
+
+        <section className={s.playgroundCallout}><div className={s.wrap}><div><p className={s.eyebrow}>Go beyond the specimen</p><h2>Make it behave like your application.</h2><p>Switch scenarios. Change the view. Create, move, and edit sample events. Inspect the configuration behind the calendar.</p></div><Button href="/playground" size="lg">Open the interactive playground <Arrow /></Button></div></section>
 
         <section className={s.section} id="salesforce">
           <div className={s.wrap}>

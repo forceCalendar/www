@@ -1,62 +1,41 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-import PageHeader from "../components/PageHeader";
+import { Arrow } from "../components/Button";
 import PlaygroundClient from "./PlaygroundClient";
+import s from "./playground.module.css";
 
 export const metadata: Metadata = {
-  title: "Playground - Live Calendar Demo",
-  description:
-    "Interactive playground for forceCalendar. Configure and test real Web Components with live code output.",
+  title: "Playground — Build your working week",
+  description: "Try the real forceCalendar component in CRM, campus, and resource scheduling scenarios. Create and move events, customize the calendar, and inspect the live API.",
   alternates: { canonical: "https://forcecalendar.org/playground" },
   openGraph: { url: "https://forcecalendar.org/playground" },
 };
 
 export default function PlaygroundPage() {
   return (
-    <div className="min-h-screen">
+    <div className={s.page}>
       <Nav />
-
-      <PageHeader
-        width="page"
-        compact
-        eyebrow={
-          <>
-            <span className="relative flex h-2 w-2" aria-hidden>
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75 motion-reduce:hidden" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-            </span>
-            Live
-          </>
-        }
-        title="Playground"
-        lede={
-          <>
-            The real{" "}
-            <code className="font-mono text-[0.9em] text-accent-text">@forcecalendar/interface</code>{" "}
-            web component running live. Load sample events, switch views,
-            watch the DOM events fire, and copy ready-to-paste code for
-            HTML, React, or Vue. Prefer a real editor?{" "}
-            <a
-              href="https://stackblitz.com/github/forceCalendar/examples/tree/main/vanilla-vite"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-accent-text hover:underline"
-            >
-              Open the starter in StackBlitz
-            </a>
-            .
-          </>
-        }
-      />
-
-      {/* Playground */}
-      <section className="bg-sunken px-6 py-10 lg:py-12">
-        <div className="mx-auto max-w-page">
+      <main>
+        <section className={`${s.wrap} ${s.hero}`} aria-labelledby="playground-title">
+          <div className={s.heroTop}>
+            <p className={s.eyebrow}>forceCalendar / interactive playground</p>
+            <Link href="/interface" className={s.textLink}>Meet the interface <Arrow /></Link>
+          </div>
+          <div className={s.heroGrid}>
+            <h1 id="playground-title">Make it your<br /><span>working week.</span></h1>
+            <div><p className={s.lede}>Different systems. Different schedules. The same calendar underneath. Pick a workspace, change a record, and see what happens.</p><p className={s.heroNote}><span aria-hidden="true" />Real component · synthetic data · no account required</p></div>
+          </div>
+        </section>
+        <section className={`${s.wrap} ${s.lab}`} aria-label="Interactive calendar workspace">
           <PlaygroundClient />
-        </div>
-      </section>
-
+        </section>
+        <section className={`${s.wrap} ${s.nextSteps}`} aria-labelledby="next-title">
+          <div><p className={s.eyebrow}>From this workspace to yours</p><h2 id="next-title">Keep the calendar.<br />Bring your own context.</h2></div>
+          <div><p>This playground uses the published Web Component and local in-memory records. Your application supplies persistence, permissions, and business rules.</p><div className={s.nextLinks}><a href="https://docs.forcecalendar.org" className={s.textLink}>Read the documentation <Arrow /></a><Link href="/salesforce" className={s.textLink}>Explore Salesforce <Arrow /></Link></div></div>
+        </section>
+      </main>
       <Footer />
     </div>
   );
