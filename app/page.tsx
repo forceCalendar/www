@@ -8,12 +8,6 @@ import SalesforceScreenshot from "./components/SalesforceScreenshot";
 import LandingCalendar from "./components/LandingCalendar";
 import s from "./landing.module.css";
 
-const layers = [
-  { number: "01 / LOGIC", title: "A headless engine.", text: "Events, recurrence, time zones, conflict detection, and search. Calendar logic that belongs to your application, with no runtime dependencies.", href: "/core", link: "Explore Core", state: "Available" },
-  { number: "02 / EXPERIENCE", title: "A human interface.", text: "A real calendar, wherever you need it. Month, week, and day Web Components, with React and Vue adapters and a theme that fits your product.", href: "/interface", link: "Explore Interface", state: "Available" },
-  { number: "03 / COORDINATION", title: "A shared agent layer.", text: "A private prototype for persistent shared calendars and scoped tools. Designed to let people and agents work from the same schedule, with explicit authority over changes.", href: "#agents", link: "See what’s next", state: "In development" },
-];
-
 export default function Home() {
   return (
     <div className={s.page}>
@@ -21,79 +15,70 @@ export default function Home() {
       <main>
         <section className={s.hero} aria-labelledby="landing-title">
           <div className={s.wrap}>
-            <div className={s.heroTop}><span className={s.eyebrow}>forceCalendar / open-source infrastructure</span><a className={s.link} href="#system">Meet the system <Arrow /></a></div>
+            <div className={s.heroTop}><span className={s.eyebrow}>forceCalendar / embedded calendar infrastructure</span><Link className={s.link} href="/salesforce">Explore Salesforce <Arrow /></Link></div>
             <div className={s.heroGrid}>
-              <h1 id="landing-title" className={s.title}>Time,<span>in common.</span></h1>
-              <div className={s.intro}><p>A calendar is more than a view.<br />It’s a place for people, applications, and agents to coordinate what happens next.</p><div className={s.actions}><Button href="/playground" size="lg">Try the calendar <Arrow /></Button><Button href="https://docs.forcecalendar.org" variant="secondary" size="lg">Build with it</Button></div></div>
+              <div><p className={s.heroKicker}>Your records have dates.<br />Give them a place to happen.</p><h1 id="landing-title" className={s.title}>Put time<br /><span>in your system.</span></h1></div>
+              <div className={s.intro}><p>A calendar library for the CRM and enterprise applications you build. Bring events to life inside your product, with a headless engine, adaptable UI, and a real Salesforce integration.</p><div className={s.actions}><Button href="#calendar-demo" size="lg">Explore the calendar <Arrow /></Button><Button href="https://docs.forcecalendar.org" variant="secondary" size="lg">Build with it</Button></div><p className={s.versionNote}>Core 2.5.7 / Interface 1.9.0 / MIT</p></div>
             </div>
-            <div className={s.stage}>
-              <div className={s.stageLabel}><span>Real component. Real interaction.</span><span>Browser demo / sample data only</span></div>
+            <div className={s.stage} id="calendar-demo">
+              <div className={s.stageLabel}><span>Inside your application</span><span>Interactive specimen 01 / customer appointments</span></div>
+              <div className={s.appChrome}><div><span className={s.appMark}>a</span><strong>Acme CRM</strong><span className={s.appDivider}>/</span><span>Customer calendar</span></div><span className={s.sampleBadge}>Synthetic demo workspace</span></div>
               <div className={s.calendar}><LandingCalendar /></div>
+              <div className={s.stageFooter}><span><i className={s.purpleDot} />Client meetings</span><span><i className={s.greenDot} />Implementation</span><span><i className={s.goldDot} />Reviews & appointments</span><span>Real component. Local data. Yours to explore.</span></div>
             </div>
-            <div className={s.heroNote}><span>Available today: scheduling engine, Web Components, and Salesforce integration.</span><span>Shared agent layer in development. Provider sync planned.</span></div>
+            <div className={s.heroNote}><span>Built for the application around the calendar.</span><span>Data, permissions, persistence, and business rules stay in your architecture.</span></div>
           </div>
         </section>
 
-        <div className={s.rail}><div className={s.wrap}><div className={s.railInner}><span>JavaScript <em>engine</em></span><span>Web Components <em>UI</em></span><span>React & Vue <em>adapters</em></span><span>Salesforce <em>integration</em></span><span>Agents <em>in development</em></span></div></div></div>
+        <div className={s.rail}><div className={s.wrap}><div className={s.railInner}><span>Salesforce <em>Lightning + Apex</em></span><span>Web Components <em>UI</em></span><span>React & Vue <em>adapters</em></span><span>JavaScript <em>headless engine</em></span><span>ICS <em>import / export</em></span></div></div></div>
 
-        <section className={s.section} id="system">
+        <section className={s.section} id="salesforce">
           <div className={s.wrap}>
-            <div className={s.sectionIntro}><p className={s.eyebrow}>01 / the foundation</p><div><h2 className={s.sectionTitle}>One model of time.<br />Room for every interface.</h2><p className={`${s.lede} mt-6`}>The same event should make sense in your product, in a person’s day, and in an agent’s plan. Start with the engine and interface. Connect the data and permissions your application needs.</p></div></div>
-            <div className={s.stack}>{layers.map(layer => <article key={layer.number} className={s.layer}><div className="flex flex-wrap justify-between gap-2"><span className={s.eyebrow}>{layer.number}</span><span className="font-mono text-[9px] uppercase tracking-wider text-accent-text">{layer.state}</span></div><h3>{layer.title}</h3><p>{layer.text}</p><a href={layer.href} className={s.link}>{layer.link} <Arrow /></a></article>)}</div>
+            <div className={s.salesforceHeading}><div><p className={s.eyebrow}>01 / the enterprise starting point</p><h2 className={s.sectionTitle}>At home<br /><span className={s.blueText}>in Salesforce.</span></h2></div><div><p className={s.lede}>A calendar should belong inside the system your team already uses. Connect Lightning pages to standard Salesforce Events, with Apex enforcing access at the data boundary.</p><Link className={s.link} href="/salesforce">Install & configure Salesforce <Arrow /></Link><p className={s.versionNote}>Released installer 0.3.0.1 · sandbox validation first</p></div></div>
+            <div className={s.salesforceFrame}><div className={s.captureLabel}><span>Actual Salesforce Lightning capture</span><span>Synthetic sample records</span></div><SalesforceScreenshot src="/salesforce-lightning-week-clean.png" alt="Genuine Salesforce Lightning weekly calendar with synthetic appointments" caption="forceCalendar inside Salesforce Lightning. Genuine capture; sample data only." sizes="(max-width: 1200px) 100vw, 1180px" /></div>
+            <div className={s.securityStrip}><div><span>01</span><h3>Lightning Web Security</h3><p>Packaged static resources and Web Components. LWS is required; legacy Lightning Locker is not supported.</p></div><div><span>02</span><h3>Access enforced in Apex</h3><p>Sharing and user-mode access apply to records and fields. The interface is not an authorization boundary.</p></div><div><span>03</span><h3>Your org, deliberately configured</h3><p>Assign controller access, configure Event permissions, and validate your org’s rules before rollout.</p></div></div>
+            <p className={s.compatibility}>The screenshot demonstrates the interface, not package installation or live data-access verification. <a href="https://developer.salesforce.com/docs/platform/lwc/guide/create-use-custom-elements.html">Read Salesforce’s official custom-element compatibility guidance <Arrow /></a></p>
           </div>
         </section>
 
-        <section className={`${s.section} ${s.dark}`} id="agents">
+        <section className={`${s.section} ${s.dark}`} id="system">
           <div className={s.wrap}>
-            <div className={s.visionGrid}>
-              <div><p className={s.eyebrow}>02 / why this matters</p><h2 className={s.visionTitle}>You see the plan.<br /><span>Your agent works<br />from the same one.</span></h2><p className={`${s.lede} mt-7`}>An agent’s work should have a place in your day, not disappear into a separate queue. We’re building toward a shared schedule you can inspect, change, and understand.</p></div>
-              <div><p className={s.eyebrow}>Shared-calendar direction / not a live service</p><div className={s.trace}><div className={s.traceItem}><strong>A person sets the intention.</strong><p>A meeting to prepare for. A task with a window. A block of time that needs protecting.</p></div><div className={s.traceItem}><strong>The calendar holds the context.</strong><p>Time, ownership, and the state of the plan, visible through a common event model.</p></div><div className={s.traceItem}><strong>An agent works within its authority.</strong><p>Scoped tools and explicit change controls, with an understandable record of what happened.</p></div></div><p className={s.note}>The agent layer is a private prototype. Hosted access, live provider connections, and reliable agent execution are not available as a public service. Local tests do not establish those production guarantees.</p></div>
-            </div>
-          </div>
-        </section>
-
-        <section className={s.section} id="integrations">
-          <div className={s.wrap}>
-            <div className={s.integrationGrid}><div><p className={s.eyebrow}>03 / already at work</p><h2 className={s.sectionTitle}>Your product.<br />Your calendar.</h2><p className={s.lede}>Use forceCalendar in a web application or put it inside Salesforce. The Salesforce distribution connects Lightning pages to standard Events through Apex. It’s one important integration of the same foundation.</p><Link className={s.link} href="/salesforce">Explore the Salesforce integration <Arrow /></Link><p className={s.note}>Actual Lightning capture with synthetic demo events. This image demonstrates the interface, not package installation or live data-access verification.</p></div><SalesforceScreenshot src="/salesforce-lightning-month-clean.png" alt="Genuine pointer-free Salesforce Lightning calendar with synthetic sample events" caption="forceCalendar in Salesforce Lightning" sizes="(max-width: 900px) 100vw, 690px" /></div>
-            <p className={s.compatibility}><strong className="text-fg">Salesforce compatibility:</strong> Core and Interface are bundled as a static resource; Apex applies sharing and user-mode access. Lightning Web Security is required. Legacy Lightning Locker is not supported for the third-party custom elements used here. <a className="text-accent-text underline" href="https://developer.salesforce.com/docs/platform/lwc/guide/create-use-custom-elements.html">Salesforce’s platform guidance</a>.</p>
-          </div>
-        </section>
-
-        <section className={`${s.section} border-y border-hairline bg-sunken`} id="connections">
-          <div className={s.wrap}>
-            <div className={s.sectionIntro}><p className={s.eyebrow}>04 / connected, deliberately</p><div><h2 className={s.sectionTitle}>Meet people<br />where they schedule.</h2><p className={`${s.lede} mt-6`}>The destination is a calendar you can share with an agent and view in the tools you already use. Here is what exists now, and what we’re still building.</p></div></div>
-            <div className={s.connections}>
-              {[{name:"Web applications",text:"Web Components, React and Vue adapters. Bring your own data layer.",status:"Available"},{name:"Salesforce",text:"Lightning components and Apex for standard Event records. Validate access and deployment in your org.",status:"Available integration"},{name:"iCalendar / ICS",text:"Core supports file import and export. This is not live account synchronization.",status:"Available"},{name:"Shared agent calendars",text:"Persistent events, scoped tools, and change controls in a private prototype. No public hosted service.",status:"In development"},{name:"Apple · Google · Microsoft",text:"Provider account connections and two-way synchronization are planned. Live integration validation is pending.",status:"Planned"}].map(item=><div key={item.name} className={s.connection}><strong>{item.name}</strong><p>{item.text}</p><span className={s.status}>{item.status}</span></div>)}
+            <div className={s.sectionIntro}><p className={s.eyebrow}>02 / designed to fit</p><div><h2 className={s.sectionTitle}>A calendar layer.<br />Not another place to work.</h2><p className={`${s.lede} mt-6`}>Embed scheduling where the context already lives: customers, appointments, classrooms, and internal tools. Your application decides what an event means.</p></div></div>
+            <div className={s.blueprint}>
+              <div className={s.blueprintTop}><span>Your application</span><span>Records · identity · permissions · storage</span></div>
+              <div className={s.blueprintBody}><div><span className={s.eyebrow}>Interface</span><h3>Make time visible.</h3><p>Month, week, and day views. Event editing. Web Components, React, and Vue.</p><Link className={s.link} href="/interface">Explore Interface <Arrow /></Link></div><div className={s.blueprintJoin} aria-hidden="true">↕</div><div><span className={s.eyebrow}>Core</span><h3>Make time useful.</h3><p>Events, recurrence, conflict detection, search, and ICS. A headless engine with no runtime dependencies.</p><Link className={s.link} href="/core">Explore Core <Arrow /></Link></div></div>
+              <div className={s.blueprintBottom}><span>Application code</span><span>Salesforce adapter</span><span>Custom integration</span><span>Optional agent caller</span></div>
             </div>
           </div>
         </section>
 
-        <section className={s.section} id="engineering">
+        <section className={s.section} id="possibilities">
           <div className={s.wrap}>
-            <div className={s.evidence}>
-              <div><p className={s.eyebrow}>Engineering, in the open</p><h2 className="mt-4 font-display text-3xl font-semibold tracking-tight">Evidence over promises.</h2><p className="mt-4">Read the source, inspect the tests, and compare the workloads that matter to your application.</p></div>
-              <div><h3>Security & dependency review</h3><p>Published audit results describe their scope and package versions. An npm advisory scan is not a penetration test or a security guarantee.</p><a className={s.link} href="https://audit.forcecalendar.org">Read the audit <Arrow /></a></div>
-              <div><h3>Reproducible benchmarks</h3><p>Inspect the measured versions, workloads, and methodology. Package size, browser transfer size, and runtime performance are different measurements.</p><a className={s.link} href="https://benchmark.forcecalendar.org">Explore benchmarks <Arrow /></a></div>
-            </div>
+            <div className={s.sectionIntro}><p className={s.eyebrow}>03 / your domain, on the calendar</p><div><h2 className={s.sectionTitle}>One library.<br />A different day everywhere.</h2><p className={`${s.lede} mt-6`}>These are application patterns you can build with the library. Salesforce has a ready integration; other systems need your data adapter and domain rules.</p></div></div>
+            <div className={s.useCases}>{[{n:"01",title:"Customer relationships",text:"Discovery calls, account reviews, and onboarding appointments beside the customer record.",events:["Northstar · discovery", "Meridian · account review", "Acme · onboarding"],tone:"purple"},{n:"02",title:"Education & appointments",text:"Office hours, admissions interviews, and workshops inside your own student or client portal.",events:["Admissions interview", "Faculty office hours", "Research workshop"],tone:"green"},{n:"03",title:"Teams & shared resources",text:"Display room, equipment, or staff schedules. Your app supplies resource policies and booking validation.",events:["Studio A · consultation", "Lab 2 · orientation", "Team room · review"],tone:"gold"}].map(item=><article className={s.useCase} key={item.n}><p className={s.eyebrow}>{item.n} / example application</p><div className={`${s.miniSchedule} ${s[item.tone]}`} aria-hidden="true">{item.events.map((event,i)=><div key={event} style={{marginLeft:`${i*12}%`,width:`${88-i*8}%`}}><span>{['09:00','10:30','13:00'][i]}</span>{event}</div>)}</div><h3>{item.title}</h3><p>{item.text}</p></article>)}</div>
           </div>
         </section>
 
-        <section className={`${s.section} !pt-0`} id="build">
+        <section className={`${s.section} ${s.developerSection}`} id="build">
           <div className={s.wrap}><div className={s.build}>
-            <div><p className={s.eyebrow}>Start with what ships</p><h2 className={s.sectionTitle}>A few lines.<br />Your own possibilities.</h2><p className={`${s.lede} mb-6`}>Mount the component, supply your events, and keep control of persistence and permissions.</p><InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" /><div className="mt-6 flex flex-wrap gap-5"><Link className={s.link} href="/playground">Open playground <Arrow /></Link><a className={s.link} href="https://docs.forcecalendar.org">Documentation <Arrow /></a></div></div>
-            <CodeBlock filename="calendar.js" code={`import '@forcecalendar/interface';
+            <div><p className={s.eyebrow}>04 / from package to product</p><h2 className={s.sectionTitle}>Bring the records.<br />We’ll bring the calendar.</h2><p className={`${s.lede} mb-6`}>Mount the component and supply your events. Keep persistence, access checks, and business logic in your application.</p><InstallCommand command="npm install @forcecalendar/core @forcecalendar/interface" /><div className="mt-6 flex flex-wrap gap-5"><Link className={s.link} href="/playground">Open playground <Arrow /></Link><a className={s.link} href="https://docs.forcecalendar.org">Read documentation <Arrow /></a></div></div>
+            <CodeBlock filename="your-application.js" code={`import '@forcecalendar/interface';
 
 const calendar = document.createElement('forcecal-main');
 calendar.setAttribute('view', 'week');
-document.querySelector('#calendar').append(calendar);
+document.querySelector('#customer-calendar').append(calendar);
 
-// Supply events from your application.
-calendar.setEvents(events);
+// Load records through your authorized data layer.
+calendar.setEvents(customerAppointments);
 
-// You control storage, access, and integrations.`} />
-          </div></div>
+// Real operations. Your application owns persistence.
+calendar.addEvent(appointment);
+calendar.updateEvent(appointment.id, newTime);`} />
+          </div><div className={s.headlessAside}><span className={s.eyebrow}>Also works without a screen</span><div><h3>Headless by design. Agent-accessible by choice.</h3><p>Application code or an agent can call the calendar engine through your adapter. Your application decides access and when calls run. A separate scoped-tool adapter is a private prototype, not a public hosted service. forceCalendar does not assign tasks or orchestrate agents.</p></div></div></div>
         </section>
-        <section className={s.end}><div className={`${s.wrap} ${s.endInner}`}><div><p className={s.eyebrow}>Open source / MIT</p><h2 className="mt-3">Make time work together.</h2></div><Button href="https://github.com/forcecalendar" size="lg" variant="secondary">Explore the source <Arrow /></Button></div></section>
+
+        <section className={s.section} id="engineering"><div className={s.wrap}><div className={s.evidence}><div><p className={s.eyebrow}>Engineering, in the open</p><h2 className="mt-4 font-display text-3xl font-semibold tracking-tight">Inspect the foundation.</h2><p>Open source under MIT. Review the actual versions, tests, and measured workloads before choosing it for your system.</p></div><div><h3>Security & dependency review</h3><p>Published results identify their scope. An npm advisory scan is not a penetration test or a security guarantee.</p><a className={s.link} href="https://audit.forcecalendar.org">Read the audit <Arrow /></a></div><div><h3>Reproducible benchmarks</h3><p>Compare the workloads that matter to your application. Package size and runtime performance are different measurements.</p><a className={s.link} href="https://benchmark.forcecalendar.org">Explore benchmarks <Arrow /></a></div></div><p className={s.compatibility}>Available: JavaScript engine, UI components, Salesforce integration, and ICS file handling. Apple, Google, and Microsoft live account connections and two-way synchronization are not shipped. ICS import/export is not live account synchronization.</p></div></section>
+        <section className={s.end}><div className={`${s.wrap} ${s.endInner}`}><div><p className={s.eyebrow}>Inside your system. On your terms.</p><h2 className="mt-3">Make room for a better calendar.</h2></div><Button href="/salesforce" size="lg">Start with Salesforce <Arrow /></Button></div></section>
       </main>
       <Footer />
     </div>
