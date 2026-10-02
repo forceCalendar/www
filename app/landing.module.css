@@ -142,3 +142,11 @@
 @media (max-width:640px) { .heroGrid,.salesforceHeading,.securityStrip,.useCases,.headlessAside { grid-template-columns: 1fr; gap: 28px; }.title { font-size: clamp(54px,14vw,80px); }.heroKicker { margin-bottom: 20px; }.stage { padding: 15px 10px 0; }.appChrome { padding: 12px; }.appChrome > div { gap: 7px; }.sampleBadge { display: none; }.stageFooter { gap: 10px; }.stageFooter span:last-child { margin-left: 0; }.blueprintBody { grid-template-columns: 1fr; gap: 22px; padding: 28px 22px; }.blueprintJoin { text-align: left; }.blueprintTop,.blueprintBottom { padding: 20px 22px; }.salesforceFrame { padding: 4px; }.useCase { padding-top: 25px; }.miniSchedule { max-width: 400px; }.headlessAside { margin-top: 35px; }.end h2 { font-size: 33px; } }
 
 .playgroundCallout { padding:44px 0; border-bottom:1px solid rgb(var(--hairline)); background:rgb(var(--surface-sunken)); }.playgroundCallout > div { display:flex; align-items:center; justify-content:space-between; gap:35px; flex-wrap:wrap; }.playgroundCallout h2 { font-size:28px; letter-spacing:-.035em; margin:12px 0; }.playgroundCallout p:last-child { max-width:680px; font-size:14px; color:rgb(var(--fg-muted)); line-height:1.8; }
+
+.downloadSignal { margin-top: 18px; padding-top: 16px; border-top: 1px solid rgb(var(--hairline)); color: rgb(var(--fg-muted)); font-size: 13px; line-height: 1.6; }
+.downloadSignal summary { cursor: pointer; width: fit-content; }
+.downloadSignal summary strong { color: rgb(var(--fg)); font-weight: 600; font-variant-numeric: tabular-nums; }
+.downloadSignal > span { display: block; margin-top: 3px; font-family: var(--font-mono),monospace; font-size: 9px; color: rgb(var(--fg-subtle)); }
+.downloadSignal details p { margin-top: 10px; font-size: 12px; }
+.downloadSignal a { text-decoration: underline; text-underline-offset: 3px; }
+.downloadSignal summary:focus-visible { outline: 2px solid rgb(var(--fg)); outline-offset: 5px; border-radius: 2px; }
