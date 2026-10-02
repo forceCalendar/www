@@ -150,3 +150,7 @@
 .downloadSignal details p { margin-top: 10px; font-size: 12px; }
 .downloadSignal a { text-decoration: underline; text-underline-offset: 3px; }
 .downloadSignal summary:focus-visible { outline: 2px solid rgb(var(--fg)); outline-offset: 5px; border-radius: 2px; }
+
+/* Product headline stays readable as a complete description. */
+.title { font-size: clamp(42px, 5.4vw, 72px); line-height: 1.04; letter-spacing: -.05em; }
+@media (max-width: 640px) { .title { font-size: clamp(40px, 10.5vw, 60px); } }

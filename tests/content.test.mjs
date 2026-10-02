@@ -4,8 +4,8 @@ import { readFileSync, statSync } from 'node:fs';
 const read = name => readFileSync(new URL(`../${name}`, import.meta.url), 'utf8');
 const home = read('app/page.tsx');
 const salesforce = read('app/salesforce/page.tsx');
-test('new editorial design leads with shared scheduling and real live UI', () => {
-  assert.ok(home.includes('in your system.'));
+test('landing leads with enterprise calendar components and real live UI', () => {
+  assert.ok(home.includes('Calendar components <span>for enterprise applications'));
   assert.ok(home.includes('<LandingCalendar />'));
   assert.ok(home.includes('headless engine'));
   for (const href of ['/playground', 'https://docs.forcecalendar.org', '/core', '/interface', '/salesforce']) assert.ok(home.includes(href));
@@ -60,6 +60,6 @@ test('calendar library is not positioned as an agent work manager', () => {
 });
 
 test('enterprise calendar centerpiece and genuine Salesforce path stay prominent', () => {
- for(const phrase of ['Acme CRM', 'CRM and enterprise applications', 'id="salesforce"', 'Lightning Web Security', 'Your org, deliberately configured', 'Client meetings']) assert.ok(home.includes(phrase),phrase);
+ for(const phrase of ['Acme CRM', 'Salesforce, CRMs and custom applications', 'id="salesforce"', 'Lightning Web Security', 'Your org, deliberately configured', 'Client meetings']) assert.ok(home.includes(phrase),phrase);
  assert.ok(home.indexOf('id="salesforce"') < home.indexOf('id="system"'));
 });
