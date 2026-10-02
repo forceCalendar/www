@@ -15,9 +15,9 @@ const sites = [
 
 const pageLinks = [
   { href: "/", label: "Home" },
-  { href: "/salesforce", label: "Salesforce" },
   { href: "/core", label: "Core" },
   { href: "/interface", label: "Interface" },
+  { href: "/salesforce", label: "Salesforce" },
   { href: "/platforms", label: "Platforms" },
   { href: "/playground", label: "Playground" },
 ];

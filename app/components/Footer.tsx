@@ -2,9 +2,9 @@ import Link from "next/link";
 import { Wordmark, GitHubIcon } from "./Nav";
 
 const productLinks = [
-  { href: "/salesforce", label: "Salesforce" },
   { href: "/core", label: "Core" },
   { href: "/interface", label: "Interface" },
+  { href: "/salesforce", label: "Salesforce" },
   { href: "/platforms", label: "Platforms" },
   { href: "/playground", label: "Playground" },
 ];
@@ -84,7 +84,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
             <Wordmark />
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-              Open-source calendar infrastructure, with a Salesforce Lightning integration.
+              Open-source scheduling infrastructure for applications, people, and agents.
             </p>
             <a
               href="https://github.com/forcecalendar"
